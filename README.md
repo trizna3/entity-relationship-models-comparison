@@ -1,2 +1,2 @@
 # entity-relationship-models-comparison
-Master Thesis
+sources for a master thesis: "Automatic checking of modelling exercises"
