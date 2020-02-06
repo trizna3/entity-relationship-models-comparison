@@ -14,6 +14,4 @@ public class Comparator implements IComparator {
     public void compare(IEntityRelationshipModel exemplarModel, IEntityRelationshipModel studentsModel) {
         throw new UnsupportedOperationException("todo");
     }
-
-
 }

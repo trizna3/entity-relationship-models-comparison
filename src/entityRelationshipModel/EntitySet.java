@@ -1,5 +1,6 @@
 package entityRelationshipModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,16 @@ public class EntitySet {
      * List of entity set's attributes.
      */
     private List<String> attributes;
+
+    public EntitySet(String name) {
+        this.name = name;
+        this.attributes = new ArrayList<>();
+    }
+
+    public EntitySet(String name, List<String> attributes) {
+        this.name = name;
+        this.attributes = attributes;
+    }
 
     public String getName() {
         return name;

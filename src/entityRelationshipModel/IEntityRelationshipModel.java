@@ -7,7 +7,11 @@ import java.util.List;
  */
 public interface IEntityRelationshipModel {
 
-    public List<EntitySet> getAllEntitySets();
+    public List<EntitySet> getEntitySets();
 
-    public List<Relationship> getAllRelationships();
+    public List<Relationship> getRelationships();
+
+    public void addEntitySet(EntitySet entitySet);
+
+    public void addRelationship(Relationship relationship);
 }

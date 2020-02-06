@@ -1,5 +1,8 @@
 package entityRelationshipModel;
 
+import common.CollectionUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +17,25 @@ public class Generalization extends Relationship {
      */
     private List<GeneralizationSide> sides;
 
+    public Generalization(List<GeneralizationSide> sides) {
+        this.sides = sides;
+    }
+
+    public Generalization(EntitySet superEntitySet, EntitySet subEntitySet) {
+        sides = new ArrayList<>();
+        sides.add(new GeneralizationSide(superEntitySet,GeneralizationRole.SUPER));
+        sides.add(new GeneralizationSide(subEntitySet,GeneralizationRole.SUB));
+    }
+
     public List<GeneralizationSide> getSides() {
         return sides;
+    }
+
+    public EntitySet getSuperEntitySet() {
+        return CollectionUtils.getFirst(sides, GeneralizationSide.class, generalizationSide -> GeneralizationRole.SUPER.equals(generalizationSide.getRole())).getEntitySet();
+    }
+
+    public EntitySet getSubEntitySet() {
+        return CollectionUtils.getFirst(sides, GeneralizationSide.class, generalizationSide -> GeneralizationRole.SUB.equals(generalizationSide.getRole())).getEntitySet();
     }
 }
