@@ -1,5 +1,10 @@
 package entityRelationshipModel;
 
+/**
+ * Object wrapping entity set and a cardinality.
+ * @see EntitySet
+ * @see Cardinality
+ */
 public class AssociationSide {
 
     private EntitySet entitySet;

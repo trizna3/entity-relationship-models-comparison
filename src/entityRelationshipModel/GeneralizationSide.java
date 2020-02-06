@@ -1,5 +1,10 @@
 package entityRelationshipModel;
 
+/**
+ * Object wrapping entity set and a it's role in the generalization relationship.
+ * @see EntitySet
+ * @see GeneralizationRole
+ */
 public class GeneralizationSide {
 
     private EntitySet entitySet;
