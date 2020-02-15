@@ -1,0 +1,8 @@
+- structure
+    - add model methods for easier evaluation
+- evaluation
+    - basic components calculation (A,E,R,C)
+    - summing components together (weights)
+- modifications
+    - equivalent
+    - non equivalent
