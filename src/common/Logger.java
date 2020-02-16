@@ -41,10 +41,18 @@ public class Logger {
         return INSTANCE;
     }
 
+    /**
+     * Add error log entry.
+     * @param errorMessage
+     */
     public void logError(String errorMessage) {
         writer.write(getCurrentTime() + " ERROR: " + errorMessage);
     }
 
+    /**
+     * Add info log entry.
+     * @param infoMessage
+     */
     public void logInfo(String infoMessage) {
         writer.write(getCurrentTime() + " INFO: " + infoMessage);
     }

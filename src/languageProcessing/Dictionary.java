@@ -3,6 +3,9 @@ package languageProcessing;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Naive language processor. "Measures" words meaning similarity 1 or 0, wether the word-pair is in manually pre-defined dictionary.
+ */
 public class Dictionary implements LanguageProcessor {
 
     private Map<String,String> data;
@@ -19,6 +22,9 @@ public class Dictionary implements LanguageProcessor {
         return data;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getSimilarity(String word1, String word2) {
         if (word1 == null || word2 == null) {
