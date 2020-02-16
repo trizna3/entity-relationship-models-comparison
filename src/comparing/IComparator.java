@@ -1,4 +1,4 @@
-package comparator;
+package comparing;
 
 import entityRelationshipModel.IEntityRelationshipModel;
 

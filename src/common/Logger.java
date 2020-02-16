@@ -49,7 +49,7 @@ public class Logger {
         writer.write(getCurrentTime() + " INFO: " + infoMessage);
     }
 
-    public void closeWriter() {
+    private void closeWriter() {
         this.writer.close();
     }
 }
