@@ -9,12 +9,10 @@ public class MainEvaluator implements IEvaluator{
 
     double ES_WEIGHT = 1;
     double ATTR_WEIGHT = 1;
-    double C_WEIGHT = 1;
     double R_WEIGHT = 1;
 
     EntitySetEvaluator entitySetEvaluator;
     AttributeEvaluator attributeEvaluator;
-    CardinalityEvaluator cardinalityEvaluator;
     RelationshipEvaluator relationshipEvaluator;
 
     public EntitySetEvaluator getEntitySetEvaluator() {
@@ -29,13 +27,6 @@ public class MainEvaluator implements IEvaluator{
             attributeEvaluator = new AttributeEvaluator(ATTR_WEIGHT);
         }
         return attributeEvaluator;
-    }
-
-    public CardinalityEvaluator getCardinalityEvaluator() {
-        if (cardinalityEvaluator == null) {
-            cardinalityEvaluator = new CardinalityEvaluator(C_WEIGHT);
-        }
-        return cardinalityEvaluator;
     }
 
     public RelationshipEvaluator getRelationshipEvaluator() {
@@ -59,12 +50,10 @@ public class MainEvaluator implements IEvaluator{
         }
         double entitySetEvaluation = getEntitySetEvaluator().evaluate(model1,model2,mapping);
         double attributeEvaluation = getAttributeEvaluator().evaluate(model1,model2,mapping);
-        double cardinalityEvaluation = getCardinalityEvaluator().evaluate(model1,model2,mapping);
         double relationshipEvaluation = getRelationshipEvaluator().evaluate(model1,model2,mapping);
 
         return  Math.pow(entitySetEvaluation,getEntitySetEvaluator().getWeight()) +
                 Math.pow(attributeEvaluation,getAttributeEvaluator().getWeight()) +
-                Math.pow(cardinalityEvaluation,getCardinalityEvaluator().getWeight()) +
                 Math.pow(relationshipEvaluation,getRelationshipEvaluator().getWeight());
     }
 }
