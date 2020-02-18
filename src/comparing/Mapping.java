@@ -3,7 +3,9 @@ package comparing;
 import entityRelationshipModel.EntitySet;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Object representing mapping of entity sets between two entity relationship model.
@@ -62,5 +64,15 @@ public class Mapping {
             throw new IllegalArgumentException("illegal mapping image request - entity set is null");
         }
         return getData().get(entitySet);
+    }
+
+    public Set<EntitySet> getAllEntitySets() {
+        Set<EntitySet> entitySets = new HashSet<>();
+        for (EntitySet es : getData().keySet()) {
+            if (!entitySets.contains(es)) {
+                entitySets.add(es);
+            }
+        }
+        return entitySets;
     }
 }
