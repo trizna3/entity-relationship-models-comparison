@@ -6,20 +6,23 @@ import entityRelationshipModel.EntitySet;
 import languageProcessing.Dictionary;
 import languageProcessing.LanguageProcessor;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class EntitySetEvaluator implements ISpecificEvaluator{
 
     LanguageProcessor lp = new Dictionary();
 
     double WEIGHT;
 
+    /**
+     * @param model1
+     * @param model2
+     * @param mapping
+     * @return "EntitySet penalty part" = sum of mapped pairs names dissimilarites (according to LanguageProcessor's similarity calculation)
+     */
     @Override
     public double evaluate(EntityRelationshipModel model1, EntityRelationshipModel model2, Mapping mapping) {
 
         double penalty = 0;
-        for (EntitySet es : mapping.getAllEntitySets()) {
+        for (EntitySet es : mapping.getDistinctAllEntitySets()) {
             penalty += 1 - (lp.getSimilarity(es.getName(),mapping.getImage(es).getName()));
         }
         return penalty;

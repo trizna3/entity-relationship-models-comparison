@@ -66,7 +66,7 @@ public class Mapping {
         return getData().get(entitySet);
     }
 
-    public Set<EntitySet> getAllEntitySets() {
+    public Set<EntitySet> getDistinctAllEntitySets() {
         Set<EntitySet> entitySets = new HashSet<>();
         for (EntitySet es : getData().keySet()) {
             if (!entitySets.contains(es)) {
