@@ -1,6 +1,7 @@
 package tests;
 
-import entityRelationshipModel.Cardinality;
+import comparing.Mapping;
+import entityRelationshipModel.*;
 
 import java.util.*;
 
@@ -57,7 +58,50 @@ public class TestUtils {
         return Cardinality.MANY;
     }
 
-    public static Map<String, String> getMapping() {
-        return MAPPING;
+    public static EntityRelationshipModel getModel1() {
+        return makeModel(getEntitySets1(),getRelationships1());
+    }
+
+    public static EntityRelationshipModel getModel2() {
+        return makeModel(getEntitySets2(),getRelationships2());
+    }
+
+    public static EntityRelationshipModel makeModel(Map<String, EntitySet> entitySets, Map<String,String> relationships){
+        EntityRelationshipModel model = new EntityRelationshipModel();
+
+        for (EntitySet entitySet : entitySets.values()) {
+            model.addEntitySet(entitySet);
+        }
+        for (String name : relationships.keySet()) {
+            AssociationSide as1 = new AssociationSide(entitySets.get(name),getRandomCardinality());
+            AssociationSide as2 = new AssociationSide(entitySets.get(relationships.get(name)),getRandomCardinality());
+            model.addRelationship(new Association(Arrays.asList(as1,as2),new ArrayList<>()));
+        }
+
+        return model;
+    }
+
+    public static Map<String,EntitySet> getEntitySets1() {
+        return makeEntitySets(getEntitySetNames1());
+    }
+
+    public static Map<String,EntitySet> getEntitySets2() {
+        return makeEntitySets(getEntitySetNames2());
+    }
+
+    public static Map<String,EntitySet> makeEntitySets(List<String> names) {
+        Map<String,EntitySet> entitySets = new HashMap<>();
+        for (String name : names) {
+            entitySets.put(name, new EntitySet(name));
+        }
+        return entitySets;
+    }
+
+    public static Mapping getMapping() {
+        Mapping myMapping = new Mapping();
+        for (String key : MAPPING.keySet()) {
+            myMapping.map(getEntitySets1().get(key),getEntitySets2().get(MAPPING.get(key)));
+        }
+        return myMapping;
     }
 }
