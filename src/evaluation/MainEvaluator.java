@@ -5,9 +5,11 @@ import entityRelationshipModel.EntityRelationshipModel;
 
 public class MainEvaluator implements IEvaluator{
 
-    double ES_WEIGHT = 1;
-    double ATTR_WEIGHT = 1;
-    double R_WEIGHT = 1;
+    double ES_WEIGHT = 0;
+    double ATTR_WEIGHT = 0;
+    double R_WEIGHT = 0;
+
+    double WEIGHT = 2;
 
     EntitySetEvaluator entitySetEvaluator;
     AttributeEvaluator attributeEvaluator;
@@ -54,8 +56,8 @@ public class MainEvaluator implements IEvaluator{
         System.out.println("attribute evaluation = " + attributeEvaluation);
         System.out.println("relationship evaluation = " + relationshipEvaluation);
 
-        return  Math.pow(entitySetEvaluation,getEntitySetEvaluator().getWeight()) +
-                Math.pow(attributeEvaluation,getAttributeEvaluator().getWeight()) +
-                Math.pow(relationshipEvaluation,getRelationshipEvaluator().getWeight());
+        return  entitySetEvaluation * Math.pow(WEIGHT,getEntitySetEvaluator().getWeight()) +
+                attributeEvaluation * Math.pow(WEIGHT,getAttributeEvaluator().getWeight()) +
+                relationshipEvaluation * Math.pow(WEIGHT,getRelationshipEvaluator().getWeight());
     }
 }

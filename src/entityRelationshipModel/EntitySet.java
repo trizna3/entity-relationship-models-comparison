@@ -34,4 +34,9 @@ public class EntitySet {
     public List<String> getAttributes() {
         return attributes;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

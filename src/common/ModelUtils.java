@@ -23,8 +23,8 @@ public class ModelUtils {
         if (mapping.getImage(side1.getEntitySet()) == null || mapping.getImage(side2.getEntitySet()) == null){
             return false;
         }
-        if (side1.equals(mapping.getImage(side2.getEntitySet())) &&
-            side2.equals(mapping.getImage(side1.getEntitySet()))) {
+        if (side1.getEntitySet().equals(mapping.getImage(side2.getEntitySet())) &&
+            side2.getEntitySet().equals(mapping.getImage(side1.getEntitySet()))) {
             if (checkEntitySetsOnly) {
                 return true;
             }

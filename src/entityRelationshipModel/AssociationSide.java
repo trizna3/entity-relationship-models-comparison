@@ -30,4 +30,9 @@ public class AssociationSide implements RelationshipSide{
     public RelationshipSideRole getRole() {
         return getCardinality();
     }
+
+    @Override
+    public String toString() {
+        return getEntitySet().toString() + "(" + getCardinality() + ")";
+    }
 }

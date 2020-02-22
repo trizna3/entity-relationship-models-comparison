@@ -25,4 +25,9 @@ public class GeneralizationSide implements RelationshipSide {
     public GeneralizationRole getRole() {
         return role;
     }
+
+    @Override
+    public String toString() {
+        return getEntitySet().toString() + "(" + getRole() + ")";
+    }
 }

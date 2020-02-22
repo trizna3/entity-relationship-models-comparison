@@ -1,6 +1,8 @@
 package entityRelationshipModel;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * General relationship of a database structure representing er model.
@@ -17,4 +19,10 @@ public abstract class Relationship {
 
 
     abstract public List<? extends RelationshipSide> getSides();
+
+    @Override
+    public String toString() {
+        return String.join("-",getSides().stream().map(side -> side.toString()).collect(Collectors.toList()));
+
+    }
 }

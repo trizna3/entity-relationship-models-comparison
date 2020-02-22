@@ -15,8 +15,12 @@ public class Dictionary implements LanguageProcessor {
             data = new HashMap<>();
 
             data.put("students","people");
-            // ...
             data.put("courses","classes");
+
+            data.put("employees","people");
+            data.put("jobs","positions");
+            data.put("job_history","position_history");
+            data.put("departments","areas");
 
         }
         return data;
