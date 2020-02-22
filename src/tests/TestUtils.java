@@ -16,7 +16,7 @@ public class TestUtils {
         RELATIONSHIPS_1.put("employees","jobs");
         RELATIONSHIPS_1.put("employees","job_history");
         RELATIONSHIPS_1.put("employees","departments");
-        RELATIONSHIPS_1.put("job","job_history");
+        RELATIONSHIPS_1.put("jobs","job_history");
     }
     private final static Map<String,String> RELATIONSHIPS_2 = new HashMap<>();
     static {

@@ -11,6 +11,9 @@ public class GeneralizationSide implements RelationshipSide {
     private GeneralizationRole role;
 
     public GeneralizationSide(EntitySet entitySet, GeneralizationRole role) {
+        if (entitySet == null || role == null) {
+            throw new IllegalArgumentException("both entity set and role mustn't be null.");
+        }
         this.entitySet = entitySet;
         this.role = role;
     }
