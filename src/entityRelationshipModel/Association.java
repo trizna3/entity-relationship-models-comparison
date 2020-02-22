@@ -36,4 +36,6 @@ public class Association extends Relationship{
     public List<String> getAttributes() {
         return attributes;
     }
+
+
 }

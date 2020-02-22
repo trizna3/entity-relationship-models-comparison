@@ -5,7 +5,7 @@ package entityRelationshipModel;
  * @see EntitySet
  * @see GeneralizationRole
  */
-public class GeneralizationSide {
+public class GeneralizationSide implements RelationshipSide {
 
     private EntitySet entitySet;
     private GeneralizationRole role;

@@ -5,7 +5,7 @@ package entityRelationshipModel;
  * @see EntitySet
  * @see Cardinality
  */
-public class AssociationSide {
+public class AssociationSide implements RelationshipSide{
 
     private EntitySet entitySet;
     private Cardinality cardinality;
@@ -21,5 +21,10 @@ public class AssociationSide {
 
     public Cardinality getCardinality() {
         return cardinality;
+    }
+
+    @Override
+    public RelationshipSideRole getRole() {
+        return getCardinality();
     }
 }

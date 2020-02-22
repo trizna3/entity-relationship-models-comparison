@@ -3,7 +3,7 @@ package entityRelationshipModel;
 /**
  * Cardinality of an entity set in an association.
  */
-public enum Cardinality {
+public enum Cardinality implements RelationshipSideRole{
 
     ONE,
     MANY

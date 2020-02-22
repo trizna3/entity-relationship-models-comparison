@@ -5,8 +5,6 @@ import entityRelationshipModel.EntityRelationshipModel;
 
 public class MainEvaluator implements IEvaluator{
 
-    double WEIGHT = 2;
-
     double ES_WEIGHT = 1;
     double ATTR_WEIGHT = 1;
     double R_WEIGHT = 1;
