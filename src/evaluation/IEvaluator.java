@@ -14,5 +14,5 @@ public interface IEvaluator {
      * @param mapping
      * @return penalty value of given mapping of given entity relationship models
      */
-    public double evaluate(EntityRelationshipModel model1, EntityRelationshipModel model2, Mapping mapping);
+    double evaluate(EntityRelationshipModel model1, EntityRelationshipModel model2, Mapping mapping);
 }
