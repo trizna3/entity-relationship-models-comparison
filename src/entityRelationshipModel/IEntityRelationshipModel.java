@@ -11,11 +11,13 @@ import java.util.List;
  */
 public interface IEntityRelationshipModel {
 
-    public List<EntitySet> getEntitySets();
+    List<EntitySet> getEntitySets();
 
-    public List<Relationship> getRelationships();
+    List<Relationship> getRelationships();
 
-    public void addEntitySet(EntitySet entitySet);
+    void addEntitySet(EntitySet entitySet);
 
-    public void addRelationship(Relationship relationship);
+    void addRelationship(Relationship relationship);
+
+    int getEntitySetsCount();
 }

@@ -21,6 +21,11 @@ public class EntitySet {
      */
     private List<String> attributes;
 
+    /**
+     * Sign of an empty entity set.
+     */
+    private boolean empty;
+
     public EntitySet(String name) {
         this.name = name;
         this.attributes = new ArrayList<>();
@@ -42,5 +47,13 @@ public class EntitySet {
     @Override
     public String toString() {
         return name;
+    }
+
+    public boolean isEmpty() {
+        return empty;
+    }
+
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
     }
 }

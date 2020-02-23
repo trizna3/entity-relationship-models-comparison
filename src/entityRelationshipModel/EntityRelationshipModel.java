@@ -47,4 +47,9 @@ public class EntityRelationshipModel implements IEntityRelationshipModel {
         getRelationships().add(relationship);
     }
 
+    @Override
+    public int getEntitySetsCount() {
+        return getEntitySets().size();
+    }
+
 }

@@ -22,6 +22,15 @@ public class Mapping {
      */
     private Map<EntitySet,EntitySet> data;
 
+    /**
+     * Empty entity set. Used in optimal mapping search.
+     */
+    private final static EntitySet EMPTY_ENTITY_SET;
+    static {
+        EMPTY_ENTITY_SET = new EntitySet("Empty");
+        EMPTY_ENTITY_SET.setEmpty(true);
+    }
+
     private Map<EntitySet, EntitySet> getData() {
         if (data == null) {
             data = new HashMap<>();
@@ -73,10 +82,14 @@ public class Mapping {
     public Set<EntitySet> getDistinctAllEntitySets() {
         Set<EntitySet> entitySets = new HashSet<>();
         for (EntitySet es : getData().keySet()) {
-            if (!entitySets.contains(es)) {
+            if (!entitySets.contains(es) && !es.isEmpty()) {
                 entitySets.add(es);
             }
         }
         return entitySets;
+    }
+
+    public static EntitySet getEmptyEntitySet(){
+        return EMPTY_ENTITY_SET;
     }
 }
