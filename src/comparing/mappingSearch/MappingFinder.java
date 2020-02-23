@@ -29,7 +29,6 @@ public class MappingFinder implements IMappingFinder {
     public Mapping getBestMapping(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentModel) {
 
         generateMappings(exemplarModel,studentModel,new Mapping(),0,new HashSet<>());
-
         return getBestMappingEvaluator().getBestMapping();
     }
 
@@ -43,9 +42,10 @@ public class MappingFinder implements IMappingFinder {
     private void generateMappings(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentModel, Mapping mapping, int exemplarEntitySetIndex, Set<EntitySet> usedStudentEntitySets) {
 
         // trivial case condition: if all exemplar entity sets are mapped, complete the mapping and send it for evaluation
-        if (exemplarModel.getEntitySetsCount() >= exemplarEntitySetIndex) {
+        if (exemplarModel.getEntitySetsCount() <= exemplarEntitySetIndex) {
             completeMapping(studentModel,mapping);
             getBestMappingEvaluator().evaluate(exemplarModel,studentModel,mapping);
+            return;
         }
 
         EntitySet entitySetToBeMapped = exemplarModel.getEntitySets().get(exemplarEntitySetIndex);

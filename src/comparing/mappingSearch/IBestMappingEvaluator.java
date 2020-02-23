@@ -24,4 +24,9 @@ public interface IBestMappingEvaluator {
      * @return Mapping with minimal penalty evaluated so far.
      */
     Mapping getBestMapping();
+
+    /**
+     * @return Penalty value of the best mapping.
+     */
+    double getBestMappingPenalty();
 }

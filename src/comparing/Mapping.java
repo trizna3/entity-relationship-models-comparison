@@ -59,12 +59,24 @@ public class Mapping {
         if (entitySet == null) {
             throw new IllegalArgumentException("illegal unmapping request - entity set is null");
         }
+        EntitySet keyEntitySet = null;
+        EntitySet valueEntitySet = null;
+
         if (getData().containsKey(entitySet)) {
             for (EntitySet key : getData().keySet()) {
-                if (entitySet.equals(key) || entitySet.equals(getData().get(key))) {
-                    getData().remove(key);
+                if (entitySet.equals(key)) {
+                    keyEntitySet = key;
+                }
+                if(entitySet.equals(getData().get(key))) {
+                    valueEntitySet = getData().get(key);
                 }
             }
+        }
+        if (keyEntitySet != null) {
+            data.remove(keyEntitySet);
+        }
+        if (valueEntitySet != null) {
+            data.remove(valueEntitySet);
         }
     }
 
@@ -91,5 +103,13 @@ public class Mapping {
 
     public static EntitySet getEmptyEntitySet(){
         return EMPTY_ENTITY_SET;
+    }
+
+    public void print() {
+        System.out.println("mapping: (");
+        for (EntitySet es : getDistinctAllEntitySets()) {
+            System.out.println("    " + es + " -> " + getImage(es));
+        }
+        System.out.println(")");
     }
 }

@@ -37,8 +37,6 @@ public class RelationshipEvaluator implements ISpecificEvaluator {
         evaluateRelationshipsAssymetric(model1,model2,mapping);
         evaluateRelationshipsAssymetric(model2,model1,mapping);
 
-        System.out.println("relationship r evaluation = " + r);
-        System.out.println("relationship c evaluation = " + c);
         return (r*R_WEIGHT) + (c*C_WEIGHT);
     }
 

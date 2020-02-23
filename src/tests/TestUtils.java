@@ -80,8 +80,8 @@ public class TestUtils {
             model.addEntitySet(entitySet);
         }
         for (String[] rel : relationships) {
-            AssociationSide as1 = new AssociationSide(entitySets.get(rel[0]),getRandomCardinality());
-            AssociationSide as2 = new AssociationSide(entitySets.get(rel[1]),getRandomCardinality());
+            AssociationSide as1 = new AssociationSide(entitySets.get(rel[0]),Cardinality.ONE);
+            AssociationSide as2 = new AssociationSide(entitySets.get(rel[1]),Cardinality.MANY);
             model.addRelationship(new Association(Arrays.asList(as1,as2),new ArrayList<>()));
         }
 

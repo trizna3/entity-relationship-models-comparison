@@ -56,10 +56,6 @@ public class MainEvaluator implements IEvaluator{
         double attributeEvaluation = getAttributeEvaluator().evaluate(model1,model2,mapping);
         double relationshipEvaluation = getRelationshipEvaluator().evaluate(model1,model2,mapping);
 
-        System.out.println("entity set evaluation = " + entitySetEvaluation);
-        System.out.println("attribute evaluation = " + attributeEvaluation);
-        System.out.println("relationship evaluation = " + relationshipEvaluation);
-
         return  entitySetEvaluation * Math.pow(WEIGHT,getEntitySetEvaluator().getWeight()) +
                 attributeEvaluation * Math.pow(WEIGHT,getAttributeEvaluator().getWeight()) +
                 relationshipEvaluation * Math.pow(WEIGHT,getRelationshipEvaluator().getWeight());
