@@ -8,6 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Object representing mapping of entity sets between two entity relationship model.
  */
 public class Mapping {

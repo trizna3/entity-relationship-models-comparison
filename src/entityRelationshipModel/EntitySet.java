@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Base element of entity relationship model. Entails a set of entities with common properties (attributes).
  */
 public class EntitySet {

@@ -5,6 +5,10 @@ import entityRelationshipModel.*;
 
 import java.util.*;
 
+/**
+ * @author - Adam Trizna
+ */
+
 public class TestUtils {
 
     private final static List<String> ENTITY_SET_NAMES_1 = new ArrayList<>(Arrays.asList("employees","jobs","job_history","departments"));

@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Naive language processor. "Measures" words meaning similarity 1 or 0, wether the word-pair is in manually pre-defined dictionary.
  */
 public class Dictionary implements LanguageProcessor {

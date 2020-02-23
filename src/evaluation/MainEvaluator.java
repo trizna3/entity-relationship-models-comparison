@@ -3,6 +3,10 @@ package evaluation;
 import comparing.Mapping;
 import entityRelationshipModel.EntityRelationshipModel;
 
+/**
+ * @author - Adam Trizna
+ */
+
 public class MainEvaluator implements IEvaluator{
 
     double ES_WEIGHT = 0;

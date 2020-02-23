@@ -4,6 +4,10 @@ import java.util.Collection;
 import java.util.function.Predicate;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Utility methods for working with collections.
  */
 public class CollectionUtils {

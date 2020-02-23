@@ -4,6 +4,10 @@ import entityRelationshipModel.EntitySet;
 
 import java.util.*;
 
+/**
+ * @author - Adam Trizna
+ */
+
 public class Main {
 
     public static void main(String[] args) {

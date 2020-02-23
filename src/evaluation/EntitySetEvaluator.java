@@ -6,6 +6,10 @@ import entityRelationshipModel.EntitySet;
 import languageProcessing.Dictionary;
 import languageProcessing.LanguageProcessor;
 
+/**
+ * @author - Adam Trizna
+ */
+
 public class EntitySetEvaluator implements ISpecificEvaluator{
 
     LanguageProcessor lp = new Dictionary();

@@ -1,6 +1,10 @@
 package entityRelationshipModel;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Object wrapping entity set and a cardinality.
  * @see EntitySet
  * @see Cardinality

@@ -1,8 +1,11 @@
 package entityRelationshipModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+/**
+ * @author - Adam Trizna
+ */
 
 /**
  * General relationship of a database structure representing er model.

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Type of relationship: Association.
  * Joins 2 or more entity sets, each with specific cardinality.
  * @see AssociationSide

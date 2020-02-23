@@ -8,6 +8,10 @@ import entityRelationshipModel.Relationship;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author - Adam Trizna
+ */
+
 public class RelationshipEvaluator implements ISpecificEvaluator {
 
     double WEIGHT;

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Entity relationship model, representing a relational database structure.
  */
 public class EntityRelationshipModel implements IEntityRelationshipModel {

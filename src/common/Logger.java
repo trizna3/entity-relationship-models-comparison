@@ -5,6 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * @author - Adam Trizna
+ */
+
+
+/**
  * Object for all logging.
  */
 public class Logger {

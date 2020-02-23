@@ -7,6 +7,10 @@ import entityRelationshipModel.RelationshipSide;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author - Adam Trizna
+ */
+
 public class ModelUtils {
 
     /**

@@ -3,6 +3,10 @@ package entityRelationshipModel;
 import java.util.List;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Interface of entity relationship models.
  */
 public interface IEntityRelationshipModel {

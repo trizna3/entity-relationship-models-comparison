@@ -3,6 +3,10 @@ package comparing;
 import entityRelationshipModel.IEntityRelationshipModel;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Interface of entity relationship comparators.
  */
 public interface IComparator {

@@ -1,6 +1,10 @@
 package entityRelationshipModel;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Object wrapping entity set and a it's role in the generalization relationship.
  * @see EntitySet
  * @see GeneralizationRole

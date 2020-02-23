@@ -4,6 +4,10 @@ import entityRelationshipModel.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author - Adam Trizna
+ */
+
 class EntityRelationshipModelTest {
 
     @org.junit.jupiter.api.Test

@@ -7,6 +7,10 @@ import evaluation.MainEvaluator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author - Adam Trizna
+ */
+
 class IEvaluatorTest {
 
     @org.junit.jupiter.api.Test

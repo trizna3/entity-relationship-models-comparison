@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Relationship type: Generalization.
  * Describes a binary relationship of "super" entity set and "sub" entity set. Denotes the "sub" ES being a specific kind of the "super" ES ("super" is a generalization of "sub"). Equivalent to an Association with cardinalites 1:1.
  * @see GeneralizationSide

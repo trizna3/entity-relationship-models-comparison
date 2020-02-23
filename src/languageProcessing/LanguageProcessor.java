@@ -1,6 +1,10 @@
 package languageProcessing;
 
 /**
+ * @author - Adam Trizna
+ */
+
+/**
  * Interface of language processors - any objects, able to measure words similarity (by their meaning / usage).
  */
 public interface LanguageProcessor {
