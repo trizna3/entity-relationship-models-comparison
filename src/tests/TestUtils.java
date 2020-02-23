@@ -12,28 +12,25 @@ import java.util.*;
 public class TestUtils {
 
     private final static List<String> ENTITY_SET_NAMES_1 = new ArrayList<>(Arrays.asList("employees","jobs","job_history","departments"));
-    private final static List<String> ENTITY_SET_NAMES_2 = new ArrayList<>(Arrays.asList("people","positions","position_history","areas"));
+    private final static List<String> ENTITY_SET_NAMES_2 = new ArrayList<>(Arrays.asList("people","position_history","areas"));
 
     private final static Set<String[]> RELATIONSHIPS_1 = new HashSet<>();
         static {
-            RELATIONSHIPS_1.add(new String[]{"employees","employees"});
-            RELATIONSHIPS_1.add(new String[]{"employees","jobs"});
-            RELATIONSHIPS_1.add(new String[]{"employees","job_history"});
-            RELATIONSHIPS_1.add(new String[]{"employees","departments"});
-            RELATIONSHIPS_1.add(new String[]{"jobs","job_history"});
+            RELATIONSHIPS_1.add(new String[]{"employees","employees","1","*"});
+            RELATIONSHIPS_1.add(new String[]{"employees","jobs","1","*"});
+            RELATIONSHIPS_1.add(new String[]{"employees","departments","1","*"});
+            RELATIONSHIPS_1.add(new String[]{"job_history","jobs","1","*"});
     }
     private final static Set<String[]> RELATIONSHIPS_2 = new HashSet<>();
     static {
-        RELATIONSHIPS_2.add(new String[]{"people","people"});
-        RELATIONSHIPS_2.add(new String[]{"people","positions"});
-        RELATIONSHIPS_2.add(new String[]{"people","areas"});
-        RELATIONSHIPS_2.add(new String[]{"positions","position_history"});
+        RELATIONSHIPS_2.add(new String[]{"people","people","1","*"});
+        RELATIONSHIPS_2.add(new String[]{"people","areas","1","*"});
+        RELATIONSHIPS_2.add(new String[]{"people","position_history","*","*"});
     }
 
     private final static Map<String,String> MAPPING = new HashMap<>();
     static {
         MAPPING.put("employees","people");
-        MAPPING.put("jobs","positions");
         MAPPING.put("job_history","position_history");
         MAPPING.put("departments","areas");
     }
@@ -80,12 +77,22 @@ public class TestUtils {
             model.addEntitySet(entitySet);
         }
         for (String[] rel : relationships) {
-            AssociationSide as1 = new AssociationSide(entitySets.get(rel[0]),Cardinality.ONE);
-            AssociationSide as2 = new AssociationSide(entitySets.get(rel[1]),Cardinality.MANY);
+            AssociationSide as1 = new AssociationSide(entitySets.get(rel[0]),convertToCardinality(rel[2]));
+            AssociationSide as2 = new AssociationSide(entitySets.get(rel[1]),convertToCardinality(rel[3]));
             model.addRelationship(new Association(Arrays.asList(as1,as2),new ArrayList<>()));
         }
 
         return model;
+    }
+
+    private static Cardinality convertToCardinality(String symbol){
+        if ("1".equals(symbol)) {
+            return Cardinality.ONE;
+        }
+        if ("*".equals(symbol)) {
+            return Cardinality.MANY;
+        }
+        return null;
     }
 
     public static Map<String,EntitySet> getEntitySets1() {
