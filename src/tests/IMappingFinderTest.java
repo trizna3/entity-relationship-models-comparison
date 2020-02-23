@@ -1,12 +1,10 @@
 package tests;
 
 import comparing.Mapping;
-import comparing.mappingSearch.IMappingFinder;
-import comparing.mappingSearch.MappingFinder;
+import mappingSearch.IMappingFinder;
+import mappingSearch.MappingFinder;
 import entityRelationshipModel.EntityRelationshipModel;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author - Adam Trizna
