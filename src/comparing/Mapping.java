@@ -1,11 +1,9 @@
 package comparing;
 
 import entityRelationshipModel.EntitySet;
+import transformations.Transformation;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author - Adam Trizna
@@ -21,6 +19,8 @@ public class Mapping {
      * If es1 and es2 are paired, both (es1,es2) and (es2,es1) will be in the data
      */
     private Map<EntitySet,EntitySet> data;
+
+    private List<TransformationPack> transformationPacks;
 
     /**
      * Empty entity set. Used in optimal mapping search.
@@ -111,5 +111,26 @@ public class Mapping {
             System.out.println("    " + es + " -> " + getImage(es));
         }
         System.out.println(")");
+    }
+
+    public List<TransformationPack> getTransformationPacks() {
+        if (transformationPacks == null) {
+            transformationPacks = new ArrayList<>();
+        }
+        return transformationPacks;
+    }
+
+    public void addTransformationPack(TransformationPack transformationPack) {
+        if (transformationPack == null) {
+            throw new IllegalArgumentException("transformation pack cannot be null!");
+        }
+        getTransformationPacks().add(transformationPack);
+    }
+
+    public void removeTransformationPack(TransformationPack transformationPack) {
+        if (transformationPack == null) {
+            throw new IllegalArgumentException("transformation pack cannot be null!");
+        }
+        getTransformationPacks().remove(transformationPack);
     }
 }
