@@ -2,6 +2,9 @@ package transformations;
 
 import entityRelationshipModel.EntityRelationshipModel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author - Adam Trizna
  */
@@ -14,15 +17,61 @@ public abstract class Transformation {
     public static final String CODE_NN_TO_1NN1 = "NN_TO_1NN1";
     public static final String CODE_1NN1_TO_NN  = "1NN1_TO_NN";
 
+    protected Map<String,Object> parameterMap = new HashMap<>();
+    protected String[] parameterNames;
+
+
     /**
      * Executes it's purpose.
      * @param model
      */
-    public abstract void execute(EntityRelationshipModel model);
+    public void doTransformation(EntityRelationshipModel model) {
+        checkParameters();
+        execute(model);
+    }
 
     /**
      * Undoes it's effect.
      * @param model
      */
-    public abstract void undo(EntityRelationshipModel model);
+    public void undoTransformation(EntityRelationshipModel model) {
+        checkParameters();
+        setToOriginalState(model);
+    }
+
+    /**
+     * @see Transformation#doTransformation(EntityRelationshipModel)
+     * @param model
+     */
+    protected abstract void execute(EntityRelationshipModel model);
+
+    /**
+     * @see Transformation#undoTransformation(EntityRelationshipModel)
+     * @param model
+     */
+    protected abstract void setToOriginalState(EntityRelationshipModel model);
+
+    /**
+     * Sets parameter value to parameter map.
+     * Checks if parameter already has any value. Parameter reassignment is not allowed.
+     * @param parameterValue
+     * @param parameterName
+     */
+    protected void setParameter(Object parameterValue, String parameterName) {
+        if (parameterMap.get(parameterName) == null) {
+            parameterMap.put(parameterName,parameterValue);
+        }
+        throw new IllegalStateException("Cannot reassign " + parameterName + "!" );
+    }
+
+    /**
+     * Checks if all parameters are set. Parameters list is specified for each specific transformation.
+     */
+    protected void checkParameters() {
+        for (int i = 0; i < parameterNames.length; i++) {
+            if (parameterMap.get(parameterNames[i]) == null) {
+                throw new ParametersNotSetException();
+            }
+        }
+    }
 }

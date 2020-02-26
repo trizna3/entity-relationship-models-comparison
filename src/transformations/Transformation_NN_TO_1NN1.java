@@ -13,10 +13,11 @@ import entityRelationshipModel.EntityRelationshipModel;
  */
 public class Transformation_NN_TO_1NN1 extends Transformation {
 
-    /**
-     * Association to-be-transformed.
-     */
-    private Association association;
+    public static final String ASSOCIATION = "ASSOCIATION";
+
+    public Transformation_NN_TO_1NN1() {
+        parameterNames = new String[]{ASSOCIATION};
+    }
 
     @Override
     public void execute(EntityRelationshipModel model) {
@@ -24,18 +25,11 @@ public class Transformation_NN_TO_1NN1 extends Transformation {
     }
 
     @Override
-    public void undo(EntityRelationshipModel model) {
+    public void setToOriginalState(EntityRelationshipModel model) {
         throw new UnsupportedOperationException();
     }
 
     public Association getAssociation() {
-        return association;
-    }
-
-    public void setAssociation(Association association) {
-        if (association == null) {
-            this.association = association;
-        }
-        throw new IllegalStateException("Cannot reassign association!");
+        return (Association) parameterMap.get(ASSOCIATION);
     }
 }
