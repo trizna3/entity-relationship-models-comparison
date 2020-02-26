@@ -1,5 +1,4 @@
-- full search - mapping searching
-
-- modifications
-    - equivalent
-    - non equivalent
+- transformations
+    - implement transformation executions
+    - define transformations penalties mechanism
+    - incorporate transformations in the mapping search
