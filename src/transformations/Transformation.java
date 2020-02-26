@@ -16,11 +16,13 @@ public abstract class Transformation {
 
     /**
      * Executes it's purpose.
+     * @param model
      */
-    public abstract void execute();
+    public abstract void execute(EntityRelationshipModel model);
 
     /**
-     * @return The original entity relationship model, before the transformation execution.
+     * Undoes it's effect.
+     * @param model
      */
-    public abstract EntityRelationshipModel getOriginalState();
+    public abstract void undo(EntityRelationshipModel model);
 }

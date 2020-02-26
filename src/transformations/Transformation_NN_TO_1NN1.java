@@ -1,5 +1,6 @@
 package transformations;
 
+import entityRelationshipModel.Association;
 import entityRelationshipModel.EntityRelationshipModel;
 
 /**
@@ -12,15 +13,29 @@ import entityRelationshipModel.EntityRelationshipModel;
  */
 public class Transformation_NN_TO_1NN1 extends Transformation {
 
-    // todo: figure out how to pass specific transformation execution arguments
+    /**
+     * Association to-be-transformed.
+     */
+    private Association association;
 
     @Override
-    public void execute() {
+    public void execute(EntityRelationshipModel model) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public EntityRelationshipModel getOriginalState() {
+    public void undo(EntityRelationshipModel model) {
         throw new UnsupportedOperationException();
+    }
+
+    public Association getAssociation() {
+        return association;
+    }
+
+    public void setAssociation(Association association) {
+        if (association == null) {
+            this.association = association;
+        }
+        throw new IllegalStateException("Cannot reassign association!");
     }
 }
