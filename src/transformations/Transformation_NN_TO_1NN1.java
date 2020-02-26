@@ -11,7 +11,7 @@ import entityRelationshipModel.EntityRelationshipModel;
  * Transformation of a binary association of cardinalities MANY:MANY, creating a "joining" entity set and additional binary association, resulting in two binary associations of cardinalities ONE:MANY, MANY:ONE.
  * @see transformations.Transformation
  */
-public class Transformation_NN_TO_1NN1 extends Transformation {
+public class Transformation_NN_TO_1NN1 extends EquivalentTransformation {
 
     public static final String ASSOCIATION = "ASSOCIATION";
 

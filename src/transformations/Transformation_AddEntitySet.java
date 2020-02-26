@@ -13,7 +13,7 @@ import java.util.Set;
  * Transformation - creating new Entity Set.
  * @see transformations.Transformation
  */
-public class Transformation_AddEntitySet extends Transformation {
+public class Transformation_AddEntitySet extends NonEquivalentTransformation {
 
     public static final String ENTITY_SET_NAME = "ENTITY_SET_NAME";
     public static final String ENTITY_SET_ATTRIBUTES = "ENTITY_SET_ATTRIBUTES";
