@@ -1,4 +1,10 @@
 - transformations
     - implement transformation executions
+        - done for:
+            - add entity set
+            - add association
+            - add generalization
+
     - define transformations penalties mechanism
+
     - incorporate transformations in the mapping search

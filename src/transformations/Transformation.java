@@ -25,6 +25,9 @@ public abstract class Transformation {
      * @param model
      */
     public void doTransformation(EntityRelationshipModel model) {
+        if (model == null) {
+            throw new IllegalArgumentException("Model cannot be null");
+        }
         checkParameters();
         execute(model);
     }
@@ -34,6 +37,9 @@ public abstract class Transformation {
      * @param model
      */
     public void undoTransformation(EntityRelationshipModel model) {
+        if (model == null) {
+            throw new IllegalArgumentException("Model cannot be null");
+        }
         checkParameters();
         setToOriginalState(model);
     }

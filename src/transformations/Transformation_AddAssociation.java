@@ -1,5 +1,6 @@
 package transformations;
 
+import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.EntityRelationshipModel;
 
@@ -24,18 +25,22 @@ public class Transformation_AddAssociation extends NonEquivalentTransformation {
     public static final String ASSOCIATION_SIDES = "ASSOCIATION_SIDES";
     public static final Class<List> ASSOCIATION_SIDES_CLASS = List.class;
 
+    private Association association;
+
     public Transformation_AddAssociation() {
         parameterNames = new String[]{ASSOCIATION_NAME, ASSOCIATION_ATTRIBUTES, ASSOCIATION_SIDES};
     }
 
     @Override
     public void execute(EntityRelationshipModel model) {
-        throw new UnsupportedOperationException();
+        this.association = new Association(getAssociationSides(),getAssociationAttributes());
+        this.association.setName(getAssociationName());
+        model.addRelationship(association);
     }
 
     @Override
     public void setToOriginalState(EntityRelationshipModel model) {
-        throw new UnsupportedOperationException();
+        model.removeRelationship(association);
     }
 
     public String getAssociationName() {

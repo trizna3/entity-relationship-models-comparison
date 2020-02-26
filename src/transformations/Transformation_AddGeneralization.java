@@ -1,6 +1,7 @@
 package transformations;
 
 import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.Generalization;
 import entityRelationshipModel.GeneralizationSide;
 
 import java.util.List;
@@ -24,21 +25,25 @@ public class Transformation_AddGeneralization extends NonEquivalentTransformatio
         parameterNames = new String[]{GENERALIZATION_NAME, GENERALIZATION_SIDES};
     }
 
+    private Generalization generalization;
+
     @Override
     public void execute(EntityRelationshipModel model) {
-        throw new UnsupportedOperationException();
+        this.generalization = new Generalization(getGeneralizationSides());
+        this.generalization.setName(getGeneralizationName());
+        model.addRelationship(generalization);
     }
 
     @Override
     public void setToOriginalState(EntityRelationshipModel model) {
-        throw new UnsupportedOperationException();
+        model.removeRelationship(generalization);
     }
 
-    public String getAssociationName() {
+    public String getGeneralizationName() {
         return GENERALIZATION_NAME_CLASS.cast(parameterMap.get(GENERALIZATION_NAME));
     }
 
-    public List<GeneralizationSide> getAssociationSides() {
+    public List<GeneralizationSide> getGeneralizationSides() {
         return GENERALIZATION_SIDES_CLASS.cast(parameterMap.get(GENERALIZATION_SIDES));
     }
 }

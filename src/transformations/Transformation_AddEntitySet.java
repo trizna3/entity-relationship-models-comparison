@@ -1,6 +1,8 @@
 package transformations;
 
 import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.EntitySet;
+
 import java.util.List;
 
 /**
@@ -19,18 +21,24 @@ public class Transformation_AddEntitySet extends NonEquivalentTransformation {
     public static final String ENTITY_SET_ATTRIBUTES = "ENTITY_SET_ATTRIBUTES";
     public static final Class<List> ENTITY_SET_ATTRIBUTES_CLASS = List.class;
 
+    /**
+     * Created entity set.
+     */
+    private EntitySet entitySet;
+
     public Transformation_AddEntitySet() {
         parameterNames = new String[]{ENTITY_SET_NAME,ENTITY_SET_ATTRIBUTES};
     }
 
     @Override
     public void execute(EntityRelationshipModel model) {
-        throw new UnsupportedOperationException();
+        this.entitySet = new EntitySet(getEntitySetName(),getEntitySetAttributes());
+        model.addEntitySet(entitySet);
     }
 
     @Override
     public void setToOriginalState(EntityRelationshipModel model) {
-        throw new UnsupportedOperationException();
+        model.removeEntitySet(entitySet);
     }
 
     public String getEntitySetName() {
