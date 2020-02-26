@@ -16,6 +16,10 @@ public abstract class Transformation {
 
     public static final String CODE_NN_TO_1NN1 = "NN_TO_1NN1";
     public static final String CODE_1NN1_TO_NN  = "1NN1_TO_NN";
+    public static final String CODE_ADD_ASSOCIATION = "CODE_ADD_ASSOCIATION";
+    public static final String CODE_ADD_GENERALIZATION = "CODE_ADD_GENERALIZATION";
+    public static final String CODE_ADD_ENTITY_SET = "CODE_ADD_ENTITY_SET";
+
 
     protected Map<String,Object> parameterMap = new HashMap<>();
     protected String[] parameterNames;
