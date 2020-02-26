@@ -2,6 +2,7 @@ package entityRelationshipModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author - Adam Trizna
@@ -16,7 +17,7 @@ public class EntityRelationshipModel implements IEntityRelationshipModel {
     private List<Relationship> relationships;
 
     /**
-     * @return all entity sets
+     * {@inheritDoc}
      */
     @Override
     public List<EntitySet> getEntitySets() {
@@ -27,7 +28,7 @@ public class EntityRelationshipModel implements IEntityRelationshipModel {
     }
 
     /**
-     * @return all relationships
+     * {@inheritDoc}
      */
     @Override
     public List<Relationship> getRelationships() {
@@ -37,19 +38,79 @@ public class EntityRelationshipModel implements IEntityRelationshipModel {
         return relationships;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addEntitySet(EntitySet entitySet) {
         getEntitySets().add(entitySet);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addRelationship(Relationship relationship) {
         getRelationships().add(relationship);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeEntitySet(EntitySet entitySet) {
+        if (entitySet == null) {
+            throw new IllegalArgumentException("entity set cannot be null");
+        }
+        if (!getEntitySets().contains(entitySet)) {
+            throw new IllegalArgumentException("model doesn't contain this entity set!");
+        }
+        // remove all incident relationships
+        for (Relationship relationshipForRemoval : getRelationshipsByEntitySet(entitySet)) {
+            removeRelationship(relationshipForRemoval);
+        }
+        getEntitySets().remove(entitySet);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeRelationship(Relationship relationship) {
+        if (relationship == null) {
+            throw new IllegalArgumentException("relationship cannot be null");
+        }
+        if (!getRelationships().contains(relationship)) {
+            throw new IllegalArgumentException("model doesn't contain this relationship!");
+        }
+        getRelationships().remove(relationship);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getEntitySetsCount() {
         return getEntitySets().size();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Relationship> getRelationshipsByEntitySet(EntitySet entitySet) {
+        if (entitySet == null) {
+            throw new IllegalArgumentException("entity set cannot be null");
+        }
+        if (!getEntitySets().contains(entitySet)) {
+            throw new IllegalArgumentException("model doesn't contain this entity set!");
+        }
+        List<Relationship> incidentRelationships = new ArrayList<>();
+        for (Relationship relationship : getRelationships()) {
+            if (relationship.getSides().stream().map(RelationshipSide::getEntitySet).collect(Collectors.toList()).contains(entitySet)) {
+                incidentRelationships.add(relationship);
+            }
+        }
+        return incidentRelationships;
+    }
 }
