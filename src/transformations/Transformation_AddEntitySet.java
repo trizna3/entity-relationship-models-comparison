@@ -1,9 +1,7 @@
 package transformations;
 
 import entityRelationshipModel.EntityRelationshipModel;
-
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author - Adam Trizna
@@ -16,7 +14,10 @@ import java.util.Set;
 public class Transformation_AddEntitySet extends NonEquivalentTransformation {
 
     public static final String ENTITY_SET_NAME = "ENTITY_SET_NAME";
+    public static final Class<String> ENTITY_SET_NAME_CLASS = String.class;
+
     public static final String ENTITY_SET_ATTRIBUTES = "ENTITY_SET_ATTRIBUTES";
+    public static final Class<List> ENTITY_SET_ATTRIBUTES_CLASS = List.class;
 
     public Transformation_AddEntitySet() {
         parameterNames = new String[]{ENTITY_SET_NAME,ENTITY_SET_ATTRIBUTES};
@@ -33,10 +34,10 @@ public class Transformation_AddEntitySet extends NonEquivalentTransformation {
     }
 
     public String getEntitySetName() {
-        return (String) parameterMap.get(ENTITY_SET_NAME);
+        return ENTITY_SET_NAME_CLASS.cast(parameterMap.get(ENTITY_SET_NAME));
     }
 
     public List<String> getEntitySetAttributes() {
-        return (List<String>) parameterMap.get(ENTITY_SET_ATTRIBUTES);
+        return ENTITY_SET_ATTRIBUTES_CLASS.cast(parameterMap.get(ENTITY_SET_ATTRIBUTES));
     }
 }

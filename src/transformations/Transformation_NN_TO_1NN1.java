@@ -14,6 +14,7 @@ import entityRelationshipModel.EntityRelationshipModel;
 public class Transformation_NN_TO_1NN1 extends EquivalentTransformation {
 
     public static final String ASSOCIATION = "ASSOCIATION";
+    public static final Class<Association> ASSOCIATION_CLASS = Association.class;
 
     public Transformation_NN_TO_1NN1() {
         parameterNames = new String[]{ASSOCIATION};
@@ -30,6 +31,6 @@ public class Transformation_NN_TO_1NN1 extends EquivalentTransformation {
     }
 
     public Association getAssociation() {
-        return (Association) parameterMap.get(ASSOCIATION);
+        return ASSOCIATION_CLASS.cast(parameterMap.get(ASSOCIATION));
     }
 }

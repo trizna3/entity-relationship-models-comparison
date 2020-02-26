@@ -14,7 +14,10 @@ import entityRelationshipModel.EntityRelationshipModel;
 public class Transformation_1NN1_TO_NN extends EquivalentTransformation{
 
     public static final String ASSOCIATION1 = "ASSOCIATION1";
+    public static final Class<Association> ASSOCIATION1_CLASS = Association.class;
+
     public static final String ASSOCIATION2 = "ASSOCIATION2";
+    public static final Class<Association> ASSOCIATION2_CLASS = Association.class;
 
     public Transformation_1NN1_TO_NN() {
         parameterNames = new String[]{ASSOCIATION1,ASSOCIATION2};
@@ -31,9 +34,9 @@ public class Transformation_1NN1_TO_NN extends EquivalentTransformation{
     }
 
     public Association getAssociation1() {
-        return (Association) parameterMap.get(ASSOCIATION1);
+        return ASSOCIATION1_CLASS.cast(parameterMap.get(ASSOCIATION1));
     }
     public Association getAssociation2() {
-        return (Association) parameterMap.get(ASSOCIATION2);
+        return ASSOCIATION2_CLASS.cast(parameterMap.get(ASSOCIATION2));
     }
 }

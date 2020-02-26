@@ -20,7 +20,6 @@ public abstract class Transformation {
     protected Map<String,Object> parameterMap = new HashMap<>();
     protected String[] parameterNames;
 
-
     /**
      * Executes it's purpose.
      * @param model
