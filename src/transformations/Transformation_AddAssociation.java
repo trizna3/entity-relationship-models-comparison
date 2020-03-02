@@ -14,7 +14,7 @@ import java.util.List;
  * Transformation - adding new association relationship.
  * @see transformations.Transformation
  */
-public class Transformation_AddAssociation extends NonEquivalentTransformation {
+public class Transformation_AddAssociation extends Transformation {
 
     public static final String ASSOCIATION_NAME = "ASSOCIATION_NAME";
     public static final Class<String> ASSOCIATION_NAME_CLASS = String.class;

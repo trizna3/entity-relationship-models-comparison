@@ -21,8 +21,6 @@ public class TransformationEvaluator implements ISpecificEvaluator {
 
     private static final Map<String,Double> transformationPenalties = new HashMap<>();
     static {
-        transformationPenalties.put(Transformation.CODE_1NN1_TO_NN, 4d);
-        transformationPenalties.put(Transformation.CODE_NN_TO_1NN1, 4d);
         transformationPenalties.put(Transformation.CODE_ADD_ASSOCIATION, 1d);
         transformationPenalties.put(Transformation.CODE_ADD_GENERALIZATION, 1d);
         transformationPenalties.put(Transformation.CODE_ADD_ENTITY_SET, 1d);
@@ -68,13 +66,7 @@ public class TransformationEvaluator implements ISpecificEvaluator {
      * @return penalty value
      */
     private double penalizeTransformation(Transformation transformation) {
-        if (transformation instanceof Transformation_1NN1_TO_NN) {
-            return transformationPenalties.get(Transformation.CODE_1NN1_TO_NN);
-        }
-        else if (transformation instanceof Transformation_NN_TO_1NN1) {
-            return transformationPenalties.get(Transformation.CODE_NN_TO_1NN1);
-        }
-        else if (transformation instanceof Transformation_AddAssociation) {
+        if (transformation instanceof Transformation_AddAssociation) {
             return transformationPenalties.get(Transformation.CODE_ADD_ASSOCIATION);
         }
         else if (transformation instanceof Transformation_AddGeneralization) {
