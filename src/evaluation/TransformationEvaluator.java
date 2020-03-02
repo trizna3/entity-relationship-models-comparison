@@ -1,7 +1,6 @@
 package evaluation;
 
 import comparing.Mapping;
-import comparing.TransformationPack;
 import entityRelationshipModel.EntityRelationshipModel;
 import transformations.*;
 
@@ -45,16 +44,7 @@ public class TransformationEvaluator implements ISpecificEvaluator {
     @Override
     public double evaluate(EntityRelationshipModel model1, EntityRelationshipModel model2, Mapping mapping) {
         double penalty = 0;
-        for (TransformationPack transformationPack : mapping.getTransformationPacks()) {
-            penalty += penalizeTransformationPack(transformationPack);
-        }
-        return penalty;
-    }
-
-
-    private double penalizeTransformationPack(TransformationPack transformationPack) {
-        double penalty = 0;
-        for (Transformation transformation : transformationPack) {
+        for (Transformation transformation : mapping.getTransformations()) {
             penalty += penalizeTransformation(transformation);
         }
         return penalty;

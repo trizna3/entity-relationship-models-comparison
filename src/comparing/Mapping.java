@@ -20,7 +20,7 @@ public class Mapping {
      */
     private Map<EntitySet,EntitySet> data;
 
-    private List<TransformationPack> transformationPacks;
+    private List<Transformation> transformations;
 
     /**
      * Empty entity set. Used in optimal mapping search.
@@ -113,24 +113,24 @@ public class Mapping {
         System.out.println(")");
     }
 
-    public List<TransformationPack> getTransformationPacks() {
-        if (transformationPacks == null) {
-            transformationPacks = new ArrayList<>();
+    public List<Transformation> getTransformations() {
+        if (transformations == null) {
+            transformations = new ArrayList<>();
         }
-        return transformationPacks;
+        return transformations;
     }
 
-    public void addTransformationPack(TransformationPack transformationPack) {
-        if (transformationPack == null) {
-            throw new IllegalArgumentException("transformation pack cannot be null!");
+    public void addTransformation(Transformation transformation) {
+        if (transformation == null) {
+            throw new IllegalArgumentException("transformation cannot be null!");
         }
-        getTransformationPacks().add(transformationPack);
+        getTransformations().add(transformation);
     }
 
-    public void removeTransformationPack(TransformationPack transformationPack) {
-        if (transformationPack == null) {
-            throw new IllegalArgumentException("transformation pack cannot be null!");
+    public void removeTransformation(Transformation transformation) {
+        if (transformation == null) {
+            throw new IllegalArgumentException("transformation cannot be null!");
         }
-        getTransformationPacks().remove(transformationPack);
+        getTransformations().remove(transformation);
     }
 }
