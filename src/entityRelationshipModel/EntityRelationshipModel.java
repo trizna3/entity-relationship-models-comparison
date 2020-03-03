@@ -102,18 +102,19 @@ public class EntityRelationshipModel implements IEntityRelationshipModel {
         if (entitySets == null || entitySets.length == 0) {
             throw new IllegalArgumentException("entity set array cannot be null or empty");
         }
-        if (entitySets.length == 1) {
-            if (!getEntitySets().contains(entitySets[0])) {
-                throw new IllegalArgumentException("model doesn't contain this entity set!");
+        for (EntitySet entitySet : entitySets) {
+            if (!getEntitySets().contains(entitySet)) {
+                throw new IllegalArgumentException("model doesn't contain given entity set!");
             }
-            List<Relationship> incidentRelationships = new ArrayList<>();
-            for (Relationship relationship : getRelationships()) {
-                if (relationship.getSides().stream().map(RelationshipSide::getEntitySet).collect(Collectors.toList()).contains(entitySets[0])) {
+        }
+        List<Relationship> incidentRelationships = new ArrayList<>();
+        for (Relationship relationship : getRelationships()) {
+            for (EntitySet entitySet : entitySets) {
+                if (relationship.getSides().stream().map(RelationshipSide::getEntitySet).collect(Collectors.toList()).contains(entitySet)) {
                     incidentRelationships.add(relationship);
                 }
             }
-            return incidentRelationships;
         }
-        throw new UnsupportedOperationException();  // fixme
+        return incidentRelationships;
     }
 }
