@@ -53,8 +53,8 @@ public interface IEntityRelationshipModel {
     int getEntitySetsCount();
 
     /**
-     * @param entitySet
+     * @param entitySets
      * @return List of all relationships incident to given entity set.
      */
-    List<Relationship> getRelationshipsByEntitySet(EntitySet entitySet);
+    List<Relationship> getRelationshipsByEntitySets(EntitySet[] entitySets);
 }

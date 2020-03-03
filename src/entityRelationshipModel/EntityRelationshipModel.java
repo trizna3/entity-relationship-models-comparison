@@ -66,7 +66,7 @@ public class EntityRelationshipModel implements IEntityRelationshipModel {
             throw new IllegalArgumentException("model doesn't contain this entity set!");
         }
         // remove all incident relationships
-        for (Relationship relationshipForRemoval : getRelationshipsByEntitySet(entitySet)) {
+        for (Relationship relationshipForRemoval : getRelationshipsByEntitySets(new EntitySet[]{entitySet})) {
             removeRelationship(relationshipForRemoval);
         }
         getEntitySets().remove(entitySet);
@@ -98,19 +98,22 @@ public class EntityRelationshipModel implements IEntityRelationshipModel {
      * {@inheritDoc}
      */
     @Override
-    public List<Relationship> getRelationshipsByEntitySet(EntitySet entitySet) {
-        if (entitySet == null) {
-            throw new IllegalArgumentException("entity set cannot be null");
+    public List<Relationship> getRelationshipsByEntitySets(EntitySet[] entitySets) {
+        if (entitySets == null || entitySets.length == 0) {
+            throw new IllegalArgumentException("entity set array cannot be null or empty");
         }
-        if (!getEntitySets().contains(entitySet)) {
-            throw new IllegalArgumentException("model doesn't contain this entity set!");
-        }
-        List<Relationship> incidentRelationships = new ArrayList<>();
-        for (Relationship relationship : getRelationships()) {
-            if (relationship.getSides().stream().map(RelationshipSide::getEntitySet).collect(Collectors.toList()).contains(entitySet)) {
-                incidentRelationships.add(relationship);
+        if (entitySets.length == 1) {
+            if (!getEntitySets().contains(entitySets[0])) {
+                throw new IllegalArgumentException("model doesn't contain this entity set!");
             }
+            List<Relationship> incidentRelationships = new ArrayList<>();
+            for (Relationship relationship : getRelationships()) {
+                if (relationship.getSides().stream().map(RelationshipSide::getEntitySet).collect(Collectors.toList()).contains(entitySets[0])) {
+                    incidentRelationships.add(relationship);
+                }
+            }
+            return incidentRelationships;
         }
-        return incidentRelationships;
+        throw new UnsupportedOperationException();  // fixme
     }
 }
