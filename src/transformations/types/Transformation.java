@@ -18,6 +18,11 @@ public abstract class Transformation {
     public static final String CODE_ADD_ASSOCIATION = "CODE_ADD_ASSOCIATION";
     public static final String CODE_ADD_GENERALIZATION = "CODE_ADD_GENERALIZATION";
     public static final String CODE_ADD_ENTITY_SET = "CODE_ADD_ENTITY_SET";
+    public static final String CODE_ADD_ATTRIBUTE = "CODE_ADD_ATTRIBUTE";
+    public static final String CODE_REMOVE_ASSOCIATION = "CODE_REMOVE_ASSOCIATION";
+    public static final String CODE_REMOVE_GENERALIZATION = "CODE_REMOVE_GENERALIZATION";
+    public static final String CODE_REMOVE_ENTITY_SET = "CODE_REMOVE_ENTITY_SET";
+    public static final String CODE_REMOVE_ATTRIBUTE = "CODE_REMOVE_ATTRIBUTE";
 
 
     protected Map<String,Object> parameterMap = new HashMap<>();
