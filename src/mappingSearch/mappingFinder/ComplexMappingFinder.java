@@ -1,8 +1,10 @@
-package mappingSearch;
+package mappingSearch.mappingFinder;
 
 import comparing.Mapping;
 import entityRelationshipModel.EntityRelationshipModel;
 import entityRelationshipModel.EntitySet;
+import mappingSearch.mappingEvaluator.BestMappingEvaluator;
+import mappingSearch.mappingEvaluator.IBestMappingEvaluator;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,8 +16,9 @@ import java.util.Set;
 /**
  * Object for finding best mapping of given double of entity relationship models.
  * This version of finder does a simple full mapping search (not optimised in any way) for maximum clarity.
+ * In addition to basic mapping finder, this finder uses model transformations for more effective mapping search.
  */
-public class BasicMappingFinder implements IMappingFinder {
+public class ComplexMappingFinder implements IMappingFinder {
 
     IBestMappingEvaluator bestMappingEvaluator;
 

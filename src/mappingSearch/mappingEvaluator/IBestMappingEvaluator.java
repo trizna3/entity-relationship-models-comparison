@@ -1,4 +1,4 @@
-package mappingSearch;
+package mappingSearch.mappingEvaluator;
 
 import comparing.Mapping;
 import entityRelationshipModel.EntityRelationshipModel;

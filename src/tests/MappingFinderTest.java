@@ -1,8 +1,8 @@
 package tests;
 
 import comparing.Mapping;
-import mappingSearch.IMappingFinder;
-import mappingSearch.BasicMappingFinder;
+import mappingSearch.mappingFinder.IMappingFinder;
+import mappingSearch.mappingFinder.BasicMappingFinder;
 import entityRelationshipModel.EntityRelationshipModel;
 import org.junit.jupiter.api.Test;
 
