@@ -26,6 +26,8 @@ public class Dictionary implements LanguageProcessor {
             data.put("job_history","position_history");
             data.put("departments","areas");
 
+            data.put("AA1","AA2");
+            data.put("BB1","BB2");
         }
         return data;
     }

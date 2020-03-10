@@ -13,19 +13,34 @@ public class TestUtils {
 
     private final static List<String> ENTITY_SET_NAMES_1 = new ArrayList<>(Arrays.asList("employees","jobs","job_history","departments"));
     private final static List<String> ENTITY_SET_NAMES_2 = new ArrayList<>(Arrays.asList("people","position_history","areas"));
+    private final static List<String> ENTITY_SET_NAMES_3 = new ArrayList<>(Arrays.asList("AA1","BB1","C1"));
+    private final static List<String> ENTITY_SET_NAMES_4 = new ArrayList<>(Arrays.asList("AA2","AB2","BB2","D2"));
 
     private final static Set<String[]> RELATIONSHIPS_1 = new HashSet<>();
-        static {
-            RELATIONSHIPS_1.add(new String[]{"employees","employees","1","*"});
-            RELATIONSHIPS_1.add(new String[]{"employees","jobs","1","*"});
-            RELATIONSHIPS_1.add(new String[]{"employees","departments","1","*"});
-            RELATIONSHIPS_1.add(new String[]{"job_history","jobs","1","*"});
+    static {
+        RELATIONSHIPS_1.add(new String[]{"employees","employees","1","*"});
+        RELATIONSHIPS_1.add(new String[]{"employees","jobs","1","*"});
+        RELATIONSHIPS_1.add(new String[]{"employees","departments","1","*"});
+        RELATIONSHIPS_1.add(new String[]{"job_history","jobs","1","*"});
     }
     private final static Set<String[]> RELATIONSHIPS_2 = new HashSet<>();
     static {
         RELATIONSHIPS_2.add(new String[]{"people","people","1","*"});
         RELATIONSHIPS_2.add(new String[]{"people","areas","1","*"});
         RELATIONSHIPS_2.add(new String[]{"people","position_history","*","*"});
+    }
+
+    private final static Set<String[]> RELATIONSHIPS_3 = new HashSet<>();
+    static {
+        RELATIONSHIPS_3.add(new String[]{"AA1","BB1","*","*"});
+        RELATIONSHIPS_3.add(new String[]{"AA1","C1","1","1"});
+    }
+
+    private final static Set<String[]> RELATIONSHIPS_4 = new HashSet<>();
+    static {
+        RELATIONSHIPS_4.add(new String[]{"AA2","AB2","1","*"});
+        RELATIONSHIPS_4.add(new String[]{"BB2","AB2","1","*"});
+        RELATIONSHIPS_4.add(new String[]{"BB2","D2","1","*"});
     }
 
     private final static Map<String,String> MAPPING = new HashMap<>();
@@ -41,6 +56,8 @@ public class TestUtils {
 
     private static Map<String,EntitySet> entitySets1;
     private static Map<String,EntitySet> entitySets2;
+    private static Map<String,EntitySet> entitySets3;
+    private static Map<String,EntitySet> entitySets4;
 
     public static List<String> getEntitySetNames2() {
         return ENTITY_SET_NAMES_2;
@@ -109,6 +126,20 @@ public class TestUtils {
         return entitySets2;
     }
 
+    public static Map<String,EntitySet> getEntitySets3() {
+        if (entitySets3 == null) {
+            entitySets3 = makeEntitySets(getEntitySetNames3());
+        }
+        return entitySets3;
+    }
+
+    public static Map<String,EntitySet> getEntitySets4() {
+        if (entitySets4 == null) {
+            entitySets4 = makeEntitySets(getEntitySetNames4());
+        }
+        return entitySets4;
+    }
+
     public static Map<String,EntitySet> makeEntitySets(List<String> names) {
         Map<String,EntitySet> entitySets = new HashMap<>();
         for (String name : names) {
@@ -123,5 +154,29 @@ public class TestUtils {
             myMapping.map(getEntitySets1().get(key),getEntitySets2().get(MAPPING.get(key)));
         }
         return myMapping;
+    }
+
+    public static List<String> getEntitySetNames3() {
+        return ENTITY_SET_NAMES_3;
+    }
+
+    public static List<String> getEntitySetNames4() {
+        return ENTITY_SET_NAMES_4;
+    }
+
+    public static Set<String[]> getRelationships3() {
+        return RELATIONSHIPS_3;
+    }
+
+    public static Set<String[]> getRelationships4() {
+        return RELATIONSHIPS_4;
+    }
+
+    public static EntityRelationshipModel getModel3() {
+        return makeModel(getEntitySets3(),getRelationships3());
+    }
+
+    public static EntityRelationshipModel getModel4() {
+        return makeModel(getEntitySets4(),getRelationships4());
     }
 }

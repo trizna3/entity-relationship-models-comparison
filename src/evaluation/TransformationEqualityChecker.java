@@ -4,6 +4,7 @@ package evaluation;
  * @author - Adam Trizna
  */
 
+import comparing.Mapping;
 import entityRelationshipModel.EntityRelationshipModel;
 import entityRelationshipModel.Relationship;
 import transformations.Transformation;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class TransformationEqualityChecker {
 
-    public List<Transformation> getNonEqualTransformations(EntityRelationshipModel modelBefore, EntityRelationshipModel modelAfter, List<Transformation> transformationsMade) {
+    public List<Transformation> getNonEqualTransformations(EntityRelationshipModel modelBefore, EntityRelationshipModel modelAfter, List<Transformation> transformationsMade, Mapping mapping) {
         List<Transformation> nonEqualTransformations = new ArrayList<>(transformationsMade);
 
         /*
