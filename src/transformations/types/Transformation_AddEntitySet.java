@@ -1,4 +1,4 @@
-package transformations;
+package transformations.types;
 
 import entityRelationshipModel.EntityRelationshipModel;
 import entityRelationshipModel.EntitySet;
@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Transformation - creating new Entity Set.
- * @see transformations.Transformation
+ * @see Transformation
  */
 public class Transformation_AddEntitySet extends Transformation {
 
@@ -32,6 +32,9 @@ public class Transformation_AddEntitySet extends Transformation {
 
     @Override
     public void execute(EntityRelationshipModel model) {
+        if (this.entitySet != null) {
+            throw new IllegalStateException("transformation already executed!");
+        }
         this.entitySet = new EntitySet(getEntitySetName(),getEntitySetAttributes());
         model.addEntitySet(entitySet);
     }
@@ -47,5 +50,13 @@ public class Transformation_AddEntitySet extends Transformation {
 
     public List<String> getEntitySetAttributes() {
         return ENTITY_SET_ATTRIBUTES_CLASS.cast(parameterMap.get(ENTITY_SET_ATTRIBUTES));
+    }
+
+    public EntitySet getEntitySet() {
+        return entitySet;
+    }
+
+    public void setEntitySet(EntitySet entitySet) {
+        this.entitySet = entitySet;
     }
 }

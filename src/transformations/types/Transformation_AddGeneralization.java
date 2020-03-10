@@ -1,4 +1,4 @@
-package transformations;
+package transformations.types;
 
 import entityRelationshipModel.EntityRelationshipModel;
 import entityRelationshipModel.Generalization;
@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Transformation - adding new generalization relationship.
- * @see transformations.Transformation
+ * @see Transformation
  */
 public class Transformation_AddGeneralization extends Transformation {
     public static final String GENERALIZATION_NAME = "GENERALIZATION_NAME";
@@ -29,6 +29,9 @@ public class Transformation_AddGeneralization extends Transformation {
 
     @Override
     public void execute(EntityRelationshipModel model) {
+        if (this.generalization != null) {
+            throw new IllegalStateException("transformation already executed!");
+        }
         this.generalization = new Generalization(getGeneralizationSides());
         this.generalization.setName(getGeneralizationName());
         model.addRelationship(generalization);
@@ -45,5 +48,13 @@ public class Transformation_AddGeneralization extends Transformation {
 
     public List<GeneralizationSide> getGeneralizationSides() {
         return GENERALIZATION_SIDES_CLASS.cast(parameterMap.get(GENERALIZATION_SIDES));
+    }
+
+    public Generalization getGeneralization() {
+        return generalization;
+    }
+
+    public void setGeneralization(Generalization generalization) {
+        this.generalization = generalization;
     }
 }

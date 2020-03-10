@@ -1,4 +1,4 @@
-package transformations;
+package transformations.types;
 
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Transformation - adding new association relationship.
- * @see transformations.Transformation
+ * @see Transformation
  */
 public class Transformation_AddAssociation extends Transformation {
 
@@ -33,6 +33,9 @@ public class Transformation_AddAssociation extends Transformation {
 
     @Override
     public void execute(EntityRelationshipModel model) {
+        if (this.association != null) {
+            throw new IllegalStateException("transformation already executed!");
+        }
         this.association = new Association(getAssociationSides(),getAssociationAttributes());
         this.association.setName(getAssociationName());
         model.addRelationship(association);
@@ -53,5 +56,13 @@ public class Transformation_AddAssociation extends Transformation {
 
     public List<AssociationSide> getAssociationSides() {
         return ASSOCIATION_SIDES_CLASS.cast(parameterMap.get(ASSOCIATION_SIDES));
+    }
+
+    public Association getAssociation() {
+        return association;
+    }
+
+    public void setAssociation(Association association) {
+        this.association = association;
     }
 }

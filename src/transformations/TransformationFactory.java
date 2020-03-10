@@ -4,6 +4,11 @@ package transformations;
  * @author - Adam Trizna
  */
 
+import transformations.types.Transformation;
+import transformations.types.Transformation_AddAssociation;
+import transformations.types.Transformation_AddEntitySet;
+import transformations.types.Transformation_AddGeneralization;
+
 /**
  * Object factory, creating instances of transformations by given transformation code.
  */
