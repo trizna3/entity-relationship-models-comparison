@@ -2,7 +2,10 @@ package evaluation;
 
 import comparing.Mapping;
 import entityRelationshipModel.EntityRelationshipModel;
-import transformations.*;
+import transformations.types.Transformation;
+import transformations.types.Transformation_AddAssociation;
+import transformations.types.Transformation_AddEntitySet;
+import transformations.types.Transformation_AddGeneralization;
 
 import java.util.HashMap;
 import java.util.Map;

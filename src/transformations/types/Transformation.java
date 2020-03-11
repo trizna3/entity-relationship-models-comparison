@@ -70,7 +70,7 @@ public abstract class Transformation {
      * @param parameterValue
      * @param parameterName
      */
-    protected void setParameter(Object parameterValue, String parameterName) {
+    public void setParameter(Object parameterValue, String parameterName) {
         if (parameterMap.get(parameterName) == null) {
             parameterMap.put(parameterName,parameterValue);
         }
