@@ -16,6 +16,15 @@ public class TestUtils {
     private final static List<String> ENTITY_SET_NAMES_3 = new ArrayList<>(Arrays.asList("AA1","BB1","C1"));
     private final static List<String> ENTITY_SET_NAMES_4 = new ArrayList<>(Arrays.asList("AA2","AB2","BB2","D2"));
 
+    private final static Map<String,String> ATTRIBUTES_3 = new HashMap<>();
+    static {
+        ATTRIBUTES_3.put("C1","c");
+    }
+    private final static Map<String,String> ATTRIBUTES_4 = new HashMap<>();
+    static {
+        ATTRIBUTES_4.put("AA2","c");
+    }
+
     private final static Set<String[]> RELATIONSHIPS_1 = new HashSet<>();
     static {
         RELATIONSHIPS_1.add(new String[]{"employees","employees","1","*"});
@@ -130,12 +139,22 @@ public class TestUtils {
         if (entitySets3 == null) {
             entitySets3 = makeEntitySets(getEntitySetNames3());
         }
+        for (String esName : entitySets3.keySet()) {
+            if (ATTRIBUTES_3.get(esName) != null) {
+                entitySets3.get(esName).getAttributes().add(ATTRIBUTES_3.get(esName));
+            }
+        }
         return entitySets3;
     }
 
     public static Map<String,EntitySet> getEntitySets4() {
         if (entitySets4 == null) {
             entitySets4 = makeEntitySets(getEntitySetNames4());
+        }
+        for (String esName : entitySets4.keySet()) {
+            if (ATTRIBUTES_4.get(esName) != null) {
+                entitySets4.get(esName).getAttributes().add(ATTRIBUTES_4.get(esName));
+            }
         }
         return entitySets4;
     }

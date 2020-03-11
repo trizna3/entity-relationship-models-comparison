@@ -1,7 +1,7 @@
 package comparing;
 
 import entityRelationshipModel.EntitySet;
-import transformations.Transformation;
+import transformations.types.Transformation;
 
 import java.util.*;
 

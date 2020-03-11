@@ -6,8 +6,7 @@ package evaluation;
 
 import comparing.Mapping;
 import entityRelationshipModel.EntityRelationshipModel;
-import entityRelationshipModel.Relationship;
-import transformations.Transformation;
+import transformations.types.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;

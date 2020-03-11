@@ -8,7 +8,8 @@ import entityRelationshipModel.EntityRelationshipModel;
  */
 
 /**
- * Object for mapping evaluation and keeping record of mapping with minimal penalty.
+ * Object for mapping evaluation.
+ * This kind of evaluator computes mapping penalty and keeps record of mapping with minimal penalty.
  */
 public interface IBestMappingEvaluator {
 
