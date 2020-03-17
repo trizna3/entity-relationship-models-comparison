@@ -49,7 +49,7 @@ public class BestMappingEvaluator implements IBestMappingEvaluator {
      */
     private void saveBestMapping(Mapping mapping) {
         bestMapping = new Mapping();
-        for (EntitySet entitySet : mapping.getDistinctAllEntitySets()) {
+        for (EntitySet entitySet : mapping.getDistinctAllEntitySets(false)) {
             bestMapping.map(entitySet,mapping.getImage(entitySet));
         }
     }

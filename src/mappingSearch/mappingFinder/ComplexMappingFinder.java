@@ -5,9 +5,15 @@ import entityRelationshipModel.EntityRelationshipModel;
 import entityRelationshipModel.EntitySet;
 import mappingSearch.mappingEvaluator.BestMappingEvaluator;
 import mappingSearch.mappingEvaluator.IBestMappingEvaluator;
+import mappingSearch.mappingEvaluator.IMappingTransformationEvaluator;
+import mappingSearch.mappingEvaluator.MappingTransformationEvaluator;
+import transformations.types.Transformation;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author - Adam Trizna
@@ -21,6 +27,7 @@ import java.util.Set;
 public class ComplexMappingFinder implements IMappingFinder {
 
     IBestMappingEvaluator bestMappingEvaluator;
+    IMappingTransformationEvaluator mappingTransformationEvaluator;
 
     /**
      * Uses recursive backtrack algorithm to iterate over all possible mappings, compute their penalties, get the one with the lowest penalty.
@@ -47,7 +54,10 @@ public class ComplexMappingFinder implements IMappingFinder {
         // trivial case condition: if all exemplar entity sets are mapped, complete the mapping and send it for evaluation
         if (exemplarModel.getEntitySetsCount() <= exemplarEntitySetIndex) {
             completeMapping(studentModel,mapping);
-            getBestMappingEvaluator().evaluate(exemplarModel,studentModel,mapping);
+//            getBestMappingEvaluator().evaluate(exemplarModel,studentModel,mapping);
+            List<EntitySet> emptyEntitySets = getEmptyEntitySets(mapping.getDistinctAllEntitySets(true));
+            getMappingTransformationEvaluator().getTransformationList(exemplarModel,studentModel,mapping);
+            makeEntitySetsEmpty(emptyEntitySets);
             return;
         }
 
@@ -88,6 +98,13 @@ public class ComplexMappingFinder implements IMappingFinder {
         return bestMappingEvaluator;
     }
 
+    public IMappingTransformationEvaluator getMappingTransformationEvaluator() {
+        if (mappingTransformationEvaluator == null) {
+            mappingTransformationEvaluator = new MappingTransformationEvaluator();
+        }
+        return mappingTransformationEvaluator;
+    }
+
     /**
      * Once all exemplar entity sets are mapped, completes mapping, eg. maps all unmapped student's entity sets to an empty entity set.
      * @param studentModel
@@ -99,6 +116,16 @@ public class ComplexMappingFinder implements IMappingFinder {
             if (mapping.getImage(entitySet) == null) {
                 mapping.map(entitySet,Mapping.getEmptyEntitySet());
             }
+        }
+    }
+
+    private List<EntitySet> getEmptyEntitySets(Set<EntitySet> entitySets) {
+        return entitySets.stream().filter(EntitySet::isEmpty).collect(Collectors.toList());
+    }
+
+    private void makeEntitySetsEmpty(List<EntitySet> entitySets) {
+        for (EntitySet entitySet : entitySets) {
+            entitySet.setEmpty(true);
         }
     }
 }

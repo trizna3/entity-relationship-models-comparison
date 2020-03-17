@@ -28,7 +28,7 @@ public class AttributeEvaluator implements ISpecificEvaluator{
     public double evaluate(EntityRelationshipModel model1, EntityRelationshipModel model2, Mapping mapping) {
 
         double penalty = 0;
-        for (EntitySet es : mapping.getDistinctAllEntitySets()) {
+        for (EntitySet es : mapping.getDistinctAllEntitySets(false)) {
             penalty += getEntitySetPairPenalty(es,mapping.getImage(es));
         }
         return penalty;

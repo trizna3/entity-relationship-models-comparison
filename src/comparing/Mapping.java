@@ -91,10 +91,11 @@ public class Mapping {
         return getData().get(entitySet);
     }
 
-    public Set<EntitySet> getDistinctAllEntitySets() {
+    public Set<EntitySet> getDistinctAllEntitySets(boolean getEmpty) {
         Set<EntitySet> entitySets = new HashSet<>();
         for (EntitySet es : getData().keySet()) {
-            if (!entitySets.contains(es) && !es.isEmpty()) {
+            if (!entitySets.contains(es)) {
+                if (getEmpty || !es.isEmpty())
                 entitySets.add(es);
             }
         }
@@ -102,12 +103,14 @@ public class Mapping {
     }
 
     public static EntitySet getEmptyEntitySet(){
-        return EMPTY_ENTITY_SET;
+        EntitySet emptyEntitySet = new EntitySet("empty");
+        emptyEntitySet.setEmpty(true);
+        return emptyEntitySet;
     }
 
     public void print() {
         System.out.println("mapping: (");
-        for (EntitySet es : getDistinctAllEntitySets()) {
+        for (EntitySet es : getDistinctAllEntitySets(false)) {
             System.out.println("    " + es + " -> " + getImage(es));
         }
         System.out.println(")");

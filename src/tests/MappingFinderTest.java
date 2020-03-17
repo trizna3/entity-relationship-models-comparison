@@ -1,6 +1,7 @@
 package tests;
 
 import comparing.Mapping;
+import mappingSearch.mappingFinder.ComplexMappingFinder;
 import mappingSearch.mappingFinder.IMappingFinder;
 import mappingSearch.mappingFinder.BasicMappingFinder;
 import entityRelationshipModel.EntityRelationshipModel;
@@ -16,9 +17,11 @@ class MappingFinderTest {
         EntityRelationshipModel exemplarModel = TestUtils.getModel1();
         EntityRelationshipModel studentModel = TestUtils.getModel2();
         IMappingFinder finder = new BasicMappingFinder();
+        IMappingFinder finder2 = new ComplexMappingFinder();
 
-        Mapping bestMapping = finder.getBestMapping(exemplarModel,studentModel);
+//        Mapping bestMapping = finder.getBestMapping(exemplarModel,studentModel);
+        Mapping bestMapping = finder2.getBestMapping(exemplarModel,studentModel);
 
-        bestMapping.print();
+//        bestMapping.print();
     }
 }
