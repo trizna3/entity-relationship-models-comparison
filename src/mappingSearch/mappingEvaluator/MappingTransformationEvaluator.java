@@ -1,6 +1,5 @@
 package mappingSearch.mappingEvaluator;
 
-import com.sun.org.apache.xerces.internal.xs.XSIDCDefinition;
 import common.ModelUtils;
 import comparing.Mapping;
 import entityRelationshipModel.*;
@@ -9,8 +8,6 @@ import transformations.types.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author - Adam Trizna
@@ -23,7 +20,6 @@ public class MappingTransformationEvaluator implements IMappingTransformationEva
     @Override
     public List<Transformation> getTransformationList(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentsModel, Mapping mapping) {
         List<Transformation> transformationList = new ArrayList<>();
-        List<EntitySet> unresolvedEntitySets = getEntitySetsUnion(exemplarModel,studentsModel);
 
         // check relationships
         transformationList.addAll(getRelationshipsTransformationList(exemplarModel.getRelationships(),studentsModel,mapping,true));
@@ -64,22 +60,22 @@ public class MappingTransformationEvaluator implements IMappingTransformationEva
                 // create such relationship
                 if (relationship instanceof Association) {
                     transformation = TransformationFactory.getTransformation(Transformation.CODE_ADD_ASSOCIATION);
-                    transformation.setParameter(((Association) relationship).getAttributes(),Transformation_AddAssociation.ASSOCIATION_ATTRIBUTES);
-                    transformation.setParameter(relationship.getName(),Transformation_AddAssociation.ASSOCIATION_NAME);
-                    transformation.setParameter(createOppositeRelationshipSides(relationship.getSides(),mapping),Transformation_AddAssociation.ASSOCIATION_SIDES);
+                    transformation.setParameter(Transformation_AddAssociation.ASSOCIATION_ATTRIBUTES, ((Association) relationship).getAttributes());
+                    transformation.setParameter(Transformation_AddAssociation.ASSOCIATION_NAME, relationship.getName());
+                    transformation.setParameter(Transformation_AddAssociation.ASSOCIATION_SIDES, createOppositeRelationshipSides(relationship.getSides(),mapping));
                 } else {
                     transformation = TransformationFactory.getTransformation(Transformation.CODE_ADD_GENERALIZATION);
-                    transformation.setParameter(relationship.getName(), Transformation_AddGeneralization.GENERALIZATION_NAME);
-                    transformation.setParameter(createOppositeRelationshipSides(relationship.getSides(),mapping), Transformation_AddGeneralization.GENERALIZATION_SIDES);
+                    transformation.setParameter(Transformation_AddGeneralization.GENERALIZATION_NAME, relationship.getName());
+                    transformation.setParameter(Transformation_AddGeneralization.GENERALIZATION_SIDES, createOppositeRelationshipSides(relationship.getSides(),mapping));
                 }
             } else {
                 // remove relationship
                 if (relationship instanceof Association) {
                     transformation = TransformationFactory.getTransformation(Transformation.CODE_REMOVE_ASSOCIATION);
-                    transformation.setParameter(relationship, Transformation_RemoveAssociation.ASSOCIATION);
+                    transformation.setParameter(Transformation_RemoveAssociation.ASSOCIATION, relationship);
                 } else {
                     transformation = TransformationFactory.getTransformation(Transformation.CODE_REMOVE_GENERALIZATION);
-                    transformation.setParameter(relationship, Transformation_RemoveGeneralization.GENERALIZATION);
+                    transformation.setParameter(Transformation_RemoveGeneralization.GENERALIZATION, relationship);
                 }
             }
             transformationList.add(transformation);
@@ -112,13 +108,13 @@ public class MappingTransformationEvaluator implements IMappingTransformationEva
                     if (isExemplar) {
                         // add attribute
                         transformation = TransformationFactory.getTransformation(Transformation.CODE_ADD_ATTRIBUTE);
-                        transformation.setParameter(attribute,Transformation_AddAttribute.ATTRIBUTE_NAME);
-                        transformation.setParameter(image,Transformation_AddAttribute.ENTITY_SET);
+                        transformation.setParameter(Transformation_AddAttribute.ATTRIBUTE_NAME, attribute);
+                        transformation.setParameter(Transformation_AddAttribute.ENTITY_SET, image);
                     } else {
                         // remove attribute
                         transformation = TransformationFactory.getTransformation(Transformation.CODE_REMOVE_ATTRIBUTE);
-                        transformation.setParameter(attribute,Transformation_AddAttribute.ATTRIBUTE_NAME);
-                        transformation.setParameter(entitySet,Transformation_AddAttribute.ENTITY_SET);
+                        transformation.setParameter(Transformation_AddAttribute.ATTRIBUTE_NAME, attribute);
+                        transformation.setParameter(Transformation_AddAttribute.ENTITY_SET, entitySet);
                     }
                     transformationList.add(transformation);
                 }
@@ -137,35 +133,17 @@ public class MappingTransformationEvaluator implements IMappingTransformationEva
                 if (isExemplar) {
                     // add entity set
                     transformation = TransformationFactory.getTransformation(Transformation.CODE_ADD_ENTITY_SET);
-                    transformation.setParameter(entitySet.getName(),Transformation_AddEntitySet.ENTITY_SET_NAME);
-                    transformation.setParameter(entitySet.getAttributes(),Transformation_AddEntitySet.ENTITY_SET_ATTRIBUTES);
+                    transformation.setParameter(Transformation_AddEntitySet.ENTITY_SET_NAME, entitySet.getName());
+                    transformation.setParameter(Transformation_AddEntitySet.ENTITY_SET_ATTRIBUTES, entitySet.getAttributes());
                 } else {
                     // remove entity set
                     transformation = TransformationFactory.getTransformation(Transformation.CODE_REMOVE_ENTITY_SET);
-                    transformation.setParameter(entitySet,Transformation_RemoveEntitySet.ENTITY_SET);
+                    transformation.setParameter(Transformation_RemoveEntitySet.ENTITY_SET, entitySet);
                 }
                 transformationList.add(transformation);
             }
         }
 
         return transformationList;
-    }
-
-    private List<EntitySet> getEntitySetsUnion(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentsModel) {
-        List<EntitySet> entitySetsUnion = new ArrayList<>();
-
-        entitySetsUnion.addAll(exemplarModel.getEntitySets());
-        entitySetsUnion.addAll(studentsModel.getEntitySets());
-
-        return entitySetsUnion;
-    }
-
-    private List<Relationship> getRelationshipsUnion(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentsModel) {
-        List<Relationship> relationshipsUnion = new ArrayList<>();
-
-        relationshipsUnion.addAll(exemplarModel.getRelationships());
-        relationshipsUnion.addAll(studentsModel.getRelationships());
-
-        return relationshipsUnion;
     }
 }
