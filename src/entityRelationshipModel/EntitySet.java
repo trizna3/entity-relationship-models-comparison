@@ -44,6 +44,14 @@ public class EntitySet {
         return attributes;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAttributes(List<String> attributes) {
+        this.attributes = attributes;
+    }
+
     @Override
     public String toString() {
         return name;

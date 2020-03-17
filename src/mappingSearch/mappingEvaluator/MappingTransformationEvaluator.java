@@ -139,8 +139,11 @@ public class MappingTransformationEvaluator implements IMappingTransformationEva
                 if (isExemplar) {
                     // add entity set
                     transformation = TransformationFactory.getTransformation(Transformation.CODE_ADD_ENTITY_SET);
-                    transformation.setParameter(Transformation_AddEntitySet.ENTITY_SET_NAME, entitySet.getName());
-                    transformation.setParameter(Transformation_AddEntitySet.ENTITY_SET_ATTRIBUTES, entitySet.getAttributes());
+                    // make the empty image a normal entity set
+                    image.setEmpty(false);
+                    image.setName(entitySet.getName());
+                    // set it as transformation input for addition to the model
+                    transformation.setParameter(Transformation_AddEntitySet.ENTITY_SET, image);
                 } else {
                     // remove entity set
                     transformation = TransformationFactory.getTransformation(Transformation.CODE_REMOVE_ENTITY_SET);

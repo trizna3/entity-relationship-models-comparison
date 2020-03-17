@@ -74,9 +74,6 @@ public abstract class Transformation {
         if (parameterMap.get(parameterName) != null) {
             throw new IllegalStateException("Cannot reassign " + parameterName + "!" );
         }
-        if (parameterValue == null) {
-            throw new IllegalArgumentException("Parameter value is null!");
-        }
         parameterMap.put(parameterName,parameterValue);
     }
 
