@@ -5,8 +5,6 @@ import entityRelationshipModel.EntityRelationshipModel;
 import evaluation.IEvaluator;
 import evaluation.MainEvaluator;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author - Adam Trizna
  */
@@ -17,7 +15,7 @@ class IEvaluatorTest {
     void evaluate() {
         EntityRelationshipModel model1 = TestUtils.getModel1();
         EntityRelationshipModel model2 = TestUtils.getModel2();
-        Mapping mapping = TestUtils.getMapping();
+        Mapping mapping = TestUtils.getMapping1();
 
         IEvaluator evaluator = new MainEvaluator();
 

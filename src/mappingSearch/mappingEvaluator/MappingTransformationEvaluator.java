@@ -43,15 +43,21 @@ public class MappingTransformationEvaluator implements IMappingTransformationEva
         nextRel: for (Relationship relationship : relationships) {
             EntitySet[] entitySets = new EntitySet[relationship.getSides().size()];
             int i = 0;
+            boolean allEntitySetsAreMapped = true;  // meaning all entity sets have non-empty mapping image
             for (RelationshipSide side : relationship.getSides()) {
                 entitySets[i] = mapping.getImage(side.getEntitySet());
+                if (entitySets[i].isEmpty()) {
+                    allEntitySetsAreMapped = false;
+                }
                 i ++;
             }
-            List<Relationship> oppositeRelationships = otherModel.getRelationshipsByEntitySets(entitySets);
-            for (Relationship oppositeRelationship : oppositeRelationships) {
-                if (ModelUtils.relationshipsAreEqual(relationship,oppositeRelationship,mapping,false) && !usedRelationships.contains(oppositeRelationship)) {
-                    usedRelationships.add(oppositeRelationship);
-                    continue nextRel;
+            if (allEntitySetsAreMapped) {
+                List<Relationship> oppositeRelationships = otherModel.getRelationshipsByEntitySets(entitySets);
+                for (Relationship oppositeRelationship : oppositeRelationships) {
+                    if (ModelUtils.relationshipsAreEqual(relationship, oppositeRelationship, mapping, false) && !usedRelationships.contains(oppositeRelationship)) {
+                        usedRelationships.add(oppositeRelationship);
+                        continue nextRel;
+                    }
                 }
             }
             // relationship has no match

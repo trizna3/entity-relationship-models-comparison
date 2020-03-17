@@ -71,10 +71,10 @@ public abstract class Transformation {
      * @param parameterValue
      */
     public void setParameter(String parameterName,Object parameterValue) {
-        if (parameterMap.get(parameterName) == null) {
-            parameterMap.put(parameterName,parameterValue);
+        if (parameterMap.get(parameterName) != null) {
+            throw new IllegalStateException("Cannot reassign " + parameterName + "!" );
         }
-        throw new IllegalStateException("Cannot reassign " + parameterName + "!" );
+        parameterMap.put(parameterName,parameterValue);
     }
 
     /**
@@ -86,5 +86,17 @@ public abstract class Transformation {
                 throw new ParametersNotSetException();
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append(getClass().toString());
+        result.append("-> (");
+        for (String param : parameterNames) {
+            result.append(param+": "+parameterMap.get(param)+", ");
+        }
+        result.append(")");
+        return result.toString();
     }
 }

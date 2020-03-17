@@ -59,6 +59,12 @@ public class TestUtils {
         MAPPING.put("departments","areas");
     }
 
+    private final static Map<String,String> MAPPING_2 = new HashMap<>();
+    static {
+        MAPPING_2.put("AA1","AA2");
+        MAPPING_2.put("BB1","BB2");
+    }
+
     public static List<String> getEntitySetNames1() {
         return ENTITY_SET_NAMES_1;
     }
@@ -138,10 +144,10 @@ public class TestUtils {
     public static Map<String,EntitySet> getEntitySets3() {
         if (entitySets3 == null) {
             entitySets3 = makeEntitySets(getEntitySetNames3());
-        }
-        for (String esName : entitySets3.keySet()) {
-            if (ATTRIBUTES_3.get(esName) != null) {
-                entitySets3.get(esName).getAttributes().add(ATTRIBUTES_3.get(esName));
+            for (String esName : entitySets3.keySet()) {
+                if (ATTRIBUTES_3.get(esName) != null) {
+                    entitySets3.get(esName).getAttributes().add(ATTRIBUTES_3.get(esName));
+                }
             }
         }
         return entitySets3;
@@ -150,10 +156,10 @@ public class TestUtils {
     public static Map<String,EntitySet> getEntitySets4() {
         if (entitySets4 == null) {
             entitySets4 = makeEntitySets(getEntitySetNames4());
-        }
-        for (String esName : entitySets4.keySet()) {
-            if (ATTRIBUTES_4.get(esName) != null) {
-                entitySets4.get(esName).getAttributes().add(ATTRIBUTES_4.get(esName));
+            for (String esName : entitySets4.keySet()) {
+                if (ATTRIBUTES_4.get(esName) != null) {
+                    entitySets4.get(esName).getAttributes().add(ATTRIBUTES_4.get(esName));
+                }
             }
         }
         return entitySets4;
@@ -167,10 +173,46 @@ public class TestUtils {
         return entitySets;
     }
 
-    public static Mapping getMapping() {
+    public static Mapping getMapping1() {
         Mapping myMapping = new Mapping();
         for (String key : MAPPING.keySet()) {
             myMapping.map(getEntitySets1().get(key),getEntitySets2().get(MAPPING.get(key)));
+        }
+        for (EntitySet es : getEntitySets1().values()) {
+            if (myMapping.getImage(es) == null) {
+                EntitySet ee = new EntitySet("empty for " + es.getName());
+                ee.setEmpty(true);
+                myMapping.map(es, ee);
+            }
+        }
+        for (EntitySet es : getEntitySets2().values()) {
+            if (myMapping.getImage(es) == null) {
+                EntitySet ee = new EntitySet("empty for " + es.getName());
+                ee.setEmpty(true);
+                myMapping.map(es, ee);
+            }
+        }
+        return myMapping;
+    }
+
+    public static Mapping getMapping2() {
+        Mapping myMapping = new Mapping();
+        for (String key : MAPPING_2.keySet()) {
+            myMapping.map(getEntitySets3().get(key),getEntitySets4().get(MAPPING_2.get(key)));
+        }
+        for (EntitySet es : getEntitySets3().values()) {
+            if (myMapping.getImage(es) == null) {
+                EntitySet ee = new EntitySet("empty for " + es.getName());
+                ee.setEmpty(true);
+                myMapping.map(es, ee);
+            }
+        }
+        for (EntitySet es : getEntitySets4().values()) {
+            if (myMapping.getImage(es) == null) {
+                EntitySet ee = new EntitySet("empty for " + es.getName());
+                ee.setEmpty(true);
+                myMapping.map(es, ee);
+            }
         }
         return myMapping;
     }
