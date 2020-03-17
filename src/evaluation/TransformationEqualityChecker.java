@@ -6,10 +6,12 @@ package evaluation;
 
 import comparing.Mapping;
 import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.EntitySet;
 import transformations.types.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Agent for checking, whether a series of transformations represent an equal or non-equal model structure modification.
@@ -17,7 +19,7 @@ import java.util.List;
  */
 public class TransformationEqualityChecker {
 
-    public List<Transformation> getNonEqualTransformations(EntityRelationshipModel modelBefore, EntityRelationshipModel modelAfter, List<Transformation> transformationsMade, Mapping mapping) {
+    public static List<Transformation> getNonEqualTransformations(EntityRelationshipModel modelBefore, EntityRelationshipModel modelAfter, List<Transformation> transformationsMade, Map<EntitySet,EntitySet> mapping) {
         List<Transformation> nonEqualTransformations = new ArrayList<>(transformationsMade);
 
         /*

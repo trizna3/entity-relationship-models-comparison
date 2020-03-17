@@ -123,6 +123,10 @@ public class Mapping {
         return transformations;
     }
 
+    public void setTransformations(List<Transformation> transformations) {
+        this.transformations = transformations;
+    }
+
     public void addTransformation(Transformation transformation) {
         if (transformation == null) {
             throw new IllegalArgumentException("transformation cannot be null!");
