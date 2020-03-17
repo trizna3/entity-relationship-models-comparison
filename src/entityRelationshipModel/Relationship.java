@@ -27,10 +27,10 @@ public abstract class Relationship {
     }
 
     public void setName(String name) {
-        if (name == null) {
-            this.name = name;
+        if (name != null) {
+            throw new IllegalStateException("Name reassignment not allowed!");
         }
-        throw new IllegalStateException("Name reassignment not allowed!");
+        this.name = name;
     }
 
     @Override

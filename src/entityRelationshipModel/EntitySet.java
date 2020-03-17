@@ -54,7 +54,13 @@ public class EntitySet {
 
     @Override
     public String toString() {
-        return name;
+        StringBuilder result = new StringBuilder();
+        result.append(name + " (");
+        for (String attr : getAttributes()) {
+            result.append(attr + ", ");
+        }
+        result.append(")");
+        return result.toString();
     }
 
     public boolean isEmpty() {

@@ -19,7 +19,7 @@ public class Transformation_AddAssociation extends Transformation {
     public static final String ASSOCIATION_NAME = "ASSOCIATION_NAME";
     public static final Class<String> ASSOCIATION_NAME_CLASS = String.class;
 
-    public static final String ASSOCIATION_ATTRIBUTES = "ENTITY_SET_ATTRIBUTES";
+    public static final String ASSOCIATION_ATTRIBUTES = "ASSOCIATION_ATTRIBUTES";
     public static final Class<List> ASSOCIATION_ATTRIBUTES_CLASS = List.class;
 
     public static final String ASSOCIATION_SIDES = "ASSOCIATION_SIDES";

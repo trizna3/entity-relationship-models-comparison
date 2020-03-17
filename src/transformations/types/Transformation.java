@@ -36,7 +36,7 @@ public abstract class Transformation {
         if (model == null) {
             throw new IllegalArgumentException("Model cannot be null");
         }
-        checkParameters();
+//        checkParameters();
         execute(model);
     }
 
@@ -48,7 +48,7 @@ public abstract class Transformation {
         if (model == null) {
             throw new IllegalArgumentException("Model cannot be null");
         }
-        checkParameters();
+//        checkParameters();
         setToOriginalState(model);
     }
 

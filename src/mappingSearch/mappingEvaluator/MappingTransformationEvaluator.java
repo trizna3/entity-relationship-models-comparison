@@ -25,13 +25,13 @@ public class MappingTransformationEvaluator implements IMappingTransformationEva
         transformationList.addAll(getRelationshipsTransformationList(exemplarModel.getRelationships(),studentsModel,mapping,true));
         transformationList.addAll(getRelationshipsTransformationList(studentsModel.getRelationships(),exemplarModel,mapping,false));
 
-        // check attributes
-        transformationList.addAll(getAttributesTransformationList(exemplarModel.getEntitySets(),mapping,true));
-        transformationList.addAll(getAttributesTransformationList(studentsModel.getEntitySets(),mapping,false));
-
         // check "empty pairs"
         transformationList.addAll(getEmptyPairsTransformationList(exemplarModel.getEntitySets(),mapping,true));
         transformationList.addAll(getEmptyPairsTransformationList(studentsModel.getEntitySets(),mapping,false));
+
+        // check attributes
+        transformationList.addAll(getAttributesTransformationList(exemplarModel.getEntitySets(),mapping,true));
+        transformationList.addAll(getAttributesTransformationList(studentsModel.getEntitySets(),mapping,false));
 
         return transformationList;
     }
