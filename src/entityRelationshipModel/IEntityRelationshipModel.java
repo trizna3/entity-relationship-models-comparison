@@ -57,4 +57,16 @@ public interface IEntityRelationshipModel {
      * @return List of all relationships incident to given entity set.
      */
     List<Relationship> getRelationshipsByEntitySets(EntitySet[] entitySets);
+
+    /**
+     * @param entitySet
+     * @return whether given entity set is contained in this entity relationship model
+     */
+    boolean contains(EntitySet entitySet);
+
+    /**
+     * @param relationship
+     * @return whether given relationship is contained in this entity relationship model
+     */
+    boolean conatins(Relationship relationship);
 }

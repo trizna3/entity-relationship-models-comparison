@@ -117,4 +117,14 @@ public class EntityRelationshipModel implements IEntityRelationshipModel {
         }
         return incidentRelationships;
     }
+
+    @Override
+    public boolean contains(EntitySet entitySet) {
+        return getEntitySets().contains(entitySet);
+    }
+
+    @Override
+    public boolean conatins(Relationship relationship) {
+        return getRelationships().contains(relationship);
+    }
 }
