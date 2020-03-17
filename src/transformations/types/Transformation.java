@@ -67,10 +67,10 @@ public abstract class Transformation {
     /**
      * Sets parameter value to parameter map.
      * Checks if parameter already has any value. Parameter reassignment is not allowed.
-     * @param parameterValue
      * @param parameterName
+     * @param parameterValue
      */
-    public void setParameter(Object parameterValue, String parameterName) {
+    public void setParameter(String parameterName,Object parameterValue) {
         if (parameterMap.get(parameterName) == null) {
             parameterMap.put(parameterName,parameterValue);
         }
