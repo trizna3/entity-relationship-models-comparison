@@ -49,30 +49,24 @@ public class TransformationEvaluator implements ISpecificEvaluator {
     public double evaluate(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentsModel, Mapping mapping) {
         double penalty = 0;
 
-        // create students model clone, create enityset-mapping of students old and new model
-        EntityRelationshipModel studentsModelClone = new EntityRelationshipModel();
-        Map<EntitySet,EntitySet> studentsModelMapping = cloneEntityRelationshipModel(studentsModel,studentsModelClone);
+        // create students model clone, create (entity-set & relationship) mappings of student's old and new model
+        Map<EntitySet,EntitySet> studentsModelEntitySetMapping = new HashMap<>();
+        Map<Relationship,Relationship> studentsModelRelationshipMapping = new HashMap<>();
+        EntityRelationshipModel studentsModelClone = cloneEntityRelationshipModel(studentsModel,studentsModelEntitySetMapping,studentsModelRelationshipMapping);
 
         // execute all given transformations on the students model
         for (Transformation transformation : mapping.getTransformations()) {
             transformation.doTransformation(studentsModel);
         }
 
-        // unmap removed entity sets
-        List<EntitySet> removedEntitySets = studentsModelMapping.keySet().stream().filter(entitySet -> !studentsModel.contains(entitySet)).collect(Collectors.toList());
-        for (EntitySet entitySet : removedEntitySets) {
-            EntitySet image = studentsModelMapping.get(entitySet);
-            studentsModelMapping.remove(entitySet);
-            studentsModelMapping.remove(image);
-        }
-
-        // pass both student models to TransformationEqualityChecker to get non-equivalent transformations
+        // pass both student models and both mappings to TransformationEqualityChecker to get non-equivalent transformations
         List<Transformation> nonEquivalentTransformations =
                 TransformationEqualityChecker.getNonEqualTransformations(
                         studentsModelClone,
                         studentsModel,
                         mapping.getTransformations(),
-                        studentsModelMapping
+                        studentsModelEntitySetMapping,
+                        studentsModelRelationshipMapping
                 );
 
         // penalize non-equivalent transformations
@@ -119,37 +113,43 @@ public class TransformationEvaluator implements ISpecificEvaluator {
     }
 
     /**
-     * @param actualModel - actualModel
-     * @param cloneModelInstance - empty instance of new model
-     * @return create enitySet-mapping of old and new model
+     *
+     * @param actualModel - source model
+     * @param entitySetMapping - empty map instance for entity set mapping (between source model and cloned model)
+     * @param relationshipMapping - empty map instance for relationship mapping (between source model and cloned model)
+     * @return create entity relationship model clone
      */
-
-    private Map<EntitySet, EntitySet> cloneEntityRelationshipModel(EntityRelationshipModel actualModel, EntityRelationshipModel cloneModelInstance) {
-        Map<EntitySet,EntitySet> mapping = new HashMap<>();
+    private EntityRelationshipModel cloneEntityRelationshipModel(EntityRelationshipModel actualModel, Map<EntitySet, EntitySet> entitySetMapping, Map<Relationship,Relationship> relationshipMapping) {
+        EntityRelationshipModel modelClone = new EntityRelationshipModel();
 
         for (EntitySet actualEntitySet : actualModel.getEntitySets()) {
             EntitySet cloneEntitySet = new EntitySet(actualEntitySet.getName(),new ArrayList<>(actualEntitySet.getAttributes()));
-            cloneModelInstance.addEntitySet(cloneEntitySet);
+            modelClone.addEntitySet(cloneEntitySet);
 
-            mapping.put(actualEntitySet,cloneEntitySet);
-            mapping.put(cloneEntitySet,actualEntitySet);
+            entitySetMapping.put(actualEntitySet,cloneEntitySet);
+            entitySetMapping.put(cloneEntitySet,actualEntitySet);
         }
 
         for (Relationship relationship : actualModel.getRelationships()) {
+            Relationship newRelationship;
             if (relationship instanceof Association) {
                 List<AssociationSide> sides = new ArrayList<>();
                 for (AssociationSide side : ((Association)relationship).getSides()) {
-                    sides.add(new AssociationSide(mapping.get(side.getEntitySet()),side.getCardinality()));
+                    sides.add(new AssociationSide(entitySetMapping.get(side.getEntitySet()),side.getCardinality()));
                 }
-                cloneModelInstance.addRelationship(new Association(sides,new ArrayList<>(((Association) relationship).getAttributes())));
-            } else if (relationship instanceof Generalization) {
-                cloneModelInstance.addRelationship(new Generalization(
-                        mapping.get(((Generalization) relationship).getSuperEntitySet()),
-                        mapping.get(((Generalization) relationship).getSubEntitySet())
-                ));
+                newRelationship = new Association(sides,new ArrayList<>(((Association) relationship).getAttributes()));
+
+            } else {
+                newRelationship = new Generalization(
+                        entitySetMapping.get(((Generalization) relationship).getSuperEntitySet()),
+                        entitySetMapping.get(((Generalization) relationship).getSubEntitySet())
+                );
             }
+            modelClone.addRelationship(newRelationship);
+            relationshipMapping.put(relationship,newRelationship);
+            relationshipMapping.put(newRelationship,relationship);
         }
 
-        return mapping;
+        return modelClone;
     }
 }

@@ -108,12 +108,13 @@ public class EntityRelationshipModel implements IEntityRelationshipModel {
             }
         }
         List<Relationship> incidentRelationships = new ArrayList<>();
-        for (Relationship relationship : getRelationships()) {
+        nextRel : for (Relationship relationship : getRelationships()) {
             for (EntitySet entitySet : entitySets) {
-                if (relationship.getSides().stream().map(RelationshipSide::getEntitySet).collect(Collectors.toList()).contains(entitySet)) {
-                    incidentRelationships.add(relationship);
+                if (!relationship.getSides().stream().map(RelationshipSide::getEntitySet).collect(Collectors.toList()).contains(entitySet)) {
+                    continue nextRel;
                 }
             }
+            incidentRelationships.add(relationship);
         }
         return incidentRelationships;
     }

@@ -2,6 +2,8 @@ package entityRelationshipModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author - Adam Trizna
@@ -57,5 +59,14 @@ public class Association extends Relationship{
             throw new IllegalStateException("Association is not binary!");
         }
         return getSides().get(1);
+    }
+
+    public Cardinality getCardinality(EntitySet entitySet) {
+        Optional<Cardinality> cardinality = sides.stream().filter(side -> entitySet.equals(side.getEntitySet())).map(AssociationSide::getCardinality).findFirst();
+
+        if (!cardinality.isPresent()) {
+            throw new IllegalArgumentException("This Association doesn't contain given entity set!");
+        }
+        return cardinality.get();
     }
 }
