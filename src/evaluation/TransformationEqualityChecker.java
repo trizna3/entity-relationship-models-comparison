@@ -21,11 +21,25 @@ import java.util.Optional;
  */
 public class TransformationEqualityChecker {
 
-    public static List<Transformation> getNonEqualTransformations(EntityRelationshipModel modelBefore,
-                                                                  EntityRelationshipModel modelAfter,
-                                                                  List<Transformation> transformationsMade,
-                                                                  Map<EntitySet,EntitySet> entitySetMapping,
-                                                                  Map<Relationship,Relationship> relationshipMapping
+    /**
+     * Takes student's model before and after transformation list application.
+     * Compares given models, using entity-sets and relationships mappings between the models.
+     * Searches for specific scenarios, when models are different in structure but equal in ability to store data.
+     * Returns only those transformations (out of the 'transformationsMade' list) which do not play any role in none of the equality scenarios.
+     *
+     * @param modelBefore = student's model before transformation list application
+     * @param modelAfter = student's model after transformation list application
+     * @param transformationsMade = instances of the transformations applied
+     * @param entitySetMapping = entity-set mapping between the old and the new model
+     * @param relationshipMapping = relationship mapping between the old and the new model
+     * @return non-equal transformations list
+     */
+    public static List<Transformation> getNonEqualTransformations(
+            EntityRelationshipModel modelBefore,
+            EntityRelationshipModel modelAfter,
+            List<Transformation> transformationsMade,
+            Map<EntitySet,EntitySet> entitySetMapping,
+            Map<Relationship,Relationship> relationshipMapping
     ) {
         List<Transformation> nonEqualTransformations = new ArrayList<>(transformationsMade);
 
@@ -39,12 +53,26 @@ public class TransformationEqualityChecker {
         return nonEqualTransformations;
     }
 
-    private static List<Transformation> getEqualTransformationsByRelationships(EntityRelationshipModel thisModel,
-                                                                               EntityRelationshipModel otherModel,
-                                                                               List<Transformation> transformationsMade,
-                                                                               Map<EntitySet,EntitySet> entitySetMapping,
-                                                                               Map<Relationship,Relationship> relationshipMapping,
-                                                                               boolean isTransformed
+    /**
+     * Iterates over relationships of one given model, searching for structural difference.
+     * When it finds one, checks whether it's one of the known equality cases.
+     * If yes, uses model elements mappings and given transformations references to get the transformation instances which are responsible for the equality scenario.
+     *
+     * @param thisModel = entity relationship model to iterate over
+     * @param otherModel = the opposite entity relationship model
+     * @param transformationsMade = see {@link #getNonEqualTransformations(EntityRelationshipModel, EntityRelationshipModel, List, Map, Map)}
+     * @param entitySetMapping = see {@link #getNonEqualTransformations(EntityRelationshipModel, EntityRelationshipModel, List, Map, Map)}
+     * @param relationshipMapping = see {@link #getNonEqualTransformations(EntityRelationshipModel, EntityRelationshipModel, List, Map, Map)}
+     * @param isTransformed = whether the 'thisModel' (model to iterate over) is the one after the transformation application
+     * @return all transformations which are responsible for any equality scenarios.
+     */
+    private static List<Transformation> getEqualTransformationsByRelationships(
+            EntityRelationshipModel thisModel,
+            EntityRelationshipModel otherModel,
+            List<Transformation> transformationsMade,
+            Map<EntitySet,EntitySet> entitySetMapping,
+            Map<Relationship,Relationship> relationshipMapping,
+            boolean isTransformed
     ) {
         List<Transformation> equalTransformations = new ArrayList<>();
         List<Relationship> usedRelationships = new ArrayList<>();

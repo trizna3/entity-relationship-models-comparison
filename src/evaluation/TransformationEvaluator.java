@@ -5,7 +5,6 @@ import entityRelationshipModel.*;
 import transformations.types.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author - Adam Trizna

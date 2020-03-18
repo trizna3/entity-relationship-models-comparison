@@ -17,7 +17,7 @@ import java.util.List;
 public interface IMappingTransformationEvaluator {
 
     /**
-     * @return list of transformations made to the students model, so it structurally equal to the exemplar model in the given entity set mapping.
+     * @return list of transformations made to the students model, so it's structurally equal to the exemplar model in the given entity set mapping.
      */
     List<Transformation> getTransformationList(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentsModel, Mapping mapping);
 }
