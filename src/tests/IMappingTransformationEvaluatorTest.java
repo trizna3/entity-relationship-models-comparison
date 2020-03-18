@@ -35,24 +35,10 @@ class IMappingTransformationEvaluatorTest {
         for (Transformation transformation : transformationList) {
             System.out.println(transformation);
         }
-        System.out.println();
-        System.out.println();
+        System.out.println("\n\n");
         for (Transformation transformation : transformationList) {
             System.out.println("executing: " + transformation);
             transformation.doTransformation(studentsModel);
         }
-
-        System.out.println();
-
-        System.out.println("student entity sets:");
-        System.out.println(studentsModel.getEntitySets());
-        System.out.println("student relationships:");
-        System.out.println(studentsModel.getRelationships());
-
-//        Transformation tr = new Transformation_AddAttribute();
-//        tr.setParameter(Transformation_AddAttribute.ATTRIBUTE_NAME,"newAttribute");
-//        tr.setParameter(Transformation_AddAttribute.ENTITY_SET, new EntitySet("EntitySet"));
-
-//        System.out.println(tr);
     }
 }

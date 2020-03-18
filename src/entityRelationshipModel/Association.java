@@ -41,5 +41,21 @@ public class Association extends Relationship{
         return attributes;
     }
 
+    public boolean isBinary() {
+        return sides.size() == 2;
+    }
 
+    public AssociationSide getFirstSide(){
+        if (!isBinary()) {
+            throw new IllegalStateException("Association is not binary!");
+        }
+        return getSides().get(0);
+    }
+
+    public AssociationSide getSecondSide(){
+        if (!isBinary()) {
+            throw new IllegalStateException("Association is not binary!");
+        }
+        return getSides().get(1);
+    }
 }

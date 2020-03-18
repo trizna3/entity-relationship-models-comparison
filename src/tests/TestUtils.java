@@ -49,7 +49,7 @@ public class TestUtils {
     static {
         RELATIONSHIPS_4.add(new String[]{"AA2","AB2","1","*"});
         RELATIONSHIPS_4.add(new String[]{"BB2","AB2","1","*"});
-        RELATIONSHIPS_4.add(new String[]{"BB2","D2","1","*"});
+        RELATIONSHIPS_4.add(new String[]{"BB2","D2","1","1"});
     }
 
     private final static Map<String,String> MAPPING = new HashMap<>();

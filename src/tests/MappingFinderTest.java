@@ -16,12 +16,13 @@ class MappingFinderTest {
     void getBestMapping() {
         EntityRelationshipModel exemplarModel = TestUtils.getModel1();
         EntityRelationshipModel studentModel = TestUtils.getModel2();
+
         IMappingFinder finder = new BasicMappingFinder();
         IMappingFinder finder2 = new ComplexMappingFinder();
 
-//        Mapping bestMapping = finder.getBestMapping(exemplarModel,studentModel);
-        Mapping bestMapping = finder2.getBestMapping(exemplarModel,studentModel);
+        Mapping bestMapping = finder.getBestMapping(exemplarModel,studentModel);
+        bestMapping.print();
 
-//        bestMapping.print();
+        Mapping bestMapping2 = finder2.getBestMapping(exemplarModel,studentModel);
     }
 }

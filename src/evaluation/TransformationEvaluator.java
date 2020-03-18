@@ -5,6 +5,7 @@ import entityRelationshipModel.*;
 import transformations.types.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author - Adam Trizna
@@ -55,6 +56,14 @@ public class TransformationEvaluator implements ISpecificEvaluator {
         // execute all given transformations on the students model
         for (Transformation transformation : mapping.getTransformations()) {
             transformation.doTransformation(studentsModel);
+        }
+
+        // unmap removed entity sets
+        List<EntitySet> removedEntitySets = studentsModelMapping.keySet().stream().filter(entitySet -> !studentsModel.contains(entitySet)).collect(Collectors.toList());
+        for (EntitySet entitySet : removedEntitySets) {
+            EntitySet image = studentsModelMapping.get(entitySet);
+            studentsModelMapping.remove(entitySet);
+            studentsModelMapping.remove(image);
         }
 
         // pass both student models to TransformationEqualityChecker to get non-equivalent transformations

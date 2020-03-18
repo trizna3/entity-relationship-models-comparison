@@ -22,6 +22,13 @@ public class Mapping {
 
     private List<Transformation> transformations;
 
+    public Mapping() {
+    }
+
+    public Mapping(Map<EntitySet, EntitySet> data) {
+        this.data = data;
+    }
+
     /**
      * Empty entity set. Used in optimal mapping search.
      */
