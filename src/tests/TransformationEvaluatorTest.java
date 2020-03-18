@@ -39,9 +39,9 @@ class TransformationEvaluatorTest {
         Mapping mapping = TestUtils.getMapping2();
 
         List<Transformation> transformationList = getMapping2TransformationEvaluator().getTransformationList(exemplarModel,studentsModel,mapping);
-
         mapping.setTransformations(transformationList);
+        double penalty = getTransformationEvaluator().evaluate(exemplarModel,studentsModel,mapping);
 
-        getTransformationEvaluator().evaluate(exemplarModel,studentsModel,mapping);
+        System.out.println("penalty = " + penalty);
     }
 }
