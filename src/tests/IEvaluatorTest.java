@@ -4,6 +4,7 @@ import comparing.Mapping;
 import entityRelationshipModel.EntityRelationshipModel;
 import evaluation.IEvaluator;
 import evaluation.MainEvaluator;
+import org.junit.Test;
 
 /**
  * @author - Adam Trizna
@@ -11,7 +12,7 @@ import evaluation.MainEvaluator;
 
 class IEvaluatorTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void evaluate() {
         EntityRelationshipModel model1 = TestUtils.getModel1();
         EntityRelationshipModel model2 = TestUtils.getModel2();

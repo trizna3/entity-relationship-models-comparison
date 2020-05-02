@@ -2,7 +2,8 @@ package tests;
 
 import entityRelationshipModel.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * @author - Adam Trizna
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EntityRelationshipModelTest {
 
-    @org.junit.jupiter.api.Test
+	@Test
     void getEntitySets() {
         EntityRelationshipModel model1 = TestUtils.getModel1();
         EntityRelationshipModel model2 = TestUtils.getModel2();
@@ -19,7 +20,7 @@ class EntityRelationshipModelTest {
         assertEquals(model2.getEntitySets().size(),TestUtils.getEntitySets2().size());
     }
 
-    @org.junit.jupiter.api.Test
+	@Test
     void getRelationships() {
         EntityRelationshipModel model1 = TestUtils.getModel1();
         EntityRelationshipModel model2 = TestUtils.getModel2();

@@ -5,7 +5,7 @@ import mappingSearch.mappingFinder.ComplexMappingFinder;
 import mappingSearch.mappingFinder.IMappingFinder;
 import mappingSearch.mappingFinder.BasicMappingFinder;
 import entityRelationshipModel.EntityRelationshipModel;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /**
  * @author - Adam Trizna

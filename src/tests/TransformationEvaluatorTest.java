@@ -5,7 +5,7 @@ import entityRelationshipModel.EntityRelationshipModel;
 import evaluation.TransformationEvaluator;
 import mappingSearch.mappingEvaluator.IMappingTransformationEvaluator;
 import mappingSearch.mappingEvaluator.MappingTransformationEvaluator;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import transformations.types.Transformation;
 
 import java.util.List;

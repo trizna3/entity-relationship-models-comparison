@@ -2,16 +2,12 @@ package tests;
 
 import comparing.Mapping;
 import entityRelationshipModel.EntityRelationshipModel;
-import entityRelationshipModel.EntitySet;
 import mappingSearch.mappingEvaluator.IMappingTransformationEvaluator;
 import mappingSearch.mappingEvaluator.MappingTransformationEvaluator;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import transformations.types.Transformation;
-import transformations.types.Transformation_AddAttribute;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author - Adam Trizna
