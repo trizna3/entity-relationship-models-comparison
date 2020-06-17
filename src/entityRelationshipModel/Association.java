@@ -61,8 +61,8 @@ public class Association extends Relationship{
         return getSides().get(1);
     }
 
-    public Cardinality getCardinality(EntitySet entitySet) {
-        Optional<Cardinality> cardinality = sides.stream().filter(side -> entitySet.equals(side.getEntitySet())).map(AssociationSide::getCardinality).findFirst();
+    public String getCardinality(EntitySet entitySet) {
+        Optional<String> cardinality = sides.stream().filter(side -> entitySet.equals(side.getEntitySet())).map(AssociationSide::getCardinality).findFirst();
 
         if (!cardinality.isPresent()) {
             throw new IllegalArgumentException("This Association doesn't contain given entity set!");

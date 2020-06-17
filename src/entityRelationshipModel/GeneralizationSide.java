@@ -12,9 +12,9 @@ package entityRelationshipModel;
 public class GeneralizationSide implements RelationshipSide {
 
     private EntitySet entitySet;
-    private GeneralizationRole role;
+    private String role;
 
-    public GeneralizationSide(EntitySet entitySet, GeneralizationRole role) {
+    public GeneralizationSide(EntitySet entitySet, String role) {
         if (entitySet == null || role == null) {
             throw new IllegalArgumentException("both entity set and role mustn't be null.");
         }
@@ -26,7 +26,7 @@ public class GeneralizationSide implements RelationshipSide {
         return entitySet;
     }
 
-    public GeneralizationRole getRole() {
+    public String getRole() {
         return role;
     }
 

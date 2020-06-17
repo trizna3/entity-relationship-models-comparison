@@ -15,6 +15,13 @@ import java.util.Date;
 public class Logger {
 
     private static final Logger INSTANCE = new Logger(getCurrentTime());
+    
+    private static final String TXT_APPENDIX = ".txt";
+    
+    private static final String ERROR_CODE = " ERROR: ";
+    
+    private static final String INFO_CODE = " INFO: ";
+    
 
     private final String logDirPath = "logs/";
 
@@ -39,7 +46,7 @@ public class Logger {
     }
 
     private String makeFullPath(String logFileName) {
-        return logDirPath + logFileName +".txt";
+        return logDirPath + logFileName + TXT_APPENDIX;
     }
 
     public static Logger getInstance() {
@@ -51,7 +58,7 @@ public class Logger {
      * @param errorMessage
      */
     public void logError(String errorMessage) {
-        writer.write(getCurrentTime() + " ERROR: " + errorMessage);
+        writer.write(getCurrentTime() + ERROR_CODE + errorMessage);
     }
 
     /**
@@ -59,7 +66,7 @@ public class Logger {
      * @param infoMessage
      */
     public void logInfo(String infoMessage) {
-        writer.write(getCurrentTime() + " INFO: " + infoMessage);
+        writer.write(getCurrentTime() + INFO_CODE + infoMessage);
     }
 
     private void closeWriter() {

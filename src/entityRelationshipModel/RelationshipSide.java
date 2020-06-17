@@ -8,5 +8,5 @@ public interface RelationshipSide {
 
     EntitySet getEntitySet();
 
-    RelationshipSideRole getRole();
+    String getRole();
 }

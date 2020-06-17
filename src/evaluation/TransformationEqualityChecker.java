@@ -5,6 +5,7 @@ package evaluation;
  */
 
 import common.CollectionUtils;
+import common.Enums;
 import common.ModelUtils;
 import comparing.Mapping;
 import entityRelationshipModel.*;
@@ -105,8 +106,8 @@ public class TransformationEqualityChecker {
 
                 // check MANY:MANY <--> ONE:MANY - MANY:ONE equality
                 if (association.isBinary()
-                    && Cardinality.MANY.equals(association.getFirstSide().getCardinality())
-                    && Cardinality.MANY.equals(association.getSecondSide().getCardinality())
+                    && Enums.CARDINALITY_MANY.equals(association.getFirstSide().getCardinality())
+                    && Enums.CARDINALITY_MANY.equals(association.getSecondSide().getCardinality())
                 ) {
                     EntitySet firstImage = entitySetMapping.get(association.getFirstSide().getEntitySet());
                     EntitySet secondImage = entitySetMapping.get(association.getSecondSide().getEntitySet());
@@ -162,8 +163,8 @@ public class TransformationEqualityChecker {
                 .stream()
                 .filter(association1 ->
                         association1 instanceof Association &&
-                        Cardinality.MANY.equals(((Association) association1).getCardinality(joiningEntitySet)) &&
-                        Cardinality.ONE.equals(((Association) association1).getCardinality(image))
+                        Enums.CARDINALITY_MANY.equals(((Association) association1).getCardinality(joiningEntitySet)) &&
+                        Enums.CARDINALITY_ONE.equals(((Association) association1).getCardinality(image))
                 ).map(rel -> (Association) rel)
                 .findAny();
     }

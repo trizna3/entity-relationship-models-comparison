@@ -12,9 +12,9 @@ package entityRelationshipModel;
 public class AssociationSide implements RelationshipSide{
 
     private EntitySet entitySet;
-    private Cardinality cardinality;
+    private String cardinality;
 
-    public AssociationSide(EntitySet entitySet, Cardinality cardinality) {
+    public AssociationSide(EntitySet entitySet, String cardinality) {
         if (entitySet == null || cardinality == null) {
             throw new IllegalArgumentException("both entity set and cardinality mustn't be null.");
         }
@@ -26,12 +26,12 @@ public class AssociationSide implements RelationshipSide{
         return entitySet;
     }
 
-    public Cardinality getCardinality() {
+    public String getCardinality() {
         return cardinality;
     }
 
     @Override
-    public RelationshipSideRole getRole() {
+    public String getRole() {
         return getCardinality();
     }
 

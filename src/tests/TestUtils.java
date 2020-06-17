@@ -5,6 +5,8 @@ import entityRelationshipModel.*;
 
 import java.util.*;
 
+import common.Enums;
+
 /**
  * @author - Adam Trizna
  */
@@ -86,12 +88,12 @@ public class TestUtils {
         return RELATIONSHIPS_2;
     }
 
-    public static Cardinality getRandomCardinality() {
+    public static String getRandomCardinality() {
         Random r = new Random();
         if (r.nextBoolean()) {
-            return Cardinality.ONE;
+            return Enums.CARDINALITY_ONE;
         }
-        return Cardinality.MANY;
+        return Enums.CARDINALITY_MANY;
     }
 
     public static EntityRelationshipModel getModel1() {
@@ -117,12 +119,12 @@ public class TestUtils {
         return model;
     }
 
-    private static Cardinality convertToCardinality(String symbol){
+    private static String convertToCardinality(String symbol){
         if ("1".equals(symbol)) {
-            return Cardinality.ONE;
+            return Enums.CARDINALITY_ONE;
         }
         if ("*".equals(symbol)) {
-            return Cardinality.MANY;
+            return Enums.CARDINALITY_MANY;
         }
         return null;
     }
