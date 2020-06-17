@@ -1,7 +1,7 @@
 package evaluation;
 
 import comparing.Mapping;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import languageProcessing.Dictionary;
 import languageProcessing.LanguageProcessor;
@@ -23,7 +23,7 @@ public class EntitySetEvaluator implements ISpecificEvaluator{
      * @return "EntitySet penalty part" = sum of mapped pairs names dissimilarites (according to LanguageProcessor's similarity calculation)
      */
     @Override
-    public double evaluate(EntityRelationshipModel model1, EntityRelationshipModel model2, Mapping mapping) {
+    public double evaluate(ERModel model1, ERModel model2, Mapping mapping) {
 
         double penalty = 0;
         for (EntitySet es : mapping.getDistinctAllEntitySets(false)) {

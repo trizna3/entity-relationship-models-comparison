@@ -1,46 +1,45 @@
 package entityRelationshipModel;
 
-import common.CollectionUtils;
 import common.Enums;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author - Adam Trizna
  */
 
 /**
- * Relationship type: Generalization.
- * Describes a binary relationship of "super" entity set and "sub" entity set. Denotes the "sub" ES being a specific kind of the "super" ES ("super" is a generalization of "sub"). Equivalent to an Association with cardinalites 1:1.
+ * Relationship type: Generalization. Describes a binary relationship of "super"
+ * entity set and "sub" entity set. Denotes the "sub" ES being a specific kind
+ * of the "super" ES ("super" is a generalization of "sub"). Equivalent to an
+ * Association with cardinalities 1:1.
+ * 
  * @see GeneralizationSide
  */
 public class Generalization extends Relationship {
 
-    /**
-     * List of generalization sides.
-     */
-    private List<GeneralizationSide> sides;
+	/**
+	 * List of generalization sides.
+	 */
+	private GeneralizationSide[] sides;
 
-    public Generalization(List<GeneralizationSide> sides) {
-        this.sides = sides;
-    }
+	public Generalization(GeneralizationSide[] sides) {
+		this.sides = sides;
+	}
 
-    public Generalization(EntitySet superEntitySet, EntitySet subEntitySet) {
-        sides = new ArrayList<>();
-        sides.add(new GeneralizationSide(superEntitySet,Enums.ROLE_SUPER));
-        sides.add(new GeneralizationSide(subEntitySet,Enums.ROLE_SUB));
-    }
+	public Generalization(EntitySet superEntitySet, EntitySet subEntitySet) {
+		sides = new GeneralizationSide[2];
+		sides[0] = new GeneralizationSide(superEntitySet, Enums.ROLE_SUPER);
+		sides[1] = new GeneralizationSide(subEntitySet, Enums.ROLE_SUB);
+	}
 
-    public List<GeneralizationSide> getSides() {
-        return sides;
-    }
+	public GeneralizationSide[] getSides() {
+		return sides;
+	}
 
-    public EntitySet getSuperEntitySet() {
-        return CollectionUtils.getFirst(sides, GeneralizationSide.class, generalizationSide -> Enums.ROLE_SUPER.equals(generalizationSide.getRole())).getEntitySet();
-    }
+	public EntitySet getSuperEntitySet() {
+		return sides[0].getEntitySet();
+	}
 
-    public EntitySet getSubEntitySet() {
-        return CollectionUtils.getFirst(sides, GeneralizationSide.class, generalizationSide -> Enums.ROLE_SUB.equals(generalizationSide.getRole())).getEntitySet();
-    }
+	public EntitySet getSubEntitySet() {
+		return sides[1].getEntitySet();
+	}
 }

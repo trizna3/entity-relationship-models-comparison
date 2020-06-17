@@ -1,7 +1,7 @@
 package evaluation;
 
 import comparing.Mapping;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import languageProcessing.Dictionary;
 import languageProcessing.LanguageProcessor;
@@ -25,7 +25,7 @@ public class AttributeEvaluator implements ISpecificEvaluator{
      * @return "Attribute penalty part" = number of attributes, which do not have a similar(beyond some treshold similarity) attribute among the image's attributes - summed for all mapped pairs.
      */
     @Override
-    public double evaluate(EntityRelationshipModel model1, EntityRelationshipModel model2, Mapping mapping) {
+    public double evaluate(ERModel model1, ERModel model2, Mapping mapping) {
 
         double penalty = 0;
         for (EntitySet es : mapping.getDistinctAllEntitySets(false)) {

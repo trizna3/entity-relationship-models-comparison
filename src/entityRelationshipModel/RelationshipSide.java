@@ -1,12 +1,19 @@
 package entityRelationshipModel;
 
+import common.PrintUtils;
+
 /**
  * @author - Adam Trizna
  */
 
-public interface RelationshipSide {
+public abstract class RelationshipSide {
 
-    EntitySet getEntitySet();
+	public abstract EntitySet getEntitySet();
 
-    String getRole();
+	public abstract String getRole();
+
+	@Override
+	public String toString() {
+		return PrintUtils.print(this);
+	}
 }

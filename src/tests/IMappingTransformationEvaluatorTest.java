@@ -1,7 +1,7 @@
 package tests;
 
 import comparing.Mapping;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import mappingSearch.mappingEvaluator.IMappingTransformationEvaluator;
 import mappingSearch.mappingEvaluator.MappingTransformationEvaluator;
 import org.junit.Test;
@@ -21,8 +21,8 @@ class IMappingTransformationEvaluatorTest {
     @Test
     void getTransformationList() {
 
-        EntityRelationshipModel exemplarModel = TestUtils.getModel3();
-        EntityRelationshipModel studentsModel = TestUtils.getModel4();
+        ERModel exemplarModel = TestUtils.getModel3();
+        ERModel studentsModel = TestUtils.getModel4();
         Mapping mapping = TestUtils.getMapping2();
 
         List<Transformation> transformationList = getEvaluator().getTransformationList(exemplarModel,studentsModel,mapping);

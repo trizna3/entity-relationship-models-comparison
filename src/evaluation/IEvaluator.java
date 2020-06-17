@@ -1,7 +1,7 @@
 package evaluation;
 
 import comparing.Mapping;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 
 /**
  * @author - Adam Trizna
@@ -18,5 +18,5 @@ public interface IEvaluator {
      * @param mapping
      * @return penalty value of given mapping of given entity relationship models
      */
-    double evaluate(EntityRelationshipModel model1, EntityRelationshipModel model2, Mapping mapping);
+    double evaluate(ERModel model1, ERModel model2, Mapping mapping);
 }

@@ -1,7 +1,7 @@
 package mappingSearch.mappingEvaluator;
 
 import comparing.Mapping;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 
 /**
  * @author - Adam Trizna
@@ -19,7 +19,7 @@ public interface IBestMappingEvaluator {
      * @param studentModel
      * @param mapping
      */
-    void evaluate(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentModel, Mapping mapping);
+    void evaluate(ERModel exemplarModel, ERModel studentModel, Mapping mapping);
 
     /**
      * @return Mapping with minimal penalty evaluated so far.

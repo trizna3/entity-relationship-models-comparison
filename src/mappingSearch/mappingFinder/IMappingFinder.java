@@ -1,7 +1,7 @@
 package mappingSearch.mappingFinder;
 
 import comparing.Mapping;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 
 /**
  * @author - Adam Trizna
@@ -14,5 +14,5 @@ public interface IMappingFinder {
      * @param studentModel
      * @return Mapping of entity sets of given models, which minimizes the penalty computed by penalty evaluators.
      */
-    Mapping getBestMapping(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentModel);
+    Mapping getBestMapping(ERModel exemplarModel, ERModel studentModel);
 }

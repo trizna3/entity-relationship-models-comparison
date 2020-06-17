@@ -1,6 +1,6 @@
 package comparing;
 
-import entityRelationshipModel.IEntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 
 /**
  * @author - Adam Trizna
@@ -15,7 +15,7 @@ public class Comparator implements IComparator {
      * {@inheritDoc}
      */
     @Override
-    public void compare(IEntityRelationshipModel exemplarModel, IEntityRelationshipModel studentsModel) {
+    public void compare(ERModel exemplarModel, ERModel studentsModel) {
         throw new UnsupportedOperationException("todo");
     }
 }

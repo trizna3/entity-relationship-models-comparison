@@ -1,6 +1,6 @@
 package comparing;
 
-import entityRelationshipModel.IEntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 
 /**
  * @author - Adam Trizna
@@ -17,5 +17,5 @@ public interface IComparator {
      * @param studentsModel
      * TODO: adjust output type
      */
-    public void compare(IEntityRelationshipModel exemplarModel, IEntityRelationshipModel studentsModel);
+    public void compare(ERModel exemplarModel, ERModel studentsModel);
 }

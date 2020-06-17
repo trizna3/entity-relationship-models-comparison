@@ -1,6 +1,6 @@
 package transformations.types;
 
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 
 /**
@@ -15,7 +15,7 @@ public class Transformation_RemoveEntitySet extends Transformation {
     }
 
     @Override
-    public void execute(EntityRelationshipModel model) {
+    public void execute(ERModel model) {
         if (!model.getEntitySets().contains(getEntitySet())) {
             throw new IllegalStateException("model doesn't contain given entity set!");
         }
@@ -26,7 +26,7 @@ public class Transformation_RemoveEntitySet extends Transformation {
     }
 
     @Override
-    public void setToOriginalState(EntityRelationshipModel model) {
+    public void setToOriginalState(ERModel model) {
         model.addEntitySet(getEntitySet());
     }
 

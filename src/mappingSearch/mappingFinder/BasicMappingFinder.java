@@ -1,7 +1,7 @@
 package mappingSearch.mappingFinder;
 
 import comparing.Mapping;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import mappingSearch.mappingEvaluator.BestMappingEvaluator;
 import mappingSearch.mappingEvaluator.IBestMappingEvaluator;
@@ -28,7 +28,7 @@ public class BasicMappingFinder implements IMappingFinder {
      * @return Mapping of minimal penalty.
      */
     @Override
-    public Mapping getBestMapping(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentModel) {
+    public Mapping getBestMapping(ERModel exemplarModel, ERModel studentModel) {
 
         generateMappings(exemplarModel,studentModel,new Mapping(),0,new HashSet<>());
         return getBestMappingEvaluator().getBestMapping();
@@ -41,7 +41,7 @@ public class BasicMappingFinder implements IMappingFinder {
      * @param studentModel
      * @param mapping
      */
-    private void generateMappings(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentModel, Mapping mapping, int exemplarEntitySetIndex, Set<EntitySet> usedStudentEntitySets) {
+    private void generateMappings(ERModel exemplarModel, ERModel studentModel, Mapping mapping, int exemplarEntitySetIndex, Set<EntitySet> usedStudentEntitySets) {
 
         // trivial case condition: if all exemplar entity sets are mapped, complete the mapping and send it for evaluation
         if (exemplarModel.getEntitySetsCount() <= exemplarEntitySetIndex) {
@@ -92,7 +92,7 @@ public class BasicMappingFinder implements IMappingFinder {
      * @param studentModel
      * @param mapping
      */
-    private void completeMapping(EntityRelationshipModel studentModel, Mapping mapping) {
+    private void completeMapping(ERModel studentModel, Mapping mapping) {
 
         for (EntitySet entitySet : studentModel.getEntitySets()) {
             if (mapping.getImage(entitySet) == null) {

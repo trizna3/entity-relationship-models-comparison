@@ -1,7 +1,7 @@
 package transformations;
 
 import comparing.Mapping;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 
 import java.util.Set;
 
@@ -15,7 +15,7 @@ import java.util.Set;
  */
 public class TransformationAnalyst {
 
-    public Set<String> getPossibleTransformationCodesList(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentModel, Mapping mapping){
+    public Set<String> getPossibleTransformationCodesList(ERModel exemplarModel, ERModel studentModel, Mapping mapping){
         return null;
     }
 }

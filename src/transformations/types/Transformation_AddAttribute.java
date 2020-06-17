@@ -1,6 +1,6 @@
 package transformations.types;
 
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 
 /**
@@ -19,7 +19,7 @@ public class Transformation_AddAttribute extends Transformation {
     }
 
     @Override
-    protected void execute(EntityRelationshipModel model) {
+    protected void execute(ERModel model) {
         if (!model.getEntitySets().contains(getEntitySet())) {
             throw new IllegalArgumentException("Given entity set is not contained in the model!");
         }
@@ -27,7 +27,7 @@ public class Transformation_AddAttribute extends Transformation {
     }
 
     @Override
-    protected void setToOriginalState(EntityRelationshipModel model) {
+    protected void setToOriginalState(ERModel model) {
         if (!model.getEntitySets().contains(getEntitySet())) {
             throw new IllegalArgumentException("Given entity set is not contained in the model!");
         }

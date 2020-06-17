@@ -1,7 +1,7 @@
 package evaluation;
 
 import comparing.Mapping;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 
 /**
  * @author - Adam Trizna
@@ -48,7 +48,7 @@ public class MainEvaluator implements IEvaluator{
      * @return
      */
     @Override
-    public double evaluate(EntityRelationshipModel model1, EntityRelationshipModel model2, Mapping mapping) {
+    public double evaluate(ERModel model1, ERModel model2, Mapping mapping) {
         if (model1 == null || model2 == null || mapping == null) {
             throw new IllegalArgumentException("Cannot evaluate mapping - model1, model2 or mapping is null!");
         }

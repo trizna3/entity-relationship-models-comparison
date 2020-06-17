@@ -5,7 +5,7 @@ package mappingSearch.mappingEvaluator;
  */
 
 import comparing.Mapping;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import transformations.types.Transformation;
 
 import java.util.List;
@@ -19,5 +19,5 @@ public interface IMappingTransformationEvaluator {
     /**
      * @return list of transformations made to the students model, so it's structurally equal to the exemplar model in the given entity set mapping.
      */
-    List<Transformation> getTransformationList(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentsModel, Mapping mapping);
+    List<Transformation> getTransformationList(ERModel exemplarModel, ERModel studentsModel, Mapping mapping);
 }

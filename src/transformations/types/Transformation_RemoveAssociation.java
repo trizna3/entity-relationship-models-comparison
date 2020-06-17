@@ -2,7 +2,7 @@ package transformations.types;
 
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class Transformation_RemoveAssociation extends Transformation {
     }
 
     @Override
-    public void execute(EntityRelationshipModel model) {
+    public void execute(ERModel model) {
         if (!model.getRelationships().contains(getAssociation())) {
             throw new IllegalStateException("model doesn't contain given association!");
         }
@@ -26,7 +26,7 @@ public class Transformation_RemoveAssociation extends Transformation {
     }
 
     @Override
-    public void setToOriginalState(EntityRelationshipModel model) {
+    public void setToOriginalState(ERModel model) {
         model.addRelationship(getAssociation());
     }
 

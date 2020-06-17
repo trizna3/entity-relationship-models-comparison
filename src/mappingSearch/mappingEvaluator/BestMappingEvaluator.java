@@ -1,7 +1,7 @@
 package mappingSearch.mappingEvaluator;
 
 import comparing.Mapping;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import evaluation.IEvaluator;
 import evaluation.MainEvaluator;
@@ -16,7 +16,7 @@ public class BestMappingEvaluator implements IBestMappingEvaluator {
     IEvaluator evaluator;
 
     @Override
-    public void evaluate(EntityRelationshipModel exemplarModel, EntityRelationshipModel studentModel, Mapping mapping) {
+    public void evaluate(ERModel exemplarModel, ERModel studentModel, Mapping mapping) {
 
         double penalty = getEvaluator().evaluate(exemplarModel,studentModel,mapping);
 

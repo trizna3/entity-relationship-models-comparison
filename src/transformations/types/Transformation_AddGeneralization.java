@@ -1,6 +1,6 @@
 package transformations.types;
 
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.GeneralizationSide;
 
@@ -28,7 +28,7 @@ public class Transformation_AddGeneralization extends Transformation {
     private Generalization generalization;
 
     @Override
-    public void execute(EntityRelationshipModel model) {
+    public void execute(ERModel model) {
         if (this.generalization != null) {
             throw new IllegalStateException("transformation already executed!");
         }
@@ -38,7 +38,7 @@ public class Transformation_AddGeneralization extends Transformation {
     }
 
     @Override
-    public void setToOriginalState(EntityRelationshipModel model) {
+    public void setToOriginalState(ERModel model) {
         model.removeRelationship(generalization);
     }
 

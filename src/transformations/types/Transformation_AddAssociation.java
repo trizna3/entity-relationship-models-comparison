@@ -2,7 +2,7 @@ package transformations.types;
 
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class Transformation_AddAssociation extends Transformation {
     }
 
     @Override
-    public void execute(EntityRelationshipModel model) {
+    public void execute(ERModel model) {
         if (this.association != null) {
             throw new IllegalStateException("transformation already executed!");
         }
@@ -42,7 +42,7 @@ public class Transformation_AddAssociation extends Transformation {
     }
 
     @Override
-    public void setToOriginalState(EntityRelationshipModel model) {
+    public void setToOriginalState(ERModel model) {
         model.removeRelationship(association);
     }
 

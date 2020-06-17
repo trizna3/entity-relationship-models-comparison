@@ -1,6 +1,6 @@
 package transformations.types;
 
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import entityRelationshipModel.Generalization;
 
 /**
@@ -15,7 +15,7 @@ public class Transformation_RemoveGeneralization extends Transformation {
     }
 
     @Override
-    public void execute(EntityRelationshipModel model) {
+    public void execute(ERModel model) {
         if (!model.getRelationships().contains(getGeneralization())) {
             throw new IllegalStateException("model doesn't contain given generalization!");
         }
@@ -23,7 +23,7 @@ public class Transformation_RemoveGeneralization extends Transformation {
     }
 
     @Override
-    public void setToOriginalState(EntityRelationshipModel model) {
+    public void setToOriginalState(ERModel model) {
         model.addRelationship(getGeneralization());
     }
 

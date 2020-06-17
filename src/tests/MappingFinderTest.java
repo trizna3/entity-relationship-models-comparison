@@ -4,7 +4,7 @@ import comparing.Mapping;
 import mappingSearch.mappingFinder.ComplexMappingFinder;
 import mappingSearch.mappingFinder.IMappingFinder;
 import mappingSearch.mappingFinder.BasicMappingFinder;
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import org.junit.Test;
 
 /**
@@ -14,8 +14,8 @@ class MappingFinderTest {
 
     @Test
     void getBestMapping() {
-        EntityRelationshipModel exemplarModel = TestUtils.getModel1();
-        EntityRelationshipModel studentModel = TestUtils.getModel2();
+        ERModel exemplarModel = TestUtils.getModel1();
+        ERModel studentModel = TestUtils.getModel2();
 
         IMappingFinder finder = new BasicMappingFinder();
         IMappingFinder finder2 = new ComplexMappingFinder();

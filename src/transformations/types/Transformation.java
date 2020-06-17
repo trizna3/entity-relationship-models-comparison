@@ -1,6 +1,6 @@
 package transformations.types;
 
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import transformations.ParametersNotSetException;
 
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public abstract class Transformation {
      * Executes it's purpose.
      * @param model
      */
-    public void doTransformation(EntityRelationshipModel model) {
+    public void doTransformation(ERModel model) {
         if (model == null) {
             throw new IllegalArgumentException("Model cannot be null");
         }
@@ -44,7 +44,7 @@ public abstract class Transformation {
      * Undoes it's effect.
      * @param model
      */
-    public void undoTransformation(EntityRelationshipModel model) {
+    public void undoTransformation(ERModel model) {
         if (model == null) {
             throw new IllegalArgumentException("Model cannot be null");
         }
@@ -53,16 +53,16 @@ public abstract class Transformation {
     }
 
     /**
-     * @see Transformation#doTransformation(EntityRelationshipModel)
+     * @see Transformation#doTransformation(ERModel)
      * @param model
      */
-    protected abstract void execute(EntityRelationshipModel model);
+    protected abstract void execute(ERModel model);
 
     /**
-     * @see Transformation#undoTransformation(EntityRelationshipModel)
+     * @see Transformation#undoTransformation(ERModel)
      * @param model
      */
-    protected abstract void setToOriginalState(EntityRelationshipModel model);
+    protected abstract void setToOriginalState(ERModel model);
 
     /**
      * Sets parameter value to parameter map.

@@ -1,6 +1,6 @@
 package transformations.types;
 
-import entityRelationshipModel.EntityRelationshipModel;
+import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class Transformation_AddEntitySet extends Transformation {
     }
 
     @Override
-    public void execute(EntityRelationshipModel model) {
+    public void execute(ERModel model) {
         EntitySet entitySet = getEntitySet();
         if (model.contains(entitySet)) {
             throw new IllegalStateException("transformation already executed!");
@@ -32,7 +32,7 @@ public class Transformation_AddEntitySet extends Transformation {
     }
 
     @Override
-    public void setToOriginalState(EntityRelationshipModel model) {
+    public void setToOriginalState(ERModel model) {
         model.removeEntitySet(getEntitySet());
     }
 
