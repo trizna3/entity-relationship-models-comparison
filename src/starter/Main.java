@@ -1,3 +1,4 @@
+package starter;
 import common.CollectionUtils;
 import common.Logger;
 import entityRelationshipModel.EntitySet;
