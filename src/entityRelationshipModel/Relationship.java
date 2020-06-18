@@ -1,6 +1,7 @@
 package entityRelationshipModel;
 
 import common.PrintUtils;
+import common.RelationshipUtils;
 
 /**
  * @author - Adam Trizna
@@ -37,5 +38,9 @@ public abstract class Relationship {
 	public String toString() {
 		return PrintUtils.print(this);
 
+	}
+
+	public boolean contains(EntitySet entitySet) {
+		return RelationshipUtils.contains(this, entitySet);
 	}
 }

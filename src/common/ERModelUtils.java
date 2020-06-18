@@ -21,8 +21,7 @@ public class ERModelUtils extends Utils {
 	 * @return whether given sides are equal (either only by entity sets or
 	 *         completely) through given mapping
 	 */
-	public static boolean sidesAreEqual(RelationshipSide side1, RelationshipSide side2, Mapping mapping,
-			boolean checkEntitySetsOnly) {
+	public static boolean sidesAreEqual(RelationshipSide side1, RelationshipSide side2, Mapping mapping, boolean checkEntitySetsOnly) {
 		validateInput(side1);
 		validateInput(side2);
 		validateInput(mapping);
@@ -30,8 +29,7 @@ public class ERModelUtils extends Utils {
 		if (mapping.getImage(side1.getEntitySet()) == null || mapping.getImage(side2.getEntitySet()) == null) {
 			return false;
 		}
-		if (side1.getEntitySet().equals(mapping.getImage(side2.getEntitySet()))
-				&& side2.getEntitySet().equals(mapping.getImage(side1.getEntitySet()))) {
+		if (side1.getEntitySet().equals(mapping.getImage(side2.getEntitySet())) && side2.getEntitySet().equals(mapping.getImage(side1.getEntitySet()))) {
 			if (checkEntitySetsOnly) {
 				return true;
 			}
@@ -49,8 +47,7 @@ public class ERModelUtils extends Utils {
 	 *         by roles/cardinalities as well), when entity sets displays through
 	 *         given mapping
 	 */
-	public static boolean relationshipsAreEqual(Relationship relationship1, Relationship relationship2, Mapping mapping,
-			boolean checkByEntitySetsOnly) {
+	public static boolean relationshipsAreEqual(Relationship relationship1, Relationship relationship2, Mapping mapping, boolean checkByEntitySetsOnly) {
 		validateInput(relationship1);
 		validateInput(relationship2);
 		validateInput(mapping);
@@ -75,8 +72,7 @@ public class ERModelUtils extends Utils {
 		return true;
 	}
 
-	public static List<Relationship> getRelationshipsByEntitySets(ERModel model,
-			EntitySet[] entitySets) {
+	public static List<Relationship> getRelationshipsByEntitySets(ERModel model, EntitySet[] entitySets) {
 		validateInput(model);
 		validateInput(entitySets);
 
