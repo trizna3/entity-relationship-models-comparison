@@ -2,6 +2,7 @@ package common;
 
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
+import entityRelationshipModel.Relationship;
 
 public class Utils {
 
@@ -14,6 +15,18 @@ public class Utils {
 	public static void validateContains(ERModel model, EntitySet entitySet) {
 		if (!model.contains(entitySet)) {
 			throw new IllegalArgumentException("EntitySet is not contained in the model!");
+		}
+	}
+
+	public static void validateContains(ERModel model, Relationship relationship) {
+		if (!model.contains(relationship)) {
+			throw new IllegalArgumentException("Relationship is not contained in the model!");
+		}
+	}
+
+	public static void validateContains(Relationship relationship, EntitySet entitySet) {
+		if (!relationship.contains(entitySet)) {
+			throw new IllegalArgumentException("EntitySet is not contained in the relationship!");
 		}
 	}
 

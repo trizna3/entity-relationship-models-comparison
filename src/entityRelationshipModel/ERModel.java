@@ -5,6 +5,7 @@ import java.util.List;
 
 import common.ERModelUtils;
 import common.MappingUtils;
+import common.Utils;
 
 /**
  * @author - Adam Trizna
@@ -38,20 +39,23 @@ public class ERModel {
 	}
 
 	public void addEntitySet(EntitySet entitySet) {
+		Utils.validateNotNull(entitySet);
 		getEntitySets().add(entitySet);
 	}
 
 	public void addRelationship(Relationship relationship) {
+		Utils.validateNotNull(relationship);
+		// update neighbor maps
+		for (RelationshipSide side : relationship.getSides()) {
+			side.getEntitySet().addNeighbours(relationship);
+		}
 		getRelationships().add(relationship);
 	}
 
 	public void removeEntitySet(EntitySet entitySet) {
-		if (entitySet == null) {
-			throw new IllegalArgumentException("entity set cannot be null");
-		}
-		if (!contains(entitySet)) {
-			throw new IllegalArgumentException("model doesn't contain this entity set!");
-		}
+		Utils.validateNotNull(entitySet);
+		Utils.validateContains(this, entitySet);
+
 		// remove all incident relationships
 		for (Relationship relationshipForRemoval : ERModelUtils.getRelationshipsByEntitySets(this, new EntitySet[] { entitySet })) {
 			removeRelationship(relationshipForRemoval);
@@ -61,12 +65,14 @@ public class ERModel {
 	}
 
 	public void removeRelationship(Relationship relationship) {
-		if (relationship == null) {
-			throw new IllegalArgumentException("relationship cannot be null");
+		Utils.validateNotNull(relationship);
+		Utils.validateContains(this, relationship);
+
+		// update neighbor maps
+		for (RelationshipSide side : relationship.getSides()) {
+			side.getEntitySet().removeNeighbours(relationship);
 		}
-		if (!contains(relationship)) {
-			throw new IllegalArgumentException("model doesn't contain this relationship!");
-		}
+
 		getRelationships().remove(relationship);
 	}
 

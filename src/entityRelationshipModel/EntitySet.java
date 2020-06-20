@@ -1,6 +1,11 @@
 package entityRelationshipModel;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import common.PrintUtils;
+import common.Utils;
 
 /**
  * @author - Adam Trizna
@@ -30,6 +35,11 @@ public class EntitySet {
 	 * Another entity set, which this is mapped to.
 	 */
 	private EntitySet mappedTo;
+
+	/**
+	 * Map entitySet(neighbor) -> list of relationships, connected between them
+	 */
+	private Map<EntitySet, List<Relationship>> neighbours;
 
 	public EntitySet(String name) {
 		this.name = name;
@@ -76,5 +86,39 @@ public class EntitySet {
 
 	public void setMappedTo(EntitySet mappedTo) {
 		this.mappedTo = mappedTo;
+	}
+
+	public List<Relationship> getRelationshipsByNeighbour(EntitySet neighbour) {
+		return neighbours.get(neighbour);
+	}
+
+	public void removeNeighbours(Relationship relationship) {
+		Utils.validateContains(relationship, this);
+
+		for (RelationshipSide side : relationship.getSides()) {
+			EntitySet neighbour = side.getEntitySet();
+			if (this.equals(neighbour)) {
+				continue;
+			}
+			neighbours.get(neighbour).remove(relationship);
+			if (neighbours.get(neighbour).isEmpty()) {
+				neighbours.remove(neighbour);
+			}
+		}
+	}
+
+	public void addNeighbours(Relationship relationship) {
+		Utils.validateContains(relationship, this);
+
+		for (RelationshipSide side : relationship.getSides()) {
+			EntitySet neighbour = side.getEntitySet();
+			if (this.equals(neighbour)) {
+				continue;
+			}
+			if (!neighbours.containsKey(neighbour)) {
+				neighbours.put(neighbour, new ArrayList<Relationship>());
+			}
+			neighbours.get(neighbour).add(relationship);
+		}
 	}
 }
