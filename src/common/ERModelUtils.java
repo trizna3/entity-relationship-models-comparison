@@ -35,8 +35,7 @@ public class ERModelUtils extends Utils {
 	 * @param mapping
 	 * @param checkByEntitySetsOnly
 	 * @return whether given relationships are equal (either only by entity sets or
-	 *         by roles/cardinalities as well), when entity sets displays through
-	 *         given mapping
+	 *         by roles/cardinalities as well), in given mapping
 	 */
 	public static boolean relationshipsAreEqual(Relationship relationship1, Relationship relationship2, Mapping mapping, boolean checkByEntitySetsOnly) {
 		validateNotNull(relationship1);
@@ -63,6 +62,9 @@ public class ERModelUtils extends Utils {
 		return true;
 	}
 
+	/**
+	 * Returns all relationships, which contain all of the given entitySets.
+	 */
 	public static List<Relationship> getRelationshipsByEntitySets(ERModel model, EntitySet[] entitySets) {
 		validateNotNull(model);
 		validateNotNull(entitySets);
@@ -72,9 +74,6 @@ public class ERModelUtils extends Utils {
 		}
 		List<Relationship> result = new ArrayList<>();
 		nextRel: for (Relationship relationship : model.getRelationships()) {
-			if (relationship.getSides().length != entitySets.length) {
-				continue;
-			}
 			for (EntitySet entitySet : entitySets) {
 				if (!RelationshipUtils.contains(relationship, entitySet)) {
 					continue nextRel;
@@ -85,6 +84,9 @@ public class ERModelUtils extends Utils {
 		return result;
 	}
 
+	/**
+	 * Determines if exemplar and student model are equal in given mapping.
+	 */
 	public static boolean modelsAreEqual(Mapping mapping) {
 		validateNotNull(mapping);
 
@@ -100,9 +102,28 @@ public class ERModelUtils extends Utils {
 		if (model1.getNotMappedEntitySets().size() > 0 || model2.getNotMappedEntitySets().size() > 0) {
 			return false;
 		}
+		if (!modelsAreEqualByRelationships(model1, model2)) {
+			return false;
+		}
 
-		// check relationships mapping
+		return true;
+	}
 
+	/**
+	 * Returns all relationships, which contain exactly all the images of given
+	 * entity sets.
+	 */
+	public static List<Relationship> getRelationshipImages(ERModel model, RelationshipSide[] sides, boolean checkBySides) {
+
+		return null;
+	}
+
+	private static boolean modelsAreEqualByRelationships(ERModel model1, ERModel model2) {
+
+		Set<Relationship> usedRelationships = new HashSet<>();
+		for (Relationship relationship : model1.getRelationships()) {
+
+		}
 		return true;
 	}
 

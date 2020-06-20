@@ -88,7 +88,7 @@ public class MappingFinder {
 	}
 
 	private void evaluate(Mapping mapping) {
-		throw new UnsupportedOperationException();
+		getMappingEvaluator().evaluate(mapping);
 	}
 
 	private IMappingEvaluator getMappingEvaluator() {

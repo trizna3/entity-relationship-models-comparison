@@ -1,5 +1,6 @@
 package mappingSearch.mappingEvaluator;
 
+import common.ERModelUtils;
 import comparing.Mapping;
 import evaluation.IModelEvaluator;
 import evaluation.ModelEvaluator;
@@ -16,14 +17,17 @@ public class MappingEvaluator implements IMappingEvaluator {
 	@Override
 	public void evaluate(Mapping mapping) {
 
-		// if models are not equal in mapping -> refuse mapping
+		if (!ERModelUtils.modelsAreEqual(mapping)) {
+			return;
+		}
 
 		// compute penalties for transformations
-		double penalty = 0;
-
-		if (bestMapping == null || penalty < bestPenalty) {
-			bestPenalty = penalty;
-		}
+		throw new UnsupportedOperationException();
+//		double penalty = 0;
+//
+//		if (bestMapping == null || penalty < bestPenalty) {
+//			bestPenalty = penalty;
+//		}
 	}
 
 	@Override
