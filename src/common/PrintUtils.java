@@ -12,18 +12,18 @@ public class PrintUtils extends Utils {
 	// utils
 
 	public static final String print(EntitySet entitySet) {
-		validateInput(entitySet);
+		validateNotNull(entitySet);
 
 		return entitySet.getName() + join(entitySet.getAttributes(), DELIMITER_COMMA);
 	}
 
 	public static final String print(RelationshipSide relationshipSide) {
-		validateInput(relationshipSide);
+		validateNotNull(relationshipSide);
 		return "(" + relationshipSide.getEntitySet().toString() + relationshipSide.getRole() + ")";
 	}
 
 	public static final String print(Relationship relationship) {
-		validateInput(relationship);
+		validateNotNull(relationship);
 		return join(relationship.getSides(), DELIMITER_DASH);
 	}
 

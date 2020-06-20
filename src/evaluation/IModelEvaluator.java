@@ -10,7 +10,7 @@ import entityRelationshipModel.ERModel;
 /**
  * Interface for entity relationship models mapping evaluator.
  */
-public interface IEvaluator {
+public interface IModelEvaluator {
 
     /**
      * @param model1

@@ -10,7 +10,6 @@ import java.util.Random;
 import java.util.Set;
 
 import common.Enums;
-import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.ERModel;
@@ -182,50 +181,6 @@ public class TestUtils {
 			entitySets.put(name, new EntitySet(name));
 		}
 		return entitySets;
-	}
-
-	public static Mapping getMapping1() {
-		Mapping myMapping = new Mapping();
-		for (String key : MAPPING.keySet()) {
-			myMapping.map(getEntitySets1().get(key), getEntitySets2().get(MAPPING.get(key)));
-		}
-		for (EntitySet es : getEntitySets1().values()) {
-			if (myMapping.getImage(es) == null) {
-				EntitySet ee = new EntitySet("empty for " + es.getName());
-				ee.setEmpty(true);
-				myMapping.map(es, ee);
-			}
-		}
-		for (EntitySet es : getEntitySets2().values()) {
-			if (myMapping.getImage(es) == null) {
-				EntitySet ee = new EntitySet("empty for " + es.getName());
-				ee.setEmpty(true);
-				myMapping.map(es, ee);
-			}
-		}
-		return myMapping;
-	}
-
-	public static Mapping getMapping2() {
-		Mapping myMapping = new Mapping();
-		for (String key : MAPPING_2.keySet()) {
-			myMapping.map(getEntitySets3().get(key), getEntitySets4().get(MAPPING_2.get(key)));
-		}
-		for (EntitySet es : getEntitySets3().values()) {
-			if (myMapping.getImage(es) == null) {
-				EntitySet ee = new EntitySet("empty for " + es.getName());
-				ee.setEmpty(true);
-				myMapping.map(es, ee);
-			}
-		}
-		for (EntitySet es : getEntitySets4().values()) {
-			if (myMapping.getImage(es) == null) {
-				EntitySet ee = new EntitySet("empty for " + es.getName());
-				ee.setEmpty(true);
-				myMapping.map(es, ee);
-			}
-		}
-		return myMapping;
 	}
 
 	public static List<String> getEntitySetNames3() {

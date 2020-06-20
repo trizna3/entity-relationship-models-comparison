@@ -26,6 +26,11 @@ public class EntitySet {
 	 */
 	private boolean empty;
 
+	/**
+	 * Another entity set, which this is mapped to.
+	 */
+	private EntitySet mappedTo;
+
 	public EntitySet(String name) {
 		this.name = name;
 		this.attributes = new String[] {};
@@ -63,5 +68,13 @@ public class EntitySet {
 
 	public void setEmpty(boolean empty) {
 		this.empty = empty;
+	}
+
+	public EntitySet getMappedTo() {
+		return mappedTo;
+	}
+
+	public void setMappedTo(EntitySet mappedTo) {
+		this.mappedTo = mappedTo;
 	}
 }

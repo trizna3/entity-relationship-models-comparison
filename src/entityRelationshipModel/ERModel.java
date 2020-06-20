@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.ERModelUtils;
+import common.MappingUtils;
 
 /**
  * @author - Adam Trizna
@@ -16,6 +17,11 @@ public class ERModel {
 
 	private List<EntitySet> entitySets;
 	private List<Relationship> relationships;
+
+	/**
+	 * Entity sets which are not mapped.
+	 */
+	private List<EntitySet> notMappedEntitySets;
 
 	public List<EntitySet> getEntitySets() {
 		if (entitySets == null) {
@@ -68,11 +74,23 @@ public class ERModel {
 		return getEntitySets().size();
 	}
 
+	public int getRelationshipsCount() {
+		return getRelationships().size();
+	}
+
 	public boolean contains(EntitySet entitySet) {
 		return getEntitySets().contains(entitySet);
 	}
 
 	public boolean contains(Relationship relationship) {
 		return getRelationships().contains(relationship);
+	}
+
+	public List<EntitySet> getNotMappedEntitySets() {
+		if (notMappedEntitySets == null) {
+			notMappedEntitySets = MappingUtils.getNotMappedEntitySets(this);
+
+		}
+		return notMappedEntitySets;
 	}
 }

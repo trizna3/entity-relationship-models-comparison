@@ -22,20 +22,11 @@ public class ERModelUtils extends Utils {
 	 *         completely) through given mapping
 	 */
 	public static boolean sidesAreEqual(RelationshipSide side1, RelationshipSide side2, Mapping mapping, boolean checkEntitySetsOnly) {
-		validateInput(side1);
-		validateInput(side2);
-		validateInput(mapping);
+		validateNotNull(side1);
+		validateNotNull(side2);
+		validateNotNull(mapping);
 
-		if (mapping.getImage(side1.getEntitySet()) == null || mapping.getImage(side2.getEntitySet()) == null) {
-			return false;
-		}
-		if (side1.getEntitySet().equals(mapping.getImage(side2.getEntitySet())) && side2.getEntitySet().equals(mapping.getImage(side1.getEntitySet()))) {
-			if (checkEntitySetsOnly) {
-				return true;
-			}
-			return side1.getRole().equals(side2.getRole());
-		}
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -48,9 +39,9 @@ public class ERModelUtils extends Utils {
 	 *         given mapping
 	 */
 	public static boolean relationshipsAreEqual(Relationship relationship1, Relationship relationship2, Mapping mapping, boolean checkByEntitySetsOnly) {
-		validateInput(relationship1);
-		validateInput(relationship2);
-		validateInput(mapping);
+		validateNotNull(relationship1);
+		validateNotNull(relationship2);
+		validateNotNull(mapping);
 
 		if (!relationship1.getClass().equals(relationship2.getClass())) {
 			return false;
@@ -73,23 +64,46 @@ public class ERModelUtils extends Utils {
 	}
 
 	public static List<Relationship> getRelationshipsByEntitySets(ERModel model, EntitySet[] entitySets) {
-		validateInput(model);
-		validateInput(entitySets);
+		validateNotNull(model);
+		validateNotNull(entitySets);
 
 		for (EntitySet entitySet : entitySets) {
-			if (!model.getEntitySets().contains(entitySet)) {
-				throw new IllegalArgumentException("model doesn't contain given entity set!");
-			}
+			validateContains(model, entitySet);
 		}
-		List<Relationship> incidentRelationships = new ArrayList<>();
+		List<Relationship> result = new ArrayList<>();
 		nextRel: for (Relationship relationship : model.getRelationships()) {
+			if (relationship.getSides().length != entitySets.length) {
+				continue;
+			}
 			for (EntitySet entitySet : entitySets) {
 				if (!RelationshipUtils.contains(relationship, entitySet)) {
 					continue nextRel;
 				}
 			}
-			incidentRelationships.add(relationship);
+			result.add(relationship);
 		}
-		return incidentRelationships;
+		return result;
 	}
+
+	public static boolean modelsAreEqual(Mapping mapping) {
+		validateNotNull(mapping);
+
+		ERModel model1 = mapping.getExemplarModel();
+		ERModel model2 = mapping.getStudentModel();
+
+		if (model1.getEntitySetsCount() != model2.getEntitySetsCount()) {
+			return false;
+		}
+		if (model1.getRelationshipsCount() != model2.getRelationshipsCount()) {
+			return false;
+		}
+		if (model1.getNotMappedEntitySets().size() > 0 || model2.getNotMappedEntitySets().size() > 0) {
+			return false;
+		}
+
+		// check relationships mapping
+
+		return true;
+	}
+
 }

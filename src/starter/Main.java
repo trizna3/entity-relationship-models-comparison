@@ -1,9 +1,11 @@
 package starter;
-import common.CollectionUtils;
-import common.Logger;
-import entityRelationshipModel.EntitySet;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import common.CollectionUtils;
+import entityRelationshipModel.EntitySet;
 
 /**
  * @author - Adam Trizna
@@ -11,14 +13,15 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) {
-        EntitySet es1 = new EntitySet("es1",null);
-        EntitySet es2 = new EntitySet("es2",null);
+	public static void main(String[] args) {
 
-        List<EntitySet> entitySets = new ArrayList<>(Arrays.asList(es1,es2));
+		EntitySet es1 = new EntitySet("es1", null);
+		EntitySet es2 = new EntitySet("es2", null);
 
-        EntitySet es = CollectionUtils.getFirst(entitySets, EntitySet.class, entitySet -> "es1".equals(entitySet.getName()));
+		List<EntitySet> entitySets = new ArrayList<>(Arrays.asList(es1, es2));
 
-        System.out.println(es.getName());
-    }
+		EntitySet es = CollectionUtils.getFirst(entitySets, EntitySet.class, entitySet -> "es1".equals(entitySet.getName()));
+
+		System.out.println(es.getName());
+	}
 }

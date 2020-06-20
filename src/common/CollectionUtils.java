@@ -20,9 +20,9 @@ public class CollectionUtils extends Utils {
      * @return First object in given collection, which is of given class and satisfies given condition.
      */
     public static <T> T getFirst(Collection<?> collection, Class<T> clazz, Predicate<T> condition) {
-    	validateInput(collection);
-    	validateInput(clazz);
-    	validateInput(condition);
+    	validateNotNull(collection);
+    	validateNotNull(clazz);
+    	validateNotNull(condition);
         
         for (Object obj : collection) {
             if (obj != null && clazz.isAssignableFrom(obj.getClass())) {

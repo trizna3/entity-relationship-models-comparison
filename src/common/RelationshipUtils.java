@@ -5,15 +5,16 @@ import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
+import entityRelationshipModel.RelationshipSide;
 
 public class RelationshipUtils extends Utils {
 
 	// utils
-	public static String getCardinality(Association association, EntitySet entitySet) {
-		validateInput(association);
-		validateInput(entitySet);
+	public static String getRole(Relationship relationship, EntitySet entitySet) {
+		validateNotNull(relationship);
+		validateNotNull(entitySet);
 
-		for (AssociationSide side : association.getSides()) {
+		for (RelationshipSide side : relationship.getSides()) {
 			if (entitySet.equals(side.getEntitySet())) {
 				return side.getRole();
 			}
@@ -23,8 +24,8 @@ public class RelationshipUtils extends Utils {
 	}
 
 	public static boolean contains(Relationship relationship, EntitySet entitySet) {
-		validateInput(relationship);
-		validateInput(entitySet);
+		validateNotNull(relationship);
+		validateNotNull(entitySet);
 
 		if (relationship instanceof Association) {
 			return contains((Association) relationship, entitySet);

@@ -13,7 +13,6 @@ import common.CollectionUtils;
 import common.ERModelUtils;
 import common.Enums;
 import common.RelationshipUtils;
-import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
@@ -51,14 +50,12 @@ public class TransformationEqualityChecker {
 	 *                            model
 	 * @return non-equal transformations list
 	 */
-	public static List<Transformation> getNonEqualTransformations(ERModel modelBefore, ERModel modelAfter, List<Transformation> transformationsMade,
-			Map<EntitySet, EntitySet> entitySetMapping, Map<Relationship, Relationship> relationshipMapping) {
+	public static List<Transformation> getNonEqualTransformations(ERModel modelBefore, ERModel modelAfter, List<Transformation> transformationsMade, Map<EntitySet, EntitySet> entitySetMapping,
+			Map<Relationship, Relationship> relationshipMapping) {
 		List<Transformation> nonEqualTransformations = new ArrayList<>(transformationsMade);
 
-		nonEqualTransformations.removeAll(
-				getEqualTransformationsByRelationships(modelAfter, modelBefore, transformationsMade, entitySetMapping, relationshipMapping, true));
-		nonEqualTransformations.removeAll(
-				getEqualTransformationsByRelationships(modelBefore, modelAfter, transformationsMade, entitySetMapping, relationshipMapping, false));
+		nonEqualTransformations.removeAll(getEqualTransformationsByRelationships(modelAfter, modelBefore, transformationsMade, entitySetMapping, relationshipMapping, true));
+		nonEqualTransformations.removeAll(getEqualTransformationsByRelationships(modelBefore, modelAfter, transformationsMade, entitySetMapping, relationshipMapping, false));
 
 		return nonEqualTransformations;
 	}
@@ -82,9 +79,8 @@ public class TransformationEqualityChecker {
 	 *                            is the one after the transformation application
 	 * @return all transformations which are responsible for any equality scenarios.
 	 */
-	private static List<Transformation> getEqualTransformationsByRelationships(ERModel thisModel, ERModel otherModel,
-			List<Transformation> transformationsMade, Map<EntitySet, EntitySet> entitySetMapping, Map<Relationship, Relationship> relationshipMapping,
-			boolean isTransformed) {
+	private static List<Transformation> getEqualTransformationsByRelationships(ERModel thisModel, ERModel otherModel, List<Transformation> transformationsMade,
+			Map<EntitySet, EntitySet> entitySetMapping, Map<Relationship, Relationship> relationshipMapping, boolean isTransformed) {
 		List<Transformation> equalTransformations = new ArrayList<>();
 		List<Relationship> usedRelationships = new ArrayList<>();
 
@@ -104,11 +100,10 @@ public class TransformationEqualityChecker {
 			if (allEntitySetsAreMapped) {
 				List<Relationship> oppositeRelationships = ERModelUtils.getRelationshipsByEntitySets(otherModel, oppositeEntitySets);
 				for (Relationship oppositeRelationship : oppositeRelationships) {
-					if (ERModelUtils.relationshipsAreEqual(relationship, oppositeRelationship, new Mapping(entitySetMapping), false)
-							&& !usedRelationships.contains(oppositeRelationship)) {
-						usedRelationships.add(oppositeRelationship);
-						continue nextRel;
-					}
+//					if (ERModelUtils.relationshipsAreEqual(relationship, oppositeRelationship, new Mapping(entitySetMapping), false) && !usedRelationships.contains(oppositeRelationship)) {
+//						usedRelationships.add(oppositeRelationship);
+//						continue nextRel;
+//					}
 				}
 			}
 
@@ -117,8 +112,7 @@ public class TransformationEqualityChecker {
 				Association association = (Association) relationship;
 
 				// check MANY:MANY <--> ONE:MANY - MANY:ONE equality
-				if (association.isBinary() && Enums.CARDINALITY_MANY.equals(association.getFirstSide().getRole())
-						&& Enums.CARDINALITY_MANY.equals(association.getSecondSide().getRole())) {
+				if (association.isBinary() && Enums.CARDINALITY_MANY.equals(association.getFirstSide().getRole()) && Enums.CARDINALITY_MANY.equals(association.getSecondSide().getRole())) {
 					EntitySet firstImage = entitySetMapping.get(association.getFirstSide().getEntitySet());
 					EntitySet secondImage = entitySetMapping.get(association.getSecondSide().getEntitySet());
 
@@ -135,8 +129,8 @@ public class TransformationEqualityChecker {
 								&& ERModelUtils.getRelationshipsByEntitySets(otherModel, new EntitySet[] { joiningEntitySet }).size() == 2
 								&& !thisModel.contains(entitySetMapping.get(joiningEntitySet))) {
 							// 'relationship' --> is a subject of an AddAssociation transformation
-							equalTransformations.add(CollectionUtils.getFirst(transformationsMade, Transformation_AddAssociation.class,
-									transformation -> relationship.equals(transformation.getAssociation())));
+							equalTransformations
+									.add(CollectionUtils.getFirst(transformationsMade, Transformation_AddAssociation.class, transformation -> relationship.equals(transformation.getAssociation())));
 							// entitySetMapping.get(joiningEntitySet) --> is a subject of a RemoveEntitySet
 							// transformation
 							equalTransformations.add(CollectionUtils.getFirst(transformationsMade, Transformation_RemoveEntitySet.class,
@@ -144,13 +138,11 @@ public class TransformationEqualityChecker {
 							// relationshipMapping.get(optionalImage1Association.get()) --> is a subject of
 							// a RemoveAssociation transformation
 							equalTransformations.add(CollectionUtils.getFirst(transformationsMade, Transformation_RemoveAssociation.class,
-									transformation -> relationshipMapping.get(optionalImage1Association.get())
-											.equals(transformation.getAssociation())));
+									transformation -> relationshipMapping.get(optionalImage1Association.get()).equals(transformation.getAssociation())));
 							// relationshipMapping.get(optionalImage2Association.get()) --> is a subject of
 							// a RemoveAssociation transformation
 							equalTransformations.add(CollectionUtils.getFirst(transformationsMade, Transformation_RemoveAssociation.class,
-									transformation -> relationshipMapping.get(optionalImage2Association.get())
-											.equals(transformation.getAssociation())));
+									transformation -> relationshipMapping.get(optionalImage2Association.get()).equals(transformation.getAssociation())));
 						}
 					}
 				}
@@ -161,9 +153,8 @@ public class TransformationEqualityChecker {
 
 	private static Optional<Association> getOptionalJoiningAssociation(EntitySet image, EntitySet joiningEntitySet, ERModel otherModel) {
 		return ERModelUtils.getRelationshipsByEntitySets(otherModel, new EntitySet[] { image, joiningEntitySet }).stream()
-				.filter(association1 -> association1 instanceof Association
-						&& Enums.CARDINALITY_MANY.equals(RelationshipUtils.getCardinality(((Association) association1), joiningEntitySet))
-						&& Enums.CARDINALITY_ONE.equals(RelationshipUtils.getCardinality(((Association) association1), image)))
+				.filter(association1 -> association1 instanceof Association && Enums.CARDINALITY_MANY.equals(RelationshipUtils.getRole(((Association) association1), joiningEntitySet))
+						&& Enums.CARDINALITY_ONE.equals(RelationshipUtils.getRole(((Association) association1), image)))
 				.map(rel -> (Association) rel).findAny();
 	}
 }

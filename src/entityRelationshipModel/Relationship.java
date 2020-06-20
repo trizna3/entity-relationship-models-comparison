@@ -43,4 +43,14 @@ public abstract class Relationship {
 	public boolean contains(EntitySet entitySet) {
 		return RelationshipUtils.contains(this, entitySet);
 	}
+
+	public EntitySet[] getEntitySets() {
+		EntitySet[] result = new EntitySet[getSides().length];
+		int i = 0;
+		for (RelationshipSide side : getSides()) {
+			result[i] = side.getEntitySet();
+			i++;
+		}
+		return result;
+	}
 }
