@@ -34,26 +34,18 @@ public class Association extends Relationship {
 		return attributes;
 	}
 
+	@Override
 	public boolean isBinary() {
 		return sides.length == 2;
 	}
 
-	public AssociationSide getFirstSide() {
-		checkIsBinary();
+	@Override
+	protected AssociationSide getFirst() {
 		return sides[0];
 	}
 
-	public AssociationSide getSecondSide() {
-		checkIsBinary();
+	@Override
+	protected AssociationSide getSecond() {
 		return sides[1];
-	}
-
-	/**
-	 * checks if association is binary. if not, throws an exception.
-	 */
-	private void checkIsBinary() {
-		if (!isBinary()) {
-			throw new IllegalStateException("Association is not binary!");
-		}
 	}
 }

@@ -42,4 +42,19 @@ public class Generalization extends Relationship {
 	public EntitySet getSubEntitySet() {
 		return sides[1].getEntitySet();
 	}
+
+	@Override
+	public boolean isBinary() {
+		return true;
+	}
+
+	@Override
+	protected GeneralizationSide getFirst() {
+		return sides[0];
+	}
+
+	@Override
+	protected GeneralizationSide getSecond() {
+		return sides[1];
+	}
 }

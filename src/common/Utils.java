@@ -41,4 +41,10 @@ public class Utils {
 			throw new IllegalArgumentException("EntitySet is mapped!");
 		}
 	}
+
+	public static void validateBinary(Relationship relationship) {
+		if (!relationship.isBinary()) {
+			throw new IllegalStateException("Relationship is not Binary!");
+		}
+	}
 }

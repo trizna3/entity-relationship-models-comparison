@@ -2,6 +2,7 @@ package entityRelationshipModel;
 
 import common.PrintUtils;
 import common.RelationshipUtils;
+import common.Utils;
 
 /**
  * @author - Adam Trizna
@@ -22,6 +23,12 @@ public abstract class Relationship {
 	private String name;
 
 	abstract public RelationshipSide[] getSides();
+
+	public abstract boolean isBinary();
+
+	protected abstract RelationshipSide getFirst();
+
+	protected abstract RelationshipSide getSecond();
 
 	public String getName() {
 		return name;
@@ -52,5 +59,15 @@ public abstract class Relationship {
 			i++;
 		}
 		return result;
+	}
+
+	public RelationshipSide getFirstSide() {
+		Utils.validateBinary(this);
+		return getFirst();
+	}
+
+	public RelationshipSide getSecondSide() {
+		Utils.validateBinary(this);
+		return getSecond();
 	}
 }
