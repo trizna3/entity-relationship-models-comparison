@@ -1,9 +1,9 @@
 package mappingSearch.mappingEvaluator;
 
 import common.ERModelUtils;
+import common.Utils;
 import comparing.Mapping;
-import evaluation.IModelEvaluator;
-import evaluation.ModelEvaluator;
+import evaluation.TransformationEvaluator;
 
 /**
  * @author - Adam Trizna
@@ -12,22 +12,17 @@ public class MappingEvaluator implements IMappingEvaluator {
 
 	Mapping bestMapping;
 	double bestPenalty;
-	IModelEvaluator modelEvaluator;
+	TransformationEvaluator transformationEvaluator = new TransformationEvaluator();
 
 	@Override
 	public void evaluate(Mapping mapping) {
 
+		Utils.validateNotNull(mapping);
+
 		if (!ERModelUtils.modelsAreEqual(mapping)) {
 			return;
 		}
-
-		// compute penalties for transformations
-		throw new UnsupportedOperationException();
-//		double penalty = 0;
-//
-//		if (bestMapping == null || penalty < bestPenalty) {
-//			bestPenalty = penalty;
-//		}
+		evaluate(mapping, getTransformationsPenalty(mapping));
 	}
 
 	@Override
@@ -35,10 +30,14 @@ public class MappingEvaluator implements IMappingEvaluator {
 		return bestMapping;
 	}
 
-	private IModelEvaluator getModelEvaluator() {
-		if (modelEvaluator == null) {
-			modelEvaluator = new ModelEvaluator();
+	private double getTransformationsPenalty(Mapping mapping) {
+		return transformationEvaluator.evaluate(mapping);
+	}
+
+	private void evaluate(Mapping mapping, double actualPenalty) {
+		if (bestMapping == null || actualPenalty < bestPenalty) {
+			bestPenalty = actualPenalty;
+			bestMapping = mapping;
 		}
-		return modelEvaluator;
 	}
 }
