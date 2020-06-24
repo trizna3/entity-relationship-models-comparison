@@ -3,7 +3,6 @@ package mappingSearch.mappingEvaluator;
 import common.ERModelUtils;
 import common.Utils;
 import comparing.Mapping;
-import evaluation.TransformationEvaluator;
 
 /**
  * @author - Adam Trizna

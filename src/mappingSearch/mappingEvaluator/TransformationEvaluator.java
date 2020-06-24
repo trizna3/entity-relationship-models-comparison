@@ -1,4 +1,4 @@
-package evaluation;
+package mappingSearch.mappingEvaluator;
 
 import java.util.HashMap;
 import java.util.Map;
