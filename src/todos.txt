@@ -1,4 +1,0 @@
-TransformationEqualityChecker
-    - implement (M:N - 1:N,N:1) scenario for second side (now it's newModel -> oldModel only)
-    - implement (1:1 - N/A) scenario for both sides
-    - implement (missing attribute, but contained in another entity set connected by 1:1 assoc) for both sides

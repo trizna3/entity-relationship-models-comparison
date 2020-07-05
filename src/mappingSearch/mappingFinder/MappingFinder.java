@@ -37,7 +37,7 @@ public class MappingFinder {
 	}
 
 	/**
-	 * 
+	 * Performs backtracking algorithm to find optimal entity sets mapping.
 	 */
 	private void search(Mapping mapping) {
 		if (stoppingCriterion(mapping)) {
