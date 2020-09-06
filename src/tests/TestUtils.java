@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import common.Enums;
+import common.enums.Enum;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.ERModel;
@@ -99,9 +99,9 @@ public class TestUtils {
 	public static String getRandomCardinality() {
 		Random r = new Random();
 		if (r.nextBoolean()) {
-			return Enums.CARDINALITY_ONE;
+			return Enum.CARDINALITY_ONE;
 		}
-		return Enums.CARDINALITY_MANY;
+		return Enum.CARDINALITY_MANY;
 	}
 
 	public static ERModel getModel1() {
@@ -129,10 +129,10 @@ public class TestUtils {
 
 	private static String convertToCardinality(String symbol) {
 		if ("1".equals(symbol)) {
-			return Enums.CARDINALITY_ONE;
+			return Enum.CARDINALITY_ONE;
 		}
 		if ("*".equals(symbol)) {
-			return Enums.CARDINALITY_MANY;
+			return Enum.CARDINALITY_MANY;
 		}
 		return null;
 	}
