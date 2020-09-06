@@ -7,10 +7,11 @@ import comparing.Mapping;
  */
 
 /**
- * Object for mapping evaluation. This kind of evaluator computes mapping
- * penalty and keeps record of mapping with minimal penalty.
+ * Object for mapping evaluation, used to handle a single branch of the
+ * backtrack-search tree. This kind of evaluator computes mapping penalty and
+ * keeps record of mapping with minimal penalty.
  */
-public interface IMappingEvaluator {
+public interface IEvaluator {
 
 	/**
 	 * Evaluates given mapping.

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import common.PrintUtils;
 import common.Utils;
+import transformations.Transformable;
 
 /**
  * @author - Adam Trizna
@@ -15,7 +16,7 @@ import common.Utils;
  * Base element of entity relationship model. Entails a set of entities with
  * common properties (attributes).
  */
-public class EntitySet {
+public class EntitySet extends Transformable {
 
 	/**
 	 * Entity set name.

@@ -9,6 +9,9 @@ import transformations.types.Transformation;
 
 /**
  * @author - Adam Trizna
+ * 
+ *         Component for evaluating transformations -- computing specific
+ *         transformations penalties.
  */
 public class TransformationEvaluator {
 

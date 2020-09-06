@@ -6,8 +6,9 @@ import java.util.Map;
 import comparing.Mapping;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
-import mappingSearch.mappingEvaluator.IMappingEvaluator;
-import mappingSearch.mappingEvaluator.MappingEvaluator;
+import mappingSearch.mappingEvaluator.Evaluator;
+import mappingSearch.mappingEvaluator.IEvaluator;
+import transformations.Transformable;
 import transformations.TransformationAnalyst;
 import transformations.Transformator;
 
@@ -21,7 +22,7 @@ import transformations.Transformator;
  */
 public class MappingFinder {
 
-	IMappingEvaluator mappingEvaluator;
+	IEvaluator mappingEvaluator;
 
 	/**
 	 * Uses recursive backtrack algorithm to iterate over all possible mappings,
@@ -62,10 +63,10 @@ public class MappingFinder {
 	}
 
 	private void searchThroughTransformation(Mapping mapping) {
-		Map<String, List<Object>> transformations = TransformationAnalyst.getPossibleTransformations(mapping);
+		Map<String, List<Transformable>> transformations = TransformationAnalyst.getPossibleTransformations(mapping);
 
 		for (String code : transformations.keySet()) {
-			List<Object> transformed = Transformator.execute(mapping, code, transformations.get(code));
+			List<Transformable> transformed = Transformator.execute(mapping, code, transformations.get(code));
 			search(mapping);
 			Transformator.revert(mapping, code, transformed);
 		}
@@ -91,9 +92,9 @@ public class MappingFinder {
 		getMappingEvaluator().evaluate(mapping);
 	}
 
-	private IMappingEvaluator getMappingEvaluator() {
+	private IEvaluator getMappingEvaluator() {
 		if (mappingEvaluator == null) {
-			mappingEvaluator = new MappingEvaluator();
+			mappingEvaluator = new Evaluator();
 		}
 		return mappingEvaluator;
 	}

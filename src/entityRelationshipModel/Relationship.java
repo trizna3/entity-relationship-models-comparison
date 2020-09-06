@@ -3,6 +3,7 @@ package entityRelationshipModel;
 import common.PrintUtils;
 import common.RelationshipUtils;
 import common.Utils;
+import transformations.Transformable;
 
 /**
  * @author - Adam Trizna
@@ -15,7 +16,7 @@ import common.Utils;
  * @see Association
  * @see Generalization
  */
-public abstract class Relationship {
+public abstract class Relationship extends Transformable {
 
 	/**
 	 * Relationship name.

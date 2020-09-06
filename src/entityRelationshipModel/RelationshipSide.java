@@ -1,12 +1,13 @@
 package entityRelationshipModel;
 
 import common.PrintUtils;
+import transformations.Transformable;
 
 /**
  * @author - Adam Trizna
  */
 
-public abstract class RelationshipSide {
+public abstract class RelationshipSide extends Transformable {
 
 	public abstract EntitySet getEntitySet();
 
