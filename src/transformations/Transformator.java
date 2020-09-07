@@ -1,7 +1,5 @@
 package transformations;
 
-import java.util.List;
-
 import comparing.Mapping;
 
 public class Transformator {
@@ -10,7 +8,7 @@ public class Transformator {
 	 * Executes transformation by given transformation code and arguments. Returns
 	 * the arguments in transformed form.
 	 */
-	public static List<Transformable> execute(Mapping mapping, String transformationCode, List<Transformable> arguments) {
+	public static Transformation execute(Mapping mapping, Transformation transformation) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -18,7 +16,7 @@ public class Transformator {
 	 * Reverts transformation given by transformation code and arguments. Returns
 	 * the arguments in transformation-reverted form.
 	 */
-	public static List<Transformable> revert(Mapping mapping, String transformationCode, List<Transformable> arguments) {
+	public static Transformation revert(Mapping mapping, Transformation transformation) {
 		throw new UnsupportedOperationException();
 	}
 }

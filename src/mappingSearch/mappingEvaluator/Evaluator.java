@@ -1,30 +1,27 @@
 package mappingSearch.mappingEvaluator;
 
-import common.ERModelUtils;
 import common.Utils;
 import comparing.Mapping;
 
 /**
- * 
  * @author Adam Trizna
- * 
- *         {@inheritDoc}
+ */
+
+/**
  *
+ * {@inheritDoc}
+ * 
  */
 public class Evaluator implements IEvaluator {
 
 	Mapping bestMapping;
 	double bestPenalty;
 	TransformationEvaluator transformationEvaluator = new TransformationEvaluator();
+	MappingEvaluator mappingEvaluator = new MappingEvaluator();
 
 	@Override
 	public void evaluate(Mapping mapping) {
-
 		Utils.validateNotNull(mapping);
-
-		if (!ERModelUtils.modelsAreEqual(mapping)) {
-			return;
-		}
 		evaluate(mapping, getTransformationsPenalty(mapping));
 	}
 
@@ -34,6 +31,7 @@ public class Evaluator implements IEvaluator {
 	}
 
 	private double getTransformationsPenalty(Mapping mapping) {
+		mappingEvaluator.expandTransformationList(mapping);
 		return transformationEvaluator.evaluate(mapping);
 	}
 

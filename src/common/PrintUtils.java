@@ -9,8 +9,6 @@ public class PrintUtils extends Utils {
 	public static final String DELIMITER_DASH = "-";
 	public static final String DELIMITER_COMMA = ",";
 
-	// utils
-
 	public static final String print(EntitySet entitySet) {
 		validateNotNull(entitySet);
 
@@ -27,7 +25,6 @@ public class PrintUtils extends Utils {
 		return join(relationship.getSides(), DELIMITER_DASH);
 	}
 
-	// helpers
 	private static String join(Object[] objects, String delimiter) {
 		int count = 0;
 		StringBuilder result = new StringBuilder();

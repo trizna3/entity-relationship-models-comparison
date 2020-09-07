@@ -1,14 +1,13 @@
 package mappingSearch.mappingFinder;
 
 import java.util.List;
-import java.util.Map;
 
 import comparing.Mapping;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import mappingSearch.mappingEvaluator.Evaluator;
 import mappingSearch.mappingEvaluator.IEvaluator;
-import transformations.Transformable;
+import transformations.Transformation;
 import transformations.TransformationAnalyst;
 import transformations.Transformator;
 
@@ -63,12 +62,12 @@ public class MappingFinder {
 	}
 
 	private void searchThroughTransformation(Mapping mapping) {
-		Map<String, List<Transformable>> transformations = TransformationAnalyst.getPossibleTransformations(mapping);
+		List<Transformation> transformations = TransformationAnalyst.getPossibleTransformations(mapping);
 
-		for (String code : transformations.keySet()) {
-			List<Transformable> transformed = Transformator.execute(mapping, code, transformations.get(code));
+		for (Transformation transformation : transformations) {
+			Transformation transformed = Transformator.execute(mapping, transformation);
 			search(mapping);
-			Transformator.revert(mapping, code, transformed);
+			Transformator.revert(mapping, transformed);
 		}
 	}
 

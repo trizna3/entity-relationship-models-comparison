@@ -13,10 +13,10 @@ import entityRelationshipModel.RelationshipSide;
 
 public class RelationshipUtils extends Utils {
 
-	// utils
 	public static String getRole(Relationship relationship, EntitySet entitySet) {
 		validateNotNull(relationship);
 		validateNotNull(entitySet);
+		validateContains(relationship, entitySet);
 
 		for (RelationshipSide side : relationship.getSides()) {
 			if (entitySet.equals(side.getEntitySet())) {
@@ -24,7 +24,7 @@ public class RelationshipUtils extends Utils {
 			}
 		}
 
-		throw new IllegalArgumentException("This Association doesn't contain given entity set!");
+		return null;
 	}
 
 	public static boolean contains(Relationship relationship, EntitySet entitySet) {
@@ -33,11 +33,12 @@ public class RelationshipUtils extends Utils {
 
 		if (relationship instanceof Association) {
 			return contains((Association) relationship, entitySet);
-		} else if (relationship instanceof Generalization) {
-			return contains((Generalization) relationship, entitySet);
-		} else {
-			throw new IllegalArgumentException("Invalid relationship type!");
 		}
+		if (relationship instanceof Generalization) {
+			return contains((Generalization) relationship, entitySet);
+		}
+
+		return false;
 	}
 
 	/**
@@ -94,7 +95,6 @@ public class RelationshipUtils extends Utils {
 		return true;
 	}
 
-	// helpers
 	private static boolean contains(Association association, EntitySet entitySet) {
 		for (AssociationSide side : association.getSides()) {
 			if (entitySet.equals(side.getEntitySet())) {

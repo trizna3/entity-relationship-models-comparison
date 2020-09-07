@@ -22,6 +22,10 @@ public class EnumTransformation {
 
 	public static final String CHANGE_CARDINALITY = "CHANGE_CARDINALITY";
 
+	public static final String RENAME_ENTITY_SET = "RENAME_ENTITY_SET";
+
+	public static final String RENAME_ATTRIBUTE = "RENAME_ATTRIBUTE";
+
 	public static final String EXTRACT_ATTR_TO_OWN_ENTITY_SET = "EXTRACT_ATTR_TO_OWN_ENTITY_SET";
 
 	public static final String MOVE_ATTR_TO_INCIDENT_ENTITY_SET = "MOVE_ATTR_TO_INCIDENT_ENTITY_SET";

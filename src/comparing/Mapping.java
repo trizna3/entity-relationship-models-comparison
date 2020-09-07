@@ -6,6 +6,7 @@ import java.util.List;
 import common.Utils;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
+import transformations.Transformation;
 
 /**
  * @author - Adam Trizna
@@ -27,12 +28,12 @@ public class Mapping {
 	 */
 	private ERModel model2;
 
-	private List<String> transformationCodes;
+	private List<Transformation> transformations;
 
 	public Mapping(ERModel model1, ERModel model2) {
 		this.model1 = model1;
 		this.model2 = model2;
-		transformationCodes = new ArrayList<>();
+		transformations = new ArrayList<>();
 	}
 
 	/**
@@ -75,16 +76,18 @@ public class Mapping {
 		entitySet2.setMappedTo(null);
 	}
 
-	public List<String> getTransformationCodes() {
-		return transformationCodes;
+	public List<Transformation> getTransformations() {
+		return transformations;
 	}
 
-	public void addTransformationCode(String code) {
-		transformationCodes.add(code);
+	public void addTransformation(Transformation transformation) {
+		Utils.validateNotNull(transformation);
+
+		transformations.add(transformation);
 	}
 
 	public void removeTransformationCode(String code) {
-		transformationCodes.remove(code);
+		transformations.remove(code);
 	}
 
 	public ERModel getExemplarModel() {

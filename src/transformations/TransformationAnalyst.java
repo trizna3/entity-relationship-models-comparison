@@ -1,7 +1,6 @@
 package transformations;
 
 import java.util.List;
-import java.util.Map;
 
 import comparing.Mapping;
 
@@ -22,7 +21,7 @@ public class TransformationAnalyst {
 	 * @param mapping
 	 * @return
 	 */
-	public static Map<String, List<Transformable>> getPossibleTransformations(Mapping mapping) {
+	public static List<Transformation> getPossibleTransformations(Mapping mapping) {
 		throw new UnsupportedOperationException();
 	}
 }
