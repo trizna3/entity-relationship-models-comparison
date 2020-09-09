@@ -3,6 +3,7 @@ package mappingSearch.mappingEvaluator;
 import java.util.List;
 
 import common.RelationshipUtils;
+import common.StringUtils;
 import common.TransformationUtils;
 import common.Utils;
 import comparing.Mapping;
@@ -88,9 +89,24 @@ public class MappingEvaluator {
 	}
 
 	private void checkMappingPairs(Mapping mapping) {
+		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
+			EntitySet image = entitySet.getMappedTo();
+			if (image != null) {
+				if (!StringUtils.areEqual(entitySet.getName(), image.getName())) {
+					TransformationUtils.addRenameEntitySet(mapping, image, entitySet);
+				}
+				checkAttributes(mapping, entitySet, image);
+			}
+		}
+	}
+
+	private void checkAttributes(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
+		// TODO: tuto by bola vhodna nejaka netrivialnejsia logika, aby si to nerobil
+		// len tak primitivne
+
 //		public static final String CREATE_ATTRIBUTE = "CREATE_ATTRIBUTE";
 //		public static final String REMOVE_ATTRIBUTE = "REMOVE_ATTRIBUTE";
 //		public static final String RENAME_ENTITY_SET = "RENAME_ENTITY_SET";
-//		public static final String RENAME_ATTRIBUTE = "RENAME_ATTRIBUTE";		
+//		public static final String RENAME_ATTRIBUTE = "RENAME_ATTRIBUTE";
 	}
 }

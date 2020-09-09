@@ -11,6 +11,7 @@ import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
 import entityRelationshipModel.RelationshipSide;
+import entityRelationshipModel.TransformableAttribute;
 import transformations.Transformation;
 
 public class TransformationUtils extends Utils {
@@ -20,6 +21,9 @@ public class TransformationUtils extends Utils {
 	 * list
 	 */
 	public static void addCreateEntitySet(Mapping mapping, EntitySet entitySet) {
+		validateNotNull(mapping);
+		validateNotNull(entitySet);
+
 		entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);
 		mapping.addTransformation(new Transformation(EnumTransformation.CREATE_ENTITY_SET, new HashSet<>(Arrays.asList(entitySet))));
 	}
@@ -29,6 +33,9 @@ public class TransformationUtils extends Utils {
 	 * list
 	 */
 	public static void addRemoveEntitySet(Mapping mapping, EntitySet entitySet) {
+		validateNotNull(mapping);
+		validateNotNull(entitySet);
+
 		entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);
 		mapping.addTransformation(new Transformation(EnumTransformation.REMOVE_ENTITY_SET, new HashSet<>(Arrays.asList(entitySet))));
 	}
@@ -38,7 +45,9 @@ public class TransformationUtils extends Utils {
 	 * list
 	 */
 	public static void addCreateRelationship(Mapping mapping, Relationship relationship) {
+		validateNotNull(mapping);
 		validateNotNull(relationship);
+
 		addRelationshipTransformation(mapping, relationship, true);
 	}
 
@@ -47,7 +56,9 @@ public class TransformationUtils extends Utils {
 	 * list
 	 */
 	public static void addRemoveRelationship(Mapping mapping, Relationship relationship) {
+		validateNotNull(mapping);
 		validateNotNull(relationship);
+
 		addRelationshipTransformation(mapping, relationship, false);
 	}
 
@@ -56,15 +67,69 @@ public class TransformationUtils extends Utils {
 	 * Assume the relationships are equally mapped.
 	 */
 	public static void addChangeCardinality(Mapping mapping, Relationship oldRel, Relationship newRel) {
+		validateNotNull(mapping);
 		validateNotNull(oldRel);
 		validateNotNull(newRel);
 
 		for (RelationshipSide side : oldRel.getSides()) {
 			String oppositeRole = RelationshipUtils.getRole(newRel, side.getEntitySet().getMappedTo());
 			if (!StringUtils.areEqual(side.getRole(), oppositeRole)) {
+				side.setTransformationRole(EnumTransformationRole.ASSOCIATION_SIDE);
 				mapping.addTransformation(new Transformation(EnumTransformation.CHANGE_CARDINALITY, new HashSet<>(Arrays.asList(side))));
 			}
 		}
+	}
+
+	/**
+	 * Adds the 'renameEntitySet' transformation to the mapping's transformation
+	 */
+	public static void addRenameEntitySet(Mapping mapping, EntitySet entitySet, EntitySet entitySetTarget) {
+		validateNotNull(mapping);
+		validateNotNull(entitySet);
+		validateNotNull(entitySetTarget);
+
+		entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);
+		entitySetTarget.setTransformationRole(EnumTransformationRole.ENTITY_SET_TARGET);
+		mapping.addTransformation(new Transformation(EnumTransformation.RENAME_ENTITY_SET, new HashSet<>(Arrays.asList(entitySet, entitySetTarget))));
+	}
+
+	/**
+	 * Adds the 'renameAttribute' transformation to the mapping's transformation
+	 */
+	public static void addRenameAttribute(Mapping mapping, EntitySet entitySet, String attribute, String attributeTarget) {
+		validateNotNull(mapping);
+		validateNotNull(attribute);
+		validateNotNull(attributeTarget);
+		validateNotNull(entitySet);
+
+		TransformableAttribute attr = new TransformableAttribute(attribute);
+		attr.setTransformationRole(EnumTransformationRole.ATTRIBUTE);
+		TransformableAttribute attrTarget = new TransformableAttribute(attributeTarget);
+		attrTarget.setTransformationRole(EnumTransformationRole.ATTRIBUTE_TARGET);
+
+		mapping.addTransformation(new Transformation(EnumTransformation.RENAME_ATTRIBUTE, new HashSet<>(Arrays.asList(entitySet, attr, attrTarget))));
+	}
+
+	/**
+	 * Adds the 'createAttribute' transformation to the mapping's transformation
+	 */
+	public static void addCreateAttribute(Mapping mapping, EntitySet entitySet, String attribute) {
+		validateNotNull(mapping);
+		validateNotNull(entitySet);
+		validateNotNull(attribute);
+
+		addAttributeTransformation(mapping, entitySet, attribute, true);
+	}
+
+	/**
+	 * Adds the 'removeAttribute' transformation to the mapping's transformation
+	 */
+	public static void addRemoveAttribute(Mapping mapping, EntitySet entitySet, String attribute) {
+		validateNotNull(mapping);
+		validateNotNull(entitySet);
+		validateNotNull(attribute);
+
+		addAttributeTransformation(mapping, entitySet, attribute, false);
 	}
 
 	private static void addRelationshipTransformation(Mapping mapping, Relationship relationship, boolean isCreation) {
@@ -81,5 +146,13 @@ public class TransformationUtils extends Utils {
 			mapping.addTransformation(new Transformation(transformationCode, new HashSet<>(Arrays.asList(relationship))));
 			return;
 		}
+	}
+
+	private static void addAttributeTransformation(Mapping mapping, EntitySet entitySet, String attribute, boolean isCreation) {
+		TransformableAttribute attr = new TransformableAttribute(attribute);
+		attr.setTransformationRole(EnumTransformationRole.ATTRIBUTE);
+
+		String transformationCode = isCreation ? EnumTransformation.CREATE_ATTRIBUTE : EnumTransformation.REMOVE_ATTRIBUTE;
+		mapping.addTransformation(new Transformation(transformationCode, new HashSet<>(Arrays.asList(entitySet, attr))));
 	}
 }

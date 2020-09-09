@@ -12,6 +12,6 @@ public class StringUtils extends Utils {
 		if (string2 == null) {
 			return false;
 		}
-		return string1.equals(string2);
+		return string1.toLowerCase().equals(string2.toLowerCase());
 	}
 }
