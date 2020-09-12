@@ -47,4 +47,10 @@ public class Utils {
 			throw new IllegalStateException("Relationship is not Binary!");
 		}
 	}
+
+	public static void validateContains(EntitySet entitySet, String attribute) {
+		if (!entitySet.getAttributes().contains(attribute)) {
+			throw new IllegalArgumentException("EntitySet doesn't contain this attribute!");
+		}
+	}
 }

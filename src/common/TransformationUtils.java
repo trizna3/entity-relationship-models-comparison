@@ -2,16 +2,20 @@ package common;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
+import common.enums.Enum;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
+import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
 import entityRelationshipModel.RelationshipSide;
 import entityRelationshipModel.TransformableAttribute;
+import transformations.Transformable;
 import transformations.Transformation;
 
 public class TransformationUtils extends Utils {
@@ -130,6 +134,28 @@ public class TransformationUtils extends Utils {
 		validateNotNull(attribute);
 
 		addAttributeTransformation(mapping, entitySet, attribute, false);
+	}
+
+	public static Transformable getTransformableByRole(Set<Transformable> transformables, String role) {
+		validateNotNull(transformables);
+		validateNotNull(role);
+		for (Transformable transformable : transformables) {
+			if (role.equals(transformable.getTransformationRole())) {
+				return transformable;
+			}
+		}
+		throw new IllegalArgumentException("Transformable of given role doesn't exist!");
+	}
+
+	public static void flipCardinality(AssociationSide associationSide) {
+		validateNotNull(associationSide);
+
+		if (Enum.CARDINALITY_ONE.equals(associationSide.getRole())) {
+			associationSide.setTransformationRole(Enum.CARDINALITY_MANY);
+		}
+		if (Enum.CARDINALITY_MANY.equals(associationSide.getRole())) {
+			associationSide.setTransformationRole(Enum.CARDINALITY_ONE);
+		}
 	}
 
 	private static void addRelationshipTransformation(Mapping mapping, Relationship relationship, boolean isCreation) {

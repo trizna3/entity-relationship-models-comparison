@@ -12,7 +12,7 @@ public class PrintUtils extends Utils {
 	public static final String print(EntitySet entitySet) {
 		validateNotNull(entitySet);
 
-		return entitySet.getName() + join(entitySet.getAttributes(), DELIMITER_COMMA);
+		return entitySet.getName() + join(entitySet.getAttributes().toArray(), DELIMITER_COMMA);
 	}
 
 	public static final String print(RelationshipSide relationshipSide) {
