@@ -144,7 +144,7 @@ public class TransformationUtils extends Utils {
 				return transformable;
 			}
 		}
-		throw new IllegalArgumentException("Transformable of given role doesn't exist!");
+		return null;
 	}
 
 	public static void flipCardinality(AssociationSide associationSide) {

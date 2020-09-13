@@ -14,4 +14,12 @@ public class Enum {
 
 	public static final String ROLE_SUB = "ROLE_SUB";
 
+	/*** ATTRIBUTES ***/
+
+	public static final String NAME_ATTRIBUTE = "Name";
+
+	/*** OTHER ***/
+
+	public static final String ENTITY_SETS_DELIMITER = ";";
+
 };

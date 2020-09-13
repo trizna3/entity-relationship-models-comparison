@@ -126,6 +126,31 @@ public class RelationshipUtils extends Utils {
 		return entitySet.equals(relationship.getFirstSide().getEntitySet()) ? relationship.getSecondSide().getEntitySet() : relationship.getFirstSide().getEntitySet();
 	}
 
+	/**
+	 * Rebinds relationship from someES--oldES to someES--newES
+	 * 
+	 * @param relationship
+	 * @param oldEntitySet
+	 * @param newEntitySet
+	 */
+	public static void rebindEntitySets(Relationship relationship, EntitySet oldEntitySet, EntitySet newEntitySet) {
+		validateNotNull(relationship);
+		validateNotNull(oldEntitySet);
+		validateNotNull(newEntitySet);
+
+		oldEntitySet.removeNeighbours(relationship);
+		newEntitySet.addNeighbours(relationship);
+
+		for (RelationshipSide side : relationship.getSides()) {
+			if (oldEntitySet.equals(side.getEntitySet())) {
+				side.setEntitySet(newEntitySet);
+			} else {
+				side.getEntitySet().removeNeighbour(oldEntitySet, relationship);
+				side.getEntitySet().addNeighbour(newEntitySet, relationship);
+			}
+		}
+	}
+
 	private static boolean contains(Association association, EntitySet entitySet) {
 		for (AssociationSide side : association.getSides()) {
 			if (entitySet.equals(side.getEntitySet())) {

@@ -185,7 +185,7 @@ public class ERModelUtils extends Utils {
 			if (assoc1.getAttributes() == null || assoc2.getAttributes() == null) {
 				return false;
 			}
-			return ArrayUtils.areEqual(assoc1.getAttributes(), assoc2.getAttributes());
+			return assoc1.getAttributes().equals(assoc2.getAttributes());
 		} else {
 			return true;
 		}

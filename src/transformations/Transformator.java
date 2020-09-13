@@ -15,6 +15,7 @@ import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
+import entityRelationshipModel.Relationship;
 import entityRelationshipModel.TransformableAttribute;
 
 public class Transformator {
@@ -65,6 +66,24 @@ public class Transformator {
 		}
 		if (EnumTransformation.REBIND_1NN1_TO_MN.equals(transformation.getCode())) {
 			return executeRebind1NN1toMN(mapping, transformation);
+		}
+		if (EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET.equals(transformation.getCode())) {
+			return executeMoveAttributeToIncidentEntitySet(mapping, transformation);
+		}
+		if (EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION.equals(transformation.getCode())) {
+			return executeMoveAttributeToIncidentAssociation(mapping, transformation);
+		}
+		if (EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION.equals(transformation.getCode())) {
+			return executeGeneralizationTo11Association(mapping, transformation);
+		}
+		if (EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET.equals(transformation.getCode())) {
+			return executeExtractAttributeToOwnEntitySet(mapping, transformation);
+		}
+		if (EnumTransformation.CONTRACT_11_ASSOCIATION.equals(transformation.getCode())) {
+			return executeContract11Association(mapping, transformation);
+		}
+		if (EnumTransformation.REBIND_NARY_ASSOCIATION.equals(transformation.getCode())) {
+			return executeRebindNaryAssociation(mapping, transformation);
 		}
 		throw new IllegalArgumentException("Unknown transformation type!");
 	}
@@ -160,7 +179,7 @@ public class Transformator {
 	private static Transformation executeRebindMNto1NN1(Mapping mapping, Transformation transformation) {
 		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
 
-		EntitySet entitySet = new EntitySet(association.getName(), new ArrayList<>(Arrays.asList(association.getAttributes())));
+		EntitySet entitySet = new EntitySet(association.getName(), new ArrayList<>(association.getAttributes()));
 		Association association1 = new Association(
 				new AssociationSide[] { new AssociationSide(entitySet, Enum.CARDINALITY_MANY), new AssociationSide(association.getFirstSide().getEntitySet(), Enum.CARDINALITY_ONE) }, null);
 		Association association2 = new Association(
@@ -190,7 +209,7 @@ public class Transformator {
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ENTITY_SET);
 
 		Association association = new Association(new AssociationSide[] { new AssociationSide(RelationshipUtils.getOtherEntitySet(association1, entitySet), Enum.CARDINALITY_MANY),
-				new AssociationSide(RelationshipUtils.getOtherEntitySet(association2, entitySet), Enum.CARDINALITY_ONE) }, (String[]) entitySet.getAttributes().toArray());
+				new AssociationSide(RelationshipUtils.getOtherEntitySet(association2, entitySet), Enum.CARDINALITY_ONE) }, entitySet.getAttributes());
 
 		ERModel studentModel = mapping.getStudentModel();
 		studentModel.removeRelationship(association1);
@@ -202,6 +221,110 @@ public class Transformator {
 
 		transformation.getArguments().clear();
 		transformation.getArguments().add(association);
+
+		return transformation;
+	}
+
+	private static Transformation executeMoveAttributeToIncidentEntitySet(Mapping mapping, Transformation transformation) {
+		TransformableAttribute attribute = (TransformableAttribute) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ATTRIBUTE);
+		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ENTITY_SET);
+
+		association.removeAttribute(attribute.getAttribute());
+		entitySet.addAttribute(attribute.getAttribute());
+
+		return transformation;
+	}
+
+	private static Transformation executeMoveAttributeToIncidentAssociation(Mapping mapping, Transformation transformation) {
+		TransformableAttribute attribute = (TransformableAttribute) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ATTRIBUTE);
+		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ENTITY_SET);
+
+		association.addAttribute(attribute.getAttribute());
+		entitySet.removeAttribute(attribute.getAttribute());
+
+		return transformation;
+	}
+
+	private static Transformation executeGeneralizationTo11Association(Mapping mapping, Transformation transformation) {
+		Generalization generalization = (Generalization) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.GENERALIZATION);
+
+		Association association = new Association(new AssociationSide[] { new AssociationSide(generalization.getFirstSide().getEntitySet(), Enum.CARDINALITY_ONE),
+				new AssociationSide(generalization.getSecondSide().getEntitySet(), Enum.CARDINALITY_ONE) }, null);
+
+		mapping.getStudentModel().removeRelationship(generalization);
+		mapping.getStudentModel().addRelationship(association);
+
+		association.setTransformationRole(EnumTransformationRole.ASSOCIATION);
+		transformation.getArguments().clear();
+		transformation.getArguments().add(association);
+
+		return transformation;
+	}
+
+	private static Transformation executeExtractAttributeToOwnEntitySet(Mapping mapping, Transformation transformation) {
+		TransformableAttribute attribute = (TransformableAttribute) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ATTRIBUTE);
+		EntitySet sourceEntitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.SOURCE_ENTITY_SET);
+		EntitySet targetEntitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.DEST_ENTITY_SET);
+
+		sourceEntitySet.removeAttribute(attribute.getAttribute());
+
+		if (targetEntitySet == null) {
+			targetEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(Enum.NAME_ATTRIBUTE)));
+			targetEntitySet.setTransformationRole(EnumTransformationRole.SOURCE_ENTITY_SET);
+			mapping.getStudentModel().addEntitySet(targetEntitySet);
+			mapping.getStudentModel().addRelationship(
+					new Association(new AssociationSide[] { new AssociationSide(sourceEntitySet, Enum.CARDINALITY_MANY), new AssociationSide(targetEntitySet, Enum.CARDINALITY_ONE) }, null));
+		} else {
+			if (!targetEntitySet.getAttributes().contains(attribute.getAttribute())) {
+				targetEntitySet.addAttribute(attribute.getAttribute());
+			}
+		}
+
+		sourceEntitySet.setTransformationRole(EnumTransformationRole.DEST_ENTITY_SET);
+
+		return transformation;
+	}
+
+	private static Transformation executeContract11Association(Mapping mapping, Transformation transformation) {
+		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
+
+		EntitySet entitySet1 = association.getFirstSide().getEntitySet();
+		EntitySet entitySet2 = association.getSecondSide().getEntitySet();
+
+		mapping.getStudentModel().removeRelationship(association);
+		entitySet1.getAttributes().addAll(entitySet2.getAttributes());
+		entitySet1.getAttributes().addAll(association.getAttributes());
+		entitySet1.setName(entitySet1.getName() + Enum.ENTITY_SETS_DELIMITER + entitySet2.getName());
+
+		for (Relationship relationship : entitySet2.getIncidentRelationships()) {
+			RelationshipUtils.rebindEntitySets(relationship, entitySet2, entitySet1);
+		}
+
+		entitySet1.setTransformationRole(EnumTransformationRole.ENTITY_SET);
+		transformation.getArguments().clear();
+		transformation.getArguments().add(entitySet1);
+
+		return transformation;
+	}
+
+	private static Transformation executeRebindNaryAssociation(Mapping mapping, Transformation transformation) {
+		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
+
+		mapping.getStudentModel().removeRelationship(association);
+
+		EntitySet entitySet = new EntitySet(association.getName(), association.getAttributes());
+		mapping.getStudentModel().addEntitySet(entitySet);
+
+		for (AssociationSide side : association.getSides()) {
+			mapping.getStudentModel().addRelationship(
+					new Association(new AssociationSide[] { new AssociationSide(entitySet, Enum.CARDINALITY_MANY), new AssociationSide(side.getEntitySet(), Enum.CARDINALITY_ONE) }, null));
+		}
+
+		entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);
+		transformation.getArguments().clear();
+		transformation.getArguments().add(entitySet);
 
 		return transformation;
 	}

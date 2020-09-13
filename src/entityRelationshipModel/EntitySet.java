@@ -119,6 +119,17 @@ public class EntitySet extends Transformable {
 		}
 	}
 
+	public void removeNeighbour(EntitySet neighbour, Relationship relationship) {
+		Utils.validateNotNull(neighbour);
+		Utils.validateNotNull(relationship);
+		Utils.validateContains(relationship, this);
+
+		getNeighbours().get(neighbour).remove(relationship);
+		if (getNeighbours().get(neighbour).isEmpty()) {
+			getNeighbours().remove(neighbour);
+		}
+	}
+
 	public void addNeighbours(Relationship relationship) {
 		Utils.validateContains(relationship, this);
 
@@ -134,6 +145,16 @@ public class EntitySet extends Transformable {
 		}
 	}
 
+	public void addNeighbour(EntitySet neighbour, Relationship relationship) {
+		Utils.validateNotNull(neighbour);
+		Utils.validateNotNull(relationship);
+
+		if (getNeighbours().get(neighbour) == null) {
+			getNeighbours().put(neighbour, new ArrayList<>());
+		}
+		getNeighbours().get(neighbour).add(relationship);
+	}
+
 	public void addAttribute(String attribute) {
 		Utils.validateNotNull(attribute);
 
@@ -145,5 +166,13 @@ public class EntitySet extends Transformable {
 		Utils.validateContains(this, attribute);
 
 		getAttributes().remove(attribute);
+	}
+
+	public List<Relationship> getIncidentRelationships() {
+		List<Relationship> result = new ArrayList<>();
+		for (EntitySet neighbour : getNeighbours().keySet()) {
+			result.addAll(getNeighbours().get(neighbour));
+		}
+		return result;
 	}
 }

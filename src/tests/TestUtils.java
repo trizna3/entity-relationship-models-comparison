@@ -121,7 +121,7 @@ public class TestUtils {
 		for (String[] rel : relationships) {
 			AssociationSide as1 = new AssociationSide(entitySets.get(rel[0]), convertToCardinality(rel[2]));
 			AssociationSide as2 = new AssociationSide(entitySets.get(rel[1]), convertToCardinality(rel[3]));
-			model.addRelationship(new Association(new AssociationSide[] { as1, as2 }, new String[] {}));
+			model.addRelationship(new Association(new AssociationSide[] { as1, as2 }, new ArrayList<String>()));
 		}
 
 		return model;

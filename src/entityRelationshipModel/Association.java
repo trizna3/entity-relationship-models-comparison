@@ -1,5 +1,8 @@
 package entityRelationshipModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author - Adam Trizna
  */
@@ -19,9 +22,9 @@ public class Association extends Relationship {
 	/**
 	 * Attributes list.
 	 */
-	private String[] attributes;
+	private List<String> attributes;
 
-	public Association(AssociationSide[] sides, String[] attributes) {
+	public Association(AssociationSide[] sides, List<String> attributes) {
 		this.sides = sides;
 		this.attributes = attributes;
 	}
@@ -30,8 +33,19 @@ public class Association extends Relationship {
 		return sides;
 	}
 
-	public String[] getAttributes() {
+	public List<String> getAttributes() {
+		if (attributes == null) {
+			attributes = new ArrayList<>();
+		}
 		return attributes;
+	}
+
+	public void addAttribute(String attribute) {
+		getAttributes().add(attribute);
+	}
+
+	public void removeAttribute(String attribute) {
+		getAttributes().remove(attribute);
 	}
 
 	@Override
