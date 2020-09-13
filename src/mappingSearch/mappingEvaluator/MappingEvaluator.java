@@ -79,7 +79,7 @@ public class MappingEvaluator {
 					}
 				}
 
-				TransformationUtils.addCreateRelationship(mapping, exemplarRel);
+				TransformationUtils.addCreateRelationship(mapping, RelationshipUtils.convertRelationship(exemplarRel));
 			}
 		}
 

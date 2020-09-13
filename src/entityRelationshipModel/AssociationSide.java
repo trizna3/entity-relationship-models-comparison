@@ -30,4 +30,8 @@ public class AssociationSide extends RelationshipSide {
 	public String getRole() {
 		return cardinality;
 	}
+
+	public void setEntitySet(EntitySet entitySet) {
+		this.entitySet = entitySet;
+	}
 }

@@ -11,6 +11,8 @@ public abstract class RelationshipSide extends Transformable {
 
 	public abstract EntitySet getEntitySet();
 
+	public abstract void setEntitySet(EntitySet entitySet);
+
 	public abstract String getRole();
 
 	@Override

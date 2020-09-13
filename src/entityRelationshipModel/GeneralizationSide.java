@@ -31,4 +31,8 @@ public class GeneralizationSide extends RelationshipSide {
 	public String getRole() {
 		return role;
 	}
+
+	public void setEntitySet(EntitySet entitySet) {
+		this.entitySet = entitySet;
+	}
 }

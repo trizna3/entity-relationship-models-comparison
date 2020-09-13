@@ -8,6 +8,7 @@ import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
+import entityRelationshipModel.GeneralizationSide;
 import entityRelationshipModel.Relationship;
 import entityRelationshipModel.RelationshipSide;
 
@@ -93,6 +94,28 @@ public class RelationshipUtils extends Utils {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Convert relationship to other model. Set each relationship side entitySet to
+	 * it's image.
+	 * 
+	 * @param relationship
+	 */
+	public static Relationship convertRelationship(Relationship relationship) {
+		validateNotNull(relationship);
+		Relationship result;
+		if (relationship instanceof Association) {
+			result = new Association((AssociationSide[]) relationship.getSides(), ((Association) relationship).getAttributes());
+		} else {
+			result = new Generalization((GeneralizationSide[]) relationship.getSides());
+		}
+
+		for (RelationshipSide relationshipSide : result.getSides()) {
+			relationshipSide.setEntitySet(relationshipSide.getEntitySet().getMappedTo());
+		}
+
+		return relationship;
 	}
 
 	private static boolean contains(Association association, EntitySet entitySet) {
