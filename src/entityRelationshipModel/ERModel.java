@@ -5,6 +5,7 @@ import java.util.List;
 
 import common.ERModelUtils;
 import common.MappingUtils;
+import common.PrintUtils;
 import common.Utils;
 
 /**
@@ -98,5 +99,10 @@ public class ERModel {
 
 		}
 		return notMappedEntitySets;
+	}
+
+	@Override
+	public String toString() {
+		return PrintUtils.print(this);
 	}
 }

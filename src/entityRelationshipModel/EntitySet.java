@@ -1,6 +1,7 @@
 package entityRelationshipModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -92,8 +93,15 @@ public class EntitySet extends Transformable {
 		this.mappedTo = mappedTo;
 	}
 
+	public Map<EntitySet, List<Relationship>> getNeighbours() {
+		if (neighbours == null) {
+			neighbours = new HashMap<EntitySet, List<Relationship>>();
+		}
+		return neighbours;
+	}
+
 	public List<Relationship> getRelationshipsByNeighbour(EntitySet neighbour) {
-		return neighbours.get(neighbour);
+		return getNeighbours().get(neighbour);
 	}
 
 	public void removeNeighbours(Relationship relationship) {
@@ -104,9 +112,9 @@ public class EntitySet extends Transformable {
 			if (this.equals(neighbour)) {
 				continue;
 			}
-			neighbours.get(neighbour).remove(relationship);
-			if (neighbours.get(neighbour).isEmpty()) {
-				neighbours.remove(neighbour);
+			getNeighbours().get(neighbour).remove(relationship);
+			if (getNeighbours().get(neighbour).isEmpty()) {
+				getNeighbours().remove(neighbour);
 			}
 		}
 	}
@@ -119,10 +127,10 @@ public class EntitySet extends Transformable {
 			if (this.equals(neighbour)) {
 				continue;
 			}
-			if (!neighbours.containsKey(neighbour)) {
-				neighbours.put(neighbour, new ArrayList<Relationship>());
+			if (!getNeighbours().containsKey(neighbour)) {
+				getNeighbours().put(neighbour, new ArrayList<Relationship>());
 			}
-			neighbours.get(neighbour).add(relationship);
+			getNeighbours().get(neighbour).add(relationship);
 		}
 	}
 

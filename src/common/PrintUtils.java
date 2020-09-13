@@ -1,5 +1,6 @@
 package common;
 
+import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Relationship;
 import entityRelationshipModel.RelationshipSide;
@@ -12,7 +13,7 @@ public class PrintUtils extends Utils {
 	public static final String print(EntitySet entitySet) {
 		validateNotNull(entitySet);
 
-		return entitySet.getName() + join(entitySet.getAttributes().toArray(), DELIMITER_COMMA);
+		return entitySet.getName() + ": " + join(entitySet.getAttributes().toArray(), DELIMITER_COMMA);
 	}
 
 	public static final String print(RelationshipSide relationshipSide) {
@@ -23,6 +24,20 @@ public class PrintUtils extends Utils {
 	public static final String print(Relationship relationship) {
 		validateNotNull(relationship);
 		return join(relationship.getSides(), DELIMITER_DASH);
+	}
+
+	public static final String print(ERModel model) {
+		validateNotNull(model);
+
+		StringBuffer result = new StringBuffer("ER Model\n");
+		for (EntitySet entitySet : model.getEntitySets()) {
+			result.append(entitySet.toString() + '\n');
+		}
+		for (Relationship relationship : model.getRelationships()) {
+			result.append(relationship.toString() + '\n');
+		}
+
+		return result.toString();
 	}
 
 	private static String join(Object[] objects, String delimiter) {

@@ -37,7 +37,10 @@ public class MappingEvaluator {
 	private void checkEntitySets(Mapping mapping) {
 		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
 			if (entitySet.getMappedTo() == null) {
-				TransformationUtils.addCreateEntitySet(mapping, entitySet);
+				EntitySet esCopy = new EntitySet(entitySet.getName(), entitySet.getAttributes());
+				esCopy.setMappedTo(entitySet);
+				entitySet.setMappedTo(esCopy);
+				TransformationUtils.addCreateEntitySet(mapping, esCopy);
 			}
 		}
 		for (EntitySet entitySet : mapping.getStudentModel().getEntitySets()) {

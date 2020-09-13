@@ -21,18 +21,18 @@ public class Mapping {
 	/**
 	 * Exemplar ER model mapping is created upon.
 	 */
-	private ERModel model1;
+	private ERModel exemplarModel;
 
 	/**
 	 * Students ER model mapping is created upon.
 	 */
-	private ERModel model2;
+	private ERModel studentModel;
 
 	private List<Transformation> transformations;
 
-	public Mapping(ERModel model1, ERModel model2) {
-		this.model1 = model1;
-		this.model2 = model2;
+	public Mapping(ERModel exemplarModel, ERModel studentModel) {
+		this.exemplarModel = exemplarModel;
+		this.studentModel = studentModel;
 		transformations = new ArrayList<>();
 	}
 
@@ -47,8 +47,8 @@ public class Mapping {
 		Utils.validateNotNull(entitySet1);
 		Utils.validateNotNull(entitySet2);
 
-		Utils.validateContains(model1, entitySet1);
-		Utils.validateContains(model2, entitySet2);
+		Utils.validateContains(exemplarModel, entitySet1);
+		Utils.validateContains(studentModel, entitySet2);
 
 		Utils.validateNotMapped(entitySet1);
 		Utils.validateNotMapped(entitySet2);
@@ -66,8 +66,8 @@ public class Mapping {
 		Utils.validateNotNull(entitySet1);
 		Utils.validateNotNull(entitySet2);
 
-		Utils.validateContains(model1, entitySet1);
-		Utils.validateContains(model2, entitySet2);
+		Utils.validateContains(exemplarModel, entitySet1);
+		Utils.validateContains(studentModel, entitySet2);
 
 		Utils.validateMapped(entitySet1);
 		Utils.validateMapped(entitySet2);
@@ -91,10 +91,10 @@ public class Mapping {
 	}
 
 	public ERModel getExemplarModel() {
-		return model1;
+		return exemplarModel;
 	}
 
 	public ERModel getStudentModel() {
-		return model2;
+		return studentModel;
 	}
 }

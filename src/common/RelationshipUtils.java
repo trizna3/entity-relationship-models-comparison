@@ -118,6 +118,14 @@ public class RelationshipUtils extends Utils {
 		return relationship;
 	}
 
+	public static EntitySet getOtherEntitySet(Relationship relationship, EntitySet entitySet) {
+		validateNotNull(entitySet);
+		validateNotNull(relationship);
+		validateBinary(relationship);
+
+		return entitySet.equals(relationship.getFirstSide().getEntitySet()) ? relationship.getSecondSide().getEntitySet() : relationship.getFirstSide().getEntitySet();
+	}
+
 	private static boolean contains(Association association, EntitySet entitySet) {
 		for (AssociationSide side : association.getSides()) {
 			if (entitySet.equals(side.getEntitySet())) {
