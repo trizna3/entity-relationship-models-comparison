@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import common.RelationshipUtils;
+import common.StringUtils;
 import common.TransformationUtils;
 import common.Utils;
 import common.enums.Enum;
@@ -297,6 +298,7 @@ public class Transformator {
 		association.setTransformationRole(EnumTransformationRole.ASSOCIATION);
 		transformation.getArguments().clear();
 		transformation.getArguments().add(association);
+		transformation.getArguments().add(generalization);
 
 		return transformation;
 	}
@@ -341,7 +343,6 @@ public class Transformator {
 		}
 
 		entitySet1.setTransformationRole(EnumTransformationRole.ENTITY_SET);
-		transformation.getArguments().clear();
 		transformation.getArguments().add(entitySet1);
 
 		return transformation;
@@ -361,22 +362,68 @@ public class Transformator {
 		}
 
 		entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);
-		transformation.getArguments().clear();
 		transformation.getArguments().add(entitySet);
 
 		return transformation;
 	}
 	
 	private static Transformation executeMergeAttributeFromOwnEntitySet(Mapping mapping, Transformation transformation) {
-		throw new UnsupportedOperationException();
+		TransformableAttribute attribute = (TransformableAttribute) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ATTRIBUTE);
+		EntitySet destEntitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.DEST_ENTITY_SET);
+		EntitySet sourceEntitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.SOURCE_ENTITY_SET);
+		
+		assert destEntitySet.getNeighbours().keySet().size() > 0;
+		if (destEntitySet.getNeighbours().keySet().size() > 1) {
+			assert destEntitySet.getNeighbours().get(sourceEntitySet).size() == 1;
+			mapping.getStudentModel().removeRelationship(destEntitySet.getNeighbours().get(sourceEntitySet).get(0));
+		} else {
+			mapping.getStudentModel().removeEntitySet(destEntitySet);
+		}
+		sourceEntitySet.addAttribute(attribute.getAttribute());
+		
+		destEntitySet.setTransformationRole(EnumTransformationRole.SOURCE_ENTITY_SET);
+		sourceEntitySet.setTransformationRole(EnumTransformationRole.DEST_ENTITY_SET);
+		return transformation;
 	}
+	
 	private static Transformation execute11AssociationToGeneralization(Mapping mapping, Transformation transformation) {
-		throw new UnsupportedOperationException();
+		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
+		Generalization generalization = (Generalization) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.GENERALIZATION);
+		
+		mapping.getStudentModel().removeRelationship(association);
+		mapping.getStudentModel().addRelationship(generalization);
+		
+		transformation.getArguments().clear();
+		transformation.getArguments().add(generalization);
+		return transformation;
 	}
+	
 	private static Transformation executeUncontract11Association(Mapping mapping, Transformation transformation) {
-		throw new UnsupportedOperationException();
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ENTITY_SET);
+		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
+		
+		EntitySet otherEntitySet = RelationshipUtils.getOtherEntitySet(association, entitySet);
+		entitySet.getAttributes().removeAll(otherEntitySet.getAttributes());
+		entitySet.setName(StringUtils.getFirstNamePart(entitySet.getName()));
+		
+		mapping.getStudentModel().addEntitySet(otherEntitySet);
+		mapping.getStudentModel().addRelationship(association);
+		
+		transformation.getArguments().clear();
+		transformation.getArguments().add(entitySet);
+		
+		return transformation;
 	}
+	
 	private static Transformation executeBindToNaryAssociation(Mapping mapping, Transformation transformation) {
-		throw new UnsupportedOperationException();
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ENTITY_SET);
+		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
+		
+		mapping.getStudentModel().removeEntitySet(entitySet);
+		mapping.getStudentModel().addRelationship(association);
+		
+		transformation.getArguments().clear();
+		transformation.getArguments().add(association);
+		return transformation;
 	}	
 }

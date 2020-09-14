@@ -58,7 +58,7 @@ public class ERModel {
 		Utils.validateContains(this, entitySet);
 
 		// remove all incident relationships
-		for (Relationship relationshipForRemoval : ERModelUtils.getRelationshipsByEntitySets(this, new EntitySet[] { entitySet })) {
+		for (Relationship relationshipForRemoval : entitySet.getIncidentRelationships()) {
 			removeRelationship(relationshipForRemoval);
 		}
 		// remove the entity set

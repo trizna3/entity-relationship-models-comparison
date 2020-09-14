@@ -1,5 +1,7 @@
 package common;
 
+import common.enums.Enum;
+
 public class StringUtils extends Utils {
 
 	public static boolean areEqual(String string1, String string2) {
@@ -14,4 +16,9 @@ public class StringUtils extends Utils {
 		}
 		return string1.toLowerCase().equals(string2.toLowerCase());
 	}
+	
+	public static String getFirstNamePart(String name) {
+		validateNotNull(name);
+		return name.split(Enum.ENTITY_SETS_DELIMITER)[0];
+	} 
 }
