@@ -27,6 +27,8 @@ public class EnumTransformation {
 	public static final String RENAME_ATTRIBUTE = "RENAME_ATTRIBUTE";
 
 	public static final String EXTRACT_ATTR_TO_OWN_ENTITY_SET = "EXTRACT_ATTR_TO_OWN_ENTITY_SET";
+	
+	public static final String MERGE_ATTR_FROM_OWN_ENTITY_SET = "MERGE_ATTR_FROM_OWN_ENTITY_SET";
 
 	public static final String MOVE_ATTR_TO_INCIDENT_ENTITY_SET = "MOVE_ATTR_TO_INCIDENT_ENTITY_SET";
 
@@ -37,8 +39,14 @@ public class EnumTransformation {
 	public static final String REBIND_1NN1_TO_MN = "REBIND_1NN1_TO_MN";
 
 	public static final String GENERALIZATION_TO_11_ASSOCIATION = "GENERALIZATION_TO_11_ASSOCIATION";
+	
+	public static final String _11_ASSOCIATION_TO_GENERALIZATION = "_11_ASSOCIATION_TO_GENERALIZATION";
 
 	public static final String CONTRACT_11_ASSOCIATION = "CONTRACT_11_ASSOCIATION";
+	
+	public static final String UNCONTRACT_11_ASSOCIATION = "UNCONTRACT_11_ASSOCIATION";
 
 	public static final String REBIND_NARY_ASSOCIATION = "REBIND_NARY_ASSOCIATION";
+	
+	public static final String BIND_TO_NARY_ASSOCIATION = "REBIND_NARY_ASSOCIATION";
 }

@@ -85,6 +85,18 @@ public class Transformator {
 		if (EnumTransformation.REBIND_NARY_ASSOCIATION.equals(transformation.getCode())) {
 			return executeRebindNaryAssociation(mapping, transformation);
 		}
+		if (EnumTransformation.MERGE_ATTR_FROM_OWN_ENTITY_SET.equals(transformation.getCode())) {
+			return executeMergeAttributeFromOwnEntitySet(mapping, transformation);
+		}
+		if (EnumTransformation._11_ASSOCIATION_TO_GENERALIZATION.equals(transformation.getCode())) {
+			return execute11AssociationToGeneralization(mapping, transformation);
+		}
+		if (EnumTransformation.UNCONTRACT_11_ASSOCIATION.equals(transformation.getCode())) {
+			return executeUncontract11Association(mapping, transformation);
+		}
+		if (EnumTransformation.BIND_TO_NARY_ASSOCIATION.equals(transformation.getCode())) {
+			return executeBindToNaryAssociation(mapping, transformation);
+		}
 		throw new IllegalArgumentException("Unknown transformation type!");
 	}
 
@@ -93,7 +105,33 @@ public class Transformator {
 	 * the arguments in transformation-reverted form.
 	 */
 	public static Transformation revert(Mapping mapping, Transformation transformation) {
-		throw new UnsupportedOperationException();
+		Utils.validateNotNull(transformation);
+		transformation.setCode(getRevertingTransformation(transformation));
+		return execute(mapping, transformation);
+	}
+	
+	private static String getRevertingTransformation(Transformation transformation) {
+		String code = transformation.getCode();
+		switch (code) {
+		case EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION:
+			return EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET;
+		case EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET:
+			return EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION;
+		case EnumTransformation.REBIND_MN_TO_1NN1:
+			return EnumTransformation.REBIND_1NN1_TO_MN;
+		case EnumTransformation.REBIND_1NN1_TO_MN:
+			return EnumTransformation.REBIND_MN_TO_1NN1;
+		case EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET:
+			return EnumTransformation.MERGE_ATTR_FROM_OWN_ENTITY_SET;
+		case EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION:
+			return EnumTransformation._11_ASSOCIATION_TO_GENERALIZATION;
+		case EnumTransformation.CONTRACT_11_ASSOCIATION:
+			return EnumTransformation.UNCONTRACT_11_ASSOCIATION;
+		case EnumTransformation.REBIND_NARY_ASSOCIATION:
+			return EnumTransformation.BIND_TO_NARY_ASSOCIATION;
+		default:
+			return null;
+		}
 	}
 
 	private static Transformation executeCreateEntitySet(Mapping mapping, Transformation transformation) {
@@ -328,4 +366,17 @@ public class Transformator {
 
 		return transformation;
 	}
+	
+	private static Transformation executeMergeAttributeFromOwnEntitySet(Mapping mapping, Transformation transformation) {
+		throw new UnsupportedOperationException();
+	}
+	private static Transformation execute11AssociationToGeneralization(Mapping mapping, Transformation transformation) {
+		throw new UnsupportedOperationException();
+	}
+	private static Transformation executeUncontract11Association(Mapping mapping, Transformation transformation) {
+		throw new UnsupportedOperationException();
+	}
+	private static Transformation executeBindToNaryAssociation(Mapping mapping, Transformation transformation) {
+		throw new UnsupportedOperationException();
+	}	
 }
