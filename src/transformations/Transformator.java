@@ -313,15 +313,13 @@ public class Transformator {
 		if (targetEntitySet == null) {
 			targetEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(Enum.NAME_ATTRIBUTE)));
 			targetEntitySet.setTransformationRole(EnumTransformationRole.SOURCE_ENTITY_SET);
-			mapping.getStudentModel().addEntitySet(targetEntitySet);
-			mapping.getStudentModel().addRelationship(
-					new Association(new AssociationSide[] { new AssociationSide(sourceEntitySet, Enum.CARDINALITY_MANY), new AssociationSide(targetEntitySet, Enum.CARDINALITY_ONE) }, null));
+			mapping.getStudentModel().addEntitySet(targetEntitySet);			
 		} else {
 			if (!targetEntitySet.getAttributes().contains(attribute.getAttribute())) {
 				targetEntitySet.addAttribute(attribute.getAttribute());
 			}
 		}
-
+		mapping.getStudentModel().addRelationship(new Association(new AssociationSide[] { new AssociationSide(sourceEntitySet, Enum.CARDINALITY_MANY), new AssociationSide(targetEntitySet, Enum.CARDINALITY_ONE) }, null));
 		sourceEntitySet.setTransformationRole(EnumTransformationRole.DEST_ENTITY_SET);
 
 		return transformation;

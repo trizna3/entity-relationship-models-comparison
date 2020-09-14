@@ -43,6 +43,12 @@ public class ERModel {
 		Utils.validateNotNull(entitySet);
 		getEntitySets().add(entitySet);
 	}
+	
+	public void addAllEntitySets(Iterable<EntitySet> entitySets) {
+		for (EntitySet es : entitySets) {
+			addEntitySet(es);
+		}
+	}
 
 	public void addRelationship(Relationship relationship) {
 		Utils.validateNotNull(relationship);
@@ -51,6 +57,12 @@ public class ERModel {
 			side.getEntitySet().addNeighbours(relationship);
 		}
 		getRelationships().add(relationship);
+	}
+	
+	public void addAllRelationships(Iterable<Relationship> relationships) {
+		for (Relationship rel : relationships) {
+			addRelationship(rel);
+		}
 	}
 
 	public void removeEntitySet(EntitySet entitySet) {

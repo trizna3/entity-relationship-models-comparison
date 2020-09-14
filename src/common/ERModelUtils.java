@@ -214,6 +214,18 @@ public class ERModelUtils extends Utils {
 
 		return true;
 	}
+	
+	public static EntitySet getEntitySetByName(ERModel model, String name) {
+		validateNotNull(model);
+		validateNotNull(name);
+		
+		for (EntitySet entitySet : model.getEntitySets()) {
+			if (name.equals(entitySet.getName())) {
+				return entitySet;
+			}
+		}
+		return null;
+	}
 
 	private static boolean modelsAreEqualByRelationships(ERModel model1, ERModel model2) {
 
