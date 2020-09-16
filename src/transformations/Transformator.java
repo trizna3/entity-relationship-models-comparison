@@ -339,6 +339,8 @@ public class Transformator {
 		for (Relationship relationship : entitySet2.getIncidentRelationships()) {
 			RelationshipUtils.rebindEntitySets(relationship, entitySet2, entitySet1);
 		}
+		
+		mapping.getStudentModel().removeEntitySet(entitySet2);
 
 		entitySet1.setTransformationRole(EnumTransformationRole.ENTITY_SET);
 		transformation.getArguments().add(entitySet1);

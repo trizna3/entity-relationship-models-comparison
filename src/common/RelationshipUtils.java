@@ -118,12 +118,20 @@ public class RelationshipUtils extends Utils {
 		return relationship;
 	}
 
-	public static EntitySet getOtherEntitySet(Relationship relationship, EntitySet entitySet) {
+	public static RelationshipSide getOtherSide(Relationship relationship, EntitySet entitySet) {
 		validateNotNull(entitySet);
 		validateNotNull(relationship);
 		validateBinary(relationship);
 
-		return entitySet.equals(relationship.getFirstSide().getEntitySet()) ? relationship.getSecondSide().getEntitySet() : relationship.getFirstSide().getEntitySet();
+		return entitySet.equals(relationship.getFirstSide().getEntitySet()) ? relationship.getSecondSide() : relationship.getFirstSide();
+	}
+	
+	public static EntitySet getOtherEntitySet(Relationship relationship, EntitySet entitySet) {
+		validateNotNull(entitySet);
+		validateNotNull(relationship);
+		validateBinary(relationship);
+		
+		return getOtherSide(relationship, entitySet).getEntitySet();
 	}
 
 	/**
@@ -139,12 +147,18 @@ public class RelationshipUtils extends Utils {
 		validateNotNull(newEntitySet);
 
 		oldEntitySet.removeNeighbours(relationship);
-		newEntitySet.addNeighbours(relationship);
-
+		
 		for (RelationshipSide side : relationship.getSides()) {
 			if (oldEntitySet.equals(side.getEntitySet())) {
 				side.setEntitySet(newEntitySet);
-			} else {
+				break;
+			}
+		}
+		
+		newEntitySet.addNeighbours(relationship);
+
+		for (RelationshipSide side : relationship.getSides()) {
+			if (!newEntitySet.equals(side.getEntitySet())) {
 				side.getEntitySet().removeNeighbour(oldEntitySet, relationship);
 				side.getEntitySet().addNeighbour(newEntitySet, relationship);
 			}
