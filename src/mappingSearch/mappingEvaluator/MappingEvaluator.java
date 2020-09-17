@@ -1,5 +1,6 @@
 package mappingSearch.mappingEvaluator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import common.RelationshipUtils;
@@ -51,8 +52,8 @@ public class MappingEvaluator {
 	}
 
 	private void checkRelationships(Mapping mapping) {
-		List<Relationship> exemplarToProcess = mapping.getExemplarModel().getRelationships();
-		List<Relationship> studentsToProcess = mapping.getStudentModel().getRelationships();
+		List<Relationship> exemplarToProcess = new ArrayList<>(mapping.getExemplarModel().getRelationships());
+		List<Relationship> studentsToProcess = new ArrayList<>(mapping.getStudentModel().getRelationships());
 
 		for (Relationship exemplarRel : mapping.getExemplarModel().getRelationships()) {
 			for (Relationship studentRel : mapping.getStudentModel().getRelationships()) {
@@ -106,10 +107,18 @@ public class MappingEvaluator {
 	private void checkAttributes(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
 		// TODO: tuto by bola vhodna nejaka netrivialnejsia logika, aby si to nerobil
 		// len tak primitivne
+		// "RENAME_ENTITY_SET";
+		// "RENAME_ATTRIBUTE";
+		for (String attribute : exemplarEntitySet.getAttributes()) {
+			if (!studentEntitySet.getAttributes().contains(attribute)) {
+				TransformationUtils.addCreateAttribute(mapping, studentEntitySet, attribute);
+			}
+		}
 
-//		public static final String CREATE_ATTRIBUTE = "CREATE_ATTRIBUTE";
-//		public static final String REMOVE_ATTRIBUTE = "REMOVE_ATTRIBUTE";
-//		public static final String RENAME_ENTITY_SET = "RENAME_ENTITY_SET";
-//		public static final String RENAME_ATTRIBUTE = "RENAME_ATTRIBUTE";
+		for (String attribute : studentEntitySet.getAttributes()) {
+			if (!exemplarEntitySet.getAttributes().contains(attribute)) {
+				TransformationUtils.addRemoveAttribute(mapping, studentEntitySet, attribute);
+			}
+		}
 	}
 }

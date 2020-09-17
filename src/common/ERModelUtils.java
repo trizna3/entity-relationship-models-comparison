@@ -216,11 +216,11 @@ public class ERModelUtils extends Utils {
 
 		return true;
 	}
-	
+
 	public static EntitySet getEntitySetByName(ERModel model, String name) {
 		validateNotNull(model);
 		validateNotNull(name);
-		
+
 		for (EntitySet entitySet : model.getEntitySets()) {
 			if (name.equals(entitySet.getName())) {
 				return entitySet;
@@ -228,20 +228,20 @@ public class ERModelUtils extends Utils {
 		}
 		return null;
 	}
-	
+
 	public static ERModel getClone(ERModel model) {
-		Map<EntitySet,EntitySet> entitySetMap = new HashMap<>();
+		Map<EntitySet, EntitySet> entitySetMap = new HashMap<>();
 		ERModel modelClone = new ERModel();
-		
+
 		for (EntitySet entitySet : model.getEntitySets()) {
 			entitySetMap.put(entitySet, new EntitySet(entitySet));
 		}
 		modelClone.addAllEntitySets(entitySetMap.values());
-		
+
 		for (Relationship relationship : model.getRelationships()) {
 			modelClone.addRelationship(RelationshipUtils.getClone(relationship, entitySetMap));
 		}
-		
+
 		return modelClone;
 	}
 
