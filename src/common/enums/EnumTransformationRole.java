@@ -25,4 +25,6 @@ public class EnumTransformationRole {
 	public static final String ENTITY_SET_TARGET = "ENTITY_SET_TARGET";
 
 	public static final String ATTRIBUTE_TARGET = "ATTRIBUTE_TARGET";
+	
+	public static final String TRANSFORMABLE_LIST = "TRANSFORMABLE_LIST";	
 }

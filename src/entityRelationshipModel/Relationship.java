@@ -23,7 +23,7 @@ public abstract class Relationship extends Transformable {
 	 */
 	private String name;
 
-	abstract public RelationshipSide[] getSides();
+	public abstract RelationshipSide[] getSides();
 
 	public abstract boolean isBinary();
 

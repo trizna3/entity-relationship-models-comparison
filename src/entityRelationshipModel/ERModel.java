@@ -24,7 +24,9 @@ public class ERModel {
 	 * Entity sets which are not mapped.
 	 */
 	private List<EntitySet> notMappedEntitySets;
-
+	
+	public ERModel() {}
+	
 	public List<EntitySet> getEntitySets() {
 		if (entitySets == null) {
 			entitySets = new ArrayList<>();

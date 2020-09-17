@@ -48,5 +48,5 @@ public class EnumTransformation {
 
 	public static final String REBIND_NARY_ASSOCIATION = "REBIND_NARY_ASSOCIATION";
 	
-	public static final String BIND_TO_NARY_ASSOCIATION = "REBIND_NARY_ASSOCIATION";
+	public static final String BIND_TO_NARY_ASSOCIATION = "BIND_TO_NARY_ASSOCIATION";
 }

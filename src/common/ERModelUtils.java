@@ -2,8 +2,10 @@ package common;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import comparing.Mapping;
@@ -134,7 +136,7 @@ public class ERModelUtils extends Utils {
 		if (entitySet1.getAttributes() == null || entitySet2.getAttributes() == null) {
 			return false;
 		}
-		return entitySet1.getAttributes().equals(entitySet2.getAttributes());
+		return entitySet1.getAttributes().containsAll(entitySet2.getAttributes()) && entitySet2.getAttributes().containsAll(entitySet1.getAttributes());
 	}
 
 	/**
@@ -185,7 +187,7 @@ public class ERModelUtils extends Utils {
 			if (assoc1.getAttributes() == null || assoc2.getAttributes() == null) {
 				return false;
 			}
-			return assoc1.getAttributes().equals(assoc2.getAttributes());
+			return assoc1.getAttributes().containsAll(assoc2.getAttributes()) && assoc2.getAttributes().containsAll(assoc1.getAttributes());
 		} else {
 			return true;
 		}
@@ -225,6 +227,22 @@ public class ERModelUtils extends Utils {
 			}
 		}
 		return null;
+	}
+	
+	public static ERModel getClone(ERModel model) {
+		Map<EntitySet,EntitySet> entitySetMap = new HashMap<>();
+		ERModel modelClone = new ERModel();
+		
+		for (EntitySet entitySet : model.getEntitySets()) {
+			entitySetMap.put(entitySet, new EntitySet(entitySet));
+		}
+		modelClone.addAllEntitySets(entitySetMap.values());
+		
+		for (Relationship relationship : model.getRelationships()) {
+			modelClone.addRelationship(RelationshipUtils.getClone(relationship, entitySetMap));
+		}
+		
+		return modelClone;
 	}
 
 	private static boolean modelsAreEqualByRelationships(ERModel model1, ERModel model2) {

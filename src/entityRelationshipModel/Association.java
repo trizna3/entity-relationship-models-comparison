@@ -24,11 +24,13 @@ public class Association extends Relationship {
 	 */
 	private List<String> attributes;
 
+	public Association() {};
+	
 	public Association(AssociationSide[] sides, List<String> attributes) {
-		this.sides = sides;
+		this.setSides(sides);
 		this.attributes = attributes;
 	}
-
+	
 	public AssociationSide[] getSides() {
 		return sides;
 	}
@@ -38,6 +40,10 @@ public class Association extends Relationship {
 			attributes = new ArrayList<>();
 		}
 		return attributes;
+	}
+	
+	public void setAttributes(List<String> attributes) {
+		this.attributes = attributes;
 	}
 
 	public void addAttribute(String attribute) {
@@ -50,16 +56,20 @@ public class Association extends Relationship {
 
 	@Override
 	public boolean isBinary() {
-		return sides.length == 2;
+		return getSides().length == 2;
 	}
 
 	@Override
 	protected AssociationSide getFirst() {
-		return sides[0];
+		return getSides()[0];
 	}
 
 	@Override
 	protected AssociationSide getSecond() {
-		return sides[1];
+		return getSides()[1];
+	}
+
+	public void setSides(AssociationSide[] sides) {
+		this.sides = sides;
 	}
 }

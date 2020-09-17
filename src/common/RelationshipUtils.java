@@ -1,9 +1,12 @@
 package common;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import common.enums.Enum;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.EntitySet;
@@ -164,7 +167,47 @@ public class RelationshipUtils extends Utils {
 			}
 		}
 	}
-
+	
+	/**
+	 * Get relationship clone
+	 * @param relationship
+	 * @param entitySetMap - map of <originalEntitySet,clonedEntitySet>
+	 * @return
+	 */
+	public static Relationship getClone(Relationship relationship, Map<EntitySet,EntitySet> entitySetMap) {
+		validateNotNull(relationship);
+		validateNotNull(entitySetMap);
+		
+		if (relationship instanceof Association) {
+			return getAssociationClone((Association) relationship, entitySetMap);
+		} else {
+			return getGeneralizationClone((Generalization) relationship, entitySetMap);
+		}
+	}
+	
+	private static Association getAssociationClone(Association association, Map<EntitySet,EntitySet> entitySetMap) {
+		Association associationClone = new Association();
+		
+		associationClone.setName(association.getName());
+		associationClone.setAttributes(new ArrayList<>(association.getAttributes()));
+		associationClone.setSides(new AssociationSide[association.getSides().length]);
+		for (int i = 0; i < association.getSides().length; i++) {
+			AssociationSide side = association.getSides()[i];
+			associationClone.getSides()[i] = new AssociationSide(entitySetMap.get(side.getEntitySet()), side.getRole());
+		}
+		return associationClone;
+	}
+	
+	private static Generalization getGeneralizationClone(Generalization generalization, Map<EntitySet,EntitySet> entitySetMap) {
+		Generalization generalizationClone = new Generalization();
+		
+		generalizationClone.setName(generalization.getName());
+		generalizationClone.getSides()[0] = new GeneralizationSide(entitySetMap.get(generalization.getFirstSide().getEntitySet()), generalization.getFirstSide().getRole());
+ 		generalizationClone.getSides()[1] = new GeneralizationSide(entitySetMap.get(generalization.getSecondSide().getEntitySet()), generalization.getSecondSide().getRole());
+		
+		return generalizationClone;
+	}
+	
 	private static boolean contains(Association association, EntitySet entitySet) {
 		for (AssociationSide side : association.getSides()) {
 			if (entitySet.equals(side.getEntitySet())) {

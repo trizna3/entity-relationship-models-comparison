@@ -52,6 +52,14 @@ public class EntitySet extends Transformable {
 		this.name = name;
 		this.attributes = attributes;
 	}
+	
+	public EntitySet(EntitySet other) {
+		this.name = other.getName();
+		this.attributes = new ArrayList<>(other.getAttributes());
+		this.empty = other.isEmpty();
+		this.mappedTo = other.getMappedTo();
+		this.neighbours = new HashMap<>(other.getNeighbours());
+	}
 
 	public String getName() {
 		return name;
