@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import common.enums.Enum;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.EntitySet;
@@ -17,6 +16,14 @@ import entityRelationshipModel.RelationshipSide;
 
 public class RelationshipUtils extends Utils {
 
+	/**
+	 * Returns given entitySet's role (cardinality/generalizationRole) in given
+	 * relationship
+	 * 
+	 * @param relationship
+	 * @param entitySet
+	 * @return
+	 */
 	public static String getRole(Relationship relationship, EntitySet entitySet) {
 		validateNotNull(relationship);
 		validateNotNull(entitySet);
@@ -31,6 +38,13 @@ public class RelationshipUtils extends Utils {
 		return null;
 	}
 
+	/**
+	 * Determines whether given entitySet is contained in given relationship
+	 * 
+	 * @param relationship
+	 * @param entitySet
+	 * @return
+	 */
 	public static boolean contains(Relationship relationship, EntitySet entitySet) {
 		validateNotNull(relationship);
 		validateNotNull(entitySet);
@@ -70,6 +84,15 @@ public class RelationshipUtils extends Utils {
 		return true;
 	}
 
+	/**
+	 * Determines if given relationships are equal. (relationships are in the same
+	 * model, no mapping involved)
+	 * 
+	 * @param relationship1
+	 * @param relationship2
+	 * @param checkRole
+	 * @return
+	 */
 	public static boolean relationshipsAreEqual(Relationship relationship1, Relationship relationship2, boolean checkRole) {
 		validateNotNull(relationship1);
 		validateNotNull(relationship2);
@@ -81,6 +104,14 @@ public class RelationshipUtils extends Utils {
 		}
 	}
 
+	/**
+	 * Determines if given relationships are equal in given mapping.
+	 * 
+	 * @param relationship1
+	 * @param relationship2
+	 * @param checkRole
+	 * @return
+	 */
 	public static boolean relationshipsAreEquallyMapped(Relationship relationship1, Relationship relationship2, boolean checkRole) {
 
 		validateNotNull(relationship1);
@@ -121,6 +152,14 @@ public class RelationshipUtils extends Utils {
 		return relationship;
 	}
 
+	/**
+	 * Returns the other side of given binary relationship (given 'first'
+	 * entitySet).
+	 * 
+	 * @param relationship
+	 * @param entitySet
+	 * @return
+	 */
 	public static RelationshipSide getOtherSide(Relationship relationship, EntitySet entitySet) {
 		validateNotNull(entitySet);
 		validateNotNull(relationship);
@@ -128,12 +167,20 @@ public class RelationshipUtils extends Utils {
 
 		return entitySet.equals(relationship.getFirstSide().getEntitySet()) ? relationship.getSecondSide() : relationship.getFirstSide();
 	}
-	
+
+	/**
+	 * Returns the other entitySet of given binary relationship (given 'first'
+	 * entitySet).
+	 * 
+	 * @param relationship
+	 * @param entitySet
+	 * @return
+	 */
 	public static EntitySet getOtherEntitySet(Relationship relationship, EntitySet entitySet) {
 		validateNotNull(entitySet);
 		validateNotNull(relationship);
 		validateBinary(relationship);
-		
+
 		return getOtherSide(relationship, entitySet).getEntitySet();
 	}
 
@@ -150,14 +197,14 @@ public class RelationshipUtils extends Utils {
 		validateNotNull(newEntitySet);
 
 		oldEntitySet.removeNeighbours(relationship);
-		
+
 		for (RelationshipSide side : relationship.getSides()) {
 			if (oldEntitySet.equals(side.getEntitySet())) {
 				side.setEntitySet(newEntitySet);
 				break;
 			}
 		}
-		
+
 		newEntitySet.addNeighbours(relationship);
 
 		for (RelationshipSide side : relationship.getSides()) {
@@ -167,27 +214,28 @@ public class RelationshipUtils extends Utils {
 			}
 		}
 	}
-	
+
 	/**
 	 * Get relationship clone
+	 * 
 	 * @param relationship
 	 * @param entitySetMap - map of <originalEntitySet,clonedEntitySet>
 	 * @return
 	 */
-	public static Relationship getClone(Relationship relationship, Map<EntitySet,EntitySet> entitySetMap) {
+	public static Relationship getClone(Relationship relationship, Map<EntitySet, EntitySet> entitySetMap) {
 		validateNotNull(relationship);
 		validateNotNull(entitySetMap);
-		
+
 		if (relationship instanceof Association) {
 			return getAssociationClone((Association) relationship, entitySetMap);
 		} else {
 			return getGeneralizationClone((Generalization) relationship, entitySetMap);
 		}
 	}
-	
-	private static Association getAssociationClone(Association association, Map<EntitySet,EntitySet> entitySetMap) {
+
+	private static Association getAssociationClone(Association association, Map<EntitySet, EntitySet> entitySetMap) {
 		Association associationClone = new Association();
-		
+
 		associationClone.setName(association.getName());
 		associationClone.setAttributes(new ArrayList<>(association.getAttributes()));
 		associationClone.setSides(new AssociationSide[association.getSides().length]);
@@ -197,17 +245,17 @@ public class RelationshipUtils extends Utils {
 		}
 		return associationClone;
 	}
-	
-	private static Generalization getGeneralizationClone(Generalization generalization, Map<EntitySet,EntitySet> entitySetMap) {
+
+	private static Generalization getGeneralizationClone(Generalization generalization, Map<EntitySet, EntitySet> entitySetMap) {
 		Generalization generalizationClone = new Generalization();
-		
+
 		generalizationClone.setName(generalization.getName());
 		generalizationClone.getSides()[0] = new GeneralizationSide(entitySetMap.get(generalization.getFirstSide().getEntitySet()), generalization.getFirstSide().getRole());
- 		generalizationClone.getSides()[1] = new GeneralizationSide(entitySetMap.get(generalization.getSecondSide().getEntitySet()), generalization.getSecondSide().getRole());
-		
+		generalizationClone.getSides()[1] = new GeneralizationSide(entitySetMap.get(generalization.getSecondSide().getEntitySet()), generalization.getSecondSide().getRole());
+
 		return generalizationClone;
 	}
-	
+
 	private static boolean contains(Association association, EntitySet entitySet) {
 		for (AssociationSide side : association.getSides()) {
 			if (entitySet.equals(side.getEntitySet())) {

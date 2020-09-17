@@ -18,6 +18,12 @@ public class MappingUtils extends Utils {
 		EMPTY_ENTITY_SET.setEmpty(true);
 	}
 
+	/**
+	 * Returns a list of all model's entitySets with no mapping image set.
+	 * 
+	 * @param model
+	 * @return
+	 */
 	public static List<EntitySet> getNotMappedEntitySets(ERModel model) {
 		validateNotNull(model);
 

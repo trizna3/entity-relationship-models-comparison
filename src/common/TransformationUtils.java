@@ -147,6 +147,11 @@ public class TransformationUtils extends Utils {
 		return null;
 	}
 
+	/**
+	 * Flips the cardinality on given associationSide (between ONE - MANY).
+	 * 
+	 * @param associationSide
+	 */
 	public static void flipCardinality(AssociationSide associationSide) {
 		validateNotNull(associationSide);
 

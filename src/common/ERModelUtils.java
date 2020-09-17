@@ -217,6 +217,13 @@ public class ERModelUtils extends Utils {
 		return true;
 	}
 
+	/**
+	 * Returns entitySet from given model with given name.
+	 * 
+	 * @param model
+	 * @param name
+	 * @return
+	 */
 	public static EntitySet getEntitySetByName(ERModel model, String name) {
 		validateNotNull(model);
 		validateNotNull(name);
@@ -229,6 +236,13 @@ public class ERModelUtils extends Utils {
 		return null;
 	}
 
+	/**
+	 * Creates and returns model deep clone. All embedded objects are cloned as
+	 * well.
+	 * 
+	 * @param model
+	 * @return
+	 */
 	public static ERModel getClone(ERModel model) {
 		Map<EntitySet, EntitySet> entitySetMap = new HashMap<>();
 		ERModel modelClone = new ERModel();

@@ -6,6 +6,14 @@ import java.util.Set;
 
 public class ArrayUtils extends Utils {
 
+	/**
+	 * Determines if object is contained in the array.
+	 * 
+	 * @param <T>
+	 * @param array
+	 * @param target
+	 * @return
+	 */
 	public static <T> boolean contains(T[] array, T target) {
 		validateNotNull(array);
 		validateNotNull(target);
@@ -18,6 +26,14 @@ public class ArrayUtils extends Utils {
 		return false;
 	}
 
+	/**
+	 * Determines if arrays are equal, ignoring element order.
+	 * 
+	 * @param <T>
+	 * @param array1
+	 * @param array2
+	 * @return
+	 */
 	public static <T> boolean areEqual(T[] array1, T[] array2) {
 		Set<T> objectsToProcess = new HashSet<>();
 		objectsToProcess.addAll(Arrays.asList(array1));

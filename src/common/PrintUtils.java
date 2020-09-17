@@ -10,22 +10,46 @@ public class PrintUtils extends Utils {
 	public static final String DELIMITER_DASH = "-";
 	public static final String DELIMITER_COMMA = ",";
 
+	/**
+	 * Returns toString of EntitySet class
+	 * 
+	 * @param entitySet
+	 * @return
+	 */
 	public static final String print(EntitySet entitySet) {
 		validateNotNull(entitySet);
 
 		return entitySet.getName() + ": " + join(entitySet.getAttributes().toArray(), DELIMITER_COMMA);
 	}
 
+	/**
+	 * Returns toString of RelationshipSide class
+	 * 
+	 * @param relationshipSide
+	 * @return
+	 */
 	public static final String print(RelationshipSide relationshipSide) {
 		validateNotNull(relationshipSide);
 		return "(" + relationshipSide.getEntitySet().toString() + relationshipSide.getRole() + ")";
 	}
 
+	/**
+	 * Returns toString of Relationship class
+	 * 
+	 * @param relationship
+	 * @return
+	 */
 	public static final String print(Relationship relationship) {
 		validateNotNull(relationship);
 		return join(relationship.getSides(), DELIMITER_DASH);
 	}
 
+	/**
+	 * Returns toString of ERModel class
+	 * 
+	 * @param model
+	 * @return
+	 */
 	public static final String print(ERModel model) {
 		validateNotNull(model);
 
