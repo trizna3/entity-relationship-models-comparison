@@ -5,12 +5,17 @@ import java.util.Map;
 
 import common.Utils;
 import comparing.Mapping;
+import transformations.Transformation;
 
 /**
  * @author - Adam Trizna
  * 
- *         Component for evaluating transformations -- computing specific
- *         transformations penalties.
+ */
+
+/**
+ * Component for evaluating transformations -- computing specific
+ * transformations penalties.
+ *
  */
 public class TransformationEvaluator {
 
@@ -30,9 +35,9 @@ public class TransformationEvaluator {
 		// vyhodnocovanie ekvivalencie transformacii, minimalne pre vybrane
 		// transformacie.
 
-// for (String code : mapping.getTransformationCodes()) {
-//			penalty += penalizeTransformation(code);
-//		}
+		for (Transformation transformation : mapping.getTransformations()) {
+			penalty += penalizeTransformation(transformation);
+		}
 
 		return penalty;
 	}
@@ -40,11 +45,7 @@ public class TransformationEvaluator {
 	/**
 	 * Computes penalty for used transformation, based on transformation type.
 	 */
-	private double penalizeTransformation(String transformationCode) {
-		Double penalty = transformationPenalties.get(transformationCode);
-		if (penalty == null) {
-			throw new IllegalArgumentException("Invalid transformation code!");
-		}
-		return penalty;
+	private double penalizeTransformation(Transformation transformation) {
+		return 1;
 	}
 }

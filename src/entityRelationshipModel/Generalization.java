@@ -24,7 +24,7 @@ public class Generalization extends Relationship {
 	public Generalization() {
 		this.sides = new GeneralizationSide[2];
 	};
-	
+
 	public Generalization(GeneralizationSide[] sides) {
 		this.sides = sides;
 	}
@@ -34,7 +34,13 @@ public class Generalization extends Relationship {
 		sides[0] = new GeneralizationSide(superEntitySet, Enum.ROLE_SUPER);
 		sides[1] = new GeneralizationSide(subEntitySet, Enum.ROLE_SUB);
 	}
-	
+
+	public Generalization(Generalization generalization) {
+		sides = new GeneralizationSide[2];
+		sides[0] = new GeneralizationSide(generalization.getFirst());
+		sides[1] = new GeneralizationSide(generalization.getSecond());
+	}
+
 	public GeneralizationSide[] getSides() {
 		return sides;
 	}

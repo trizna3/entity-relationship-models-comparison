@@ -1,7 +1,9 @@
 package mappingSearch.mappingFinder;
 
 import java.util.List;
+import java.util.Map;
 
+import common.MappingUtils;
 import comparing.Mapping;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
@@ -31,7 +33,7 @@ public class MappingFinder {
 	 * @param studentModel
 	 * @return Mapping of minimal penalty.
 	 */
-	public Mapping getBestMapping(ERModel exemplarModel, ERModel studentModel) {
+	public Map<EntitySet, EntitySet> getBestMapping(ERModel exemplarModel, ERModel studentModel) {
 		search(new Mapping(exemplarModel, studentModel));
 		return getMappingEvaluator().getBestMapping();
 	}
@@ -54,7 +56,16 @@ public class MappingFinder {
 
 		EntitySet exemplarEntitySet = exemplarModel.getNotMappedEntitySets().get(0);
 
-		for (EntitySet studentEntitySet : studentModel.getNotMappedEntitySets()) {
+		for (int i = 0; i < studentModel.getEntitySets().size() + 1; i++) {
+			EntitySet studentEntitySet;
+			if (i == studentModel.getEntitySets().size()) {
+				studentEntitySet = MappingUtils.EMPTY_ENTITY_SET;
+			} else {
+				studentEntitySet = studentModel.getEntitySets().get(i);
+			}
+			if (studentEntitySet.getMappedTo() != null) {
+				continue;
+			}
 			map(mapping, exemplarEntitySet, studentEntitySet);
 			search(mapping);
 			unmap(mapping, exemplarEntitySet, studentEntitySet);
@@ -65,22 +76,26 @@ public class MappingFinder {
 		List<Transformation> transformations = TransformationAnalyst.getPossibleTransformations(mapping);
 
 		for (Transformation transformation : transformations) {
-			Transformation transformed = Transformator.execute(mapping, transformation);
+			Transformator.execute(mapping, transformation);
 			search(mapping);
-			Transformator.revert(mapping, transformed);
+			Transformator.revert(mapping, transformation);
 		}
 	}
 
 	private void map(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
 		mapping.map(exemplarEntitySet, studentEntitySet);
 		mapping.getExemplarModel().getNotMappedEntitySets().remove(exemplarEntitySet);
-		mapping.getStudentModel().getNotMappedEntitySets().remove(studentEntitySet);
+		if (!studentEntitySet.isEmpty()) {
+			mapping.getStudentModel().getNotMappedEntitySets().remove(studentEntitySet);
+		}
 	}
 
 	private void unmap(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
 		mapping.unmap(exemplarEntitySet, studentEntitySet);
-		mapping.getExemplarModel().getNotMappedEntitySets().add(exemplarEntitySet);
-		mapping.getStudentModel().getNotMappedEntitySets().add(studentEntitySet);
+		mapping.getExemplarModel().getNotMappedEntitySets().add(0, exemplarEntitySet);
+		if (!studentEntitySet.isEmpty()) {
+			mapping.getStudentModel().getNotMappedEntitySets().add(0, studentEntitySet);
+		}
 	}
 
 	private boolean stoppingCriterion(Mapping mapping) {

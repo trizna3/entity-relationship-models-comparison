@@ -1,6 +1,9 @@
 package mappingSearch.mappingEvaluator;
 
+import java.util.Map;
+
 import comparing.Mapping;
+import entityRelationshipModel.EntitySet;
 
 /**
  * @author - Adam Trizna
@@ -25,5 +28,5 @@ public interface IEvaluator {
 	/**
 	 * @return Mapping with minimal penalty evaluated so far.
 	 */
-	Mapping getBestMapping();
+	Map<EntitySet, EntitySet> getBestMapping();
 }

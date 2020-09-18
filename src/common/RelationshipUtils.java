@@ -140,9 +140,9 @@ public class RelationshipUtils extends Utils {
 		validateNotNull(relationship);
 		Relationship result;
 		if (relationship instanceof Association) {
-			result = new Association((AssociationSide[]) relationship.getSides(), ((Association) relationship).getAttributes());
+			result = new Association((Association) relationship);
 		} else {
-			result = new Generalization((GeneralizationSide[]) relationship.getSides());
+			result = new Generalization((Generalization) relationship);
 		}
 
 		for (RelationshipSide relationshipSide : result.getSides()) {

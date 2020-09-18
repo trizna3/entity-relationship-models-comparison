@@ -33,7 +33,7 @@ public class Mapping {
 	public Mapping(ERModel exemplarModel, ERModel studentModel) {
 		this.exemplarModel = exemplarModel;
 		this.studentModel = studentModel;
-		transformations = new ArrayList<>();
+		setTransformations(new ArrayList<>());
 	}
 
 	/**
@@ -48,13 +48,19 @@ public class Mapping {
 		Utils.validateNotNull(entitySet2);
 
 		Utils.validateContains(exemplarModel, entitySet1);
-		Utils.validateContains(studentModel, entitySet2);
+		if (!entitySet2.isEmpty()) {
+			Utils.validateContains(studentModel, entitySet2);
+		}
 
 		Utils.validateNotMapped(entitySet1);
-		Utils.validateNotMapped(entitySet2);
+		if (!entitySet2.isEmpty()) {
+			Utils.validateNotMapped(entitySet2);
+		}
 
 		entitySet1.setMappedTo(entitySet2);
-		entitySet2.setMappedTo(entitySet1);
+		if (!entitySet2.isEmpty()) {
+			entitySet2.setMappedTo(entitySet1);
+		}
 	}
 
 	/**
@@ -67,10 +73,14 @@ public class Mapping {
 		Utils.validateNotNull(entitySet2);
 
 		Utils.validateContains(exemplarModel, entitySet1);
-		Utils.validateContains(studentModel, entitySet2);
+		if (!entitySet2.isEmpty()) {
+			Utils.validateContains(studentModel, entitySet2);
+		}
 
 		Utils.validateMapped(entitySet1);
-		Utils.validateMapped(entitySet2);
+		if (!entitySet2.isEmpty()) {
+			Utils.validateMapped(entitySet2);
+		}
 
 		entitySet1.setMappedTo(null);
 		entitySet2.setMappedTo(null);
@@ -83,11 +93,11 @@ public class Mapping {
 	public void addTransformation(Transformation transformation) {
 		Utils.validateNotNull(transformation);
 
-		transformations.add(transformation);
+		getTransformations().add(transformation);
 	}
 
 	public void removeTransformationCode(String code) {
-		transformations.remove(code);
+		getTransformations().remove(code);
 	}
 
 	public ERModel getExemplarModel() {
@@ -96,5 +106,9 @@ public class Mapping {
 
 	public ERModel getStudentModel() {
 		return studentModel;
+	}
+
+	public void setTransformations(List<Transformation> transformations) {
+		this.transformations = transformations;
 	}
 }

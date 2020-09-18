@@ -1,5 +1,7 @@
 package entityRelationshipModel;
 
+import common.Utils;
+
 /**
  * @author - Adam Trizna
  */
@@ -17,11 +19,18 @@ public class GeneralizationSide extends RelationshipSide {
 	private String role;
 
 	public GeneralizationSide(EntitySet entitySet, String role) {
-		if (entitySet == null || role == null) {
-			throw new IllegalArgumentException("both entity set and role mustn't be null.");
-		}
+		Utils.validateNotNull(entitySet);
+		Utils.validateNotNull(role);
+
 		this.entitySet = entitySet;
 		this.role = role;
+	}
+
+	public GeneralizationSide(GeneralizationSide generalizationSide) {
+		Utils.validateNotNull(generalizationSide);
+
+		this.entitySet = generalizationSide.getEntitySet();
+		this.role = generalizationSide.getRole();
 	}
 
 	public EntitySet getEntitySet() {

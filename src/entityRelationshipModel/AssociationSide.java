@@ -1,5 +1,7 @@
 package entityRelationshipModel;
 
+import common.Utils;
+
 /**
  * @author - Adam Trizna
  */
@@ -16,11 +18,16 @@ public class AssociationSide extends RelationshipSide {
 	private String cardinality;
 
 	public AssociationSide(EntitySet entitySet, String cardinality) {
-		if (entitySet == null || cardinality == null) {
-			throw new IllegalArgumentException("both entity set and cardinality mustn't be null.");
-		}
+		Utils.validateNotNull(entitySet);
+		Utils.validateNotNull(cardinality);
+
 		this.entitySet = entitySet;
 		this.cardinality = cardinality;
+	}
+
+	public AssociationSide(AssociationSide associationSide) {
+		this.entitySet = associationSide.getEntitySet();
+		this.cardinality = associationSide.getRole();
 	}
 
 	public EntitySet getEntitySet() {

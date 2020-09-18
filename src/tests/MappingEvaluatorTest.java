@@ -14,7 +14,7 @@ import transformations.Transformator;
 public class MappingEvaluatorTest {
 
 	@Test
-	public void test() {
+	public void testEvaluateMappingByMappingPairs() {
 
 		ERModel model1 = TestUtils.getERModels().get(0);
 		ERModel model2 = TestUtils.getERModels().get(1);

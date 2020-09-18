@@ -1,8 +1,11 @@
 package common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import comparing.Mapping;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 
@@ -36,5 +39,15 @@ public class MappingUtils extends Utils {
 		}
 
 		return result;
+	}
+
+	public static Map<EntitySet, EntitySet> createEntitySetMap(Mapping mapping) {
+		validateNotNull(mapping);
+
+		Map<EntitySet, EntitySet> map = new HashMap<EntitySet, EntitySet>();
+		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
+			map.put(entitySet, entitySet.getMappedTo());
+		}
+		return map;
 	}
 }

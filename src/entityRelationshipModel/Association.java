@@ -24,13 +24,22 @@ public class Association extends Relationship {
 	 */
 	private List<String> attributes;
 
-	public Association() {};
-	
+	public Association() {
+	};
+
 	public Association(AssociationSide[] sides, List<String> attributes) {
-		this.setSides(sides);
+		setSides(sides);
 		this.attributes = attributes;
 	}
-	
+
+	public Association(Association association) {
+		setSides(new AssociationSide[association.getSides().length]);
+		for (int i = 0; i < sides.length; i++) {
+			getSides()[i] = new AssociationSide(association.getSides()[i]);
+		}
+		this.attributes = new ArrayList<>(association.getAttributes());
+	};
+
 	public AssociationSide[] getSides() {
 		return sides;
 	}
@@ -41,7 +50,7 @@ public class Association extends Relationship {
 		}
 		return attributes;
 	}
-	
+
 	public void setAttributes(List<String> attributes) {
 		this.attributes = attributes;
 	}

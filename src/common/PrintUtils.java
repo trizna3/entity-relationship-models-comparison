@@ -1,5 +1,7 @@
 package common;
 
+import java.util.Map;
+
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Relationship;
@@ -61,6 +63,15 @@ public class PrintUtils extends Utils {
 			result.append(relationship.toString() + '\n');
 		}
 
+		return result.toString();
+	}
+
+	public static final String print(Map<EntitySet, EntitySet> map) {
+		StringBuffer result = new StringBuffer("Entity set map {\n");
+		for (EntitySet entitySet : map.keySet()) {
+			result.append("    " + entitySet.getName() + " : " + map.get(entitySet).getName() + "\n");
+		}
+		result.append("}");
 		return result.toString();
 	}
 
