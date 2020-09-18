@@ -76,7 +76,8 @@ public class Evaluator implements IEvaluator {
 	}
 
 	/**
-	 * Unmaps all entitySets, which are mapped to an EmptyEntitySet
+	 * Unmaps all entitySets, which are mapped to an EmptyEntitySet. Resets all
+	 * transformables transformationRole, which were overwritten.
 	 * 
 	 * @param mapping
 	 */
@@ -87,5 +88,8 @@ public class Evaluator implements IEvaluator {
 				entitySet.setMappedTo(null);
 			}
 		}
+
+		mapping.getExemplarModel().resetTransformableRoles();
+		mapping.getStudentModel().resetTransformableRoles();
 	}
 }

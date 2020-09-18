@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import common.enums.Enum;
+import common.enums.Enums;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.ERModel;
@@ -34,12 +34,12 @@ public class TestUtils {
 		entitySets.add(new EntitySet("Konta", new ArrayList<>(Arrays.asList("Kredit")))); // 5
 
 		List<Relationship> relationships = new ArrayList<>();
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enum.CARDINALITY_MANY) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enum.CARDINALITY_MANY) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), Enum.CARDINALITY_MANY) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enum.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), Enum.CARDINALITY_ONE) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(3), Enum.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), Enum.CARDINALITY_ONE) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(4), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), Enum.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), Enums.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(3), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), Enums.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(4), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), Enums.CARDINALITY_ONE) }, null));
 
 		model.addAllRelationships(relationships);
 		model.addAllEntitySets(entitySets);
@@ -58,11 +58,11 @@ public class TestUtils {
 		entitySets.add(new EntitySet("Moznosti hlasovania", new ArrayList<>(Arrays.asList("Nazov")))); // 5
 
 		List<Relationship> relationships = new ArrayList<>();
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enum.CARDINALITY_MANY), new AssociationSide(entitySets.get(1), Enum.CARDINALITY_MANY) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enum.CARDINALITY_MANY) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enum.CARDINALITY_MANY), new AssociationSide(entitySets.get(3), Enum.CARDINALITY_MANY) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enum.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), Enum.CARDINALITY_ONE) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enum.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), Enum.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), Enum.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(3), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), Enums.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), Enums.CARDINALITY_ONE) }, null));
 
 		model.addAllRelationships(relationships);
 		model.addAllEntitySets(entitySets);
@@ -82,12 +82,12 @@ public class TestUtils {
 		entitySets.add(new EntitySet("Ludia", new ArrayList<>(Arrays.asList("Meno", "Priezvisko", "C.OP")))); // 6
 
 		List<Relationship> relationships = new ArrayList<>();
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enum.CARDINALITY_MANY) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enum.CARDINALITY_MANY) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), Enum.CARDINALITY_MANY) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enum.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), Enum.CARDINALITY_ONE) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(3), Enum.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), Enum.CARDINALITY_ONE) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(4), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), Enum.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), Enums.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(3), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), Enums.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(4), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), Enums.CARDINALITY_ONE) }, null));
 		relationships.add(new Generalization(entitySets.get(6), entitySets.get(4)));
 
 		model.addAllRelationships(relationships);
@@ -106,10 +106,10 @@ public class TestUtils {
 		entitySets.add(new EntitySet("Studenti", new ArrayList<>(Arrays.asList("Meno", "Kredit na konte", "vek")))); // 4
 
 		List<Relationship> relationships = new ArrayList<>();
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enum.CARDINALITY_MANY) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enum.CARDINALITY_MANY) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enum.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), Enum.CARDINALITY_ONE) }, null));
-		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(3), Enum.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), Enum.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), Enums.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(3), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), Enums.CARDINALITY_ONE) }, null));
 
 		model.addAllRelationships(relationships);
 		model.addAllEntitySets(entitySets);

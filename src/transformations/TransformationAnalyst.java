@@ -3,6 +3,7 @@ package transformations;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.TransformationAnalystUtils;
 import comparing.Mapping;
 
 /**
@@ -80,10 +81,12 @@ public class TransformationAnalyst {
 	}
 
 	private static List<Transformation> getPossibleContract11AssociationTransformations(Mapping mapping) {
-//		CONTRACT_11_ASSOCIATION - ASSOCIATION - ENTITY_SET, ASSOCIATION, TRANSFORMABLE_LIST
+		List<Transformation> result = new ArrayList<>();
 
-		// unsupported yet
-		return new ArrayList<>();
+		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getExemplarModel(), true);
+		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getStudentModel(), false);
+
+		return result;
 	}
 
 	private static List<Transformation> getPossibleRebindNaryAssociationTransformations(Mapping mapping) {

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import common.enums.Enum;
+import common.enums.Enums;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
 import comparing.Mapping;
@@ -155,11 +155,11 @@ public class TransformationUtils extends Utils {
 	public static void flipCardinality(AssociationSide associationSide) {
 		validateNotNull(associationSide);
 
-		if (Enum.CARDINALITY_ONE.equals(associationSide.getRole())) {
-			associationSide.setTransformationRole(Enum.CARDINALITY_MANY);
+		if (Enums.CARDINALITY_ONE.equals(associationSide.getRole())) {
+			associationSide.setTransformationRole(Enums.CARDINALITY_MANY);
 		}
-		if (Enum.CARDINALITY_MANY.equals(associationSide.getRole())) {
-			associationSide.setTransformationRole(Enum.CARDINALITY_ONE);
+		if (Enums.CARDINALITY_MANY.equals(associationSide.getRole())) {
+			associationSide.setTransformationRole(Enums.CARDINALITY_ONE);
 		}
 	}
 

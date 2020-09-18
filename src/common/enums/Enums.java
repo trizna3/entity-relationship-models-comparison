@@ -1,6 +1,6 @@
 package common.enums;
 
-public class Enum {
+public class Enums {
 
 	/*** ASSOCIATION CARDINALITIES ***/
 

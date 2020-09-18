@@ -17,21 +17,7 @@ public class MappingFinderTest {
 		ERModel exemplarModel = TestUtils.getERModels().get(0);
 		ERModel studentModel = TestUtils.getERModels().get(3);
 
-		EntitySet platby = exemplarModel.getEntitySets().get(3);
-		EntitySet zmluvy = exemplarModel.getEntitySets().get(2);
-		EntitySet izby = exemplarModel.getEntitySets().get(1);
-		EntitySet konta = exemplarModel.getEntitySets().get(5);
-		EntitySet studenti = exemplarModel.getEntitySets().get(4);
-		EntitySet budovy = exemplarModel.getEntitySets().get(0);
-
-		exemplarModel.getEntitySets().clear();
-		exemplarModel.getEntitySets().add(platby);
-		exemplarModel.getEntitySets().add(zmluvy);
-		exemplarModel.getEntitySets().add(izby);
-		exemplarModel.getEntitySets().add(konta);
-		exemplarModel.getEntitySets().add(studenti);
-		exemplarModel.getEntitySets().add(budovy);
-
+		Collections.shuffle(exemplarModel.getEntitySets());
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();

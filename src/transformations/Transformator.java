@@ -7,7 +7,7 @@ import common.RelationshipUtils;
 import common.StringUtils;
 import common.TransformationUtils;
 import common.Utils;
-import common.enums.Enum;
+import common.enums.Enums;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
 import comparing.Mapping;
@@ -221,8 +221,8 @@ public class Transformator {
 		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
 
 		EntitySet entitySet = new EntitySet(association.getName(), new ArrayList<>(association.getAttributes()));
-		Association association1 = new Association(new AssociationSide[] { new AssociationSide(entitySet, Enum.CARDINALITY_MANY), new AssociationSide(association.getFirstSide().getEntitySet(), Enum.CARDINALITY_ONE) }, null);
-		Association association2 = new Association(new AssociationSide[] { new AssociationSide(entitySet, Enum.CARDINALITY_MANY), new AssociationSide(association.getSecondSide().getEntitySet(), Enum.CARDINALITY_ONE) }, null);
+		Association association1 = new Association(new AssociationSide[] { new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(association.getFirstSide().getEntitySet(), Enums.CARDINALITY_ONE) }, null);
+		Association association2 = new Association(new AssociationSide[] { new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(association.getSecondSide().getEntitySet(), Enums.CARDINALITY_ONE) }, null);
 
 		ERModel studentModel = mapping.getStudentModel();
 		studentModel.removeRelationship(association);
@@ -247,7 +247,7 @@ public class Transformator {
 		Association association2 = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION_2);
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ENTITY_SET);
 
-		Association association = new Association(new AssociationSide[] { new AssociationSide(RelationshipUtils.getOtherEntitySet(association1, entitySet), Enum.CARDINALITY_MANY), new AssociationSide(RelationshipUtils.getOtherEntitySet(association2, entitySet), Enum.CARDINALITY_MANY) }, entitySet.getAttributes());
+		Association association = new Association(new AssociationSide[] { new AssociationSide(RelationshipUtils.getOtherEntitySet(association1, entitySet), Enums.CARDINALITY_MANY), new AssociationSide(RelationshipUtils.getOtherEntitySet(association2, entitySet), Enums.CARDINALITY_MANY) }, entitySet.getAttributes());
 
 		ERModel studentModel = mapping.getStudentModel();
 		studentModel.removeRelationship(association1);
@@ -288,7 +288,7 @@ public class Transformator {
 	private static Transformation executeGeneralizationTo11Association(Mapping mapping, Transformation transformation) {
 		Generalization generalization = (Generalization) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.GENERALIZATION);
 
-		Association association = new Association(new AssociationSide[] { new AssociationSide(generalization.getFirstSide().getEntitySet(), Enum.CARDINALITY_ONE), new AssociationSide(generalization.getSecondSide().getEntitySet(), Enum.CARDINALITY_ONE) }, null);
+		Association association = new Association(new AssociationSide[] { new AssociationSide(generalization.getFirstSide().getEntitySet(), Enums.CARDINALITY_ONE), new AssociationSide(generalization.getSecondSide().getEntitySet(), Enums.CARDINALITY_ONE) }, null);
 
 		mapping.getStudentModel().removeRelationship(generalization);
 		mapping.getStudentModel().addRelationship(association);
@@ -309,7 +309,7 @@ public class Transformator {
 		sourceEntitySet.removeAttribute(attribute.getAttribute());
 
 		if (targetEntitySet == null) {
-			targetEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(Enum.NAME_ATTRIBUTE)));
+			targetEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(Enums.NAME_ATTRIBUTE)));
 			transformation.getArguments().add(targetEntitySet);
 			mapping.getStudentModel().addEntitySet(targetEntitySet);
 		} else {
@@ -317,7 +317,7 @@ public class Transformator {
 				targetEntitySet.addAttribute(attribute.getAttribute());
 			}
 		}
-		mapping.getStudentModel().addRelationship(new Association(new AssociationSide[] { new AssociationSide(sourceEntitySet, Enum.CARDINALITY_MANY), new AssociationSide(targetEntitySet, Enum.CARDINALITY_ONE) }, null));
+		mapping.getStudentModel().addRelationship(new Association(new AssociationSide[] { new AssociationSide(sourceEntitySet, Enums.CARDINALITY_MANY), new AssociationSide(targetEntitySet, Enums.CARDINALITY_ONE) }, null));
 		sourceEntitySet.setTransformationRole(EnumTransformationRole.DEST_ENTITY_SET);
 		targetEntitySet.setTransformationRole(EnumTransformationRole.SOURCE_ENTITY_SET);
 
@@ -337,7 +337,7 @@ public class Transformator {
 			mapping.getStudentModel().removeRelationship(association);
 		entitySet1.getAttributes().addAll(entitySet2.getAttributes());
 		entitySet1.getAttributes().addAll(association.getAttributes());
-		entitySet1.setName(entitySet1.getName() + Enum.ENTITY_SETS_DELIMITER + entitySet2.getName());
+		entitySet1.setName(entitySet1.getName() + Enums.ENTITY_SETS_DELIMITER + entitySet2.getName());
 
 		TransformableList transformableList = new TransformableList();
 		transformableList.getElements().addAll(entitySet2.getIncidentRelationships());
@@ -369,7 +369,7 @@ public class Transformator {
 		mapping.getStudentModel().addEntitySet(entitySet);
 
 		for (AssociationSide side : association.getSides()) {
-			mapping.getStudentModel().addRelationship(new Association(new AssociationSide[] { new AssociationSide(entitySet, Enum.CARDINALITY_MANY), new AssociationSide(side.getEntitySet(), Enum.CARDINALITY_ONE) }, null));
+			mapping.getStudentModel().addRelationship(new Association(new AssociationSide[] { new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(side.getEntitySet(), Enums.CARDINALITY_ONE) }, null));
 		}
 
 		entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);

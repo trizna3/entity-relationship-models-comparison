@@ -1,6 +1,6 @@
 package common;
 
-import common.enums.Enum;
+import common.enums.Enums;
 
 public class StringUtils extends Utils {
 
@@ -32,6 +32,6 @@ public class StringUtils extends Utils {
 	 */
 	public static String getFirstNamePart(String name) {
 		validateNotNull(name);
-		return name.split(Enum.ENTITY_SETS_DELIMITER)[0];
+		return name.split(Enums.ENTITY_SETS_DELIMITER)[0];
 	}
 }

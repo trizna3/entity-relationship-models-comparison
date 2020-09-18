@@ -3,7 +3,6 @@ package entityRelationshipModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.ERModelUtils;
 import common.MappingUtils;
 import common.PrintUtils;
 import common.Utils;
@@ -24,9 +23,10 @@ public class ERModel {
 	 * Entity sets which are not mapped.
 	 */
 	private List<EntitySet> notMappedEntitySets;
-	
-	public ERModel() {}
-	
+
+	public ERModel() {
+	}
+
 	public List<EntitySet> getEntitySets() {
 		if (entitySets == null) {
 			entitySets = new ArrayList<>();
@@ -44,8 +44,11 @@ public class ERModel {
 	public void addEntitySet(EntitySet entitySet) {
 		Utils.validateNotNull(entitySet);
 		getEntitySets().add(entitySet);
+		if (!getNotMappedEntitySets().contains(entitySet) && entitySet.getMappedTo() == null) {
+			getNotMappedEntitySets().add(entitySet);
+		}
 	}
-	
+
 	public void addAllEntitySets(Iterable<EntitySet> entitySets) {
 		for (EntitySet es : entitySets) {
 			addEntitySet(es);
@@ -60,7 +63,7 @@ public class ERModel {
 		}
 		getRelationships().add(relationship);
 	}
-	
+
 	public void addAllRelationships(Iterable<Relationship> relationships) {
 		for (Relationship rel : relationships) {
 			addRelationship(rel);
@@ -77,6 +80,9 @@ public class ERModel {
 		}
 		// remove the entity set
 		getEntitySets().remove(entitySet);
+		if (getNotMappedEntitySets().contains(entitySet)) {
+			getNotMappedEntitySets().remove(entitySet);
+		}
 	}
 
 	public void removeRelationship(Relationship relationship) {
@@ -118,5 +124,17 @@ public class ERModel {
 	@Override
 	public String toString() {
 		return PrintUtils.print(this);
+	}
+
+	public void resetTransformableRoles() {
+		for (EntitySet entitySet : getEntitySets()) {
+			entitySet.resetTransformationRole();
+		}
+		for (Relationship relationship : getRelationships()) {
+			relationship.resetTransformationRole();
+			for (RelationshipSide side : relationship.getSides()) {
+				side.resetTransformationRole();
+			}
+		}
 	}
 }

@@ -9,7 +9,7 @@ import java.util.HashSet;
 import org.junit.Test;
 
 import common.ERModelUtils;
-import common.enums.Enum;
+import common.enums.Enums;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
 import comparing.Mapping;
@@ -61,7 +61,7 @@ public class TransformatorRevertTest {
 		TransformableAttribute attribute = new TransformableAttribute("Cislo");
 		attribute.setTransformationRole(EnumTransformationRole.ATTRIBUTE);
 
-		EntitySet newEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(Enum.NAME_ATTRIBUTE)));
+		EntitySet newEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(Enums.NAME_ATTRIBUTE)));
 		newEntitySet.setTransformationRole(EnumTransformationRole.DEST_ENTITY_SET);
 		model.addEntitySet(newEntitySet);
 

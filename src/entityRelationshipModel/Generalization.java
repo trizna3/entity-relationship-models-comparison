@@ -1,6 +1,6 @@
 package entityRelationshipModel;
 
-import common.enums.Enum;
+import common.enums.Enums;
 
 /**
  * @author - Adam Trizna
@@ -31,8 +31,8 @@ public class Generalization extends Relationship {
 
 	public Generalization(EntitySet superEntitySet, EntitySet subEntitySet) {
 		sides = new GeneralizationSide[2];
-		sides[0] = new GeneralizationSide(superEntitySet, Enum.ROLE_SUPER);
-		sides[1] = new GeneralizationSide(subEntitySet, Enum.ROLE_SUB);
+		sides[0] = new GeneralizationSide(superEntitySet, Enums.ROLE_SUPER);
+		sides[1] = new GeneralizationSide(subEntitySet, Enums.ROLE_SUB);
 	}
 
 	public Generalization(Generalization generalization) {
