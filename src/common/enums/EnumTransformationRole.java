@@ -25,6 +25,12 @@ public class EnumTransformationRole {
 	public static final String ENTITY_SET_TARGET = "ENTITY_SET_TARGET";
 
 	public static final String ATTRIBUTE_TARGET = "ATTRIBUTE_TARGET";
-	
-	public static final String TRANSFORMABLE_LIST = "TRANSFORMABLE_LIST";	
+
+	public static final String TRANSFORMABLE_LIST = "TRANSFORMABLE_LIST";
+
+	/**
+	 * flag if the transformation shall be done on the exemplar model (default is
+	 * the student's model).
+	 */
+	public static final String EXEMPLAR_MODEL_FLAG = "EXEMPLAR_MODEL_FLAG";
 }
