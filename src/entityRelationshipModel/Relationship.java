@@ -36,9 +36,6 @@ public abstract class Relationship extends Transformable {
 	}
 
 	public void setName(String name) {
-		if (name != null) {
-			throw new IllegalStateException("Name reassignment not allowed!");
-		}
 		this.name = name;
 	}
 

@@ -9,9 +9,9 @@ import java.util.HashSet;
 import org.junit.Test;
 
 import common.ERModelUtils;
-import common.enums.Enums;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
+import common.enums.Enums;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.ERModel;
@@ -44,6 +44,8 @@ public class TransformatorRevertTest {
 
 		Transformator.execute(mapping, transformation);
 		Transformator.revert(mapping, transformation);
+		Transformator.execute(mapping, transformation);
+		Transformator.revert(mapping, transformation);
 
 		assertTrue(ERModelUtils.modelsAreEqual(model, modelClone));
 	}
@@ -70,6 +72,8 @@ public class TransformatorRevertTest {
 
 		Transformation transformation = new Transformation(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET, new HashSet<>(Arrays.asList(entitySet, attribute, newEntitySet)));
 
+		Transformator.execute(mapping, transformation);
+		Transformator.revert(mapping, transformation);
 		Transformator.execute(mapping, transformation);
 		Transformator.revert(mapping, transformation);
 
@@ -102,6 +106,8 @@ public class TransformatorRevertTest {
 
 		Transformator.execute(mapping, transformation);
 		Transformator.revert(mapping, transformation);
+		Transformator.execute(mapping, transformation);
+		Transformator.revert(mapping, transformation);
 
 		assertTrue(ERModelUtils.modelsAreEqual(model, modelClone));
 	}
@@ -122,6 +128,8 @@ public class TransformatorRevertTest {
 
 		Transformator.execute(mapping, transformation);
 		Transformator.revert(mapping, transformation);
+		Transformator.execute(mapping, transformation);
+		Transformator.revert(mapping, transformation);
 
 		assertTrue(ERModelUtils.modelsAreEqual(model, modelClone));
 	}
@@ -137,6 +145,8 @@ public class TransformatorRevertTest {
 
 		Transformation transformation = new Transformation(EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION, new HashSet<>(Arrays.asList(generalization)));
 
+		Transformator.execute(mapping, transformation);
+		Transformator.revert(mapping, transformation);
 		Transformator.execute(mapping, transformation);
 		Transformator.revert(mapping, transformation);
 
@@ -157,6 +167,8 @@ public class TransformatorRevertTest {
 
 		Transformation transformation = new Transformation(EnumTransformation.CONTRACT_11_ASSOCIATION, new HashSet<>(Arrays.asList(association)));
 
+		Transformator.execute(mapping, transformation);
+		Transformator.revert(mapping, transformation);
 		Transformator.execute(mapping, transformation);
 		Transformator.revert(mapping, transformation);
 
@@ -184,6 +196,8 @@ public class TransformatorRevertTest {
 
 		Transformator.execute(mapping, transformation);
 		Transformator.revert(mapping, transformation);
+		Transformator.execute(mapping, transformation);
+		Transformator.revert(mapping, transformation);
 
 		assertTrue(ERModelUtils.modelsAreEqual(exemplarModel, exemplarModelClone));
 		assertTrue(ERModelUtils.modelsAreEqual(studentModel, studentModelClone));
@@ -202,6 +216,8 @@ public class TransformatorRevertTest {
 
 		Transformation transformation = new Transformation(EnumTransformation.REBIND_NARY_ASSOCIATION, new HashSet<>(Arrays.asList(association)));
 
+		Transformator.execute(mapping, transformation);
+		Transformator.revert(mapping, transformation);
 		Transformator.execute(mapping, transformation);
 		Transformator.revert(mapping, transformation);
 

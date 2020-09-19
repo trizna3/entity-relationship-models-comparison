@@ -39,45 +39,51 @@ public class TransformationAnalyst {
 	}
 
 	private static List<Transformation> getPossibleExtractAttributeToOwnEntitySetTransformations(Mapping mapping) {
-//		EXTRACT_ATTR_TO_OWN_ENTITY_SET - ATTRIBUTE,SOURCE_ENTITY_SET,DEST_ENTITY_SET - ATTRIBUTE,DEST_ENTITY_SET,SOURCE_ENTITY_SET
+		List<Transformation> result = new ArrayList<>();
 
-		// unsupported yet
-		return new ArrayList<>();
+		TransformationAnalystUtils.getPossibleExtractAttributeToOwnEntitySetTransformations(result, mapping.getStudentModel());
+
+		return result;
 	}
 
 	private static List<Transformation> getPossibleMoveAttributeToIncidentEntitySetTransformations(Mapping mapping) {
-//		MOVE_ATTR_TO_INCIDENT_ENTITY_SET - ATTRIBUTE,ASSOCIATION,ENTITY_SET - ATTRIBUTE,ASSOCIATION,ENTITY_SET
+		List<Transformation> result = new ArrayList<>();
 
-		// unsupported yet
-		return new ArrayList<>();
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentEntitySetTransformations(result, mapping.getStudentModel());
+
+		return result;
 	}
 
 	private static List<Transformation> getPossibleMoveAttributeToIncidentAssociationTransformations(Mapping mapping) {
-//		MOVE_ATTR_TO_INCIDENT_ASSOCIATION - ATTRIBUTE,ENTITY_SET,ASSOCIATION - ATTRIBUTE,ASSOCIATION,ENTITY_SET
+		List<Transformation> result = new ArrayList<>();
 
-		// unsupported yet
-		return new ArrayList<>();
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(result, mapping.getStudentModel());
+
+		return result;
 	}
 
 	private static List<Transformation> getPossibleRebindMNTo1NN1Transformations(Mapping mapping) {
-//		REBIND_MN_TO_1NN1 - ASSOCIATION - ASSOCIATION_1,ASSOCIATION_2,ENTITY_SET
+		List<Transformation> result = new ArrayList<>();
 
-		// unsupported yet
-		return new ArrayList<>();
+		TransformationAnalystUtils.getPossibleRebindMNTo1NN1Transformations(result, mapping.getStudentModel());
+
+		return result;
 	}
 
 	private static List<Transformation> getPossibleRebind1NN1ToMNTransformations(Mapping mapping) {
-//		REBIND_1NN1_TO_MN - ASSOCIATION_1,ASSOCIATION_2,ENTITY_SET - ASSOCIATION
+		List<Transformation> result = new ArrayList<>();
 
-		// unsupported yet
-		return new ArrayList<>();
+		TransformationAnalystUtils.getPossibleRebind1NN1ToMNTransformations(result, mapping.getStudentModel());
+
+		return result;
 	}
 
 	private static List<Transformation> getPossibleGeneralizationToAssociationTransformations(Mapping mapping) {
-//		GENERALIZATION_TO_11_ASSOCIATION - GENERALIZATION - ASSOCIATION, GENERALIZATION
+		List<Transformation> result = new ArrayList<>();
 
-		// unsupported yet
-		return new ArrayList<>();
+		TransformationAnalystUtils.getPossibleGeneralizationToAssociationTransformations(result, mapping.getStudentModel());
+
+		return result;
 	}
 
 	private static List<Transformation> getPossibleContract11AssociationTransformations(Mapping mapping) {
@@ -90,9 +96,10 @@ public class TransformationAnalyst {
 	}
 
 	private static List<Transformation> getPossibleRebindNaryAssociationTransformations(Mapping mapping) {
-//		REBIND_NARY_ASSOCIATION - ASSOCIATION - ENTITY_SET, ASSOCIATION
+		List<Transformation> result = new ArrayList<>();
 
-		// unsupported yet
-		return new ArrayList<>();
+		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(result, mapping.getExemplarModel());
+
+		return result;
 	}
 }

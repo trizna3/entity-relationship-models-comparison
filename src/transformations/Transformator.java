@@ -7,9 +7,9 @@ import common.RelationshipUtils;
 import common.StringUtils;
 import common.TransformationUtils;
 import common.Utils;
-import common.enums.Enums;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
+import common.enums.Enums;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
@@ -110,7 +110,9 @@ public class Transformator {
 	public static Transformation revert(Mapping mapping, Transformation transformation) {
 		Utils.validateNotNull(transformation);
 		transformation.setCode(getRevertingTransformation(transformation));
-		return execute(mapping, transformation);
+		execute(mapping, transformation);
+		transformation.setCode(getRevertingTransformation(transformation));
+		return transformation;
 	}
 
 	public static String getRevertingTransformation(Transformation transformation) {
@@ -126,12 +128,20 @@ public class Transformator {
 			return EnumTransformation.REBIND_MN_TO_1NN1;
 		case EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET:
 			return EnumTransformation.MERGE_ATTR_FROM_OWN_ENTITY_SET;
+		case EnumTransformation.MERGE_ATTR_FROM_OWN_ENTITY_SET:
+			return EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET;
 		case EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION:
 			return EnumTransformation._11_ASSOCIATION_TO_GENERALIZATION;
+		case EnumTransformation._11_ASSOCIATION_TO_GENERALIZATION:
+			return EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION;
 		case EnumTransformation.CONTRACT_11_ASSOCIATION:
 			return EnumTransformation.UNCONTRACT_11_ASSOCIATION;
+		case EnumTransformation.UNCONTRACT_11_ASSOCIATION:
+			return EnumTransformation.CONTRACT_11_ASSOCIATION;
 		case EnumTransformation.REBIND_NARY_ASSOCIATION:
 			return EnumTransformation.BIND_TO_NARY_ASSOCIATION;
+		case EnumTransformation.BIND_TO_NARY_ASSOCIATION:
+			return EnumTransformation.REBIND_NARY_ASSOCIATION;
 		default:
 			return null;
 		}
@@ -219,8 +229,11 @@ public class Transformator {
 
 	private static Transformation executeRebindMNto1NN1(Mapping mapping, Transformation transformation) {
 		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ENTITY_SET);
 
-		EntitySet entitySet = new EntitySet(association.getName(), new ArrayList<>(association.getAttributes()));
+		if (entitySet == null) {
+			entitySet = new EntitySet(association.getName(), new ArrayList<>(association.getAttributes()));
+		}
 		Association association1 = new Association(new AssociationSide[] { new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(association.getFirstSide().getEntitySet(), Enums.CARDINALITY_ONE) }, null);
 		Association association2 = new Association(new AssociationSide[] { new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(association.getSecondSide().getEntitySet(), Enums.CARDINALITY_ONE) }, null);
 
@@ -248,6 +261,7 @@ public class Transformator {
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ENTITY_SET);
 
 		Association association = new Association(new AssociationSide[] { new AssociationSide(RelationshipUtils.getOtherEntitySet(association1, entitySet), Enums.CARDINALITY_MANY), new AssociationSide(RelationshipUtils.getOtherEntitySet(association2, entitySet), Enums.CARDINALITY_MANY) }, entitySet.getAttributes());
+		association.setName(entitySet.getName());
 
 		ERModel studentModel = mapping.getStudentModel();
 		studentModel.removeRelationship(association1);
@@ -259,6 +273,7 @@ public class Transformator {
 
 		transformation.getArguments().clear();
 		transformation.getArguments().add(association);
+		transformation.getArguments().add(entitySet);
 
 		return transformation;
 	}
@@ -389,11 +404,12 @@ public class Transformator {
 			mapping.getStudentModel().removeRelationship(sourceEntitySet.getNeighbours().get(destEntitySet).get(0));
 		} else {
 			mapping.getStudentModel().removeEntitySet(sourceEntitySet);
+			transformation.getArguments().remove(sourceEntitySet);
 		}
 		destEntitySet.addAttribute(attribute.getAttribute());
 
-		sourceEntitySet.setTransformationRole(EnumTransformationRole.SOURCE_ENTITY_SET);
-		destEntitySet.setTransformationRole(EnumTransformationRole.DEST_ENTITY_SET);
+		sourceEntitySet.setTransformationRole(EnumTransformationRole.DEST_ENTITY_SET);
+		destEntitySet.setTransformationRole(EnumTransformationRole.SOURCE_ENTITY_SET);
 		return transformation;
 	}
 
@@ -434,8 +450,10 @@ public class Transformator {
 			mapping.getStudentModel().addRelationship(association);
 
 		transformation.getArguments().clear();
-		transformation.getArguments().add(entitySet);
-		transformation.getArguments().add(flag);
+		transformation.getArguments().add(association);
+		if (flag != null) {
+			transformation.getArguments().add(flag);
+		}
 
 		return transformation;
 	}

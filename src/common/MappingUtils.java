@@ -41,12 +41,19 @@ public class MappingUtils extends Utils {
 		return result;
 	}
 
+	/**
+	 * Creates map of entitySets <EntitySet, it's image>. Resulting entitySets are
+	 * copies of the input entitySets.
+	 * 
+	 * @param mapping
+	 * @return
+	 */
 	public static Map<EntitySet, EntitySet> createEntitySetMap(Mapping mapping) {
 		validateNotNull(mapping);
 
 		Map<EntitySet, EntitySet> map = new HashMap<EntitySet, EntitySet>();
 		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
-			map.put(entitySet, entitySet.getMappedTo());
+			map.put(new EntitySet(entitySet), new EntitySet(entitySet.getMappedTo()));
 		}
 		return map;
 	}
