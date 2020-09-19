@@ -86,7 +86,9 @@ public class MappingFinder {
 
 		for (Transformation transformation : transformations) {
 			Transformator.execute(mapping, transformation);
+			mapping.addTransformation(transformation);
 			search(mapping);
+			mapping.removeTransformation(transformation);
 			Transformator.revert(mapping, transformation);
 		}
 	}

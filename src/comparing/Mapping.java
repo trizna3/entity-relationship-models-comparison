@@ -96,8 +96,8 @@ public class Mapping {
 		getTransformations().add(transformation);
 	}
 
-	public void removeTransformationCode(String code) {
-		getTransformations().remove(code);
+	public void removeTransformation(Transformation transformation) {
+		getTransformations().remove(transformation);
 	}
 
 	public ERModel getExemplarModel() {

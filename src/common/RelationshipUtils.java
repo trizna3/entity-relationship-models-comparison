@@ -117,6 +117,10 @@ public class RelationshipUtils extends Utils {
 		validateNotNull(relationship1);
 		validateNotNull(relationship2);
 
+		if (relationship1.getSides().length != relationship2.getSides().length) {
+			return false;
+		}
+
 		Set<RelationshipSide> usedSides = new HashSet<>();
 		nextSide1: for (RelationshipSide side1 : relationship1.getSides()) {
 			for (RelationshipSide side2 : relationship2.getSides()) {
