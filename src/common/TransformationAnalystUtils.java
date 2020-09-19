@@ -15,7 +15,7 @@ import transformations.Transformation;
 
 public class TransformationAnalystUtils {
 
-	public static void getPossibleContract11AssociationTransformations(List<Transformation> target, ERModel model, boolean isExemplar) {
+	public static void getPossibleContract11AssociationTransformations(List<Transformation> target, ERModel model) {
 		for (Relationship relationship : model.getRelationships()) {
 			if (relationship instanceof Association == false) {
 				continue;
@@ -32,7 +32,7 @@ public class TransformationAnalystUtils {
 			}
 
 			association.setTransformationRole(EnumTransformationRole.ASSOCIATION);
-			if (isExemplar) {
+			if (model.isExemplar()) {
 				TransformableFlag flag = new TransformableFlag(EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
 				target.add(new Transformation(EnumTransformation.CONTRACT_11_ASSOCIATION, new HashSet<>(Arrays.asList(association, flag))));
 			} else {

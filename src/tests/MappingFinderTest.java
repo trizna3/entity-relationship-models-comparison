@@ -1,13 +1,12 @@
 package tests;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Collections;
-import java.util.Map;
 
 import org.junit.Test;
 
-import common.PrintUtils;
 import entityRelationshipModel.ERModel;
-import entityRelationshipModel.EntitySet;
 import mappingSearch.mappingFinder.MappingFinder;
 
 public class MappingFinderTest {
@@ -22,9 +21,8 @@ public class MappingFinderTest {
 
 		MappingFinder finder = new MappingFinder();
 
-		Map<EntitySet, EntitySet> map = finder.getBestMapping(exemplarModel, studentModel);
+		finder.getBestMapping(exemplarModel, studentModel);
 
-		System.out.println(PrintUtils.print(map));
+		assertTrue(true);
 	}
-
 }

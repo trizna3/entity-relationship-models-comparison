@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import common.MappingUtils;
-import common.PrintUtils;
 import common.Utils;
 import comparing.Mapping;
 import entityRelationshipModel.EntitySet;
@@ -22,8 +21,8 @@ import transformations.Transformation;
  */
 public class Evaluator implements IEvaluator {
 
-	Map<EntitySet, EntitySet> bestMapping;
-	double bestPenalty;
+	private Map<EntitySet, EntitySet> bestMapping;
+	private double bestPenalty;
 	TransformationEvaluator transformationEvaluator = new TransformationEvaluator();
 	MappingEvaluator mappingEvaluator = new MappingEvaluator();
 
@@ -52,12 +51,9 @@ public class Evaluator implements IEvaluator {
 	}
 
 	private void evaluate(Mapping mapping, double actualPenalty) {
-		if (bestMapping == null || actualPenalty < bestPenalty) {
-			bestPenalty = actualPenalty;
-			bestMapping = MappingUtils.createEntitySetMap(mapping);
-
-			System.out.println("\nNew best mapping. penalty = " + bestPenalty);
-			System.out.println(PrintUtils.print(bestMapping));
+		if (getBestMapping() == null || actualPenalty < getBestPenalty()) {
+			setBestPenalty(actualPenalty);
+			setBestMapping(MappingUtils.createEntitySetMap(mapping));
 		}
 	}
 
@@ -91,5 +87,17 @@ public class Evaluator implements IEvaluator {
 
 		mapping.getExemplarModel().resetTransformableRoles();
 		mapping.getStudentModel().resetTransformableRoles();
+	}
+
+	public double getBestPenalty() {
+		return bestPenalty;
+	}
+
+	public void setBestPenalty(double bestPenalty) {
+		this.bestPenalty = bestPenalty;
+	}
+
+	public void setBestMapping(Map<EntitySet, EntitySet> bestMapping) {
+		this.bestMapping = bestMapping;
 	}
 }

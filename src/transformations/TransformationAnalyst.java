@@ -83,8 +83,8 @@ public class TransformationAnalyst {
 	private static List<Transformation> getPossibleContract11AssociationTransformations(Mapping mapping) {
 		List<Transformation> result = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getExemplarModel(), true);
-		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getStudentModel(), false);
+		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getExemplarModel());
+		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getStudentModel());
 
 		return result;
 	}

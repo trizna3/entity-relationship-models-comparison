@@ -29,4 +29,9 @@ public interface IEvaluator {
 	 * @return Mapping with minimal penalty evaluated so far.
 	 */
 	Map<EntitySet, EntitySet> getBestMapping();
+
+	/**
+	 * @return Penalty of best mapping found so far.
+	 */
+	double getBestPenalty();
 }

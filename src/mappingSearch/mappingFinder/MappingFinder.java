@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import common.MappingUtils;
+import common.PrintUtils;
+import common.Utils;
 import comparing.Mapping;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
@@ -34,7 +36,14 @@ public class MappingFinder {
 	 * @return Mapping of minimal penalty.
 	 */
 	public Map<EntitySet, EntitySet> getBestMapping(ERModel exemplarModel, ERModel studentModel) {
+		exemplarModel.setExemplar(true);
+		studentModel.setExemplar(false);
+
 		search(new Mapping(exemplarModel, studentModel));
+		if (Utils.PRINT_MODE) {
+			System.out.println("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
+			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMapping()));
+		}
 		return getMappingEvaluator().getBestMapping();
 	}
 

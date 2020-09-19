@@ -6,6 +6,8 @@ import entityRelationshipModel.Relationship;
 
 public class Utils {
 
+	public static final boolean PRINT_MODE = true;
+
 	public static void validateNotNull(Object input) {
 		if (input == null) {
 			throw new IllegalArgumentException("Null argument!");

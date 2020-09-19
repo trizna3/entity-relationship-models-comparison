@@ -19,6 +19,8 @@ public class ERModel {
 	private List<EntitySet> entitySets;
 	private List<Relationship> relationships;
 
+	private boolean isExemplar;
+
 	/**
 	 * Entity sets which are not mapped.
 	 */
@@ -136,5 +138,13 @@ public class ERModel {
 				side.resetTransformationRole();
 			}
 		}
+	}
+
+	public boolean isExemplar() {
+		return isExemplar;
+	}
+
+	public void setExemplar(boolean isExemplar) {
+		this.isExemplar = isExemplar;
 	}
 }
