@@ -109,14 +109,15 @@ public class Transformator {
 	 */
 	public static Transformation revert(Mapping mapping, Transformation transformation) {
 		Utils.validateNotNull(transformation);
-		transformation.setCode(getRevertingTransformation(transformation));
+		transformation.setCode(getRevertingTransformation(transformation.getCode()));
 		execute(mapping, transformation);
-		transformation.setCode(getRevertingTransformation(transformation));
+		transformation.setCode(getRevertingTransformation(transformation.getCode()));
 		return transformation;
 	}
 
-	public static String getRevertingTransformation(Transformation transformation) {
-		String code = transformation.getCode();
+	public static String getRevertingTransformation(String code) {
+		Utils.validateNotNull(code);
+
 		switch (code) {
 		case EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION:
 			return EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET;
@@ -258,6 +259,9 @@ public class Transformator {
 		transformation.getArguments().add(association2);
 		transformation.getArguments().add(entitySet);
 
+		TransformationUtils.overwriteTransformationFlag(EnumTransformation.REBIND_MN_TO_1NN1, entitySet);
+		TransformationUtils.overwriteTransformationFlag(EnumTransformation.REBIND_MN_TO_1NN1, association);
+
 		return transformation;
 	}
 
@@ -286,6 +290,9 @@ public class Transformator {
 		transformation.getArguments().add(association1);
 		transformation.getArguments().add(association2);
 
+		TransformationUtils.overwriteTransformationFlag(EnumTransformation.REBIND_1NN1_TO_MN, entitySet);
+		TransformationUtils.overwriteTransformationFlag(EnumTransformation.REBIND_1NN1_TO_MN, association);
+
 		return transformation;
 	}
 
@@ -297,6 +304,9 @@ public class Transformator {
 		association.removeAttribute(attribute.getAttribute());
 		entitySet.addAttribute(attribute.getAttribute());
 
+		TransformationUtils.overwriteTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, entitySet);
+		TransformationUtils.overwriteTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, association);
+
 		return transformation;
 	}
 
@@ -307,6 +317,9 @@ public class Transformator {
 
 		association.addAttribute(attribute.getAttribute());
 		entitySet.removeAttribute(attribute.getAttribute());
+
+		TransformationUtils.overwriteTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, entitySet);
+		TransformationUtils.overwriteTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, association);
 
 		return transformation;
 	}

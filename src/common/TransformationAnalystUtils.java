@@ -65,6 +65,9 @@ public class TransformationAnalystUtils {
 			if (!Enums.CARDINALITY_MANY.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
 				continue;
 			}
+			if (association.containsTransformationFlag(EnumTransformation.REBIND_1NN1_TO_MN)) {
+				continue;
+			}
 
 			association.setTransformationRole(EnumTransformationRole.ASSOCIATION);
 			target.add(new Transformation(EnumTransformation.REBIND_MN_TO_1NN1, new HashSet<>(Arrays.asList(association))));
@@ -84,6 +87,9 @@ public class TransformationAnalystUtils {
 			}
 			List<Relationship> incidentRelationships = entitySet.getIncidentRelationships();
 			if (incidentRelationships.size() != 2) {
+				continue;
+			}
+			if (entitySet.containsTransformationFlag(EnumTransformation.REBIND_MN_TO_1NN1)) {
 				continue;
 			}
 			Association association1 = null;

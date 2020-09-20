@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import common.enums.Enums;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
+import common.enums.Enums;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
@@ -17,6 +17,7 @@ import entityRelationshipModel.RelationshipSide;
 import entityRelationshipModel.TransformableAttribute;
 import transformations.Transformable;
 import transformations.Transformation;
+import transformations.Transformator;
 
 public class TransformationUtils extends Utils {
 
@@ -161,6 +162,26 @@ public class TransformationUtils extends Utils {
 		if (Enums.CARDINALITY_MANY.equals(associationSide.getRole())) {
 			associationSide.setTransformationRole(Enums.CARDINALITY_ONE);
 		}
+	}
+
+	/**
+	 * To avoid cycling, a transformation made will leave a flag on the transformed
+	 * object. It's reverting transformation will either drop the flag or write it's
+	 * own. Flag will serve as indicator in the transformation analysis.
+	 * 
+	 * @param code = code of currently performed transformation
+	 */
+	public static void overwriteTransformationFlag(String code, Transformable transformable) {
+		String revertingCode = Transformator.getRevertingTransformation(code);
+
+		if (transformable.containsTransformationFlag(revertingCode)) {
+			// it's the transformation reverting scenario - drop the flag
+			transformable.removeTransformationFlag(revertingCode);
+		} else {
+			// it's the new transformation execution scenario - write own flag
+			transformable.addTransformationFlag(code);
+		}
+
 	}
 
 	private static void addRelationshipTransformation(Mapping mapping, Relationship relationship, boolean isCreation) {
