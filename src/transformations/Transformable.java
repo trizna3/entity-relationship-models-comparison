@@ -19,6 +19,7 @@ public abstract class Transformable {
 	public void resetTransformationRole() {
 		if (this.transformationRoleBackup != null) {
 			this.transformationRole = this.transformationRoleBackup;
+			this.transformationRoleBackup = null;
 		}
 	}
 }

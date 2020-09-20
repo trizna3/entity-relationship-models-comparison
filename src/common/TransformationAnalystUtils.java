@@ -12,6 +12,7 @@ import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
+import entityRelationshipModel.RelationshipSide;
 import entityRelationshipModel.TransformableFlag;
 import transformations.Transformation;
 
@@ -78,6 +79,9 @@ public class TransformationAnalystUtils {
 			if (entitySet.getNeighbours().size() != 2) {
 				continue;
 			}
+			if (entitySet.getMappedTo() != null) {
+				continue;
+			}
 			List<Relationship> incidentRelationships = entitySet.getIncidentRelationships();
 			if (incidentRelationships.size() != 2) {
 				continue;
@@ -92,6 +96,9 @@ public class TransformationAnalystUtils {
 					continue nextES;
 				}
 				if (!Enums.CARDINALITY_ONE.equals(RelationshipUtils.getOtherSide(relationship, entitySet).getRole())) {
+					continue nextES;
+				}
+				if (RelationshipUtils.getOtherSide(relationship, entitySet).getEntitySet().getMappedTo() != null) {
 					continue nextES;
 				}
 
@@ -114,6 +121,12 @@ public class TransformationAnalystUtils {
 
 		for (Relationship relationship : model.getRelationships()) {
 			if (relationship instanceof Generalization) {
+				if (relationship.getFirstSide().getEntitySet().getMappedTo() != null) {
+					continue;
+				}
+				if (relationship.getSecondSide().getEntitySet().getMappedTo() != null) {
+					continue;
+				}
 				relationship.setTransformationRole(EnumTransformationRole.GENERALIZATION);
 				target.add(new Transformation(EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION, new HashSet<>(Arrays.asList((Generalization) relationship))));
 			}
@@ -145,8 +158,13 @@ public class TransformationAnalystUtils {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
-		for (Relationship relationship : model.getRelationships()) {
+		nextRel: for (Relationship relationship : model.getRelationships()) {
 			if (relationship instanceof Association && relationship.getSides().length > 2) {
+				for (RelationshipSide side : relationship.getSides()) {
+					if (side.getEntitySet().getMappedTo() != null) {
+						continue nextRel;
+					}
+				}
 				relationship.setTransformationRole(EnumTransformationRole.ASSOCIATION);
 				target.add(new Transformation(EnumTransformation.REBIND_NARY_ASSOCIATION, new HashSet<>(Arrays.asList((Association) relationship))));
 			}
