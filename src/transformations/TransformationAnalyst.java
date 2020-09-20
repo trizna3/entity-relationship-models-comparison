@@ -33,7 +33,7 @@ public class TransformationAnalyst {
 		result.addAll(getPossibleRebind1NN1ToMNTransformations(mapping));
 		result.addAll(getPossibleGeneralizationToAssociationTransformations(mapping));
 		result.addAll(getPossibleContract11AssociationTransformations(mapping));
-//		result.addAll(getPossibleRebindNaryAssociationTransformations(mapping));
+		result.addAll(getPossibleRebindNaryAssociationTransformations(mapping));
 
 		return result;
 	}
@@ -98,6 +98,7 @@ public class TransformationAnalyst {
 	private static List<Transformation> getPossibleRebindNaryAssociationTransformations(Mapping mapping) {
 		List<Transformation> result = new ArrayList<>();
 
+		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(result, mapping.getStudentModel());
 		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(result, mapping.getExemplarModel());
 
 		return result;

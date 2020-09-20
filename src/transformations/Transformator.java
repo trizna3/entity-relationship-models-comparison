@@ -401,14 +401,22 @@ public class Transformator {
 
 	private static Transformation executeRebindNaryAssociation(Mapping mapping, Transformation transformation) {
 		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
+		TransformableFlag flag = (TransformableFlag) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
 
-		mapping.getStudentModel().removeRelationship(association);
+		ERModel model;
+		if (flag != null) {
+			model = mapping.getExemplarModel();
+		} else {
+			model = mapping.getStudentModel();
+		}
+
+		model.removeRelationship(association);
 
 		EntitySet entitySet = new EntitySet(association.getName(), association.getAttributes());
-		mapping.getStudentModel().addEntitySet(entitySet);
+		model.addEntitySet(entitySet);
 
 		for (AssociationSide side : association.getSides()) {
-			mapping.getStudentModel().addRelationship(new Association(new AssociationSide[] { new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(side.getEntitySet(), Enums.CARDINALITY_ONE) }, null));
+			model.addRelationship(new Association(new AssociationSide[] { new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(side.getEntitySet(), Enums.CARDINALITY_ONE) }, null));
 		}
 
 		entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);
@@ -485,9 +493,17 @@ public class Transformator {
 	private static Transformation executeBindToNaryAssociation(Mapping mapping, Transformation transformation) {
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ENTITY_SET);
 		Association association = (Association) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.ASSOCIATION);
+		TransformableFlag flag = (TransformableFlag) TransformationUtils.getTransformableByRole(transformation.getArguments(), EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
 
-		mapping.getStudentModel().removeEntitySet(entitySet);
-		mapping.getStudentModel().addRelationship(association);
+		ERModel model;
+		if (flag != null) {
+			model = mapping.getExemplarModel();
+		} else {
+			model = mapping.getStudentModel();
+		}
+
+		model.removeEntitySet(entitySet);
+		model.addRelationship(association);
 
 		transformation.getArguments().clear();
 		transformation.getArguments().add(association);

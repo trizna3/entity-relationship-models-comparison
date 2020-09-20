@@ -172,7 +172,13 @@ public class TransformationAnalystUtils {
 					}
 				}
 				relationship.setTransformationRole(EnumTransformationRole.ASSOCIATION);
-				target.add(new Transformation(EnumTransformation.REBIND_NARY_ASSOCIATION, new HashSet<>(Arrays.asList((Association) relationship))));
+
+				if (model.isExemplar()) {
+					TransformableFlag flag = new TransformableFlag(EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
+					target.add(new Transformation(EnumTransformation.REBIND_NARY_ASSOCIATION, new HashSet<>(Arrays.asList((Association) relationship, flag))));
+				} else {
+					target.add(new Transformation(EnumTransformation.REBIND_NARY_ASSOCIATION, new HashSet<>(Arrays.asList((Association) relationship))));
+				}
 			}
 		}
 
