@@ -13,6 +13,7 @@ import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
 import entityRelationshipModel.RelationshipSide;
+import entityRelationshipModel.TransformableAttribute;
 import entityRelationshipModel.TransformableFlag;
 import transformations.Transformation;
 
@@ -140,24 +141,59 @@ public class TransformationAnalystUtils {
 	}
 
 	public static void getPossibleExtractAttributeToOwnEntitySetTransformations(List<Transformation> target, ERModel model) {
-//		EXTRACT_ATTR_TO_OWN_ENTITY_SET - ATTRIBUTE,SOURCE_ENTITY_SET,DEST_ENTITY_SET - ATTRIBUTE,DEST_ENTITY_SET,SOURCE_ENTITY_SET
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
+
+		for (EntitySet entitySet : model.getEntitySets()) {
+			for (String attribute : entitySet.getAttributes()) {
+				TransformableAttribute transformableAttribute = new TransformableAttribute(attribute);
+				transformableAttribute.setTransformationRole(EnumTransformationRole.ATTRIBUTE);
+				entitySet.setTransformationRole(EnumTransformationRole.SOURCE_ENTITY_SET);
+
+				target.add(new Transformation(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET, new HashSet<>(Arrays.asList(transformableAttribute, entitySet))));
+			}
+		}
 
 	}
 
 	public static void getPossibleMoveAttributeToIncidentEntitySetTransformations(List<Transformation> target, ERModel model) {
-//		MOVE_ATTR_TO_INCIDENT_ENTITY_SET - ATTRIBUTE,ASSOCIATION,ENTITY_SET - ATTRIBUTE,ASSOCIATION,ENTITY_SET
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
+		for (Relationship relationship : model.getRelationships()) {
+			if (relationship instanceof Association) {
+				for (String attribute : ((Association) relationship).getAttributes()) {
+					for (EntitySet entitySet : model.getEntitySets()) {
+						TransformableAttribute transformableAttribute = new TransformableAttribute(attribute);
+						transformableAttribute.setTransformationRole(EnumTransformationRole.ATTRIBUTE);
+						entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);
+						relationship.setTransformationRole(EnumTransformationRole.ASSOCIATION);
+
+						target.add(new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, new HashSet<>(Arrays.asList(transformableAttribute, entitySet, (Association) relationship))));
+					}
+				}
+			}
+		}
 	}
 
 	public static void getPossibleMoveAttributeToIncidentAssociationTransformations(List<Transformation> target, ERModel model) {
-//		MOVE_ATTR_TO_INCIDENT_ASSOCIATION - ATTRIBUTE,ENTITY_SET,ASSOCIATION - ATTRIBUTE,ASSOCIATION,ENTITY_SET
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
+		for (EntitySet entitySet : model.getEntitySets()) {
+			for (String attribute : entitySet.getAttributes()) {
+				for (Relationship relationship : entitySet.getIncidentRelationships()) {
+					if (relationship instanceof Association) {
+						TransformableAttribute transformableAttribute = new TransformableAttribute(attribute);
+						transformableAttribute.setTransformationRole(EnumTransformationRole.ATTRIBUTE);
+						entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);
+						relationship.setTransformationRole(EnumTransformationRole.ASSOCIATION);
+
+						target.add(new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION, new HashSet<>(Arrays.asList(transformableAttribute, entitySet, (Association) relationship))));
+					}
+				}
+			}
+		}
 	}
 
 	public static void getPossibleRebindNaryAssociationTransformations(List<Transformation> target, ERModel model) {

@@ -17,35 +17,86 @@ import transformations.Transformator;
 
 public class TransformationAnalystTest {
 
-//	@Test
-//	public void getPossibleExtractAttributeToOwnEntitySetTransformations() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void getPossibleExtractAttributeToOwnEntitySetTransformationsExecution() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void getPossibleMoveAttributeToIncidentEntitySetTransformations() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void getPossibleMoveAttributeToIncidentEntitySetTransformationsExecution() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void getPossibleMoveAttributeToIncidentAssociationTransformations() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void getPossibleMoveAttributeToIncidentAssociationTransformationsExecution() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	public void getPossibleExtractAttributeToOwnEntitySetTransformations() {
+		ERModel model = TestUtils.getERModels().get(1);
+		List<Transformation> transformations = new ArrayList<>();
+
+		TransformationAnalystUtils.getPossibleExtractAttributeToOwnEntitySetTransformations(transformations, model);
+
+		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET));
+	}
+
+	@Test
+	public void getPossibleExtractAttributeToOwnEntitySetTransformationsExecution() {
+		ERModel model = TestUtils.getERModels().get(1);
+		ERModel modelClone = ERModelUtils.getClone(model);
+		Mapping mapping = new Mapping(null, model);
+		List<Transformation> transformations = new ArrayList<>();
+
+		TransformationAnalystUtils.getPossibleExtractAttributeToOwnEntitySetTransformations(transformations, model);
+
+		for (Transformation transformation : transformations) {
+			Transformator.execute(mapping, transformation);
+			Transformator.revert(mapping, transformation);
+		}
+
+		assertTrue(ERModelUtils.modelsAreEqual(model, modelClone));
+	}
+
+	@Test
+	public void getPossibleMoveAttributeToIncidentEntitySetTransformations() {
+		ERModel model = TestUtils.getERModels().get(6);
+		List<Transformation> transformations = new ArrayList<>();
+
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentEntitySetTransformations(transformations, model);
+
+		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET));
+	}
+
+	@Test
+	public void getPossibleMoveAttributeToIncidentEntitySetTransformationsExecution() {
+		ERModel model = TestUtils.getERModels().get(6);
+		ERModel modelClone = ERModelUtils.getClone(model);
+		Mapping mapping = new Mapping(null, model);
+		List<Transformation> transformations = new ArrayList<>();
+
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentEntitySetTransformations(transformations, model);
+
+		for (Transformation transformation : transformations) {
+			Transformator.execute(mapping, transformation);
+			Transformator.revert(mapping, transformation);
+		}
+
+		assertTrue(ERModelUtils.modelsAreEqual(model, modelClone));
+	}
+
+	@Test
+	public void getPossibleMoveAttributeToIncidentAssociationTransformations() {
+		ERModel model = TestUtils.getERModels().get(1);
+		List<Transformation> transformations = new ArrayList<>();
+
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(transformations, model);
+
+		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION));
+	}
+
+	@Test
+	public void getPossibleMoveAttributeToIncidentAssociationTransformationsExecution() {
+		ERModel model = TestUtils.getERModels().get(1);
+		ERModel modelClone = ERModelUtils.getClone(model);
+		Mapping mapping = new Mapping(null, model);
+		List<Transformation> transformations = new ArrayList<>();
+
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(transformations, model);
+
+		for (Transformation transformation : transformations) {
+			Transformator.execute(mapping, transformation);
+			Transformator.revert(mapping, transformation);
+		}
+
+		assertTrue(ERModelUtils.modelsAreEqual(model, modelClone));
+	}
 
 	@Test
 	public void getPossibleRebindMNTo1NN1Transformations() {
