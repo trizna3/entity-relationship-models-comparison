@@ -1,15 +1,18 @@
 package transformations;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+
+import common.Utils;
 
 public class Transformation {
 
 	private String code;
-	private Set<Transformable> arguments;
+	private Map<Transformable, String> argumentMap;
 
-	public Transformation(String code, Set<Transformable> arguments) {
+	public Transformation(String code) {
 		this.code = code;
-		this.arguments = arguments;
 	}
 
 	public String getCode() {
@@ -21,10 +24,35 @@ public class Transformation {
 	}
 
 	public Set<Transformable> getArguments() {
-		return arguments;
+		return getArgumentMap().keySet();
 	}
 
-	public void setArguments(Set<Transformable> arguments) {
-		this.arguments = arguments;
+	public Map<Transformable, String> getArgumentMap() {
+		if (argumentMap == null) {
+			argumentMap = new HashMap<>();
+		}
+		return argumentMap;
+	}
+
+	public void setArguments(Map<Transformable, String> argumentMap) {
+		this.argumentMap = argumentMap;
+	}
+
+	public void addArgument(Transformable transformable, String transformableRole) {
+		Utils.validateNotNull(transformable);
+		Utils.validateNotNull(transformableRole);
+
+		getArgumentMap().put(transformable, transformableRole);
+	}
+
+	public void removeArgument(Transformable transformable) {
+		Utils.validateNotNull(transformable);
+		assert getArgumentMap().containsKey(transformable);
+
+		getArgumentMap().remove(transformable);
+	}
+
+	public void clearArguments() {
+		getArgumentMap().clear();
 	}
 }

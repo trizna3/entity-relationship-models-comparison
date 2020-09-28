@@ -26,12 +26,12 @@ public class TransformationAnalyst {
 	public static List<Transformation> getPossibleTransformations(Mapping mapping) {
 		List<Transformation> result = new ArrayList<>();
 
-		result.addAll(getPossibleExtractAttributeToOwnEntitySetTransformations(mapping));
-		result.addAll(getPossibleMoveAttributeToIncidentEntitySetTransformations(mapping));
-		result.addAll(getPossibleMoveAttributeToIncidentAssociationTransformations(mapping));
+//		result.addAll(getPossibleExtractAttributeToOwnEntitySetTransformations(mapping));
+//		result.addAll(getPossibleMoveAttributeToIncidentEntitySetTransformations(mapping));
+//		result.addAll(getPossibleMoveAttributeToIncidentAssociationTransformations(mapping));
 		result.addAll(getPossibleRebindMNTo1NN1Transformations(mapping));
 		result.addAll(getPossibleRebind1NN1ToMNTransformations(mapping));
-		result.addAll(getPossibleGeneralizationToAssociationTransformations(mapping));
+//		result.addAll(getPossibleGeneralizationToAssociationTransformations(mapping));
 		result.addAll(getPossibleContract11AssociationTransformations(mapping));
 		result.addAll(getPossibleRebindNaryAssociationTransformations(mapping));
 

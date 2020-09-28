@@ -15,6 +15,8 @@ public abstract class RelationshipSide extends Transformable {
 
 	public abstract String getRole();
 
+	public abstract void setRole(String role);
+
 	@Override
 	public String toString() {
 		return PrintUtils.print(this);

@@ -1,9 +1,5 @@
 package common;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
 import common.enums.Enums;
@@ -29,8 +25,10 @@ public class TransformationUtils extends Utils {
 		validateNotNull(mapping);
 		validateNotNull(entitySet);
 
-		entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);
-		mapping.addTransformation(new Transformation(EnumTransformation.CREATE_ENTITY_SET, new HashSet<>(Arrays.asList(entitySet))));
+		Transformation transformation = new Transformation(EnumTransformation.CREATE_ENTITY_SET);
+		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
+
+		mapping.addTransformation(transformation);
 	}
 
 	/**
@@ -41,8 +39,10 @@ public class TransformationUtils extends Utils {
 		validateNotNull(mapping);
 		validateNotNull(entitySet);
 
-		entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);
-		mapping.addTransformation(new Transformation(EnumTransformation.REMOVE_ENTITY_SET, new HashSet<>(Arrays.asList(entitySet))));
+		Transformation transformation = new Transformation(EnumTransformation.REMOVE_ENTITY_SET);
+		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
+
+		mapping.addTransformation(transformation);
 	}
 
 	/**
@@ -79,8 +79,11 @@ public class TransformationUtils extends Utils {
 		for (RelationshipSide side : oldRel.getSides()) {
 			String oppositeRole = RelationshipUtils.getRole(newRel, side.getEntitySet().getMappedTo());
 			if (!StringUtils.areEqual(side.getRole(), oppositeRole)) {
-				side.setTransformationRole(EnumTransformationRole.ASSOCIATION_SIDE);
-				mapping.addTransformation(new Transformation(EnumTransformation.CHANGE_CARDINALITY, new HashSet<>(Arrays.asList(side))));
+
+				Transformation transformation = new Transformation(EnumTransformation.CHANGE_CARDINALITY);
+				transformation.addArgument(side, EnumTransformationRole.ASSOCIATION_SIDE);
+
+				mapping.addTransformation(transformation);
 			}
 		}
 	}
@@ -93,9 +96,11 @@ public class TransformationUtils extends Utils {
 		validateNotNull(entitySet);
 		validateNotNull(entitySetTarget);
 
-		entitySet.setTransformationRole(EnumTransformationRole.ENTITY_SET);
-		entitySetTarget.setTransformationRole(EnumTransformationRole.ENTITY_SET_TARGET);
-		mapping.addTransformation(new Transformation(EnumTransformation.RENAME_ENTITY_SET, new HashSet<>(Arrays.asList(entitySet, entitySetTarget))));
+		Transformation transformation = new Transformation(EnumTransformation.RENAME_ENTITY_SET);
+		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
+		transformation.addArgument(entitySetTarget, EnumTransformationRole.ENTITY_SET_TARGET);
+
+		mapping.addTransformation(transformation);
 	}
 
 	/**
@@ -107,12 +112,11 @@ public class TransformationUtils extends Utils {
 		validateNotNull(attributeTarget);
 		validateNotNull(entitySet);
 
-		TransformableAttribute attr = new TransformableAttribute(attribute);
-		attr.setTransformationRole(EnumTransformationRole.ATTRIBUTE);
-		TransformableAttribute attrTarget = new TransformableAttribute(attributeTarget);
-		attrTarget.setTransformationRole(EnumTransformationRole.ATTRIBUTE_TARGET);
+		Transformation transformation = new Transformation(EnumTransformation.RENAME_ATTRIBUTE);
+		transformation.addArgument(new TransformableAttribute(attribute), EnumTransformationRole.ATTRIBUTE);
+		transformation.addArgument(new TransformableAttribute(attributeTarget), EnumTransformationRole.ATTRIBUTE_TARGET);
 
-		mapping.addTransformation(new Transformation(EnumTransformation.RENAME_ATTRIBUTE, new HashSet<>(Arrays.asList(entitySet, attr, attrTarget))));
+		mapping.addTransformation(transformation);
 	}
 
 	/**
@@ -137,11 +141,12 @@ public class TransformationUtils extends Utils {
 		addAttributeTransformation(mapping, entitySet, attribute, false);
 	}
 
-	public static Transformable getTransformableByRole(Set<Transformable> transformables, String role) {
-		validateNotNull(transformables);
+	public static Transformable getTransformableByRole(Transformation transformation, String role) {
+		validateNotNull(transformation);
 		validateNotNull(role);
-		for (Transformable transformable : transformables) {
-			if (role.equals(transformable.getTransformationRole())) {
+
+		for (Transformable transformable : transformation.getArguments()) {
+			if (role.equals(transformation.getArgumentMap().get(transformable))) {
 				return transformable;
 			}
 		}
@@ -157,10 +162,10 @@ public class TransformationUtils extends Utils {
 		validateNotNull(associationSide);
 
 		if (Enums.CARDINALITY_ONE.equals(associationSide.getRole())) {
-			associationSide.setTransformationRole(Enums.CARDINALITY_MANY);
+			associationSide.setRole(Enums.CARDINALITY_MANY);
 		}
 		if (Enums.CARDINALITY_MANY.equals(associationSide.getRole())) {
-			associationSide.setTransformationRole(Enums.CARDINALITY_ONE);
+			associationSide.setRole(Enums.CARDINALITY_ONE);
 		}
 	}
 
@@ -187,24 +192,32 @@ public class TransformationUtils extends Utils {
 	private static void addRelationshipTransformation(Mapping mapping, Relationship relationship, boolean isCreation) {
 
 		if (relationship instanceof Association) {
-			relationship.setTransformationRole(EnumTransformationRole.ASSOCIATION);
 			String transformationCode = isCreation ? EnumTransformation.CREATE_ASSOCIATION : EnumTransformation.REMOVE_ASSOCIATION;
-			mapping.addTransformation(new Transformation(transformationCode, new HashSet<>(Arrays.asList(relationship))));
+
+			Transformation transformation = new Transformation(transformationCode);
+			transformation.addArgument(relationship, EnumTransformationRole.ASSOCIATION);
+
+			mapping.addTransformation(transformation);
 			return;
 		}
 		if (relationship instanceof Generalization) {
-			relationship.setTransformationRole(EnumTransformationRole.GENERALIZATION);
 			String transformationCode = isCreation ? EnumTransformation.CREATE_GENERALIZATION : EnumTransformation.REMOVE_GENERALIZATION;
-			mapping.addTransformation(new Transformation(transformationCode, new HashSet<>(Arrays.asList(relationship))));
+
+			Transformation transformation = new Transformation(transformationCode);
+			transformation.addArgument(relationship, EnumTransformationRole.GENERALIZATION);
+
+			mapping.addTransformation(transformation);
 			return;
 		}
 	}
 
 	private static void addAttributeTransformation(Mapping mapping, EntitySet entitySet, String attribute, boolean isCreation) {
-		TransformableAttribute attr = new TransformableAttribute(attribute);
-		attr.setTransformationRole(EnumTransformationRole.ATTRIBUTE);
-
 		String transformationCode = isCreation ? EnumTransformation.CREATE_ATTRIBUTE : EnumTransformation.REMOVE_ATTRIBUTE;
-		mapping.addTransformation(new Transformation(transformationCode, new HashSet<>(Arrays.asList(entitySet, attr))));
+
+		Transformation transformation = new Transformation(transformationCode);
+		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
+		transformation.addArgument(new TransformableAttribute(attribute), EnumTransformationRole.ATTRIBUTE);
+
+		mapping.addTransformation(transformation);
 	}
 }

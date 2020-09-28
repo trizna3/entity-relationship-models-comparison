@@ -41,4 +41,9 @@ public class AssociationSide extends RelationshipSide {
 	public void setEntitySet(EntitySet entitySet) {
 		this.entitySet = entitySet;
 	}
+
+	@Override
+	public void setRole(String role) {
+		this.cardinality = role;
+	}
 }

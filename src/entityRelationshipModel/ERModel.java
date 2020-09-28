@@ -6,6 +6,7 @@ import java.util.List;
 import common.MappingUtils;
 import common.PrintUtils;
 import common.Utils;
+import transformations.Transformable;
 
 /**
  * @author - Adam Trizna
@@ -129,15 +130,15 @@ public class ERModel {
 	}
 
 	public void resetTransformableRoles() {
-		for (EntitySet entitySet : getEntitySets()) {
-			entitySet.resetTransformationRole();
-		}
-		for (Relationship relationship : getRelationships()) {
-			relationship.resetTransformationRole();
-			for (RelationshipSide side : relationship.getSides()) {
-				side.resetTransformationRole();
-			}
-		}
+//		for (EntitySet entitySet : getEntitySets()) {
+//			entitySet.resetTransformationRole();
+//		}
+//		for (Relationship relationship : getRelationships()) {
+//			relationship.resetTransformationRole();
+//			for (RelationshipSide side : relationship.getSides()) {
+//				side.resetTransformationRole();
+//			}
+//		}
 	}
 
 	public boolean isExemplar() {
@@ -146,5 +147,14 @@ public class ERModel {
 
 	public void setExemplar(boolean isExemplar) {
 		this.isExemplar = isExemplar;
+	}
+
+	public List<Transformable> getTransformables() {
+		List<Transformable> result = new ArrayList<Transformable>();
+
+		result.addAll(getEntitySets());
+		result.addAll(getRelationships());
+
+		return result;
 	}
 }

@@ -21,7 +21,7 @@ import transformations.Transformation;
 public class TestUtils {
 
 	public static List<ERModel> getERModels() {
-		return new ArrayList<ERModel>(Arrays.asList(makeERModel1(), makeERModel2(), makeERModel3(), makeERModel4(), makeERModel5(), makeERModel6(), makeERModel7()));
+		return new ArrayList<ERModel>(Arrays.asList(makeERModel1(), makeERModel2(), makeERModel3(), makeERModel4(), makeERModel5(), makeERModel6(), makeERModel7(), makeERModel8(), makeERModel9()));
 	}
 
 	private static ERModel makeERModel1() {
@@ -200,6 +200,59 @@ public class TestUtils {
 		((Association) relationships.get(4)).addAttribute("Test attribute 5");
 		((Association) relationships.get(4)).addAttribute("Test attribute 6");
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(4), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), Enums.CARDINALITY_ONE) }, null));
+
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+
+	/**
+	 * Chemicky dennik vzor
+	 * 
+	 * @return
+	 */
+	private static ERModel makeERModel8() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Chemicke latky", new ArrayList<>(Arrays.asList("Nazov", "Vzorec")))); // 0
+		entitySets.add(new EntitySet("Chemicke reakcie", new ArrayList<>(Arrays.asList("Rovnica")))); // 1
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		((Association) relationships.get(0)).setName("Katalyzator");
+		((Association) relationships.get(0)).addAttribute("Hmotnost");
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		((Association) relationships.get(1)).setName("Reaktant 1");
+		((Association) relationships.get(1)).addAttribute("Hmotnost");
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		((Association) relationships.get(2)).setName("Reaktant 2");
+		((Association) relationships.get(2)).addAttribute("Hmotnost");
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		((Association) relationships.get(3)).setName("Produkt");
+
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+
+	/**
+	 * Chemicky dennik student 1
+	 * 
+	 * @return
+	 */
+	private static ERModel makeERModel9() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Chemicke latky", new ArrayList<>(Arrays.asList("Nazov", "Vzorec")))); // 0
+		entitySets.add(new EntitySet("Chemicke reakcie", new ArrayList<>(Arrays.asList("Rovnica", "Hmotnost reaktantu A", "Hmotnost reaktantu B", "Hmotnost reaktantu C")))); // 1
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
 
 		model.addAllRelationships(relationships);
 		model.addAllEntitySets(entitySets);
