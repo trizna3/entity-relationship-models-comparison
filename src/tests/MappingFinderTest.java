@@ -47,9 +47,8 @@ public class MappingFinderTest {
 		Collections.shuffle(exemplarModel.getEntitySets());
 		Collections.shuffle(studentModel.getEntitySets());
 
-//		MappingFinder finder = new MappingFinder();
-//
-//		finder.getBestMapping(exemplarModel, studentModel);
+		MappingFinder finder = new MappingFinder();
+		finder.getBestMapping(exemplarModel, studentModel);
 
 		assertTrue(true);
 	}

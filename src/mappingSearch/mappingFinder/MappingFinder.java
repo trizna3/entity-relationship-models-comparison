@@ -3,6 +3,7 @@ package mappingSearch.mappingFinder;
 import java.util.List;
 import java.util.Map;
 
+import common.LoggerUtils;
 import common.MappingUtils;
 import common.PrintUtils;
 import common.Utils;
@@ -28,6 +29,11 @@ public class MappingFinder {
 	IEvaluator mappingEvaluator;
 
 	/**
+	 * Stack level counter
+	 */
+	private Integer counter = new Integer(0);
+	
+	/**
 	 * Uses recursive backtrack algorithm to iterate over all possible mappings,
 	 * compute their penalties, get the one with the lowest penalty.
 	 * 
@@ -40,7 +46,7 @@ public class MappingFinder {
 		studentModel.setExemplar(false);
 
 		search(new Mapping(exemplarModel, studentModel));
-		if (Utils.PRINT_MODE) {
+		if (Utils.PRINT_RESULT) {
 			System.out.println("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
 			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMapping()));
 		}
@@ -85,11 +91,9 @@ public class MappingFinder {
 		List<Transformation> transformations = TransformationAnalyst.getPossibleTransformations(mapping);
 
 		for (Transformation transformation : transformations) {
-			Transformator.execute(mapping, transformation);
-			mapping.addTransformation(transformation);
+			executeTransformation(mapping,transformation);
 			search(mapping);
-			mapping.removeTransformation(transformation);
-			Transformator.revert(mapping, transformation);
+			revertTransformation(mapping, transformation);
 		}
 	}
 
@@ -99,6 +103,7 @@ public class MappingFinder {
 		if (!studentEntitySet.isEmpty()) {
 			mapping.getStudentModel().getNotMappedEntitySets().remove(studentEntitySet);
 		}
+		incrementCounter();
 	}
 
 	private void unmap(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
@@ -107,6 +112,7 @@ public class MappingFinder {
 		if (!studentEntitySet.isEmpty()) {
 			mapping.getStudentModel().getNotMappedEntitySets().add(0, studentEntitySet);
 		}
+		decrementCounter();
 	}
 
 	private boolean stoppingCriterion(Mapping mapping) {
@@ -122,5 +128,35 @@ public class MappingFinder {
 			mappingEvaluator = new Evaluator();
 		}
 		return mappingEvaluator;
+	}
+	
+	private void executeTransformation(Mapping mapping, Transformation transformation) {
+		if (Utils.PRINT_TRANSFORMATION_PROGRESS) {
+			LoggerUtils.logTransformation(transformation, LoggerUtils.DIRECTION_DOWN);
+		}
+		Transformator.execute(mapping, transformation);
+		mapping.addTransformation(transformation);
+		incrementCounter();
+	}
+	
+	private void revertTransformation(Mapping mapping, Transformation transformation) {
+		if (Utils.PRINT_TRANSFORMATION_PROGRESS) {
+			LoggerUtils.logTransformation(transformation, LoggerUtils.DIRECTION_UP);
+		}
+		mapping.removeTransformation(transformation);
+		Transformator.revert(mapping, transformation);
+		decrementCounter();
+	}
+	
+	private void incrementCounter() {
+		if (Utils.TRACK_PROGRESS && counter.intValue() == 0) {
+			LoggerUtils.log("Backtrack hit recursive level 0");
+		}
+		counter++;
+	}
+	
+	private void decrementCounter() {
+		Utils.validatePositive(counter);
+		counter--;
 	}
 }

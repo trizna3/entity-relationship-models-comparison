@@ -423,6 +423,9 @@ public class Transformator {
 		transformation.clearArguments();
 		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
+		if (flag != null) {
+			transformation.addArgument(flag, EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
+		}
 
 		return transformation;
 	}

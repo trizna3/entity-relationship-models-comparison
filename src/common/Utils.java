@@ -6,7 +6,9 @@ import entityRelationshipModel.Relationship;
 
 public class Utils {
 
-	public static final boolean PRINT_MODE = true;
+	public static final boolean PRINT_RESULT = true;
+	public static final boolean PRINT_TRANSFORMATION_PROGRESS = false;
+	public static final boolean TRACK_PROGRESS = true;
 
 	public static void validateNotNull(Object input) {
 		if (input == null) {
@@ -54,5 +56,13 @@ public class Utils {
 		if (!entitySet.getAttributes().contains(attribute)) {
 			throw new IllegalArgumentException("EntitySet doesn't contain this attribute!");
 		}
+	}
+	
+	public static void validatePositive(Integer integer) {
+		validateNotNull(integer);
+		if (integer.intValue() < 1) {
+			throw new IllegalStateException("Integer value is not positive!");
+		}
+		
 	}
 }
