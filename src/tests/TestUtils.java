@@ -8,6 +8,7 @@ import common.Utils;
 import common.enums.Enums;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
@@ -189,16 +190,16 @@ public class TestUtils {
 
 		List<Relationship> relationships = new ArrayList<>();
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
-		((Association) relationships.get(0)).addAttribute("Test attribute 1");
-		((Association) relationships.get(0)).addAttribute("Test attribute 2");
+		((Association) relationships.get(0)).addAttribute(new Attribute("Test attribute 1"));
+		((Association) relationships.get(0)).addAttribute(new Attribute("Test attribute 2"));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY) }, null));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), Enums.CARDINALITY_MANY) }, null));
-		((Association) relationships.get(2)).addAttribute("Test attribute 3");
+		((Association) relationships.get(2)).addAttribute(new Attribute("Test attribute 3"));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), Enums.CARDINALITY_ONE) }, null));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(3), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), Enums.CARDINALITY_ONE) }, null));
-		((Association) relationships.get(4)).addAttribute("Test attribute 4");
-		((Association) relationships.get(4)).addAttribute("Test attribute 5");
-		((Association) relationships.get(4)).addAttribute("Test attribute 6");
+		((Association) relationships.get(4)).addAttribute(new Attribute("Test attribute 4"));
+		((Association) relationships.get(4)).addAttribute(new Attribute("Test attribute 5"));
+		((Association) relationships.get(4)).addAttribute(new Attribute("Test attribute 6"));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(4), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), Enums.CARDINALITY_ONE) }, null));
 
 		model.addAllRelationships(relationships);
@@ -221,13 +222,13 @@ public class TestUtils {
 		List<Relationship> relationships = new ArrayList<>();
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
 		((Association) relationships.get(0)).setName("Katalyzator");
-		((Association) relationships.get(0)).addAttribute("Hmotnost");
+		((Association) relationships.get(0)).addAttribute(new Attribute("Hmotnost"));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
 		((Association) relationships.get(1)).setName("Reaktant 1");
-		((Association) relationships.get(1)).addAttribute("Hmotnost");
+		((Association) relationships.get(1)).addAttribute(new Attribute("Hmotnost"));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
 		((Association) relationships.get(2)).setName("Reaktant 2");
-		((Association) relationships.get(2)).addAttribute("Hmotnost");
+		((Association) relationships.get(2)).addAttribute(new Attribute("Hmotnost"));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
 		((Association) relationships.get(3)).setName("Produkt");
 

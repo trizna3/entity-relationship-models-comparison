@@ -16,7 +16,7 @@ import entityRelationshipModel.Association;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
-import entityRelationshipModel.TransformableAttribute;
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.TransformableFlag;
 import transformations.Transformation;
 import transformations.Transformator;
@@ -32,9 +32,9 @@ public class TransformatorRevertTest {
 		EntitySet entitySet = model.getEntitySets().get(1);
 		assert "Izby".equals(entitySet.getName());
 
-		TransformableAttribute attribute = new TransformableAttribute("Cislo");
+		Attribute attribute = new Attribute("Cislo");
 
-		assert entitySet.getAttributes().contains(attribute.getAttribute());
+		assert entitySet.getAttributes().contains(attribute);
 		assert model.getEntitySets().size() == 6;
 
 		Transformation transformation = new Transformation(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
@@ -58,12 +58,12 @@ public class TransformatorRevertTest {
 		EntitySet entitySet = model.getEntitySets().get(1);
 		assert "Izby".equals(entitySet.getName());
 
-		TransformableAttribute attribute = new TransformableAttribute("Cislo");
+		Attribute attribute = new Attribute("Cislo");
 
 		EntitySet newEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(Enums.NAME_ATTRIBUTE)));
 		model.addEntitySet(newEntitySet);
 
-		assert entitySet.getAttributes().contains(attribute.getAttribute());
+		assert entitySet.getAttributes().contains(attribute);
 		assert model.getEntitySets().size() == 7;
 
 		Transformation transformation = new Transformation(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
@@ -92,10 +92,10 @@ public class TransformatorRevertTest {
 		assert "Budovy".equals(neighbour.getName());
 
 		Association association = (Association) entitySet.getNeighbours().get(neighbour).get(0);
-		TransformableAttribute attribute = new TransformableAttribute("Cislo");
+		Attribute attribute = new Attribute("Cislo");
 
-		assert entitySet.getAttributes().contains(attribute.getAttribute());
-		assert !association.getAttributes().contains(attribute.getAttribute());
+		assert entitySet.getAttributes().contains(attribute);
+		assert !association.getAttributes().contains(attribute);
 
 		Transformation transformation = new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);

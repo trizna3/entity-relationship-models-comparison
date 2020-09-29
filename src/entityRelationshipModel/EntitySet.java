@@ -26,7 +26,7 @@ public class EntitySet extends Transformable {
 	/**
 	 * List of entity set's attributes.
 	 */
-	private List<String> attributes;
+	private List<Attribute> attributes;
 
 	/**
 	 * Sign of an empty entity set.
@@ -45,12 +45,16 @@ public class EntitySet extends Transformable {
 
 	public EntitySet(String name) {
 		this.name = name;
-		this.attributes = new ArrayList<String>();
+		this.attributes = new ArrayList<Attribute>();
 	}
 
 	public EntitySet(String name, List<String> attributes) {
 		this.name = name;
-		this.attributes = attributes;
+		if (attributes != null) {
+			for (String attribute : attributes) {
+				getAttributes().add(new Attribute(attribute));
+			}
+		}
 	}
 	
 	public EntitySet(EntitySet other) {
@@ -65,9 +69,9 @@ public class EntitySet extends Transformable {
 		return name;
 	}
 
-	public List<String> getAttributes() {
+	public List<Attribute> getAttributes() {
 		if (attributes == null) {
-			attributes = new ArrayList<String>();
+			attributes = new ArrayList<Attribute>();
 		}
 		return attributes;
 	}
@@ -76,7 +80,7 @@ public class EntitySet extends Transformable {
 		this.name = name;
 	}
 
-	public void setAttributes(List<String> attributes) {
+	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;
 	}
 
@@ -163,13 +167,13 @@ public class EntitySet extends Transformable {
 		getNeighbours().get(neighbour).add(relationship);
 	}
 
-	public void addAttribute(String attribute) {
+	public void addAttribute(Attribute attribute) {
 		Utils.validateNotNull(attribute);
 
 		getAttributes().add(attribute);
 	}
 
-	public void removeAttribute(String attribute) {
+	public void removeAttribute(Attribute attribute) {
 		Utils.validateNotNull(attribute);
 		Utils.validateContains(this, attribute);
 

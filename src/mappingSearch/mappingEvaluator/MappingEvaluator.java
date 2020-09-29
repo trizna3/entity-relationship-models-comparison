@@ -3,11 +3,13 @@ package mappingSearch.mappingEvaluator;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.ERModelUtils;
 import common.RelationshipUtils;
 import common.StringUtils;
 import common.TransformationUtils;
 import common.Utils;
 import comparing.Mapping;
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Relationship;
 
@@ -38,7 +40,7 @@ public class MappingEvaluator {
 	private void checkEntitySets(Mapping mapping) {
 		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
 			if (entitySet.getMappedTo() == null || entitySet.getMappedTo().isEmpty()) {
-				EntitySet esCopy = new EntitySet(entitySet.getName(), entitySet.getAttributes());
+				EntitySet esCopy = ERModelUtils.copyEntitySetDetached(entitySet);
 				TransformationUtils.addCreateEntitySet(mapping, esCopy);
 			}
 		}
@@ -107,13 +109,13 @@ public class MappingEvaluator {
 		// len tak primitivne
 		// "RENAME_ENTITY_SET";
 		// "RENAME_ATTRIBUTE";
-		for (String attribute : exemplarEntitySet.getAttributes()) {
+		for (Attribute attribute : exemplarEntitySet.getAttributes()) {
 			if (!studentEntitySet.getAttributes().contains(attribute)) {
 				TransformationUtils.addCreateAttribute(mapping, studentEntitySet, attribute);
 			}
 		}
 
-		for (String attribute : studentEntitySet.getAttributes()) {
+		for (Attribute attribute : studentEntitySet.getAttributes()) {
 			if (!exemplarEntitySet.getAttributes().contains(attribute)) {
 				TransformationUtils.addRemoveAttribute(mapping, studentEntitySet, attribute);
 			}

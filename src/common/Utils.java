@@ -1,5 +1,6 @@
 package common;
 
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Relationship;
@@ -52,7 +53,7 @@ public class Utils {
 		}
 	}
 
-	public static void validateContains(EntitySet entitySet, String attribute) {
+	public static void validateContains(EntitySet entitySet, Attribute attribute) {
 		if (!entitySet.getAttributes().contains(attribute)) {
 			throw new IllegalArgumentException("EntitySet doesn't contain this attribute!");
 		}

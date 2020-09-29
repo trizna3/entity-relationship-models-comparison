@@ -22,7 +22,7 @@ import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
-import entityRelationshipModel.TransformableAttribute;
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.TransformableFlag;
 import transformations.Transformation;
 import transformations.Transformator;
@@ -37,9 +37,9 @@ public class TransformatorTest {
 		EntitySet entitySet = model.getEntitySets().get(1);
 		assert "Izby".equals(entitySet.getName());
 
-		TransformableAttribute attribute = new TransformableAttribute("Cislo");
+		Attribute attribute = new Attribute("Cislo");
 
-		assert entitySet.getAttributes().contains(attribute.getAttribute());
+		assert entitySet.getAttributes().contains(attribute);
 		assert model.getEntitySets().size() == 6;
 
 		Transformation transformation = new Transformation(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
@@ -48,11 +48,11 @@ public class TransformatorTest {
 
 		Transformator.execute(mapping, transformation);
 
-		assertFalse(entitySet.getAttributes().contains(attribute.getAttribute()));
+		assertFalse(entitySet.getAttributes().contains(attribute));
 		assertTrue(model.getEntitySets().size() == 7);
 		EntitySet newEntitySet = ERModelUtils.getEntitySetByName(model, attribute.getAttribute());
 		assertNotNull(newEntitySet);
-		assertTrue(newEntitySet.getAttributes().contains(Enums.NAME_ATTRIBUTE));
+		assertTrue(newEntitySet.getAttributes().contains(new Attribute(Enums.NAME_ATTRIBUTE)));
 		Relationship relationship = entitySet.getNeighbours().get(newEntitySet).get(0);
 		assertNotNull(relationship);
 		assertEquals(RelationshipUtils.getRole(relationship, entitySet), Enums.CARDINALITY_MANY);
@@ -67,12 +67,12 @@ public class TransformatorTest {
 		EntitySet entitySet = model.getEntitySets().get(1);
 		assert "Izby".equals(entitySet.getName());
 
-		TransformableAttribute attribute = new TransformableAttribute("Cislo");
+		Attribute attribute = new Attribute("Cislo");
 
 		EntitySet newEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(Enums.NAME_ATTRIBUTE)));
 		model.addEntitySet(newEntitySet);
 
-		assert entitySet.getAttributes().contains(attribute.getAttribute());
+		assert entitySet.getAttributes().contains(attribute);
 		assert model.getEntitySets().size() == 7;
 
 		Transformation transformation = new Transformation(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
@@ -82,7 +82,7 @@ public class TransformatorTest {
 
 		Transformator.execute(mapping, transformation);
 
-		assertFalse(entitySet.getAttributes().contains(attribute.getAttribute()));
+		assertFalse(entitySet.getAttributes().contains(attribute));
 		assertTrue(model.getEntitySets().size() == 7);
 		Relationship relationship = entitySet.getNeighbours().get(newEntitySet).get(0);
 		assertNotNull(relationship);
@@ -103,10 +103,10 @@ public class TransformatorTest {
 
 		Association association = (Association) entitySet.getNeighbours().get(neighbour).get(0);
 
-		TransformableAttribute attribute = new TransformableAttribute("Cislo");
+		Attribute attribute = new Attribute("Cislo");
 
-		assert entitySet.getAttributes().contains(attribute.getAttribute());
-		assert !association.getAttributes().contains(attribute.getAttribute());
+		assert entitySet.getAttributes().contains(attribute);
+		assert !association.getAttributes().contains(attribute);
 
 		Transformation transformation = new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
@@ -115,8 +115,8 @@ public class TransformatorTest {
 
 		Transformator.execute(mapping, transformation);
 
-		assertFalse(entitySet.getAttributes().contains(attribute.getAttribute()));
-		assertTrue(association.getAttributes().contains(attribute.getAttribute()));
+		assertFalse(entitySet.getAttributes().contains(attribute));
+		assertTrue(association.getAttributes().contains(attribute));
 	}
 
 	@Test
@@ -201,10 +201,10 @@ public class TransformatorTest {
 		assertFalse(model.contains(association));
 		EntitySet entitySet = ERModelUtils.getEntitySetByName(model, entitySet1Name + Enums.ENTITY_SETS_DELIMITER + entitySet2Name);
 		assertNotNull(entitySet);
-		for (String attribute : entitySet1.getAttributes()) {
+		for (Attribute attribute : entitySet1.getAttributes()) {
 			assertTrue(entitySet.getAttributes().contains(attribute));
 		}
-		for (String attribute : entitySet2.getAttributes()) {
+		for (Attribute attribute : entitySet2.getAttributes()) {
 			assertTrue(entitySet.getAttributes().contains(attribute));
 		}
 	}
@@ -238,10 +238,10 @@ public class TransformatorTest {
 		assertFalse(exemplarModel.contains(association));
 		EntitySet entitySet = ERModelUtils.getEntitySetByName(exemplarModel, entitySet1Name + Enums.ENTITY_SETS_DELIMITER + entitySet2Name);
 		assertNotNull(entitySet);
-		for (String attribute : entitySet1.getAttributes()) {
+		for (Attribute attribute : entitySet1.getAttributes()) {
 			assertTrue(entitySet.getAttributes().contains(attribute));
 		}
-		for (String attribute : entitySet2.getAttributes()) {
+		for (Attribute attribute : entitySet2.getAttributes()) {
 			assertTrue(entitySet.getAttributes().contains(attribute));
 		}
 		assertTrue(ERModelUtils.modelsAreEqual(studentModel, studentModelClone));

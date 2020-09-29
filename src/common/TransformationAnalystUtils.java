@@ -11,7 +11,7 @@ import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
 import entityRelationshipModel.RelationshipSide;
-import entityRelationshipModel.TransformableAttribute;
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.TransformableFlag;
 import transformations.Transformation;
 
@@ -153,11 +153,11 @@ public class TransformationAnalystUtils {
 		Utils.validateNotNull(model);
 
 		for (EntitySet entitySet : model.getEntitySets()) {
-			for (String attribute : entitySet.getAttributes()) {
+			for (Attribute attribute : entitySet.getAttributes()) {
 
 				Transformation transformation = new Transformation(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
 
-				transformation.addArgument(new TransformableAttribute(attribute), EnumTransformationRole.ATTRIBUTE);
+				transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
 				transformation.addArgument(entitySet, EnumTransformationRole.SOURCE_ENTITY_SET);
 
 				target.add(transformation);
@@ -170,16 +170,16 @@ public class TransformationAnalystUtils {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
-		for (Relationship relationship : model.getRelationships()) {
-			if (relationship instanceof Association) {
-				for (String attribute : ((Association) relationship).getAttributes()) {
-					for (EntitySet entitySet : model.getEntitySets()) {
+		for (EntitySet entitySet : model.getEntitySets()) {
+			for (Relationship relationship : entitySet.getIncidentRelationships()) {
+				if (relationship instanceof Association) {
+					for (Attribute attribute : ((Association) relationship).getAttributes()) {
 						if (!Enums.CARDINALITY_MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
 							continue;
 						}
 						Transformation transformation = new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET);
 
-						transformation.addArgument(new TransformableAttribute(attribute), EnumTransformationRole.ATTRIBUTE);
+						transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
 						transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
 						transformation.addArgument(relationship, EnumTransformationRole.ASSOCIATION);
 
@@ -195,7 +195,7 @@ public class TransformationAnalystUtils {
 		Utils.validateNotNull(model);
 
 		for (EntitySet entitySet : model.getEntitySets()) {
-			for (String attribute : entitySet.getAttributes()) {
+			for (Attribute attribute : entitySet.getAttributes()) {
 				for (Relationship relationship : entitySet.getIncidentRelationships()) {
 					if (!Enums.CARDINALITY_MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
 						continue;
@@ -203,7 +203,7 @@ public class TransformationAnalystUtils {
 					if (relationship instanceof Association) {
 						Transformation transformation = new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION);
 
-						transformation.addArgument(new TransformableAttribute(attribute), EnumTransformationRole.ATTRIBUTE);
+						transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
 						transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
 						transformation.addArgument(relationship, EnumTransformationRole.ASSOCIATION);
 

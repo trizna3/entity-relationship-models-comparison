@@ -10,7 +10,7 @@ import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
 import entityRelationshipModel.RelationshipSide;
-import entityRelationshipModel.TransformableAttribute;
+import entityRelationshipModel.Attribute;
 import transformations.Transformable;
 import transformations.Transformation;
 import transformations.Transformator;
@@ -113,8 +113,8 @@ public class TransformationUtils extends Utils {
 		validateNotNull(entitySet);
 
 		Transformation transformation = new Transformation(EnumTransformation.RENAME_ATTRIBUTE);
-		transformation.addArgument(new TransformableAttribute(attribute), EnumTransformationRole.ATTRIBUTE);
-		transformation.addArgument(new TransformableAttribute(attributeTarget), EnumTransformationRole.ATTRIBUTE_TARGET);
+		transformation.addArgument(new Attribute(attribute), EnumTransformationRole.ATTRIBUTE);
+		transformation.addArgument(new Attribute(attributeTarget), EnumTransformationRole.ATTRIBUTE_TARGET);
 
 		mapping.addTransformation(transformation);
 	}
@@ -122,7 +122,7 @@ public class TransformationUtils extends Utils {
 	/**
 	 * Adds the 'createAttribute' transformation to the mapping's transformation
 	 */
-	public static void addCreateAttribute(Mapping mapping, EntitySet entitySet, String attribute) {
+	public static void addCreateAttribute(Mapping mapping, EntitySet entitySet, Attribute attribute) {
 		validateNotNull(mapping);
 		validateNotNull(entitySet);
 		validateNotNull(attribute);
@@ -133,7 +133,7 @@ public class TransformationUtils extends Utils {
 	/**
 	 * Adds the 'removeAttribute' transformation to the mapping's transformation
 	 */
-	public static void addRemoveAttribute(Mapping mapping, EntitySet entitySet, String attribute) {
+	public static void addRemoveAttribute(Mapping mapping, EntitySet entitySet, Attribute attribute) {
 		validateNotNull(mapping);
 		validateNotNull(entitySet);
 		validateNotNull(attribute);
@@ -211,12 +211,12 @@ public class TransformationUtils extends Utils {
 		}
 	}
 
-	private static void addAttributeTransformation(Mapping mapping, EntitySet entitySet, String attribute, boolean isCreation) {
+	private static void addAttributeTransformation(Mapping mapping, EntitySet entitySet, Attribute attribute, boolean isCreation) {
 		String transformationCode = isCreation ? EnumTransformation.CREATE_ATTRIBUTE : EnumTransformation.REMOVE_ATTRIBUTE;
 
 		Transformation transformation = new Transformation(transformationCode);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
-		transformation.addArgument(new TransformableAttribute(attribute), EnumTransformationRole.ATTRIBUTE);
+		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
 
 		mapping.addTransformation(transformation);
 	}

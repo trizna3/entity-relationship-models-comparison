@@ -22,14 +22,22 @@ public class Association extends Relationship {
 	/**
 	 * Attributes list.
 	 */
-	private List<String> attributes;
+	private List<Attribute> attributes;
 
 	public Association() {
 	};
 
+	public Association(AssociationSide[] sides) {
+		setSides(sides);
+	}
+	
 	public Association(AssociationSide[] sides, List<String> attributes) {
 		setSides(sides);
-		this.attributes = attributes;
+		if (attributes != null) {
+			for (String attribute : attributes) {
+				getAttributes().add(new Attribute(attribute));
+			}
+		}
 	}
 
 	public Association(Association association) {
@@ -44,22 +52,22 @@ public class Association extends Relationship {
 		return sides;
 	}
 
-	public List<String> getAttributes() {
+	public List<Attribute> getAttributes() {
 		if (attributes == null) {
 			attributes = new ArrayList<>();
 		}
 		return attributes;
 	}
 
-	public void setAttributes(List<String> attributes) {
+	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;
 	}
 
-	public void addAttribute(String attribute) {
+	public void addAttribute(Attribute attribute) {
 		getAttributes().add(attribute);
 	}
 
-	public void removeAttribute(String attribute) {
+	public void removeAttribute(Attribute attribute) {
 		getAttributes().remove(attribute);
 	}
 

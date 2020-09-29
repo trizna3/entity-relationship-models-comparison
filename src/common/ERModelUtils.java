@@ -10,6 +10,7 @@ import java.util.Set;
 
 import comparing.Mapping;
 import entityRelationshipModel.Association;
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Relationship;
@@ -257,6 +258,20 @@ public class ERModelUtils extends Utils {
 		}
 
 		return modelClone;
+	}
+	
+	/**
+	 * Returns a copy of given entitySet, with relations cut off
+	 * @param entitySet
+	 * @return
+	 */
+	public static EntitySet copyEntitySetDetached(EntitySet entitySet) {
+		validateNotNull(entitySet);
+		
+		EntitySet copy = new EntitySet(entitySet.getName());
+		copy.setAttributes(new ArrayList<Attribute>(entitySet.getAttributes()));
+	
+		return copy;		
 	}
 
 	private static boolean modelsAreEqualByRelationships(ERModel model1, ERModel model2) {

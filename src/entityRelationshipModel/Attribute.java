@@ -1,5 +1,6 @@
 package entityRelationshipModel;
 
+import common.StringUtils;
 import transformations.Transformable;
 
 /**
@@ -8,11 +9,11 @@ import transformations.Transformable;
  * @author Adam Trizna
  *
  */
-public class TransformableAttribute extends Transformable {
+public class Attribute extends Transformable {
 
 	private String attribute;
 
-	public TransformableAttribute(String attribute) {
+	public Attribute(String attribute) {
 		this.attribute = attribute;
 	}
 
@@ -23,4 +24,14 @@ public class TransformableAttribute extends Transformable {
 	public void setAttribute(String attribute) {
 		this.attribute = attribute;
 	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		if (!(arg0 instanceof Attribute)) {
+			return false;
+		}
+		return StringUtils.areEqual(this.getAttribute(),((Attribute)arg0).getAttribute());
+	}
+	
+	
 }
