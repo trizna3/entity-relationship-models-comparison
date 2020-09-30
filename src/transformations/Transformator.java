@@ -13,11 +13,11 @@ import common.enums.Enums;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
-import entityRelationshipModel.Attribute;
 import entityRelationshipModel.TransformableFlag;
 import entityRelationshipModel.TransformableList;
 
@@ -300,8 +300,7 @@ public class Transformator {
 		association.removeAttribute(attribute);
 		entitySet.addAttribute(attribute);
 
-		TransformationUtils.overwriteTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, entitySet);
-		TransformationUtils.overwriteTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, association);
+		TransformationUtils.overwriteTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, attribute);
 
 		return transformation;
 	}
@@ -314,8 +313,7 @@ public class Transformator {
 		association.addAttribute(attribute);
 		entitySet.removeAttribute(attribute);
 
-		TransformationUtils.overwriteTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, entitySet);
-		TransformationUtils.overwriteTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, association);
+		TransformationUtils.overwriteTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION, attribute);
 
 		return transformation;
 	}

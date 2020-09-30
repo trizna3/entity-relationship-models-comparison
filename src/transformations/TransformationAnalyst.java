@@ -26,7 +26,7 @@ public class TransformationAnalyst {
 	public static List<Transformation> getPossibleTransformations(Mapping mapping) {
 		List<Transformation> result = new ArrayList<>();
 
-//		result.addAll(getPossibleExtractAttributeToOwnEntitySetTransformations(mapping));
+		result.addAll(getPossibleExtractAttributeToOwnEntitySetTransformations(mapping));
 		result.addAll(getPossibleMoveAttributeToIncidentEntitySetTransformations(mapping));
 		result.addAll(getPossibleMoveAttributeToIncidentAssociationTransformations(mapping));
 		result.addAll(getPossibleRebindMNTo1NN1Transformations(mapping));

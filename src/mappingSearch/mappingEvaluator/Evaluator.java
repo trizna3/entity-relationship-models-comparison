@@ -22,6 +22,7 @@ import transformations.Transformation;
 public class Evaluator implements IEvaluator {
 
 	private Map<EntitySet, EntitySet> bestMapping;
+	private List<Transformation> bestMappingTransformations;
 	private double bestPenalty;
 	TransformationEvaluator transformationEvaluator = new TransformationEvaluator();
 	MappingEvaluator mappingEvaluator = new MappingEvaluator();
@@ -54,6 +55,7 @@ public class Evaluator implements IEvaluator {
 		if (getBestMapping() == null || actualPenalty < getBestPenalty()) {
 			setBestPenalty(actualPenalty);
 			setBestMapping(MappingUtils.createEntitySetMap(mapping));
+			setBestMappingTransformations(new ArrayList<>(mapping.getTransformations()));
 		}
 	}
 
@@ -99,5 +101,14 @@ public class Evaluator implements IEvaluator {
 
 	public void setBestMapping(Map<EntitySet, EntitySet> bestMapping) {
 		this.bestMapping = bestMapping;
+	}
+
+	@Override
+	public List<Transformation> getBestMappingTransformations() {
+		return bestMappingTransformations;
+	}
+
+	public void setBestMappingTransformations(List<Transformation> bestMappingTransformations) {
+		this.bestMappingTransformations = bestMappingTransformations;
 	}
 }

@@ -32,7 +32,7 @@ public class MappingFinder {
 	 * Stack level counter
 	 */
 	private Integer counter = new Integer(0);
-	
+
 	/**
 	 * Uses recursive backtrack algorithm to iterate over all possible mappings,
 	 * compute their penalties, get the one with the lowest penalty.
@@ -49,6 +49,7 @@ public class MappingFinder {
 		if (Utils.PRINT_RESULT) {
 			System.out.println("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
 			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMapping()));
+			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMappingTransformations()));
 		}
 		return getMappingEvaluator().getBestMapping();
 	}
@@ -91,7 +92,7 @@ public class MappingFinder {
 		List<Transformation> transformations = TransformationAnalyst.getPossibleTransformations(mapping);
 
 		for (Transformation transformation : transformations) {
-			executeTransformation(mapping,transformation);
+			executeTransformation(mapping, transformation);
 			search(mapping);
 			revertTransformation(mapping, transformation);
 		}
@@ -129,7 +130,7 @@ public class MappingFinder {
 		}
 		return mappingEvaluator;
 	}
-	
+
 	private void executeTransformation(Mapping mapping, Transformation transformation) {
 		if (Utils.PRINT_TRANSFORMATION_PROGRESS) {
 			LoggerUtils.logTransformation(transformation, LoggerUtils.DIRECTION_DOWN);
@@ -138,7 +139,7 @@ public class MappingFinder {
 		mapping.addTransformation(transformation);
 		incrementCounter();
 	}
-	
+
 	private void revertTransformation(Mapping mapping, Transformation transformation) {
 		if (Utils.PRINT_TRANSFORMATION_PROGRESS) {
 			LoggerUtils.logTransformation(transformation, LoggerUtils.DIRECTION_UP);
@@ -147,14 +148,14 @@ public class MappingFinder {
 		Transformator.revert(mapping, transformation);
 		decrementCounter();
 	}
-	
+
 	private void incrementCounter() {
 		if (Utils.TRACK_PROGRESS && counter.intValue() == 0) {
 			LoggerUtils.log("Backtrack hit recursive level 0");
 		}
 		counter++;
 	}
-	
+
 	private void decrementCounter() {
 		Utils.validatePositive(counter);
 		counter--;

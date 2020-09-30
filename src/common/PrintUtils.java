@@ -1,13 +1,14 @@
 package common;
 
+import java.util.List;
 import java.util.Map;
 
-import entityRelationshipModel.Association;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Relationship;
 import entityRelationshipModel.RelationshipSide;
 import transformations.Transformable;
+import transformations.Transformation;
 
 public class PrintUtils extends Utils {
 
@@ -76,17 +77,48 @@ public class PrintUtils extends Utils {
 		result.append("}");
 		return result.toString();
 	}
-	
+
+	public static final String print(List<Transformation> transformations) {
+		StringBuffer result = new StringBuffer();
+
+		for (Transformation transformation : transformations) {
+			result.append(print(transformation) + "\n");
+		}
+
+		return result.toString();
+
+	}
+
+	public static final String print(Transformation transformation) {
+		StringBuffer result = new StringBuffer();
+
+		result.append(transformation.getCode() + ": (");
+		boolean first = true;
+		for (Transformable argument : transformation.getArguments()) {
+			if (first) {
+				first = false;
+			} else {
+				result.append(", ");
+			}
+			result.append(transformation.getArgumentMap().get(argument));
+			result.append(":");
+			result.append(PrintUtils.getReprName(argument));
+		}
+		result.append(")");
+
+		return result.toString();
+	}
+
 	public static final String getReprName(EntitySet entitySet) {
 		validateNotNull(entitySet);
 		return entitySet.getName();
 	}
-	
+
 	public static final String getReprName(Relationship relationship) {
 		validateNotNull(relationship);
-		
-		StringBuffer result = new StringBuffer("(["+relationship.getClass().toString()+"] ");
-	
+
+		StringBuffer result = new StringBuffer("([" + relationship.getClass().toString() + "] ");
+
 		boolean first = true;
 		for (RelationshipSide side : relationship.getSides()) {
 			if (first) {
@@ -97,33 +129,30 @@ public class PrintUtils extends Utils {
 			result.append(getReprName(side.getEntitySet()));
 		}
 		result.append(")");
-		
+
 		return result.toString();
 	}
-	
+
 	public static final String getReprName(RelationshipSide side) {
 		validateNotNull(side);
-		
-		return getReprName(side.getEntitySet());		
+
+		return getReprName(side.getEntitySet());
 	}
-	
+
 	public static final String getReprName(Transformable transformable) {
 		validateNotNull(transformable);
-		
+
 		if (transformable instanceof EntitySet) {
-			return getReprName((EntitySet)transformable);
-		}
-		else if (transformable instanceof Relationship) {
-			return getReprName((Relationship)transformable);
-		}
-		else if (transformable instanceof RelationshipSide) {
-			return getReprName((RelationshipSide)transformable);
-		}
-		else {
+			return getReprName((EntitySet) transformable);
+		} else if (transformable instanceof Relationship) {
+			return getReprName((Relationship) transformable);
+		} else if (transformable instanceof RelationshipSide) {
+			return getReprName((RelationshipSide) transformable);
+		} else {
 			return "";
-		}		
+		}
 	}
-	
+
 	private static String join(Object[] objects, String delimiter) {
 		int count = 0;
 		StringBuilder result = new StringBuilder();

@@ -6,12 +6,12 @@ import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
 import common.enums.Enums;
 import entityRelationshipModel.Association;
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
 import entityRelationshipModel.RelationshipSide;
-import entityRelationshipModel.Attribute;
 import entityRelationshipModel.TransformableFlag;
 import transformations.Transformation;
 
@@ -177,6 +177,9 @@ public class TransformationAnalystUtils {
 						if (!Enums.CARDINALITY_MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
 							continue;
 						}
+						if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION)) {
+							continue;
+						}
 						Transformation transformation = new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET);
 
 						transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
@@ -198,6 +201,9 @@ public class TransformationAnalystUtils {
 			for (Attribute attribute : entitySet.getAttributes()) {
 				for (Relationship relationship : entitySet.getIncidentRelationships()) {
 					if (!Enums.CARDINALITY_MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
+						continue;
+					}
+					if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET)) {
 						continue;
 					}
 					if (relationship instanceof Association) {
