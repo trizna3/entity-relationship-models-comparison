@@ -58,12 +58,24 @@ public class Utils {
 			throw new IllegalArgumentException("EntitySet doesn't contain this attribute!");
 		}
 	}
-	
+
 	public static void validatePositive(Integer integer) {
 		validateNotNull(integer);
 		if (integer.intValue() < 1) {
 			throw new IllegalStateException("Integer value is not positive!");
 		}
-		
+	}
+
+	public static boolean isSameClass(Object obj1, Object obj2) {
+		if (obj1 == null && obj2 == null) {
+			return true;
+		}
+		if (obj1 == null || obj2 == null) {
+			return false;
+		}
+		if (obj1.getClass().equals(obj2.getClass())) {
+			return true;
+		}
+		return false;
 	}
 }

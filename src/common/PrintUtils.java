@@ -3,6 +3,7 @@ package common;
 import java.util.List;
 import java.util.Map;
 
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Relationship;
@@ -151,6 +152,11 @@ public class PrintUtils extends Utils {
 		} else {
 			return "";
 		}
+	}
+
+	public static final String print(Attribute attribute) {
+		validateNotNull(attribute);
+		return attribute.getAttribute();
 	}
 
 	private static String join(Object[] objects, String delimiter) {

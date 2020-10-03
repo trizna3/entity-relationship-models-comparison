@@ -1,0 +1,37 @@
+//		exemplarModel.getEntitySets().get(0).setMappedTo(studentModel.getEntitySets().get(0));
+//		studentModel.getEntitySets().get(0).setMappedTo(studentModel.getEntitySets().get(0));
+//		exemplarModel.getEntitySets().get(1).setMappedTo(studentModel.getEntitySets().get(1));
+//		studentModel.getEntitySets().get(1).setMappedTo(studentModel.getEntitySets().get(1));
+//
+//		exemplarModel.getNotMappedEntitySets().remove(exemplarModel.getEntitySets().get(0));
+//		studentModel.getNotMappedEntitySets().remove(studentModel.getEntitySets().get(0));
+//		exemplarModel.getNotMappedEntitySets().clear();
+//		studentModel.getNotMappedEntitySets().clear();
+//
+//		Mapping mapping = new Mapping(exemplarModel, studentModel);
+//
+//		Transformation transformation1 = new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION);
+//		transformation1.addArgument(studentModel.getEntitySets().get(1).getAttributes().get(1), EnumTransformationRole.ATTRIBUTE);
+//		transformation1.addArgument(studentModel.getEntitySets().get(1), EnumTransformationRole.ENTITY_SET);
+//		transformation1.addArgument(studentModel.getRelationships().get(0), EnumTransformationRole.ASSOCIATION);
+//
+//		Transformation transformation2 = new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION);
+//		transformation2.addArgument(studentModel.getEntitySets().get(1).getAttributes().get(2), EnumTransformationRole.ATTRIBUTE);
+//		transformation2.addArgument(studentModel.getEntitySets().get(1), EnumTransformationRole.ENTITY_SET);
+//		transformation2.addArgument(studentModel.getRelationships().get(1), EnumTransformationRole.ASSOCIATION);
+//
+//		Transformation transformation3 = new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION);
+//		transformation3.addArgument(studentModel.getEntitySets().get(1).getAttributes().get(3), EnumTransformationRole.ATTRIBUTE);
+//		transformation3.addArgument(studentModel.getEntitySets().get(1), EnumTransformationRole.ENTITY_SET);
+//		transformation3.addArgument(studentModel.getRelationships().get(2), EnumTransformationRole.ASSOCIATION);
+//
+//		Transformator.execute(mapping, transformation1);
+//		Transformator.execute(mapping, transformation2);
+//		Transformator.execute(mapping, transformation3);
+//
+//		mapping.addTransformation(transformation1);
+//		mapping.addTransformation(transformation2);
+//		mapping.addTransformation(transformation3);
+//
+//		MappingEvaluator mappingEvaluator = new MappingEvaluator();
+//		mappingEvaluator.expandTransformationList(mapping);

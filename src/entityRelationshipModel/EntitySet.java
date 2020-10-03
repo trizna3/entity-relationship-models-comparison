@@ -17,7 +17,7 @@ import transformations.Transformable;
  * Base element of entity relationship model. Entails a set of entities with
  * common properties (attributes).
  */
-public class EntitySet extends Transformable {
+public class EntitySet extends Transformable implements Attributed {
 
 	/**
 	 * Entity set name.
@@ -56,7 +56,7 @@ public class EntitySet extends Transformable {
 			}
 		}
 	}
-	
+
 	public EntitySet(EntitySet other) {
 		this.name = other.getName();
 		this.attributes = new ArrayList<>(other.getAttributes());

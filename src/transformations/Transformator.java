@@ -192,18 +192,28 @@ public class Transformator {
 
 	private static Transformation executeCreateAttribute(Mapping mapping, Transformation transformation) {
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
+		Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
 		Attribute attribute = (Attribute) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE);
 
-		entitySet.addAttribute(attribute);
+		if (entitySet != null) {
+			entitySet.addAttribute(attribute);
+		} else if (association != null) {
+			association.addAttribute(attribute);
+		}
 
 		return transformation;
 	}
 
 	private static Transformation executeRemoveAttribute(Mapping mapping, Transformation transformation) {
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
+		Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
 		Attribute attribute = (Attribute) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE);
 
-		entitySet.removeAttribute(attribute);
+		if (entitySet != null) {
+			entitySet.removeAttribute(attribute);
+		} else if (association != null) {
+			association.removeAttribute(attribute);
+		}
 
 		return transformation;
 	}

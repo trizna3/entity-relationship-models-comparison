@@ -74,7 +74,7 @@ public class RelationshipUtils extends Utils {
 		Set<Relationship> usedRelationships = new HashSet<>();
 		rel1: for (Relationship relationship1 : relationships1) {
 			for (Relationship relationship2 : relationships2) {
-				if (!usedRelationships.contains(relationship2) && relationshipsAreEquallyMapped(relationship1, relationship2, checkRole)) {
+				if (!usedRelationships.contains(relationship2) && relationshipsAreEquallyMapped(relationship1, relationship2, checkRole, false)) {
 					usedRelationships.add(relationship2);
 					continue rel1;
 				}
@@ -112,12 +112,18 @@ public class RelationshipUtils extends Utils {
 	 * @param checkRole
 	 * @return
 	 */
-	public static boolean relationshipsAreEquallyMapped(Relationship relationship1, Relationship relationship2, boolean checkRole) {
+	public static boolean relationshipsAreEquallyMapped(Relationship relationship1, Relationship relationship2, boolean checkRole, boolean checkAttributes) {
 
 		validateNotNull(relationship1);
 		validateNotNull(relationship2);
 
+		if (!isSameClass(relationship1, relationship2)) {
+			return false;
+		}
 		if (relationship1.getSides().length != relationship2.getSides().length) {
+			return false;
+		}
+		if (relationship1 instanceof Association && checkAttributes && !CollectionUtils.areEqual(((Association) relationship1).getAttributes(), ((Association) relationship2).getAttributes())) {
 			return false;
 		}
 

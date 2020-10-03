@@ -9,7 +9,9 @@ import common.StringUtils;
 import common.TransformationUtils;
 import common.Utils;
 import comparing.Mapping;
+import entityRelationshipModel.Association;
 import entityRelationshipModel.Attribute;
+import entityRelationshipModel.Attributed;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Relationship;
 
@@ -55,16 +57,39 @@ public class MappingEvaluator {
 		List<Relationship> exemplarToProcess = new ArrayList<>(mapping.getExemplarModel().getRelationships());
 		List<Relationship> studentsToProcess = new ArrayList<>(mapping.getStudentModel().getRelationships());
 
+		// check pairs by incidentEntitySets, Cardinalities, Attributes
 		for (Relationship exemplarRel : mapping.getExemplarModel().getRelationships()) {
 			for (Relationship studentRel : mapping.getStudentModel().getRelationships()) {
-				if (RelationshipUtils.relationshipsAreEquallyMapped(exemplarRel, studentRel, true)) {
+				if (!studentsToProcess.contains(studentRel)) {
+					continue;
+				}
+				if (RelationshipUtils.relationshipsAreEquallyMapped(exemplarRel, studentRel, true, true)) {
 					exemplarToProcess.remove(exemplarRel);
 					studentsToProcess.remove(studentRel);
 					break;
 				}
 			}
 		}
-
+		// check pairs by incidentEntitySets, Cardinalities --> add/remove attributes
+		if (!exemplarToProcess.isEmpty() || !studentsToProcess.isEmpty()) {
+			for (Relationship exemplarRel : mapping.getExemplarModel().getRelationships()) {
+				for (Relationship studentRel : mapping.getStudentModel().getRelationships()) {
+					if (!studentsToProcess.contains(studentRel)) {
+						continue;
+					}
+					if (RelationshipUtils.relationshipsAreEquallyMapped(exemplarRel, studentRel, true, false)) {
+						if (exemplarRel instanceof Association) {
+							checkAttributes(mapping, (Association) exemplarRel, (Association) studentRel);
+						}
+						exemplarToProcess.remove(exemplarRel);
+						studentsToProcess.remove(studentRel);
+						break;
+					}
+				}
+			}
+		}
+		// check pairs by incidentEntitySets only --> add/remove attribute, edit
+		// cardinalities or add/remove whole relationships
 		if (!exemplarToProcess.isEmpty() || !studentsToProcess.isEmpty()) {
 			for (Relationship exemplarRel : mapping.getExemplarModel().getRelationships()) {
 				if (!exemplarToProcess.contains(exemplarRel)) {
@@ -74,11 +99,14 @@ public class MappingEvaluator {
 					if (studentsToProcess.contains(studentRel)) {
 						continue;
 					}
-					if (RelationshipUtils.relationshipsAreEquallyMapped(exemplarRel, studentRel, false)) {
+					if (RelationshipUtils.relationshipsAreEquallyMapped(exemplarRel, studentRel, false, false)) {
+						if (exemplarRel instanceof Association) {
+							checkAttributes(mapping, (Association) exemplarRel, (Association) studentRel);
+						}
+						TransformationUtils.addChangeCardinality(mapping, studentRel, exemplarRel);
+
 						exemplarToProcess.remove(exemplarRel);
 						studentsToProcess.remove(studentRel);
-
-						TransformationUtils.addChangeCardinality(mapping, studentRel, exemplarRel);
 						break;
 					}
 				}
@@ -104,20 +132,20 @@ public class MappingEvaluator {
 		}
 	}
 
-	private void checkAttributes(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
+	private void checkAttributes(Mapping mapping, Attributed exemplarAttributed, Attributed studentAttributed) {
 		// TODO: tuto by bola vhodna nejaka netrivialnejsia logika, aby si to nerobil
 		// len tak primitivne
 		// "RENAME_ENTITY_SET";
 		// "RENAME_ATTRIBUTE";
-		for (Attribute attribute : exemplarEntitySet.getAttributes()) {
-			if (!studentEntitySet.getAttributes().contains(attribute)) {
-				TransformationUtils.addCreateAttribute(mapping, studentEntitySet, attribute);
+		for (Attribute attribute : exemplarAttributed.getAttributes()) {
+			if (!studentAttributed.getAttributes().contains(attribute)) {
+				TransformationUtils.addCreateAttribute(mapping, studentAttributed, attribute);
 			}
 		}
 
-		for (Attribute attribute : studentEntitySet.getAttributes()) {
-			if (!exemplarEntitySet.getAttributes().contains(attribute)) {
-				TransformationUtils.addRemoveAttribute(mapping, studentEntitySet, attribute);
+		for (Attribute attribute : studentAttributed.getAttributes()) {
+			if (!exemplarAttributed.getAttributes().contains(attribute)) {
+				TransformationUtils.addRemoveAttribute(mapping, studentAttributed, attribute);
 			}
 		}
 	}

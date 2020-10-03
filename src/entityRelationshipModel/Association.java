@@ -13,7 +13,7 @@ import java.util.List;
  * 
  * @see AssociationSide
  */
-public class Association extends Relationship {
+public class Association extends Relationship implements Attributed {
 
 	/**
 	 * List of association sides.
@@ -30,7 +30,7 @@ public class Association extends Relationship {
 	public Association(AssociationSide[] sides) {
 		setSides(sides);
 	}
-	
+
 	public Association(AssociationSide[] sides, List<String> attributes) {
 		setSides(sides);
 		if (attributes != null) {

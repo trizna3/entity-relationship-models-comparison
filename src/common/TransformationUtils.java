@@ -6,11 +6,12 @@ import common.enums.Enums;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
+import entityRelationshipModel.Attribute;
+import entityRelationshipModel.Attributed;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
 import entityRelationshipModel.RelationshipSide;
-import entityRelationshipModel.Attribute;
 import transformations.Transformable;
 import transformations.Transformation;
 import transformations.Transformator;
@@ -122,23 +123,33 @@ public class TransformationUtils extends Utils {
 	/**
 	 * Adds the 'createAttribute' transformation to the mapping's transformation
 	 */
-	public static void addCreateAttribute(Mapping mapping, EntitySet entitySet, Attribute attribute) {
+	public static void addCreateAttribute(Mapping mapping, Attributed attributed, Attribute attribute) {
 		validateNotNull(mapping);
-		validateNotNull(entitySet);
+		validateNotNull(attributed);
 		validateNotNull(attribute);
 
-		addAttributeTransformation(mapping, entitySet, attribute, true);
+		if (attributed instanceof EntitySet) {
+			addAttributeTransformation(mapping, (EntitySet) attributed, attribute, true);
+		}
+		if (attributed instanceof Association) {
+			addAttributeTransformation(mapping, (Association) attributed, attribute, true);
+		}
 	}
 
 	/**
 	 * Adds the 'removeAttribute' transformation to the mapping's transformation
 	 */
-	public static void addRemoveAttribute(Mapping mapping, EntitySet entitySet, Attribute attribute) {
+	public static void addRemoveAttribute(Mapping mapping, Attributed attributed, Attribute attribute) {
 		validateNotNull(mapping);
-		validateNotNull(entitySet);
+		validateNotNull(attributed);
 		validateNotNull(attribute);
 
-		addAttributeTransformation(mapping, entitySet, attribute, false);
+		if (attributed instanceof EntitySet) {
+			addAttributeTransformation(mapping, (EntitySet) attributed, attribute, false);
+		}
+		if (attributed instanceof Association) {
+			addAttributeTransformation(mapping, (Association) attributed, attribute, false);
+		}
 	}
 
 	public static Transformable getTransformableByRole(Transformation transformation, String role) {
@@ -216,6 +227,16 @@ public class TransformationUtils extends Utils {
 
 		Transformation transformation = new Transformation(transformationCode);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
+		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
+
+		mapping.addTransformation(transformation);
+	}
+
+	private static void addAttributeTransformation(Mapping mapping, Association association, Attribute attribute, boolean isCreation) {
+		String transformationCode = isCreation ? EnumTransformation.CREATE_ATTRIBUTE : EnumTransformation.REMOVE_ATTRIBUTE;
+
+		Transformation transformation = new Transformation(transformationCode);
+		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
 		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
 
 		mapping.addTransformation(transformation);

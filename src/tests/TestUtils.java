@@ -222,13 +222,13 @@ public class TestUtils {
 		List<Relationship> relationships = new ArrayList<>();
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
 		((Association) relationships.get(0)).setName("Katalyzator");
-		((Association) relationships.get(0)).addAttribute(new Attribute("Hmotnost"));
+		((Association) relationships.get(0)).addAttribute(new Attribute("Hmotnost katalyzatora"));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
 		((Association) relationships.get(1)).setName("Reaktant 1");
-		((Association) relationships.get(1)).addAttribute(new Attribute("Hmotnost"));
+		((Association) relationships.get(1)).addAttribute(new Attribute("Hmotnost reaktantu A"));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
 		((Association) relationships.get(2)).setName("Reaktant 2");
-		((Association) relationships.get(2)).addAttribute(new Attribute("Hmotnost"));
+		((Association) relationships.get(2)).addAttribute(new Attribute("Hmotnost reaktantu B"));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
 		((Association) relationships.get(3)).setName("Produkt");
 
@@ -247,7 +247,7 @@ public class TestUtils {
 
 		List<EntitySet> entitySets = new ArrayList<>();
 		entitySets.add(new EntitySet("Chemicke latky", new ArrayList<>(Arrays.asList("Nazov", "Vzorec")))); // 0
-		entitySets.add(new EntitySet("Chemicke reakcie", new ArrayList<>(Arrays.asList("Rovnica", "Hmotnost reaktantu A", "Hmotnost reaktantu B", "Hmotnost reaktantu C")))); // 1
+		entitySets.add(new EntitySet("Chemicke reakcie", new ArrayList<>(Arrays.asList("Rovnica", "Hmotnost reaktantu A", "Hmotnost reaktantu B", "Hmotnost katalyzatora")))); // 1
 
 		List<Relationship> relationships = new ArrayList<>();
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
