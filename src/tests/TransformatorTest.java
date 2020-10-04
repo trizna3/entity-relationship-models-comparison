@@ -18,11 +18,11 @@ import common.enums.EnumTransformationRole;
 import common.enums.Enums;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
-import entityRelationshipModel.Attribute;
 import entityRelationshipModel.TransformableFlag;
 import transformations.Transformation;
 import transformations.Transformator;
@@ -47,6 +47,10 @@ public class TransformatorTest {
 		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
 
 		Transformator.execute(mapping, transformation);
+
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.DEST_ENTITY_SET));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.SOURCE_ENTITY_SET));
 
 		assertFalse(entitySet.getAttributes().contains(attribute));
 		assertTrue(model.getEntitySets().size() == 7);
@@ -82,6 +86,10 @@ public class TransformatorTest {
 
 		Transformator.execute(mapping, transformation);
 
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.DEST_ENTITY_SET));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.SOURCE_ENTITY_SET));
+
 		assertFalse(entitySet.getAttributes().contains(attribute));
 		assertTrue(model.getEntitySets().size() == 7);
 		Relationship relationship = entitySet.getNeighbours().get(newEntitySet).get(0);
@@ -115,8 +123,45 @@ public class TransformatorTest {
 
 		Transformator.execute(mapping, transformation);
 
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET));
+
 		assertFalse(entitySet.getAttributes().contains(attribute));
 		assertTrue(association.getAttributes().contains(attribute));
+	}
+
+	@Test
+	public void testMoveAttributeToIncidentEntitySet() {
+		ERModel model = TestUtils.makeERModel_Eshop_Vzor();
+		Mapping mapping = new Mapping(null, model);
+
+		EntitySet entitySet = model.getEntitySets().get(1);
+		assert "Produkty".equals(entitySet.getName());
+
+		EntitySet neighbour = model.getEntitySets().get(2);
+		assert "Nazvy specialnych atributov".equals(neighbour.getName());
+
+		Association association = (Association) entitySet.getNeighbours().get(neighbour).get(0);
+
+		Attribute attribute = new Attribute("Hodnota");
+
+		assert !entitySet.getAttributes().contains(attribute);
+		assert association.getAttributes().contains(attribute);
+
+		Transformation transformation = new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET);
+		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
+		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
+		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
+
+		Transformator.execute(mapping, transformation);
+
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET));
+
+		assertTrue(entitySet.getAttributes().contains(attribute));
+		assertFalse(association.getAttributes().contains(attribute));
 	}
 
 	@Test
@@ -136,6 +181,11 @@ public class TransformatorTest {
 		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
 
 		Transformator.execute(mapping, transformation);
+
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION_1));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION_2));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET));
 
 		Association association1 = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION_1);
 		Association association2 = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION_2);
@@ -165,6 +215,9 @@ public class TransformatorTest {
 		transformation.addArgument(generalization, EnumTransformationRole.GENERALIZATION);
 
 		Transformator.execute(mapping, transformation);
+
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.GENERALIZATION));
 
 		Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
 
@@ -196,6 +249,10 @@ public class TransformatorTest {
 		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
 
 		Transformator.execute(mapping, transformation);
+
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_LIST));
 
 		assertTrue(model.getEntitySets().size() == 5);
 		assertFalse(model.contains(association));
@@ -234,6 +291,11 @@ public class TransformatorTest {
 
 		Transformator.execute(mapping, transformation);
 
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_LIST));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.EXEMPLAR_MODEL_FLAG));
+
 		assertTrue(exemplarModel.getEntitySets().size() == 5);
 		assertFalse(exemplarModel.contains(association));
 		EntitySet entitySet = ERModelUtils.getEntitySetByName(exemplarModel, entitySet1Name + Enums.ENTITY_SETS_DELIMITER + entitySet2Name);
@@ -260,6 +322,9 @@ public class TransformatorTest {
 		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
 
 		Transformator.execute(mapping, transformation);
+
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET));
+		assertNotNull(TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION));
 
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
 

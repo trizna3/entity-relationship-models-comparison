@@ -262,6 +262,7 @@ public class Transformator {
 		studentModel.addRelationship(association2);
 
 		transformation.clearArguments();
+		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
 		transformation.addArgument(association1, EnumTransformationRole.ASSOCIATION_1);
 		transformation.addArgument(association2, EnumTransformationRole.ASSOCIATION_2);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
