@@ -22,7 +22,7 @@ import transformations.Transformation;
 public class TestUtils {
 
 	public static List<ERModel> getERModels() {
-		return new ArrayList<ERModel>(Arrays.asList(makeERModel1(), makeERModel2(), makeERModel3(), makeERModel4(), makeERModel5(), makeERModel6(), makeERModel7(), makeERModel8(), makeERModel9()));
+		return new ArrayList<ERModel>(Arrays.asList(makeERModel1(), makeERModel2(), makeERModel3(), makeERModel4(), makeERModel5(), makeERModel6(), makeERModel7(), makeERModel_Dennik_vzor(), makeERModel_Dennik_S1()));
 	}
 
 	private static ERModel makeERModel1() {
@@ -212,7 +212,7 @@ public class TestUtils {
 	 * 
 	 * @return
 	 */
-	private static ERModel makeERModel8() {
+	public static ERModel makeERModel_Dennik_vzor() {
 		ERModel model = new ERModel();
 
 		List<EntitySet> entitySets = new ArrayList<>();
@@ -242,7 +242,7 @@ public class TestUtils {
 	 * 
 	 * @return
 	 */
-	private static ERModel makeERModel9() {
+	public static ERModel makeERModel_Dennik_S1() {
 		ERModel model = new ERModel();
 
 		List<EntitySet> entitySets = new ArrayList<>();
@@ -254,6 +254,164 @@ public class TestUtils {
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
 		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+
+	/**
+	 * Chemicky dennik student 2
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_Dennik_S2() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Chemicke latky", new ArrayList<>(Arrays.asList("Nazov", "Vzorec")))); // 0
+		entitySets.add(new EntitySet("Chemicke reakcie", new ArrayList<>(Arrays.asList("Hmotnost reaktantu A", "Hmotnost reaktantu B", "Hmotnost katalyzatora")))); // 1
+		entitySets.add(new EntitySet("Produkt", new ArrayList<>(Arrays.asList("Rovnica", "Hmotnost chemickych latok")))); // 2
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Generalization(entitySets.get(1), entitySets.get(2)));
+
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+
+	/**
+	 * Eshop vzor
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_Eshop_Vzor() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Typy produktov", new ArrayList<>(Arrays.asList("Nazov"))));// 0
+		entitySets.add(new EntitySet("Produkty", new ArrayList<>(Arrays.asList("Vaha", "Cena")))); // 1
+		entitySets.add(new EntitySet("Nazvy specialnych atributov", new ArrayList<>(Arrays.asList("Atribut")))); // 2
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association("Hodnoty specialnych atributov", new AssociationSide[] { new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY) }, new ArrayList<String>(Arrays.asList("Hodnota"))));
+
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+
+	/**
+	 * Eshop student 1
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_Eshop_S1() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Produkty", new ArrayList<>(Arrays.asList("Nazov", "Vaha", "Cena")))); // 0
+		entitySets.add(new EntitySet("Typy produktov")); // 1
+		entitySets.add(new EntitySet("Atributy produktu")); // 2
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_ONE) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_MANY) }, null));
+
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+
+	/**
+	 * Eshop student 2
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_Eshop_S2() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Produkty", new ArrayList<>(Arrays.asList("Typ nazov", "Vaha", "Cena")))); // 0
+		entitySets.add(new EntitySet("Typy produktov", new ArrayList<>(Arrays.asList("Chladnicka", "Pracka")))); // 1
+		entitySets.add(new EntitySet("Atributy", new ArrayList<>(Arrays.asList("Objem")))); // 2
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_ONE) }, null));
+
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+
+	/**
+	 * Vztahy vzor
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_Vztahy_vzor() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno", "Priezvisko", "Rok narodenia")))); // 0
+		entitySets.add(new EntitySet("Vztahy", new ArrayList<>(Arrays.asList("Odkedy")))); // 1
+		entitySets.add(new EntitySet("Typ vztahu", new ArrayList<>(Arrays.asList("Nazov")))); // 2
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association("osoba 1", new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association("osoba 2", new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_ONE) }, null));
+
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+
+	/**
+	 * Vztahy student 1
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_Vztahy_S1() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno", "Priezvisko", "Rok narodenia")))); // 0
+		entitySets.add(new EntitySet("Vztahy", new ArrayList<>(Arrays.asList("Nazov", "Osoba 1", "Osoba 2", "Odkedy")))); // 1
+		entitySets.add(new EntitySet("Typ vztahu", new ArrayList<>(Arrays.asList("Nazov")))); // 2
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY) }, null));
+
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(1), Enums.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_ONE) }, null));
+
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+
+	/**
+	 * Vztahy student 2
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_Vztahy_S2() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno", "Priezvisko", "Rok narodenia")))); // 0
+		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno", "Priezvisko", "Rok narodenia")))); // 1
+		entitySets.add(new EntitySet("Vztahy", new ArrayList<>(Arrays.asList("Nazov", "Odkedy")))); // 2
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(new AssociationSide[] { new AssociationSide(entitySets.get(0), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), Enums.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), Enums.CARDINALITY_ONE) }, null));
 
 		model.addAllRelationships(relationships);
 		model.addAllEntitySets(entitySets);

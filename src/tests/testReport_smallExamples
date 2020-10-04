@@ -1,0 +1,50 @@
+Test - mapping finder: Vztahy 1: 7.765 sec
+Best mapping penalty = 3.0
+Entity set map {
+    Vztahy : Vztahy
+    Typ vztahu : Typ vztahu
+    Osoby : Osoby
+}
+
+Test - mapping finder: Vztahy 2: 0.005 sec
+Best mapping penalty = 7.5
+Entity set map {
+    Osoby : Osoby
+    Typ vztahu : Vztahy
+    Vztahy : null
+}
+REBIND_NARY_ASSOCIATION: (ENTITY_SET:null, ASSOCIATION:([Association] Osoby-Osoby-Vztahy))
+
+Test - mapping finder: Chem Dennik 1: 2.205 sec
+Best mapping penalty = 0.0
+Entity set map {
+    Chemicke reakcie : Chemicke reakcie
+    Chemicke latky : Chemicke latky
+}
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ASSOCIATION:([Association] Chemicke latky-Chemicke reakcie), ATTRIBUTE:Hmotnost reaktantu A, ENTITY_SET:Chemicke reakcie)
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ASSOCIATION:([Association] Chemicke latky-Chemicke reakcie), ENTITY_SET:Chemicke reakcie, ATTRIBUTE:Hmotnost reaktantu B)
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ATTRIBUTE:Hmotnost katalyzatora, ASSOCIATION:([Association] Chemicke latky-Chemicke reakcie), ENTITY_SET:Chemicke reakcie)
+
+Test - mapping finder: Chem Dennik 2: 31.636 sec
+Best mapping penalty = 10.0
+Entity set map {
+    Chemicke latky : Chemicke latky
+    Chemicke reakcie : Produkt
+}
+
+Test - mapping finder: Eshop 1: 0.015 sec
+Best mapping penalty = 7.0
+Entity set map {
+    Nazvy specialnych atributov : Atributy produktu
+    Produkty : Produkty
+    Typy produktov : Typy produktov
+}
+
+Test - mapping finder: Eshop 2: 0.001
+Best mapping penalty = 11.0
+Entity set map {
+    Typy produktov : Typy produktov
+    Nazvy specialnych atributov : Atributy
+    Produkty : Produkty
+}
+
