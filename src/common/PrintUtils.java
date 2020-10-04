@@ -118,7 +118,7 @@ public class PrintUtils extends Utils {
 	public static final String getReprName(Relationship relationship) {
 		validateNotNull(relationship);
 
-		StringBuffer result = new StringBuffer("([" + relationship.getClass().toString() + "] ");
+		StringBuffer result = new StringBuffer("([" + relationship.getClass().getSimpleName() + "] ");
 
 		boolean first = true;
 		for (RelationshipSide side : relationship.getSides()) {
@@ -140,6 +140,12 @@ public class PrintUtils extends Utils {
 		return getReprName(side.getEntitySet());
 	}
 
+	public static final String getReprName(Attribute attribute) {
+		validateNotNull(attribute);
+
+		return attribute.getAttribute();
+	}
+
 	public static final String getReprName(Transformable transformable) {
 		validateNotNull(transformable);
 
@@ -149,6 +155,8 @@ public class PrintUtils extends Utils {
 			return getReprName((Relationship) transformable);
 		} else if (transformable instanceof RelationshipSide) {
 			return getReprName((RelationshipSide) transformable);
+		} else if (transformable instanceof Attribute) {
+			return getReprName((Attribute) transformable);
 		} else {
 			return "";
 		}

@@ -31,6 +31,16 @@ public class Association extends Relationship implements Attributed {
 		setSides(sides);
 	}
 
+	public Association(String name, AssociationSide[] sides, List<String> attributes) {
+		setName(name);
+		setSides(sides);
+		if (attributes != null) {
+			for (String attribute : attributes) {
+				getAttributes().add(new Attribute(attribute));
+			}
+		}
+	}
+
 	public Association(AssociationSide[] sides, List<String> attributes) {
 		setSides(sides);
 		if (attributes != null) {

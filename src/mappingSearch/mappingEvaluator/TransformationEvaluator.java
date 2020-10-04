@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import common.Utils;
+import common.enums.EnumTransformation;
 import comparing.Mapping;
 import transformations.Transformation;
 
@@ -21,6 +22,16 @@ public class TransformationEvaluator {
 
 	private static final Map<String, Double> transformationPenalties = new HashMap<>();
 	static {
+		transformationPenalties.put(EnumTransformation.REBIND_MN_TO_1NN1, Double.valueOf(0));
+		transformationPenalties.put(EnumTransformation.REBIND_1NN1_TO_MN, Double.valueOf(0));
+		transformationPenalties.put(EnumTransformation.REBIND_1NN1_TO_MN, Double.valueOf(0));
+		transformationPenalties.put(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET, Double.valueOf(0));
+		transformationPenalties.put(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, Double.valueOf(0));
+		transformationPenalties.put(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION, Double.valueOf(0));
+		transformationPenalties.put(EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION, Double.valueOf(0.5));
+		transformationPenalties.put(EnumTransformation.CONTRACT_11_ASSOCIATION, Double.valueOf(0));
+		transformationPenalties.put(EnumTransformation.REBIND_NARY_ASSOCIATION, Double.valueOf(0.5));
+
 	}
 
 	/**
@@ -30,10 +41,6 @@ public class TransformationEvaluator {
 		Utils.validateNotNull(mapping);
 
 		double penalty = 0;
-
-		// TODO: toto nemoze byt len na zaklade kodov. Potrebne zapracovat logiku pre
-		// vyhodnocovanie ekvivalencie transformacii, minimalne pre vybrane
-		// transformacie.
 
 		for (Transformation transformation : mapping.getTransformations()) {
 			penalty += penalizeTransformation(transformation);
@@ -46,6 +53,9 @@ public class TransformationEvaluator {
 	 * Computes penalty for used transformation, based on transformation type.
 	 */
 	private double penalizeTransformation(Transformation transformation) {
+		if (transformationPenalties.containsKey(transformation.getCode())) {
+			return transformationPenalties.get(transformation.getCode());
+		}
 		return 1;
 	}
 }
