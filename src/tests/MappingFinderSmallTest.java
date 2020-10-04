@@ -9,7 +9,7 @@ import org.junit.Test;
 import entityRelationshipModel.ERModel;
 import mappingSearch.mappingFinder.MappingFinder;
 
-public class MappingFinderTest {
+public class MappingFinderSmallTest {
 
 	@Test
 	public void testFindBestMapping1() {

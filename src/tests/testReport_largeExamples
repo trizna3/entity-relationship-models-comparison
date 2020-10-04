@@ -1,0 +1,21 @@
+Test - mapping finder: MHD 1: 22.190 sec
+Best mapping penalty = 8.0
+Entity set map {
+    Linky : Linky
+    Zastavky : Zastavky
+    Typy vozidla : Casy
+    Vozidla : Vozidla
+}
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ENTITY_SET:Casy, ASSOCIATION:([Association] Vozidla-Casy), ATTRIBUTE:Cas odchodu)
+
+Test - mapping finder: MHD 2: 144.244 sec 
+Best mapping penalty = 12.0
+Entity set map {
+    Zastavky : Zastavky
+    Linky : Trvanie cesty
+    Vozidla : Vozidla
+    Typy vozidla : Linky
+}
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ATTRIBUTE:Cas, ENTITY_SET:Vozidla, ASSOCIATION:([Association] Linky-Vozidla))
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ENTITY_SET:Linky, ASSOCIATION:([Association] Linky-Trvanie cesty), ATTRIBUTE:Cislo)
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ATTRIBUTE:Trasa, ENTITY_SET:Linky, ASSOCIATION:([Association] Linky-Trvanie cesty))
