@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import common.ERModelUtils;
+import common.MappingUtils;
 import comparing.Mapping;
 import entityRelationshipModel.ERModel;
 import mappingSearch.mappingEvaluator.MappingEvaluator;
@@ -24,6 +25,9 @@ public class MappingEvaluatorTest {
 		for (int i = 0; i < model1.getEntitySets().size(); i++) {
 			mapping.map(model1.getEntitySets().get(i), model2.getEntitySets().get(i));
 		}
+
+		assert MappingUtils.getNotMappedEntitySets(model1).isEmpty();
+		assert MappingUtils.getNotMappedEntitySets(model2).isEmpty();
 
 		new MappingEvaluator().expandTransformationList(mapping);
 
