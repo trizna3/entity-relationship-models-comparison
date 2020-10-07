@@ -28,6 +28,16 @@ public interface IEvaluator {
 	void evaluate(Mapping mapping);
 
 	/**
+	 * Evaluates current (not finished) branch, determines if it can be pruned (eg.
+	 * the optimal solution is not located in the subtree, rooted in the current
+	 * node)
+	 * 
+	 * @param mapping
+	 * @return
+	 */
+	boolean shallPruneBranch(Mapping mapping);
+
+	/**
 	 * @return Mapping with minimal penalty evaluated so far.
 	 */
 	Map<EntitySet, EntitySet> getBestMapping();

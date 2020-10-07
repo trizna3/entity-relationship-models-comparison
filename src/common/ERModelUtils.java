@@ -259,19 +259,53 @@ public class ERModelUtils extends Utils {
 
 		return modelClone;
 	}
-	
+
 	/**
 	 * Returns a copy of given entitySet, with relations cut off
+	 * 
 	 * @param entitySet
 	 * @return
 	 */
 	public static EntitySet copyEntitySetDetached(EntitySet entitySet) {
 		validateNotNull(entitySet);
-		
+
 		EntitySet copy = new EntitySet(entitySet.getName());
 		copy.setAttributes(new ArrayList<Attribute>(entitySet.getAttributes()));
-	
-		return copy;		
+
+		return copy;
+	}
+
+	/**
+	 * Finalizes mapping before penalty computation. Maps all unmapped entitySets to
+	 * an emptyEntitySet.
+	 * 
+	 * @param model
+	 */
+	public static void finalizeModel(ERModel model, List<EntitySet> targetEntitySets) {
+		validateNotNull(model);
+
+		for (EntitySet entitySet : model.getEntitySets()) {
+			if (entitySet.getMappedTo() == null) {
+				entitySet.setMappedTo(MappingUtils.EMPTY_ENTITY_SET);
+				targetEntitySets.add(entitySet);
+			}
+		}
+	}
+
+	/**
+	 * Unfinalizes mapping after penalty computation. All entitySet, which are
+	 * mapped to an emptyEntitySets are unmapped.
+	 * 
+	 * @param model
+	 */
+	public static void unfinalizeModel(ERModel model) {
+		validateNotNull(model);
+
+		for (EntitySet entitySet : model.getEntitySets()) {
+			if (MappingUtils.EMPTY_ENTITY_SET.equals(entitySet.getMappedTo())) {
+				entitySet.setMappedTo(null);
+			}
+		}
 	}
 
 	private static boolean modelsAreEqualByRelationships(ERModel model1, ERModel model2) {

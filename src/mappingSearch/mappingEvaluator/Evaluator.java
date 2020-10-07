@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import common.ERModelUtils;
 import common.MappingUtils;
 import common.Utils;
 import comparing.Mapping;
@@ -36,6 +37,16 @@ public class Evaluator implements IEvaluator {
 		unfinalizeMapping(mapping);
 	}
 
+	public boolean shallPruneBranch(Mapping mapping) {
+		Utils.validateNotNull(mapping);
+
+		if (getBestMapping() == null) {
+			return false;
+		}
+
+		return getTransformationsPenalty(mapping) > getBestPenalty();
+	}
+
 	@Override
 	public Map<EntitySet, EntitySet> getBestMapping() {
 		return bestMapping;
@@ -64,31 +75,24 @@ public class Evaluator implements IEvaluator {
 	 * 
 	 * @param mapping
 	 */
-	private void finalizeMapping(Mapping mapping) {
+	private List<EntitySet> finalizeMapping(Mapping mapping) {
 		assert mapping.getExemplarModel().getNotMappedEntitySets().isEmpty();
-		for (EntitySet entitySet : mapping.getStudentModel().getEntitySets()) {
-			if (entitySet.getMappedTo() == null) {
-				entitySet.setMappedTo(MappingUtils.EMPTY_ENTITY_SET);
-			}
-		}
+
+		List<EntitySet> result = new ArrayList<>();
+
+		ERModelUtils.finalizeModel(mapping.getStudentModel(), result);
+		return result;
 	}
 
 	/**
-	 * Unmaps all entitySets, which are mapped to an EmptyEntitySet. Resets all
-	 * transformables transformationRole, which were overwritten.
+	 * Unmaps all entitySets, which are mapped to an EmptyEntitySet.
 	 * 
 	 * @param mapping
 	 */
 	private void unfinalizeMapping(Mapping mapping) {
 		assert mapping.getExemplarModel().getNotMappedEntitySets().isEmpty();
-		for (EntitySet entitySet : mapping.getStudentModel().getEntitySets()) {
-			if (MappingUtils.EMPTY_ENTITY_SET.equals(entitySet.getMappedTo())) {
-				entitySet.setMappedTo(null);
-			}
-		}
 
-		mapping.getExemplarModel().resetTransformableRoles();
-		mapping.getStudentModel().resetTransformableRoles();
+		ERModelUtils.unfinalizeModel(mapping.getStudentModel());
 	}
 
 	public double getBestPenalty() {

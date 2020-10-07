@@ -2,6 +2,7 @@ package mappingSearch.mappingEvaluator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import common.ERModelUtils;
 import common.RelationshipUtils;
@@ -29,6 +30,8 @@ public class MappingEvaluator {
 	 * Processes mapping. Extends mapping transformation list by atomic
 	 * transformations, which would lead to (mapped) isomorphism between models.
 	 * 
+	 * NotMapped ER models elements are ignored.
+	 * 
 	 * @param mapping
 	 */
 	public void expandTransformationList(Mapping mapping) {
@@ -41,24 +44,33 @@ public class MappingEvaluator {
 
 	private void checkEntitySets(Mapping mapping) {
 		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
-			if (entitySet.getMappedTo() == null || entitySet.getMappedTo().isEmpty()) {
+			if (entitySet.getMappedTo() == null) {
+				continue;
+			}
+			if (entitySet.getMappedTo().isEmpty()) {
 				EntitySet esCopy = ERModelUtils.copyEntitySetDetached(entitySet);
 				TransformationUtils.addCreateEntitySet(mapping, esCopy);
 			}
 		}
 		for (EntitySet entitySet : mapping.getStudentModel().getEntitySets()) {
-			if (entitySet.getMappedTo() == null || entitySet.getMappedTo().isEmpty()) {
+			if (entitySet.getMappedTo() == null) {
+				continue;
+			}
+			if (entitySet.getMappedTo().isEmpty()) {
 				TransformationUtils.addRemoveEntitySet(mapping, entitySet);
 			}
 		}
 	}
 
 	private void checkRelationships(Mapping mapping) {
-		List<Relationship> exemplarToProcess = new ArrayList<>(mapping.getExemplarModel().getRelationships());
-		List<Relationship> studentsToProcess = new ArrayList<>(mapping.getStudentModel().getRelationships());
+		List<Relationship> exemplarToProcess = new ArrayList<>(mapping.getExemplarModel().getRelationships()).stream().filter(rel -> RelationshipUtils.isMapped(rel)).collect(Collectors.toList());
+		List<Relationship> studentsToProcess = new ArrayList<>(mapping.getStudentModel().getRelationships()).stream().filter(rel -> RelationshipUtils.isMapped(rel)).collect(Collectors.toList());
 
 		// check pairs by incidentEntitySets, Cardinalities, Attributes
 		for (Relationship exemplarRel : mapping.getExemplarModel().getRelationships()) {
+			if (!exemplarToProcess.contains(exemplarRel)) {
+				continue;
+			}
 			for (Relationship studentRel : mapping.getStudentModel().getRelationships()) {
 				if (!studentsToProcess.contains(studentRel)) {
 					continue;
@@ -73,6 +85,9 @@ public class MappingEvaluator {
 		// check pairs by incidentEntitySets, Cardinalities --> add/remove attributes
 		if (!exemplarToProcess.isEmpty() || !studentsToProcess.isEmpty()) {
 			for (Relationship exemplarRel : mapping.getExemplarModel().getRelationships()) {
+				if (!exemplarToProcess.contains(exemplarRel)) {
+					continue;
+				}
 				for (Relationship studentRel : mapping.getStudentModel().getRelationships()) {
 					if (!studentsToProcess.contains(studentRel)) {
 						continue;
@@ -96,7 +111,7 @@ public class MappingEvaluator {
 					continue;
 				}
 				for (Relationship studentRel : mapping.getStudentModel().getRelationships()) {
-					if (studentsToProcess.contains(studentRel)) {
+					if (!studentsToProcess.contains(studentRel)) {
 						continue;
 					}
 					if (RelationshipUtils.relationshipsAreEquallyMapped(exemplarRel, studentRel, false, false)) {

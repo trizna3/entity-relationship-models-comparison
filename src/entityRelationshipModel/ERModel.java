@@ -129,18 +129,6 @@ public class ERModel {
 		return PrintUtils.print(this);
 	}
 
-	public void resetTransformableRoles() {
-//		for (EntitySet entitySet : getEntitySets()) {
-//			entitySet.resetTransformationRole();
-//		}
-//		for (Relationship relationship : getRelationships()) {
-//			relationship.resetTransformationRole();
-//			for (RelationshipSide side : relationship.getSides()) {
-//				side.resetTransformationRole();
-//			}
-//		}
-	}
-
 	public boolean isExemplar() {
 		return isExemplar;
 	}

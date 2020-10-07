@@ -243,6 +243,24 @@ public class RelationshipUtils extends Utils {
 		}
 	}
 
+	/**
+	 * Determines if relationship is mapped, eg. if all it's incident entitySets are
+	 * mapped.
+	 * 
+	 * @param relationship
+	 * @return
+	 */
+	public static boolean isMapped(Relationship relationship) {
+		validateNotNull(relationship);
+
+		for (RelationshipSide side : relationship.getSides()) {
+			if (side.getEntitySet().getMappedTo() == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private static Association getAssociationClone(Association association, Map<EntitySet, EntitySet> entitySetMap) {
 		Association associationClone = new Association();
 

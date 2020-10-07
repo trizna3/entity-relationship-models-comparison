@@ -58,12 +58,15 @@ public class MappingFinder {
 	 * Performs backtracking algorithm to find optimal entity sets mapping.
 	 */
 	private void search(Mapping mapping) {
-		if (stoppingCriterion(mapping)) {
+		if (shallPrune(mapping)) {
+			return;
+		}
+		if (branchComplete(mapping)) {
 			evaluate(mapping);
 			return;
 		}
-		searchThroughMapping(mapping);
 		searchThroughTransformation(mapping);
+		searchThroughMapping(mapping);
 	}
 
 	private void searchThroughMapping(Mapping mapping) {
@@ -116,8 +119,12 @@ public class MappingFinder {
 		decrementCounter();
 	}
 
-	private boolean stoppingCriterion(Mapping mapping) {
+	private boolean branchComplete(Mapping mapping) {
 		return mapping.getExemplarModel().getNotMappedEntitySets().isEmpty();
+	}
+
+	private boolean shallPrune(Mapping mapping) {
+		return getMappingEvaluator().shallPruneBranch(mapping);
 	}
 
 	private void evaluate(Mapping mapping) {
