@@ -1,0 +1,57 @@
+Test - mapping finder: Vztahy 1: 1.136 sec
+Best mapping penalty = 3.0
+Entity set map {
+    Osoby : Osoby
+    Typ vztahu : Typ vztahu
+    Vztahy : Vztahy
+}
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ATTRIBUTE:Nazov, ASSOCIATION:([Association] Osoby-Vztahy), ENTITY_SET:Vztahy)
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ATTRIBUTE:Osoba 1, ASSOCIATION:([Association] Osoby-Vztahy), ENTITY_SET:Vztahy)
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ATTRIBUTE:Osoba 2, ASSOCIATION:([Association] Osoby-Vztahy), ENTITY_SET:Vztahy)
+
+Test - mapping finder: Vztahy 2: 0.005 sec
+Best mapping penalty = 7.5
+Entity set map {
+    Vztahy : null
+    Osoby : Osoby
+    Typ vztahu : Vztahy
+}
+REBIND_NARY_ASSOCIATION: (ENTITY_SET:null, ASSOCIATION:([Association] Osoby-Osoby-Vztahy))
+
+Test - mapping finder: Chem Dennik 1: 1.711 sec
+Best mapping penalty = 0.0
+Entity set map {
+    Chemicke reakcie : Chemicke reakcie
+    Chemicke latky : Chemicke latky
+}
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ATTRIBUTE:Hmotnost reaktantu A, ASSOCIATION:([Association] Chemicke latky-Chemicke reakcie), ENTITY_SET:Chemicke reakcie)
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ASSOCIATION:([Association] Chemicke latky-Chemicke reakcie), ENTITY_SET:Chemicke reakcie, ATTRIBUTE:Hmotnost reaktantu B)
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ATTRIBUTE:Hmotnost katalyzatora, ASSOCIATION:([Association] Chemicke latky-Chemicke reakcie), ENTITY_SET:Chemicke reakcie)
+
+Test - mapping finder: Chem Dennik 2: 32.261 sec
+Best mapping penalty = 10.0
+Entity set map {
+    Chemicke latky : Chemicke latky
+    Chemicke reakcie : Produkt
+}
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ATTRIBUTE:Hmotnost reaktantu A, ENTITY_SET:Chemicke reakcie, ASSOCIATION:([Association] Chemicke latky-Chemicke reakcie))
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ATTRIBUTE:Hmotnost reaktantu B, ENTITY_SET:Chemicke reakcie, ASSOCIATION:([Association] Chemicke latky-Chemicke reakcie))
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ATTRIBUTE:Hmotnost katalyzatora, ENTITY_SET:Chemicke reakcie, ASSOCIATION:([Association] Chemicke latky-Chemicke reakcie))
+
+Test - mapping finder: Eshop 1: 0.016 sec
+Best mapping penalty = 7.0
+Entity set map {
+    Produkty : Produkty
+    Nazvy specialnych atributov : Atributy produktu
+    Typy produktov : Typy produktov
+}
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: (ASSOCIATION:([Association] Produkty-Typy produktov), ENTITY_SET:Produkty, ATTRIBUTE:Nazov)
+
+Test - mapping finder: Eshop 2: 0.001sec
+Best mapping penalty = 11.0
+Entity set map {
+    Typy produktov : Typy produktov
+    Produkty : Produkty
+    Nazvy specialnych atributov : Atributy
+}
+
