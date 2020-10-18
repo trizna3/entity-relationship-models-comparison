@@ -18,7 +18,7 @@ public class Association extends Relationship implements Attributed {
 	/**
 	 * List of association sides.
 	 */
-	private AssociationSide[] sides;
+	private List<AssociationSide> sides;
 	/**
 	 * Attributes list.
 	 */
@@ -27,11 +27,11 @@ public class Association extends Relationship implements Attributed {
 	public Association() {
 	};
 
-	public Association(AssociationSide[] sides) {
+	public Association(List<AssociationSide> sides) {
 		setSides(sides);
 	}
 
-	public Association(String name, AssociationSide[] sides, List<String> attributes) {
+	public Association(String name, List<AssociationSide> sides, List<String> attributes) {
 		setName(name);
 		setSides(sides);
 		if (attributes != null) {
@@ -41,7 +41,7 @@ public class Association extends Relationship implements Attributed {
 		}
 	}
 
-	public Association(AssociationSide[] sides, List<String> attributes) {
+	public Association(List<AssociationSide> sides, List<String> attributes) {
 		setSides(sides);
 		if (attributes != null) {
 			for (String attribute : attributes) {
@@ -51,14 +51,13 @@ public class Association extends Relationship implements Attributed {
 	}
 
 	public Association(Association association) {
-		setSides(new AssociationSide[association.getSides().length]);
-		for (int i = 0; i < sides.length; i++) {
-			getSides()[i] = new AssociationSide(association.getSides()[i]);
-		}
+		setSides(new ArrayList<AssociationSide>(association.getSides().size()));
+		association.getSides().stream().forEach(side -> getSides().add(new AssociationSide(side)));
+
 		this.attributes = new ArrayList<>(association.getAttributes());
 	};
 
-	public AssociationSide[] getSides() {
+	public List<AssociationSide> getSides() {
 		return sides;
 	}
 
@@ -83,20 +82,10 @@ public class Association extends Relationship implements Attributed {
 
 	@Override
 	public boolean isBinary() {
-		return getSides().length == 2;
+		return getSides().size() == 2;
 	}
 
-	@Override
-	protected AssociationSide getFirst() {
-		return getSides()[0];
-	}
-
-	@Override
-	protected AssociationSide getSecond() {
-		return getSides()[1];
-	}
-
-	public void setSides(AssociationSide[] sides) {
+	public void setSides(List<AssociationSide> sides) {
 		this.sides = sides;
 	}
 }

@@ -1,5 +1,7 @@
 package starter;
 
+import java.util.Arrays;
+
 import common.ERModelUtils;
 import common.enums.Enums;
 import comparing.Mapping;
@@ -27,8 +29,8 @@ public class Main {
 		model1.addEntitySet(esEmployees);
 		model1.addEntitySet(esJobs);
 		model1.addEntitySet(esEmpJobs);
-		model1.addRelationship(new Association(new AssociationSide[] { new AssociationSide(esEmployees, Enums.CARDINALITY_ONE), new AssociationSide(esEmpJobs, Enums.CARDINALITY_MANY) }, null));
-		model1.addRelationship(new Association(new AssociationSide[] { new AssociationSide(esJobs, Enums.CARDINALITY_ONE), new AssociationSide(esEmpJobs, Enums.CARDINALITY_MANY) }, null));
+		model1.addRelationship(new Association(Arrays.asList(new AssociationSide(esEmployees, Enums.CARDINALITY_ONE), new AssociationSide(esEmpJobs, Enums.CARDINALITY_MANY)), null));
+		model1.addRelationship(new Association(Arrays.asList(new AssociationSide(esJobs, Enums.CARDINALITY_ONE), new AssociationSide(esEmpJobs, Enums.CARDINALITY_MANY)), null));
 
 		EntitySet esPeople = new EntitySet("People", null);
 		EntitySet esPositions = new EntitySet("Positions", null);
@@ -36,7 +38,7 @@ public class Main {
 		ERModel model2 = new ERModel();
 		model2.addEntitySet(esPeople);
 		model2.addEntitySet(esPositions);
-		model2.addRelationship(new Association(new AssociationSide[] { new AssociationSide(esPeople, Enums.CARDINALITY_ONE), new AssociationSide(esPositions, Enums.CARDINALITY_MANY) }, null));
+		model2.addRelationship(new Association(Arrays.asList(new AssociationSide(esPeople, Enums.CARDINALITY_ONE), new AssociationSide(esPositions, Enums.CARDINALITY_MANY)), null));
 
 		Mapping mapping = new Mapping(model1, model2);
 		esEmployees.setMappedTo(esPeople);

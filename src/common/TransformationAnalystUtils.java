@@ -225,7 +225,7 @@ public class TransformationAnalystUtils {
 		Utils.validateNotNull(model);
 
 		nextRel: for (Relationship relationship : model.getRelationships()) {
-			if (relationship instanceof Association && relationship.getSides().length > 2) {
+			if (relationship instanceof Association && !relationship.isBinary()) {
 				for (RelationshipSide side : relationship.getSides()) {
 					if (side.getEntitySet().getMappedTo() != null) {
 						continue nextRel;

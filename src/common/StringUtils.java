@@ -15,13 +15,10 @@ public class StringUtils extends Utils {
 		if (string1 == null && string2 == null) {
 			return true;
 		}
-		if (string1 == null) {
+		if (string1 == null || string2 == null) {
 			return false;
 		}
-		if (string2 == null) {
-			return false;
-		}
-		return string1.toLowerCase().equals(string2.toLowerCase());
+		return string1.equalsIgnoreCase(string2);
 	}
 
 	/**

@@ -25,7 +25,7 @@ public class PrintUtils extends Utils {
 	public static final String print(EntitySet entitySet) {
 		validateNotNull(entitySet);
 
-		return entitySet.getName() + ": " + join(entitySet.getAttributes().toArray(), DELIMITER_COMMA);
+		return entitySet.getName() + ": " + join(entitySet.getAttributes(), DELIMITER_COMMA);
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class PrintUtils extends Utils {
 		return attribute.getAttribute();
 	}
 
-	private static String join(Object[] objects, String delimiter) {
+	private static String join(Iterable<?> objects, String delimiter) {
 		int count = 0;
 		StringBuilder result = new StringBuilder();
 		for (Object object : objects) {

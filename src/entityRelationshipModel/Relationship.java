@@ -1,5 +1,8 @@
 package entityRelationshipModel;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import common.PrintUtils;
 import common.RelationshipUtils;
 import common.Utils;
@@ -23,13 +26,9 @@ public abstract class Relationship extends Transformable {
 	 */
 	private String name;
 
-	public abstract RelationshipSide[] getSides();
+	public abstract List<? extends RelationshipSide> getSides();
 
 	public abstract boolean isBinary();
-
-	protected abstract RelationshipSide getFirst();
-
-	protected abstract RelationshipSide getSecond();
 
 	public String getName() {
 		return name;
@@ -49,14 +48,8 @@ public abstract class Relationship extends Transformable {
 		return RelationshipUtils.contains(this, entitySet);
 	}
 
-	public EntitySet[] getEntitySets() {
-		EntitySet[] result = new EntitySet[getSides().length];
-		int i = 0;
-		for (RelationshipSide side : getSides()) {
-			result[i] = side.getEntitySet();
-			i++;
-		}
-		return result;
+	public List<EntitySet> getEntitySets() {
+		return getSides().stream().map(side -> side.getEntitySet()).collect(Collectors.toList());
 	}
 
 	public RelationshipSide getFirstSide() {
@@ -67,5 +60,15 @@ public abstract class Relationship extends Transformable {
 	public RelationshipSide getSecondSide() {
 		Utils.validateBinary(this);
 		return getSecond();
+	}
+
+	public RelationshipSide getFirst() {
+		Utils.validateBinary(this);
+		return getSides().get(0);
+	}
+
+	public RelationshipSide getSecond() {
+		Utils.validateBinary(this);
+		return getSides().get(1);
 	}
 }

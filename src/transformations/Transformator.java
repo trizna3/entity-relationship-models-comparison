@@ -249,10 +249,12 @@ public class Transformator {
 			entitySet.setAttributes(association.getAttributes());
 		}
 		if (association1 == null) {
-			association1 = new Association(new AssociationSide[] { new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(association.getFirstSide().getEntitySet(), Enums.CARDINALITY_ONE) }, null);
+			association1 = new Association(Arrays.asList(new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(association.getFirstSide().getEntitySet(), Enums.CARDINALITY_ONE)), null);
 		}
-		if (association2 == null) {
-			association2 = new Association(new AssociationSide[] { new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(association.getSecondSide().getEntitySet(), Enums.CARDINALITY_ONE) }, null);
+		if (association2 == null)
+
+		{
+			association2 = new Association(Arrays.asList(new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(association.getSecondSide().getEntitySet(), Enums.CARDINALITY_ONE)), null);
 		}
 
 		ERModel studentModel = mapping.getStudentModel();
@@ -280,7 +282,7 @@ public class Transformator {
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
 
 		if (association == null) {
-			association = new Association(new AssociationSide[] { new AssociationSide(RelationshipUtils.getOtherEntitySet(association1, entitySet), Enums.CARDINALITY_MANY), new AssociationSide(RelationshipUtils.getOtherEntitySet(association2, entitySet), Enums.CARDINALITY_MANY) });
+			association = new Association(Arrays.asList(new AssociationSide(RelationshipUtils.getOtherEntitySet(association1, entitySet), Enums.CARDINALITY_MANY), new AssociationSide(RelationshipUtils.getOtherEntitySet(association2, entitySet), Enums.CARDINALITY_MANY)));
 			association.setAttributes(entitySet.getAttributes());
 		}
 		association.setName(entitySet.getName());
@@ -332,7 +334,7 @@ public class Transformator {
 	private static Transformation executeGeneralizationTo11Association(Mapping mapping, Transformation transformation) {
 		Generalization generalization = (Generalization) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.GENERALIZATION);
 
-		Association association = new Association(new AssociationSide[] { new AssociationSide(generalization.getFirstSide().getEntitySet(), Enums.CARDINALITY_ONE), new AssociationSide(generalization.getSecondSide().getEntitySet(), Enums.CARDINALITY_ONE) }, null);
+		Association association = new Association(Arrays.asList(new AssociationSide(generalization.getFirstSide().getEntitySet(), Enums.CARDINALITY_ONE), new AssociationSide(generalization.getSecondSide().getEntitySet(), Enums.CARDINALITY_ONE)), null);
 
 		mapping.getStudentModel().removeRelationship(generalization);
 		mapping.getStudentModel().addRelationship(association);
@@ -359,7 +361,7 @@ public class Transformator {
 				targetEntitySet.addAttribute(attribute);
 			}
 		}
-		mapping.getStudentModel().addRelationship(new Association(new AssociationSide[] { new AssociationSide(sourceEntitySet, Enums.CARDINALITY_MANY), new AssociationSide(targetEntitySet, Enums.CARDINALITY_ONE) }, null));
+		mapping.getStudentModel().addRelationship(new Association(Arrays.asList(new AssociationSide(sourceEntitySet, Enums.CARDINALITY_MANY), new AssociationSide(targetEntitySet, Enums.CARDINALITY_ONE)), null));
 
 		transformation.clearArguments();
 		transformation.addArgument(sourceEntitySet, EnumTransformationRole.DEST_ENTITY_SET);
@@ -429,7 +431,7 @@ public class Transformator {
 		model.addEntitySet(entitySet);
 
 		for (AssociationSide side : association.getSides()) {
-			model.addRelationship(new Association(new AssociationSide[] { new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(side.getEntitySet(), Enums.CARDINALITY_ONE) }, null));
+			model.addRelationship(new Association(Arrays.asList(new AssociationSide(entitySet, Enums.CARDINALITY_MANY), new AssociationSide(side.getEntitySet(), Enums.CARDINALITY_ONE)), null));
 		}
 
 		transformation.clearArguments();

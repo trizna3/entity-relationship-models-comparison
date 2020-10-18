@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
@@ -120,7 +121,7 @@ public class RelationshipUtils extends Utils {
 		if (!isSameClass(relationship1, relationship2)) {
 			return false;
 		}
-		if (relationship1.getSides().length != relationship2.getSides().length) {
+		if (relationship1.getSides().size() != relationship2.getSides().size()) {
 			return false;
 		}
 		if (relationship1 instanceof Association && checkAttributes && !CollectionUtils.areEqual(((Association) relationship1).getAttributes(), ((Association) relationship2).getAttributes())) {
@@ -266,11 +267,7 @@ public class RelationshipUtils extends Utils {
 
 		associationClone.setName(association.getName());
 		associationClone.setAttributes(new ArrayList<>(association.getAttributes()));
-		associationClone.setSides(new AssociationSide[association.getSides().length]);
-		for (int i = 0; i < association.getSides().length; i++) {
-			AssociationSide side = association.getSides()[i];
-			associationClone.getSides()[i] = new AssociationSide(entitySetMap.get(side.getEntitySet()), side.getRole());
-		}
+		associationClone.setSides(association.getSides().stream().map(side -> new AssociationSide(entitySetMap.get(side.getEntitySet()), side.getRole())).collect(Collectors.toList()));
 		return associationClone;
 	}
 
@@ -278,8 +275,8 @@ public class RelationshipUtils extends Utils {
 		Generalization generalizationClone = new Generalization();
 
 		generalizationClone.setName(generalization.getName());
-		generalizationClone.getSides()[0] = new GeneralizationSide(entitySetMap.get(generalization.getFirstSide().getEntitySet()), generalization.getFirstSide().getRole());
-		generalizationClone.getSides()[1] = new GeneralizationSide(entitySetMap.get(generalization.getSecondSide().getEntitySet()), generalization.getSecondSide().getRole());
+		generalizationClone.getSides().add(0, new GeneralizationSide(entitySetMap.get(generalization.getFirstSide().getEntitySet()), generalization.getFirstSide().getRole()));
+		generalizationClone.getSides().add(1, new GeneralizationSide(entitySetMap.get(generalization.getSecondSide().getEntitySet()), generalization.getSecondSide().getRole()));
 
 		return generalizationClone;
 	}

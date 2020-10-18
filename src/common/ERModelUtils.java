@@ -1,7 +1,6 @@
 package common;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +20,7 @@ public class ERModelUtils extends Utils {
 	/**
 	 * Returns all relationships, which contain all of the given entitySets.
 	 */
-	public static List<Relationship> getRelationshipsByEntitySets(ERModel model, EntitySet[] entitySets) {
+	public static List<Relationship> getRelationshipsByEntitySets(ERModel model, List<EntitySet> entitySets) {
 		validateNotNull(model);
 		validateNotNull(entitySets);
 
@@ -154,13 +153,13 @@ public class ERModelUtils extends Utils {
 		if (!relationship1.getClass().equals(relationship2.getClass())) {
 			return false;
 		}
-		if (relationship1.getSides().length != relationship2.getSides().length) {
+		if (relationship1.getSides().size() != relationship2.getSides().size()) {
 			return false;
 		}
 
 		Set<RelationshipSide> sidesToProcess = new HashSet<>();
-		sidesToProcess.addAll(Arrays.asList(relationship1.getSides()));
-		sidesToProcess.addAll(Arrays.asList(relationship2.getSides()));
+		sidesToProcess.addAll(relationship1.getSides());
+		sidesToProcess.addAll(relationship2.getSides());
 
 		nextSide1: for (RelationshipSide side1 : relationship1.getSides()) {
 			for (RelationshipSide side2 : relationship2.getSides()) {

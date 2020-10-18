@@ -1,5 +1,8 @@
 package entityRelationshipModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import common.enums.Enums;
 
 /**
@@ -19,52 +22,40 @@ public class Generalization extends Relationship {
 	/**
 	 * List of generalization sides.
 	 */
-	private GeneralizationSide[] sides;
+	private List<GeneralizationSide> sides;
 
 	public Generalization() {
-		this.sides = new GeneralizationSide[2];
+		this.sides = new ArrayList<GeneralizationSide>(2);
 	};
 
-	public Generalization(GeneralizationSide[] sides) {
+	public Generalization(List<GeneralizationSide> sides) {
 		this.sides = sides;
 	}
 
 	public Generalization(EntitySet superEntitySet, EntitySet subEntitySet) {
-		sides = new GeneralizationSide[2];
-		sides[0] = new GeneralizationSide(superEntitySet, Enums.ROLE_SUPER);
-		sides[1] = new GeneralizationSide(subEntitySet, Enums.ROLE_SUB);
+		sides = new ArrayList<GeneralizationSide>(2);
+		sides.add(0, new GeneralizationSide(superEntitySet, Enums.ROLE_SUPER));
+		sides.add(1, new GeneralizationSide(subEntitySet, Enums.ROLE_SUB));
 	}
 
 	public Generalization(Generalization generalization) {
-		sides = new GeneralizationSide[2];
-		sides[0] = new GeneralizationSide(generalization.getFirst());
-		sides[1] = new GeneralizationSide(generalization.getSecond());
+		sides = new ArrayList<GeneralizationSide>(generalization.getSides());
 	}
 
-	public GeneralizationSide[] getSides() {
+	public List<GeneralizationSide> getSides() {
 		return sides;
 	}
 
 	public EntitySet getSuperEntitySet() {
-		return sides[0].getEntitySet();
+		return getSides().get(0).getEntitySet();
 	}
 
 	public EntitySet getSubEntitySet() {
-		return sides[1].getEntitySet();
+		return getSides().get(1).getEntitySet();
 	}
 
 	@Override
 	public boolean isBinary() {
 		return true;
-	}
-
-	@Override
-	protected GeneralizationSide getFirst() {
-		return sides[0];
-	}
-
-	@Override
-	protected GeneralizationSide getSecond() {
-		return sides[1];
 	}
 }
