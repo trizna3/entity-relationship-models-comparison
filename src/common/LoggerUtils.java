@@ -15,7 +15,7 @@ public class LoggerUtils {
 		Utils.validateNotNull(transformation);
 		Utils.validateNotNull(direction);
 
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		result.append(direction + PrintUtils.print(transformation));
 

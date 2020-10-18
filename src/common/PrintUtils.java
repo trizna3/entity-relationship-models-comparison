@@ -59,7 +59,7 @@ public class PrintUtils extends Utils {
 	public static final String print(ERModel model) {
 		validateNotNull(model);
 
-		StringBuffer result = new StringBuffer("ER Model\n");
+		StringBuilder result = new StringBuilder("ER Model\n");
 		for (EntitySet entitySet : model.getEntitySets()) {
 			result.append(entitySet.toString() + '\n');
 		}
@@ -71,7 +71,7 @@ public class PrintUtils extends Utils {
 	}
 
 	public static final String print(Map<EntitySet, EntitySet> map) {
-		StringBuffer result = new StringBuffer("Entity set map {\n");
+		StringBuilder result = new StringBuilder("Entity set map {\n");
 		for (EntitySet entitySet : map.keySet()) {
 			result.append("    " + entitySet.getName() + " : " + map.get(entitySet).getName() + "\n");
 		}
@@ -80,7 +80,7 @@ public class PrintUtils extends Utils {
 	}
 
 	public static final String print(List<Transformation> transformations) {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		for (Transformation transformation : transformations) {
 			result.append(print(transformation) + "\n");
@@ -91,7 +91,7 @@ public class PrintUtils extends Utils {
 	}
 
 	public static final String print(Transformation transformation) {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		result.append(transformation.getCode() + ": (");
 		boolean first = true;
@@ -118,7 +118,7 @@ public class PrintUtils extends Utils {
 	public static final String getReprName(Relationship relationship) {
 		validateNotNull(relationship);
 
-		StringBuffer result = new StringBuffer("([" + relationship.getClass().getSimpleName() + "] ");
+		StringBuilder result = new StringBuilder("([" + relationship.getClass().getSimpleName() + "] ");
 
 		boolean first = true;
 		for (RelationshipSide side : relationship.getSides()) {
