@@ -22,13 +22,28 @@ public class StringUtils extends Utils {
 	}
 
 	/**
-	 * Given combined name, returns the first part.
+	 * Given composite name, returns name part.
 	 * 
 	 * @param name
 	 * @return
 	 */
-	public static String getFirstNamePart(String name) {
-		validateNotNull(name);
-		return name.split(Enums.ENTITY_SETS_DELIMITER)[0];
+	public static String getNamePart(String compositeName, int partIndex) {
+		validateNotNull(compositeName);
+
+		int cycleIdx = 0;
+		int idxFrom = 0;
+
+		while (true) {
+			int delimiterIdx = compositeName.indexOf(Enums.ENTITY_SETS_DELIMITER, idxFrom);
+			if (partIndex == cycleIdx) {
+				return delimiterIdx == -1 ? compositeName.substring(idxFrom) : compositeName.substring(idxFrom, delimiterIdx);
+			} else {
+				if (delimiterIdx == -1) {
+					return "";
+				}
+				idxFrom = delimiterIdx + 1;
+				cycleIdx++;
+			}
+		}
 	}
 }

@@ -20,6 +20,5 @@ public class Enums {
 
 	/*** OTHER ***/
 
-	public static final String ENTITY_SETS_DELIMITER = ";";
-
+	public static final char ENTITY_SETS_DELIMITER = ';';
 };
