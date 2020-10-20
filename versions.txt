@@ -10,3 +10,10 @@ v1.1
 - small examples run in up to 30 seconds (globally better than v1.0) (see tests/testReport_smallExamples_pruned)
 - large examples are not runnable in any reasonable amount of time
 
+v1.2
+- technical optimizations implemented
+- ArrayLists with exact length used instead of Arrays
+- StringBuilder used instead of StringBuffer
+- Parsing composite names optimized
+- Java Enum used for enum values instead of (public static final String)
+- Avoidable list constructions removed
