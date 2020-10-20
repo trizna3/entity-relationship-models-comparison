@@ -1,0 +1,12 @@
+v1.0
+- without any optimizations
+- conditional transformation analysis is NOT YET implemented --> would kill the performance
+- getPossibleExtractAttributeToOwnEntitySetTransformations Analysis is turned off --> would kill the performance
+- small examples run in up to 30 seconds (see tests/testReport_smallExamples)
+- large examples are not runnable in any reasonable amount of time
+
+v1.1
+- tree-pruning optimization implemented (without node ordering)
+- small examples run in up to 30 seconds (globally better than v1.0) (see tests/testReport_smallExamples_pruned)
+- large examples are not runnable in any reasonable amount of time
+

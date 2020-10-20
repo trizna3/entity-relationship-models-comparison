@@ -12,34 +12,6 @@ import mappingSearch.mappingFinder.MappingFinder;
 public class MappingFinderSmallTest {
 
 	@Test
-	public void testFindBestMapping1() {
-		ERModel exemplarModel = TestUtils.getERModels().get(0);
-		ERModel studentModel = TestUtils.getERModels().get(3);
-
-		Collections.shuffle(exemplarModel.getEntitySets());
-		Collections.shuffle(studentModel.getEntitySets());
-
-//		MappingFinder finder = new MappingFinder();
-//		finder.getBestMapping(exemplarModel, studentModel);
-
-		assertTrue(true);
-	}
-
-	@Test
-	public void testFindBestMapping2() {
-		ERModel exemplarModel = TestUtils.getERModels().get(1);
-		ERModel studentModel = TestUtils.getERModels().get(5);
-
-		Collections.shuffle(exemplarModel.getEntitySets());
-		Collections.shuffle(studentModel.getEntitySets());
-
-//		MappingFinder finder = new MappingFinder();
-//		finder.getBestMapping(exemplarModel, studentModel);
-
-		assertTrue(true);
-	}
-
-	@Test
 	public void testFindBestMapping_Dennik_1() {
 		System.out.println("Test - mapping finder: Chem Dennik 1");
 		ERModel exemplarModel = TestUtils.makeERModel_Dennik_vzor();
