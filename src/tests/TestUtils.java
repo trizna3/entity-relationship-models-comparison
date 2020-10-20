@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import common.Utils;
+import common.enums.EnumTransformation;
 import common.enums.Enums;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
@@ -549,7 +550,7 @@ public class TestUtils {
 		return model;
 	}
 
-	public static boolean containsTransformation(List<Transformation> transformations, String code) {
+	public static boolean containsTransformation(List<Transformation> transformations, EnumTransformation code) {
 		Utils.validateNotNull(transformations);
 		Utils.validateNotNull(code);
 

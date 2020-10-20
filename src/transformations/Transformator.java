@@ -115,33 +115,33 @@ public class Transformator {
 		return transformation;
 	}
 
-	public static String getRevertingTransformation(String code) {
+	public static EnumTransformation getRevertingTransformation(EnumTransformation code) {
 		Utils.validateNotNull(code);
 
 		switch (code) {
-		case EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION:
+		case MOVE_ATTR_TO_INCIDENT_ASSOCIATION:
 			return EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET;
-		case EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET:
+		case MOVE_ATTR_TO_INCIDENT_ENTITY_SET:
 			return EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION;
-		case EnumTransformation.REBIND_MN_TO_1NN1:
+		case REBIND_MN_TO_1NN1:
 			return EnumTransformation.REBIND_1NN1_TO_MN;
-		case EnumTransformation.REBIND_1NN1_TO_MN:
+		case REBIND_1NN1_TO_MN:
 			return EnumTransformation.REBIND_MN_TO_1NN1;
-		case EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET:
+		case EXTRACT_ATTR_TO_OWN_ENTITY_SET:
 			return EnumTransformation.MERGE_ATTR_FROM_OWN_ENTITY_SET;
-		case EnumTransformation.MERGE_ATTR_FROM_OWN_ENTITY_SET:
+		case MERGE_ATTR_FROM_OWN_ENTITY_SET:
 			return EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET;
-		case EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION:
+		case GENERALIZATION_TO_11_ASSOCIATION:
 			return EnumTransformation._11_ASSOCIATION_TO_GENERALIZATION;
-		case EnumTransformation._11_ASSOCIATION_TO_GENERALIZATION:
+		case _11_ASSOCIATION_TO_GENERALIZATION:
 			return EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION;
-		case EnumTransformation.CONTRACT_11_ASSOCIATION:
+		case CONTRACT_11_ASSOCIATION:
 			return EnumTransformation.UNCONTRACT_11_ASSOCIATION;
-		case EnumTransformation.UNCONTRACT_11_ASSOCIATION:
+		case UNCONTRACT_11_ASSOCIATION:
 			return EnumTransformation.CONTRACT_11_ASSOCIATION;
-		case EnumTransformation.REBIND_NARY_ASSOCIATION:
+		case REBIND_NARY_ASSOCIATION:
 			return EnumTransformation.BIND_TO_NARY_ASSOCIATION;
-		case EnumTransformation.BIND_TO_NARY_ASSOCIATION:
+		case BIND_TO_NARY_ASSOCIATION:
 			return EnumTransformation.REBIND_NARY_ASSOCIATION;
 		default:
 			return null;

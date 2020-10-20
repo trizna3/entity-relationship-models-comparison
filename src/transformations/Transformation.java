@@ -5,21 +5,23 @@ import java.util.Map;
 import java.util.Set;
 
 import common.Utils;
+import common.enums.EnumTransformation;
+import common.enums.EnumTransformationRole;
 
 public class Transformation {
 
-	private String code;
-	private Map<Transformable, String> argumentMap;
+	private EnumTransformation code;
+	private Map<Transformable, EnumTransformationRole> argumentMap;
 
-	public Transformation(String code) {
+	public Transformation(EnumTransformation code) {
 		this.code = code;
 	}
 
-	public String getCode() {
+	public EnumTransformation getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(EnumTransformation code) {
 		this.code = code;
 	}
 
@@ -27,18 +29,18 @@ public class Transformation {
 		return getArgumentMap().keySet();
 	}
 
-	public Map<Transformable, String> getArgumentMap() {
+	public Map<Transformable, EnumTransformationRole> getArgumentMap() {
 		if (argumentMap == null) {
 			argumentMap = new HashMap<>();
 		}
 		return argumentMap;
 	}
 
-	public void setArguments(Map<Transformable, String> argumentMap) {
+	public void setArguments(Map<Transformable, EnumTransformationRole> argumentMap) {
 		this.argumentMap = argumentMap;
 	}
 
-	public void addArgument(Transformable transformable, String transformableRole) {
+	public void addArgument(Transformable transformable, EnumTransformationRole transformableRole) {
 		Utils.validateNotNull(transformable);
 		Utils.validateNotNull(transformableRole);
 

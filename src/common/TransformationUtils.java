@@ -152,7 +152,7 @@ public class TransformationUtils extends Utils {
 		}
 	}
 
-	public static Transformable getTransformableByRole(Transformation transformation, String role) {
+	public static Transformable getTransformableByRole(Transformation transformation, EnumTransformationRole role) {
 		validateNotNull(transformation);
 		validateNotNull(role);
 
@@ -187,8 +187,8 @@ public class TransformationUtils extends Utils {
 	 * 
 	 * @param code = code of currently performed transformation
 	 */
-	public static void overwriteTransformationFlag(String code, Transformable transformable) {
-		String revertingCode = Transformator.getRevertingTransformation(code);
+	public static void overwriteTransformationFlag(EnumTransformation code, Transformable transformable) {
+		EnumTransformation revertingCode = Transformator.getRevertingTransformation(code);
 
 		if (transformable.containsTransformationFlag(revertingCode)) {
 			// it's the transformation reverting scenario - drop the flag
@@ -203,7 +203,7 @@ public class TransformationUtils extends Utils {
 	private static void addRelationshipTransformation(Mapping mapping, Relationship relationship, boolean isCreation) {
 
 		if (relationship instanceof Association) {
-			String transformationCode = isCreation ? EnumTransformation.CREATE_ASSOCIATION : EnumTransformation.REMOVE_ASSOCIATION;
+			EnumTransformation transformationCode = isCreation ? EnumTransformation.CREATE_ASSOCIATION : EnumTransformation.REMOVE_ASSOCIATION;
 
 			Transformation transformation = new Transformation(transformationCode);
 			transformation.addArgument(relationship, EnumTransformationRole.ASSOCIATION);
@@ -212,7 +212,7 @@ public class TransformationUtils extends Utils {
 			return;
 		}
 		if (relationship instanceof Generalization) {
-			String transformationCode = isCreation ? EnumTransformation.CREATE_GENERALIZATION : EnumTransformation.REMOVE_GENERALIZATION;
+			EnumTransformation transformationCode = isCreation ? EnumTransformation.CREATE_GENERALIZATION : EnumTransformation.REMOVE_GENERALIZATION;
 
 			Transformation transformation = new Transformation(transformationCode);
 			transformation.addArgument(relationship, EnumTransformationRole.GENERALIZATION);
@@ -223,7 +223,7 @@ public class TransformationUtils extends Utils {
 	}
 
 	private static void addAttributeTransformation(Mapping mapping, EntitySet entitySet, Attribute attribute, boolean isCreation) {
-		String transformationCode = isCreation ? EnumTransformation.CREATE_ATTRIBUTE : EnumTransformation.REMOVE_ATTRIBUTE;
+		EnumTransformation transformationCode = isCreation ? EnumTransformation.CREATE_ATTRIBUTE : EnumTransformation.REMOVE_ATTRIBUTE;
 
 		Transformation transformation = new Transformation(transformationCode);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
@@ -233,7 +233,7 @@ public class TransformationUtils extends Utils {
 	}
 
 	private static void addAttributeTransformation(Mapping mapping, Association association, Attribute attribute, boolean isCreation) {
-		String transformationCode = isCreation ? EnumTransformation.CREATE_ATTRIBUTE : EnumTransformation.REMOVE_ATTRIBUTE;
+		EnumTransformation transformationCode = isCreation ? EnumTransformation.CREATE_ATTRIBUTE : EnumTransformation.REMOVE_ATTRIBUTE;
 
 		Transformation transformation = new Transformation(transformationCode);
 		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);

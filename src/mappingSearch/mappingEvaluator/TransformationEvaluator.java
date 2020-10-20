@@ -20,7 +20,7 @@ import transformations.Transformation;
  */
 public class TransformationEvaluator {
 
-	private static final Map<String, Double> transformationPenalties = new HashMap<>();
+	private static final Map<EnumTransformation, Double> transformationPenalties = new HashMap<>();
 	static {
 		transformationPenalties.put(EnumTransformation.REBIND_MN_TO_1NN1, Double.valueOf(0));
 		transformationPenalties.put(EnumTransformation.REBIND_1NN1_TO_MN, Double.valueOf(0));
