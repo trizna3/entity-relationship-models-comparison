@@ -26,81 +26,49 @@ public class TransformationAnalyst {
 	public static List<Transformation> getPossibleTransformations(Mapping mapping) {
 		List<Transformation> result = new ArrayList<>();
 
-//		result.addAll(getPossibleExtractAttributeToOwnEntitySetTransformations(mapping));
-		result.addAll(getPossibleMoveAttributeToIncidentEntitySetTransformations(mapping));
-		result.addAll(getPossibleMoveAttributeToIncidentAssociationTransformations(mapping));
-		result.addAll(getPossibleRebindMNTo1NN1Transformations(mapping));
-		result.addAll(getPossibleRebind1NN1ToMNTransformations(mapping));
-		result.addAll(getPossibleGeneralizationToAssociationTransformations(mapping));
-		result.addAll(getPossibleContract11AssociationTransformations(mapping));
-		result.addAll(getPossibleRebindNaryAssociationTransformations(mapping));
+//		getPossibleExtractAttributeToOwnEntitySetTransformations(mapping,result);
+		getPossibleMoveAttributeToIncidentEntitySetTransformations(mapping,result);
+		getPossibleMoveAttributeToIncidentAssociationTransformations(mapping,result);
+		getPossibleRebindMNTo1NN1Transformations(mapping,result);
+		getPossibleRebind1NN1ToMNTransformations(mapping,result);
+		getPossibleGeneralizationToAssociationTransformations(mapping,result);
+		getPossibleContract11AssociationTransformations(mapping,result);
+		getPossibleRebindNaryAssociationTransformations(mapping,result);
 
 		return result;
 	}
 
-	private static List<Transformation> getPossibleExtractAttributeToOwnEntitySetTransformations(Mapping mapping) {
-		List<Transformation> result = new ArrayList<>();
-
+	private static void getPossibleExtractAttributeToOwnEntitySetTransformations(Mapping mapping, List<Transformation> result) {
 		TransformationAnalystUtils.getPossibleExtractAttributeToOwnEntitySetTransformations(result, mapping.getStudentModel());
-
-		return result;
 	}
 
-	private static List<Transformation> getPossibleMoveAttributeToIncidentEntitySetTransformations(Mapping mapping) {
-		List<Transformation> result = new ArrayList<>();
-
+	private static void getPossibleMoveAttributeToIncidentEntitySetTransformations(Mapping mapping, List<Transformation> result) {
 		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentEntitySetTransformations(result, mapping.getStudentModel());
-
-		return result;
 	}
 
-	private static List<Transformation> getPossibleMoveAttributeToIncidentAssociationTransformations(Mapping mapping) {
-		List<Transformation> result = new ArrayList<>();
-
+	private static void getPossibleMoveAttributeToIncidentAssociationTransformations(Mapping mapping, List<Transformation> result) {
 		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(result, mapping.getStudentModel());
-
-		return result;
 	}
 
-	private static List<Transformation> getPossibleRebindMNTo1NN1Transformations(Mapping mapping) {
-		List<Transformation> result = new ArrayList<>();
-
+	private static void getPossibleRebindMNTo1NN1Transformations(Mapping mapping, List<Transformation> result) {
 		TransformationAnalystUtils.getPossibleRebindMNTo1NN1Transformations(result, mapping.getStudentModel());
-
-		return result;
 	}
 
-	private static List<Transformation> getPossibleRebind1NN1ToMNTransformations(Mapping mapping) {
-		List<Transformation> result = new ArrayList<>();
-
+	private static void getPossibleRebind1NN1ToMNTransformations(Mapping mapping, List<Transformation> result) {
 		TransformationAnalystUtils.getPossibleRebind1NN1ToMNTransformations(result, mapping.getStudentModel());
-
-		return result;
 	}
 
-	private static List<Transformation> getPossibleGeneralizationToAssociationTransformations(Mapping mapping) {
-		List<Transformation> result = new ArrayList<>();
-
+	private static void getPossibleGeneralizationToAssociationTransformations(Mapping mapping, List<Transformation> result) {
 		TransformationAnalystUtils.getPossibleGeneralizationToAssociationTransformations(result, mapping.getStudentModel());
-
-		return result;
 	}
 
-	private static List<Transformation> getPossibleContract11AssociationTransformations(Mapping mapping) {
-		List<Transformation> result = new ArrayList<>();
-
+	private static void getPossibleContract11AssociationTransformations(Mapping mapping, List<Transformation> result) {
 		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getExemplarModel());
 		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getStudentModel());
-
-		return result;
 	}
 
-	private static List<Transformation> getPossibleRebindNaryAssociationTransformations(Mapping mapping) {
-		List<Transformation> result = new ArrayList<>();
-
+	private static void getPossibleRebindNaryAssociationTransformations(Mapping mapping, List<Transformation> result) {
 		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(result, mapping.getStudentModel());
 		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(result, mapping.getExemplarModel());
-
-		return result;
 	}
 }
