@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import common.PrintUtils;
 import common.RelationshipUtils;
 import common.Utils;
-import transformations.Transformable;
 
 /**
  * @author - Adam Trizna
@@ -19,7 +18,7 @@ import transformations.Transformable;
  * @see Association
  * @see Generalization
  */
-public abstract class Relationship extends Transformable {
+public abstract class Relationship extends ERModelElement {
 
 	/**
 	 * Relationship name.

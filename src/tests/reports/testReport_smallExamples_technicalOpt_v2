@@ -18,7 +18,7 @@ Entity set map {
 }
 REBIND_NARY_ASSOCIATION: (ENTITY_SET:null, ASSOCIATION:([Association] Osoby-Osoby-Vztahy))
 
-Test - mapping finder: Chem Dennik 1: 1668 sec
+Test - mapping finder: Chem Dennik 1: 1.668 sec
 Best mapping penalty = 0.0
 Entity set map {
     Chemicke reakcie : Chemicke reakcie

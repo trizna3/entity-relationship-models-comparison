@@ -7,7 +7,6 @@ import java.util.Map;
 
 import common.PrintUtils;
 import common.Utils;
-import transformations.Transformable;
 
 /**
  * @author - Adam Trizna
@@ -17,7 +16,7 @@ import transformations.Transformable;
  * Base element of entity relationship model. Entails a set of entities with
  * common properties (attributes).
  */
-public class EntitySet extends Transformable implements Attributed {
+public class EntitySet extends ERModelElement implements Attributed {
 
 	/**
 	 * Entity set name.
@@ -42,7 +41,7 @@ public class EntitySet extends Transformable implements Attributed {
 	 * Map entitySet(neighbor) -> list of relationships, connected between them
 	 */
 	private Map<EntitySet, List<Relationship>> neighbours;
-
+	
 	public EntitySet(String name) {
 		this.name = name;
 		this.attributes = new ArrayList<Attribute>();

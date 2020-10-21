@@ -1,9 +1,5 @@
 package mappingSearch.mappingEvaluator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import common.RelationshipUtils;
 import common.StringUtils;
 import common.Utils;
@@ -12,6 +8,7 @@ import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.Attribute;
 import entityRelationshipModel.Attributed;
+import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Relationship;
 
@@ -80,41 +77,44 @@ public class MappingEvaluator {
 	private double checkRelationships(Mapping mapping) {
 		double penalty = 0;
 		
-		List<Relationship> exemplarToProcess = new ArrayList<>(mapping.getExemplarModel().getRelationships()).stream().filter(rel -> RelationshipUtils.isMapped(rel)).collect(Collectors.toList());
-		List<Relationship> studentsToProcess = new ArrayList<>(mapping.getStudentModel().getRelationships()).stream().filter(rel -> RelationshipUtils.isMapped(rel)).collect(Collectors.toList());
-
+		ERModel exemplarModel = mapping.getExemplarModel();
+		ERModel studentModel = mapping.getStudentModel();
+		
+		exemplarModel.prepareRelationshipsForProcessing();
+		studentModel.prepareRelationshipsForProcessing();
+		
 		// check pairs by incidentEntitySets, Cardinalities, Attributes
 		for (Relationship exemplarRel : mapping.getExemplarModel().getRelationships()) {
-			if (!exemplarToProcess.contains(exemplarRel)) {
+			if (exemplarRel.isProcessed()) {
 				continue;
 			}
 			for (Relationship studentRel : mapping.getStudentModel().getRelationships()) {
-				if (!studentsToProcess.contains(studentRel)) {
+				if (studentRel.isProcessed()) {
 					continue;
 				}
 				if (RelationshipUtils.relationshipsAreEquallyMapped(exemplarRel, studentRel, true, true)) {
-					exemplarToProcess.remove(exemplarRel);
-					studentsToProcess.remove(studentRel);
+					exemplarModel.process(exemplarRel);
+					studentModel.process(studentRel);
 					break;
 				}
 			}
 		}
 		// check pairs by incidentEntitySets, Cardinalities --> add/remove attributes
-		if (!exemplarToProcess.isEmpty() || !studentsToProcess.isEmpty()) {
+		if (exemplarModel.getToProcess() > 0 || studentModel.getToProcess() > 0) {
 			for (Relationship exemplarRel : mapping.getExemplarModel().getRelationships()) {
-				if (!exemplarToProcess.contains(exemplarRel)) {
+				if (exemplarRel.isProcessed()) {
 					continue;
 				}
 				for (Relationship studentRel : mapping.getStudentModel().getRelationships()) {
-					if (!studentsToProcess.contains(studentRel)) {
+					if (studentRel.isProcessed()) {
 						continue;
 					}
 					if (RelationshipUtils.relationshipsAreEquallyMapped(exemplarRel, studentRel, true, false)) {
 						if (exemplarRel instanceof Association) {
 							penalty += checkAttributes(mapping, (Association) exemplarRel, (Association) studentRel);
 						}
-						exemplarToProcess.remove(exemplarRel);
-						studentsToProcess.remove(studentRel);
+						exemplarModel.process(exemplarRel);
+						studentModel.process(studentRel);
 						break;
 					}
 				}
@@ -122,13 +122,13 @@ public class MappingEvaluator {
 		}
 		// check pairs by incidentEntitySets only --> add/remove attribute, edit
 		// cardinalities or add/remove whole relationships
-		if (!exemplarToProcess.isEmpty() || !studentsToProcess.isEmpty()) {
+		if (exemplarModel.getToProcess() > 0 || studentModel.getToProcess() > 0) {
 			for (Relationship exemplarRel : mapping.getExemplarModel().getRelationships()) {
-				if (!exemplarToProcess.contains(exemplarRel)) {
+				if (exemplarRel.isProcessed()) {
 					continue;
 				}
 				for (Relationship studentRel : mapping.getStudentModel().getRelationships()) {
-					if (!studentsToProcess.contains(studentRel)) {
+					if (studentRel.isProcessed()) {
 						continue;
 					}
 					if (RelationshipUtils.relationshipsAreEquallyMapped(exemplarRel, studentRel, false, false)) {
@@ -137,8 +137,8 @@ public class MappingEvaluator {
 						}
 						penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.CHANGE_CARDINALITY);
 
-						exemplarToProcess.remove(exemplarRel);
-						studentsToProcess.remove(studentRel);
+						exemplarModel.process(exemplarRel);
+						studentModel.process(studentRel);
 						break;
 					}
 				}
@@ -151,13 +151,19 @@ public class MappingEvaluator {
 			}
 		}
 
-		for (Relationship studentRelationship : studentsToProcess) {
+		for (Relationship studentRelationship : studentModel.getRelationships()) {
+			if (studentRelationship.isProcessed()) {
+				continue;
+			}
 			if (studentRelationship instanceof Association) {
 				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.REMOVE_ASSOCIATION);
 			} else {
 				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.REMOVE_GENERALIZATION);
 			}
 		}
+		
+		exemplarModel.unprocessAllRelationships();
+		studentModel.unprocessAllRelationships();
 		
 		return penalty;
 	}

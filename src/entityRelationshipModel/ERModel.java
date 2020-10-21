@@ -5,6 +5,7 @@ import java.util.List;
 
 import common.MappingUtils;
 import common.PrintUtils;
+import common.RelationshipUtils;
 import common.Utils;
 import transformations.Transformable;
 
@@ -21,6 +22,11 @@ public class ERModel {
 	private List<Relationship> relationships;
 
 	private boolean isExemplar;
+	
+	/**
+	 * Used for mapping penalty computation.
+	 */
+	private Integer toProcess = 0;
 
 	/**
 	 * Entity sets which are not mapped.
@@ -145,4 +151,54 @@ public class ERModel {
 
 		return result;
 	}
+	
+	
+	public void prepareEntitySetsForProcessing() {
+		toProcess = 0;
+		for (EntitySet entitySet : getEntitySets()) {
+			if (entitySet.getMappedTo() == null) {
+				continue;
+			}
+			entitySet.setProcessed(Boolean.FALSE);
+			toProcess = getToProcess() + 1;
+		}
+	}
+	
+	public void prepareRelationshipsForProcessing() {
+		toProcess = 0;
+		for (Relationship relationship : getRelationships()) {
+			if (!RelationshipUtils.isMapped(relationship)) {
+				continue;
+			}
+			relationship.setProcessed(Boolean.FALSE);
+			toProcess = getToProcess() + 1;
+		}
+	}
+	
+	public void unprocessAllEntitySets() {
+		getEntitySets().stream().forEach(es -> es.setProcessed(null));
+		toProcess = 0;
+	}
+	
+	public void unprocessAllRelationships() {
+		getRelationships().stream().forEach(es -> es.setProcessed(null));
+		toProcess = 0;
+	}
+	
+	public void process(ERModelElement element) {
+		element.setProcessed(Boolean.TRUE);
+		toProcess = getToProcess() - 1;
+	}
+	
+	public void unprocess(ERModelElement element) {
+		element.setProcessed(Boolean.TRUE);
+		toProcess = getToProcess() + 1;
+	}
+
+	public Integer getToProcess() {
+		if (toProcess == null) {
+			toProcess = 0;
+		}
+		return toProcess;
+	}		
 }
