@@ -1,5 +1,8 @@
 package common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
 import common.enums.Enums;
@@ -198,6 +201,15 @@ public class TransformationUtils extends Utils {
 			transformable.addTransformationFlag(code);
 		}
 
+	}
+	
+	public static List<Transformation> copyTransformationList(List<Transformation> transformationList) {
+		validateNotNull(transformationList);
+		
+		List<Transformation> copy = new ArrayList<>();
+		transformationList.forEach(tr -> copy.add(new Transformation(tr)));
+		
+		return copy;
 	}
 	
 	private static void addRelationshipTransformation(Mapping mapping, Relationship relationship, boolean isCreation) {

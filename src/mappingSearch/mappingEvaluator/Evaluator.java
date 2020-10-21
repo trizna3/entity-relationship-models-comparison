@@ -6,6 +6,7 @@ import java.util.Map;
 
 import common.ERModelUtils;
 import common.MappingUtils;
+import common.TransformationUtils;
 import common.Utils;
 import comparing.Mapping;
 import entityRelationshipModel.EntitySet;
@@ -59,7 +60,7 @@ public class Evaluator implements IEvaluator {
 		if (getBestMapping() == null || actualPenalty < getBestPenalty()) {
 			setBestPenalty(actualPenalty);
 			setBestMapping(MappingUtils.createEntitySetMap(mapping));
-			setBestMappingTransformations(new ArrayList<>(mapping.getTransformations()));
+			setBestMappingTransformations(TransformationUtils.copyTransformationList(mapping.getTransformations()));
 		}
 	}
 

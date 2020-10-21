@@ -16,6 +16,11 @@ public class Transformation {
 	public Transformation(EnumTransformation code) {
 		this.code = code;
 	}
+	
+	public Transformation(Transformation other) {
+		this.code = other.getCode();
+		this.argumentMap = other.getArgumentMap();
+	}
 
 	public EnumTransformation getCode() {
 		return code;

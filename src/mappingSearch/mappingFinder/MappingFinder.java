@@ -99,6 +99,8 @@ public class MappingFinder {
 			search(mapping);
 			revertTransformation(mapping, transformation);
 		}
+		
+		TransformationAnalyst.freeTransformations(transformations);
 	}
 
 	private void map(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {

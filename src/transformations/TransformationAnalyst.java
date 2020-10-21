@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.TransformationAnalystUtils;
+import common.objectPools.TransformationPool;
 import comparing.Mapping;
 
 /**
@@ -36,6 +37,10 @@ public class TransformationAnalyst {
 		getPossibleRebindNaryAssociationTransformations(mapping,result);
 
 		return result;
+	}
+	
+	public static void freeTransformations(List<Transformation> transformations) {
+		transformations.forEach(transformation -> TransformationPool.getInstance().freeTransformation(transformation));		
 	}
 
 	private static void getPossibleExtractAttributeToOwnEntitySetTransformations(Mapping mapping, List<Transformation> result) {
