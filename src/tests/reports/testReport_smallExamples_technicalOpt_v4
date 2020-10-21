@@ -1,0 +1,60 @@
+Test - mapping finder: Vztahy 1: 0.484 sec
+Best mapping penalty = 3.0
+Entity set map {
+    Vztahy : Vztahy
+    Typ vztahu : Typ vztahu
+    Osoby : Osoby
+}
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: ()
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: ()
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: ()
+
+Test - mapping finder: Vztahy 2: 0.004 sec
+Best mapping penalty = 7.0
+Entity set map {
+    Osoby : Osoby
+    Vztahy : null
+    Typ vztahu : Vztahy
+}
+REBIND_NARY_ASSOCIATION: ()
+
+Test - mapping finder: Chem Dennik 1: 0.932 sec
+Best mapping penalty = 0.0
+Entity set map {
+    Chemicke latky : Chemicke latky
+    Chemicke reakcie : Chemicke reakcie
+}
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: ()
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: ()
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: ()
+
+Test - mapping finder: Chem Dennik 2: 10.478 sec
+Best mapping penalty = 9.0
+Entity set map {
+    Chemicke latky : Chemicke latky
+    Chemicke reakcie : Chemicke reakcie;Produkt
+}
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: ()
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: ()
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: ()
+GENERALIZATION_TO_11_ASSOCIATION: ()
+CONTRACT_11_ASSOCIATION: ()
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: ()
+
+Test - mapping finder: Eshop 1: 0.005 sec
+Best mapping penalty = 7.0
+Entity set map {
+    Produkty : Produkty
+    Nazvy specialnych atributov : Atributy produktu
+    Typy produktov : Typy produktov
+}
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION: ()
+
+Test - mapping finder: Eshop 2: 0.003 sec
+Best mapping penalty = 11.0
+Entity set map {
+    Typy produktov : Typy produktov
+    Nazvy specialnych atributov : Atributy
+    Produkty : Produkty
+}
+
