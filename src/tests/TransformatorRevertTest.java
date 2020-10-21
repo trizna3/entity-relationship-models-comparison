@@ -8,15 +8,15 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import common.ERModelUtils;
+import common.enums.EnumConstants;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
-import common.enums.Enums;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
-import entityRelationshipModel.Attribute;
 import entityRelationshipModel.TransformableFlag;
 import transformations.Transformation;
 import transformations.Transformator;
@@ -60,7 +60,7 @@ public class TransformatorRevertTest {
 
 		Attribute attribute = new Attribute("Cislo");
 
-		EntitySet newEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(Enums.NAME_ATTRIBUTE)));
+		EntitySet newEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(EnumConstants.NAME_ATTRIBUTE)));
 		model.addEntitySet(newEntitySet);
 
 		assert entitySet.getAttributes().contains(attribute);

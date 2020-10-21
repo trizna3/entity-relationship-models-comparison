@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import common.Clock;
+import common.ConfigManager;
 import common.LoggerUtils;
 import common.MappingUtils;
 import common.PrintUtils;
 import common.Utils;
+import common.enums.EnumConstants;
 import comparing.Mapping;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
@@ -30,8 +32,14 @@ import transformations.Transformator;
  */
 public class MappingFinder {
 
-	IEvaluator mappingEvaluator;
-	LanguageProcessor dictionary;
+	private IEvaluator mappingEvaluator;
+	private LanguageProcessor dictionary;
+	
+	private boolean printResult = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_PRINT_RESULT).toString());
+	private boolean printTransformationProgress = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_PRINT_TRANSFORMATION_PROGRESS).toString());
+	private boolean trackProgress = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_TRACK_PROGRESS).toString());
+	private boolean earlyStop = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_EARLY_STOP).toString());
+	private int earlyStopBound = Integer.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_EARLY_STOP_BOUND).toString());
 
 	/**
 	 * Stack level counter
@@ -50,12 +58,12 @@ public class MappingFinder {
 		exemplarModel.setExemplar(true);
 		studentModel.setExemplar(false);
 
-		if (Utils.EARLY_STOP) {
-			Clock.getInstance().start(500);
+		if (earlyStop) {
+			Clock.getInstance().start(earlyStopBound);
 		}
 		
 		search(new Mapping(exemplarModel, studentModel));
-		if (Utils.PRINT_RESULT) {
+		if (printResult) {
 			System.out.println("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
 			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMapping()));
 			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMappingTransformations()));
@@ -67,7 +75,7 @@ public class MappingFinder {
 	 * Performs backtracking algorithm to find optimal entity sets mapping.
 	 */
 	private void search(Mapping mapping) {
-		if (shallPrune(mapping) || (Utils.EARLY_STOP && Clock.getInstance().boundReached())) {
+		if (shallPrune(mapping) || (earlyStop && Clock.getInstance().boundReached())) {
 			return;
 		}
 		if (branchComplete(mapping)) {
@@ -150,7 +158,7 @@ public class MappingFinder {
 	}
 
 	private void executeTransformation(Mapping mapping, Transformation transformation) {
-		if (Utils.PRINT_TRANSFORMATION_PROGRESS) {
+		if (printTransformationProgress) {
 			LoggerUtils.logTransformation(transformation, LoggerUtils.DIRECTION_DOWN);
 		}
 		Transformator.execute(mapping, transformation);
@@ -159,7 +167,7 @@ public class MappingFinder {
 	}
 
 	private void revertTransformation(Mapping mapping, Transformation transformation) {
-		if (Utils.PRINT_TRANSFORMATION_PROGRESS) {
+		if (printTransformationProgress) {
 			LoggerUtils.logTransformation(transformation, LoggerUtils.DIRECTION_UP);
 		}
 		mapping.removeTransformation(transformation);
@@ -168,7 +176,7 @@ public class MappingFinder {
 	}
 
 	private void incrementCounter() {
-		if (Utils.TRACK_PROGRESS && counter.intValue() == 0) {
+		if (trackProgress && counter.intValue() == 0) {
 			LoggerUtils.log("Backtrack hit recursive level 0");
 		}
 		counter++;

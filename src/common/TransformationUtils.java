@@ -3,9 +3,9 @@ package common;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.enums.EnumRelationshipSideRole;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
-import common.enums.Enums;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
@@ -81,8 +81,8 @@ public class TransformationUtils extends Utils {
 		validateNotNull(newRel);
 
 		for (RelationshipSide side : oldRel.getSides()) {
-			String oppositeRole = RelationshipUtils.getRole(newRel, side.getEntitySet().getMappedTo());
-			if (!StringUtils.areEqual(side.getRole(), oppositeRole)) {
+			EnumRelationshipSideRole oppositeRole = RelationshipUtils.getRole(newRel, side.getEntitySet().getMappedTo());
+			if (side.getRole() != oppositeRole) {
 
 				Transformation transformation = new Transformation(EnumTransformation.CHANGE_CARDINALITY);
 				transformation.addArgument(side, EnumTransformationRole.ASSOCIATION_SIDE);
@@ -175,11 +175,11 @@ public class TransformationUtils extends Utils {
 	public static void flipCardinality(AssociationSide associationSide) {
 		validateNotNull(associationSide);
 
-		if (Enums.CARDINALITY_ONE.equals(associationSide.getRole())) {
-			associationSide.setRole(Enums.CARDINALITY_MANY);
+		if (EnumRelationshipSideRole.CARDINALITY_ONE.equals(associationSide.getRole())) {
+			associationSide.setRole(EnumRelationshipSideRole.CARDINALITY_MANY);
 		}
-		if (Enums.CARDINALITY_MANY.equals(associationSide.getRole())) {
-			associationSide.setRole(Enums.CARDINALITY_ONE);
+		if (EnumRelationshipSideRole.CARDINALITY_MANY.equals(associationSide.getRole())) {
+			associationSide.setRole(EnumRelationshipSideRole.CARDINALITY_ONE);
 		}
 	}
 

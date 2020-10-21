@@ -1,6 +1,7 @@
 package entityRelationshipModel;
 
 import common.PrintUtils;
+import common.enums.EnumRelationshipSideRole;
 import transformations.Transformable;
 
 /**
@@ -13,9 +14,9 @@ public abstract class RelationshipSide extends Transformable {
 
 	public abstract void setEntitySet(EntitySet entitySet);
 
-	public abstract String getRole();
+	public abstract EnumRelationshipSideRole getRole();
 
-	public abstract void setRole(String role);
+	public abstract void setRole(EnumRelationshipSideRole role);
 
 	@Override
 	public String toString() {

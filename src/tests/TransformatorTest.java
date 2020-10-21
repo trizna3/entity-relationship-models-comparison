@@ -13,9 +13,10 @@ import org.junit.Test;
 import common.ERModelUtils;
 import common.RelationshipUtils;
 import common.TransformationUtils;
+import common.enums.EnumConstants;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
-import common.enums.Enums;
+import common.enums.EnumRelationshipSideRole;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.Attribute;
@@ -56,11 +57,11 @@ public class TransformatorTest {
 		assertTrue(model.getEntitySets().size() == 7);
 		EntitySet newEntitySet = ERModelUtils.getEntitySetByName(model, attribute.getAttribute());
 		assertNotNull(newEntitySet);
-		assertTrue(newEntitySet.getAttributes().contains(new Attribute(Enums.NAME_ATTRIBUTE)));
+		assertTrue(newEntitySet.getAttributes().contains(new Attribute(EnumConstants.NAME_ATTRIBUTE)));
 		Relationship relationship = entitySet.getNeighbours().get(newEntitySet).get(0);
 		assertNotNull(relationship);
-		assertEquals(RelationshipUtils.getRole(relationship, entitySet), Enums.CARDINALITY_MANY);
-		assertEquals(RelationshipUtils.getRole(relationship, newEntitySet), Enums.CARDINALITY_ONE);
+		assertEquals(RelationshipUtils.getRole(relationship, entitySet), EnumRelationshipSideRole.CARDINALITY_MANY);
+		assertEquals(RelationshipUtils.getRole(relationship, newEntitySet), EnumRelationshipSideRole.CARDINALITY_ONE);
 	}
 
 	@Test
@@ -73,7 +74,7 @@ public class TransformatorTest {
 
 		Attribute attribute = new Attribute("Cislo");
 
-		EntitySet newEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(Enums.NAME_ATTRIBUTE)));
+		EntitySet newEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(EnumConstants.NAME_ATTRIBUTE)));
 		model.addEntitySet(newEntitySet);
 
 		assert entitySet.getAttributes().contains(attribute);
@@ -94,8 +95,8 @@ public class TransformatorTest {
 		assertTrue(model.getEntitySets().size() == 7);
 		Relationship relationship = entitySet.getNeighbours().get(newEntitySet).get(0);
 		assertNotNull(relationship);
-		assertEquals(RelationshipUtils.getRole(relationship, entitySet), Enums.CARDINALITY_MANY);
-		assertEquals(RelationshipUtils.getRole(relationship, newEntitySet), Enums.CARDINALITY_ONE);
+		assertEquals(RelationshipUtils.getRole(relationship, entitySet), EnumRelationshipSideRole.CARDINALITY_MANY);
+		assertEquals(RelationshipUtils.getRole(relationship, newEntitySet), EnumRelationshipSideRole.CARDINALITY_ONE);
 	}
 
 	@Test
@@ -198,10 +199,10 @@ public class TransformatorTest {
 		assertTrue(model.contains(association2));
 		assertTrue(association1.isBinary());
 		assertTrue(association2.isBinary());
-		assertTrue(RelationshipUtils.getRole(association1, entitySet1) != null && Enums.CARDINALITY_ONE.equals(RelationshipUtils.getRole(association1, entitySet1)));
-		assertTrue(Enums.CARDINALITY_MANY.equals(RelationshipUtils.getRole(association1, entitySet)));
-		assertTrue(Enums.CARDINALITY_MANY.equals(RelationshipUtils.getRole(association2, entitySet)));
-		assertTrue(RelationshipUtils.getRole(association2, entitySet2) != null && Enums.CARDINALITY_ONE.equals(RelationshipUtils.getRole(association2, entitySet2)));
+		assertTrue(RelationshipUtils.getRole(association1, entitySet1) != null && EnumRelationshipSideRole.CARDINALITY_ONE.equals(RelationshipUtils.getRole(association1, entitySet1)));
+		assertTrue(EnumRelationshipSideRole.CARDINALITY_MANY.equals(RelationshipUtils.getRole(association1, entitySet)));
+		assertTrue(EnumRelationshipSideRole.CARDINALITY_MANY.equals(RelationshipUtils.getRole(association2, entitySet)));
+		assertTrue(RelationshipUtils.getRole(association2, entitySet2) != null && EnumRelationshipSideRole.CARDINALITY_ONE.equals(RelationshipUtils.getRole(association2, entitySet2)));
 	}
 
 	@Test
@@ -256,7 +257,7 @@ public class TransformatorTest {
 
 		assertTrue(model.getEntitySets().size() == 5);
 		assertFalse(model.contains(association));
-		EntitySet entitySet = ERModelUtils.getEntitySetByName(model, entitySet1Name + Enums.ENTITY_SETS_DELIMITER + entitySet2Name);
+		EntitySet entitySet = ERModelUtils.getEntitySetByName(model, entitySet1Name + EnumConstants.ENTITY_SETS_DELIMITER + entitySet2Name);
 		assertNotNull(entitySet);
 		for (Attribute attribute : entitySet1.getAttributes()) {
 			assertTrue(entitySet.getAttributes().contains(attribute));
@@ -298,7 +299,7 @@ public class TransformatorTest {
 
 		assertTrue(exemplarModel.getEntitySets().size() == 5);
 		assertFalse(exemplarModel.contains(association));
-		EntitySet entitySet = ERModelUtils.getEntitySetByName(exemplarModel, entitySet1Name + Enums.ENTITY_SETS_DELIMITER + entitySet2Name);
+		EntitySet entitySet = ERModelUtils.getEntitySetByName(exemplarModel, entitySet1Name + EnumConstants.ENTITY_SETS_DELIMITER + entitySet2Name);
 		assertNotNull(entitySet);
 		for (Attribute attribute : entitySet1.getAttributes()) {
 			assertTrue(entitySet.getAttributes().contains(attribute));
@@ -338,8 +339,8 @@ public class TransformatorTest {
 			Association assoc = (Association) relationship;
 			assertTrue(assoc.contains(entitySet));
 			assertTrue(assoc.isBinary());
-			assertTrue(Enums.CARDINALITY_MANY.equals(RelationshipUtils.getRole(assoc, entitySet)));
-			assertTrue(Enums.CARDINALITY_ONE.equals(RelationshipUtils.getOtherSide(assoc, entitySet).getRole()));
+			assertTrue(EnumRelationshipSideRole.CARDINALITY_MANY.equals(RelationshipUtils.getRole(assoc, entitySet)));
+			assertTrue(EnumRelationshipSideRole.CARDINALITY_ONE.equals(RelationshipUtils.getOtherSide(assoc, entitySet).getRole()));
 		}
 	}
 }

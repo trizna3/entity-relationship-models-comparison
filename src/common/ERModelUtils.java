@@ -210,7 +210,7 @@ public class ERModelUtils extends Utils {
 		if (!entitySetsAreEqual(side1.getEntitySet(), side2.getEntitySet())) {
 			return false;
 		}
-		if (!StringUtils.areEqual(side1.getRole(), side2.getRole())) {
+		if (side1.getRole() != side2.getRole()) {
 			return false;
 		}
 

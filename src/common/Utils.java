@@ -7,11 +7,6 @@ import entityRelationshipModel.Relationship;
 
 public class Utils {
 
-	public static final boolean PRINT_RESULT = true;
-	public static final boolean PRINT_TRANSFORMATION_PROGRESS = false;
-	public static final boolean TRACK_PROGRESS = false;
-	public static final boolean EARLY_STOP = false;
-
 	public static void validateNotNull(Object input) {
 		if (input == null) {
 			throw new IllegalArgumentException("Null argument!");

@@ -4,7 +4,7 @@ import java.util.List;
 
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
-import common.enums.Enums;
+import common.enums.EnumRelationshipSideRole;
 import common.objectPools.TransformationPool;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.Attribute;
@@ -30,10 +30,10 @@ public class TransformationAnalystUtils {
 			if (!association.isBinary()) {
 				continue;
 			}
-			if (!Enums.CARDINALITY_ONE.equals(association.getFirstSide().getRole()) || association.getFirstSide().getEntitySet().getMappedTo() != null) {
+			if (!EnumRelationshipSideRole.CARDINALITY_ONE.equals(association.getFirstSide().getRole()) || association.getFirstSide().getEntitySet().getMappedTo() != null) {
 				continue;
 			}
-			if (!Enums.CARDINALITY_ONE.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
+			if (!EnumRelationshipSideRole.CARDINALITY_ONE.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
 				continue;
 			}
 
@@ -62,10 +62,10 @@ public class TransformationAnalystUtils {
 			if (!association.isBinary()) {
 				continue;
 			}
-			if (!Enums.CARDINALITY_MANY.equals(association.getFirstSide().getRole()) || association.getFirstSide().getEntitySet().getMappedTo() != null) {
+			if (!EnumRelationshipSideRole.CARDINALITY_MANY.equals(association.getFirstSide().getRole()) || association.getFirstSide().getEntitySet().getMappedTo() != null) {
 				continue;
 			}
-			if (!Enums.CARDINALITY_MANY.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
+			if (!EnumRelationshipSideRole.CARDINALITY_MANY.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
 				continue;
 			}
 			if (association.containsTransformationFlag(EnumTransformation.REBIND_1NN1_TO_MN)) {
@@ -104,10 +104,10 @@ public class TransformationAnalystUtils {
 				if (relationship instanceof Association == false) {
 					continue nextES;
 				}
-				if (!Enums.CARDINALITY_MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
+				if (!EnumRelationshipSideRole.CARDINALITY_MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
 					continue nextES;
 				}
-				if (!Enums.CARDINALITY_ONE.equals(RelationshipUtils.getOtherSide(relationship, entitySet).getRole())) {
+				if (!EnumRelationshipSideRole.CARDINALITY_ONE.equals(RelationshipUtils.getOtherSide(relationship, entitySet).getRole())) {
 					continue nextES;
 				}
 				if (RelationshipUtils.getOtherSide(relationship, entitySet).getEntitySet().getMappedTo() != null) {
@@ -179,7 +179,7 @@ public class TransformationAnalystUtils {
 			for (Relationship relationship : entitySet.getIncidentRelationships()) {
 				if (relationship instanceof Association) {
 					for (Attribute attribute : ((Association) relationship).getAttributes()) {
-						if (!Enums.CARDINALITY_MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
+						if (!EnumRelationshipSideRole.CARDINALITY_MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
 							continue;
 						}
 						if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION)) {
@@ -206,7 +206,7 @@ public class TransformationAnalystUtils {
 		for (EntitySet entitySet : model.getEntitySets()) {
 			for (Attribute attribute : entitySet.getAttributes()) {
 				for (Relationship relationship : entitySet.getIncidentRelationships()) {
-					if (!Enums.CARDINALITY_MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
+					if (!EnumRelationshipSideRole.CARDINALITY_MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
 						continue;
 					}
 					if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET)) {

@@ -1,6 +1,6 @@
 package common;
 
-import common.enums.Enums;
+import common.enums.EnumConstants;
 
 public class StringUtils extends Utils {
 
@@ -34,7 +34,7 @@ public class StringUtils extends Utils {
 		int idxFrom = 0;
 
 		while (true) {
-			int delimiterIdx = compositeName.indexOf(Enums.ENTITY_SETS_DELIMITER, idxFrom);
+			int delimiterIdx = compositeName.indexOf(EnumConstants.ENTITY_SETS_DELIMITER, idxFrom);
 			if (partIndex == cycleIdx) {
 				return delimiterIdx == -1 ? compositeName.substring(idxFrom) : compositeName.substring(idxFrom, delimiterIdx);
 			} else {

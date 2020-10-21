@@ -3,7 +3,7 @@ package entityRelationshipModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.enums.Enums;
+import common.enums.EnumRelationshipSideRole;
 
 /**
  * @author - Adam Trizna
@@ -34,8 +34,8 @@ public class Generalization extends Relationship {
 
 	public Generalization(EntitySet superEntitySet, EntitySet subEntitySet) {
 		sides = new ArrayList<GeneralizationSide>(2);
-		sides.add(0, new GeneralizationSide(superEntitySet, Enums.ROLE_SUPER));
-		sides.add(1, new GeneralizationSide(subEntitySet, Enums.ROLE_SUB));
+		sides.add(0, new GeneralizationSide(superEntitySet, EnumRelationshipSideRole.ROLE_SUPER));
+		sides.add(1, new GeneralizationSide(subEntitySet, EnumRelationshipSideRole.ROLE_SUB));
 	}
 
 	public Generalization(Generalization generalization) {

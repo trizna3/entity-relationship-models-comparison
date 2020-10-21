@@ -1,6 +1,7 @@
 package entityRelationshipModel;
 
 import common.Utils;
+import common.enums.EnumRelationshipSideRole;
 
 /**
  * @author - Adam Trizna
@@ -15,9 +16,9 @@ import common.Utils;
 public class AssociationSide extends RelationshipSide {
 
 	private EntitySet entitySet;
-	private String cardinality;
+	private EnumRelationshipSideRole cardinality;
 
-	public AssociationSide(EntitySet entitySet, String cardinality) {
+	public AssociationSide(EntitySet entitySet, EnumRelationshipSideRole cardinality) {
 		Utils.validateNotNull(entitySet);
 		Utils.validateNotNull(cardinality);
 
@@ -34,7 +35,7 @@ public class AssociationSide extends RelationshipSide {
 		return entitySet;
 	}
 
-	public String getRole() {
+	public EnumRelationshipSideRole getRole() {
 		return cardinality;
 	}
 
@@ -43,7 +44,7 @@ public class AssociationSide extends RelationshipSide {
 	}
 
 	@Override
-	public void setRole(String role) {
+	public void setRole(EnumRelationshipSideRole role) {
 		this.cardinality = role;
 	}
 }

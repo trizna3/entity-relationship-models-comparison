@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import common.StringUtils;
-import common.enums.Enums;
+import common.enums.EnumConstants;
 
 public class StringUtilsTest {
 
@@ -14,7 +14,7 @@ public class StringUtilsTest {
 
 		for (int i = 0; i < count; i++) {
 			result.append("afsklfasjklfjaskljfaslk" + i);
-			result.append(Enums.ENTITY_SETS_DELIMITER);
+			result.append(EnumConstants.ENTITY_SETS_DELIMITER);
 		}
 
 		return result.toString();

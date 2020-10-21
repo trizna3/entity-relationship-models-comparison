@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import common.enums.EnumRelationshipSideRole;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.EntitySet;
@@ -25,7 +26,7 @@ public class RelationshipUtils extends Utils {
 	 * @param entitySet
 	 * @return
 	 */
-	public static String getRole(Relationship relationship, EntitySet entitySet) {
+	public static EnumRelationshipSideRole getRole(Relationship relationship, EntitySet entitySet) {
 		validateNotNull(relationship);
 		validateNotNull(entitySet);
 		validateContains(relationship, entitySet);
