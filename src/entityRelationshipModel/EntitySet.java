@@ -42,6 +42,11 @@ public class EntitySet extends Transformable implements Attributed {
 	 * Map entitySet(neighbor) -> list of relationships, connected between them
 	 */
 	private Map<EntitySet, List<Relationship>> neighbours;
+	
+	/**
+	 * Used to determine order of bactrack tree traversal
+	 */
+	private Double priority;
 
 	public EntitySet(String name) {
 		this.name = name;
@@ -186,5 +191,17 @@ public class EntitySet extends Transformable implements Attributed {
 			result.addAll(getNeighbours().get(neighbour));
 		}
 		return result;
+	}
+
+	public Double getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Double priority) {
+		this.priority = priority;
+	}
+	
+	public void resetPriority() {
+		this.priority = null;
 	}
 }

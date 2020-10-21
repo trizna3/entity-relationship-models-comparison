@@ -1,5 +1,6 @@
 package mappingSearch.mappingFinder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -72,16 +73,19 @@ public class MappingFinder {
 	private void searchThroughMapping(Mapping mapping) {
 		ERModel exemplarModel = mapping.getExemplarModel();
 		ERModel studentModel = mapping.getStudentModel();
-
+		
+		// prepare & sort studentEntitySets for efficient pruning
+		
 		EntitySet exemplarEntitySet = exemplarModel.getNotMappedEntitySets().get(0);
-
-		for (int i = 0; i < studentModel.getEntitySets().size() + 1; i++) {
-			EntitySet studentEntitySet;
-			if (i == studentModel.getEntitySets().size()) {
-				studentEntitySet = MappingUtils.EMPTY_ENTITY_SET;
-			} else {
-				studentEntitySet = studentModel.getEntitySets().get(i);
-			}
+		
+		List<EntitySet> studentEntitySets = new ArrayList<>(studentModel.getEntitySets());
+		studentEntitySets.add(MappingUtils.EMPTY_ENTITY_SET);
+		
+		computeEntitySetsPriority(studentEntitySets, mapping, exemplarEntitySet);
+		studentModel.getEntitySets().sort(EntitySetComparator.getInstance());
+		
+		for (EntitySet studentEntitySet : studentEntitySets) {
+			studentEntitySet.resetPriority();
 			if (studentEntitySet.getMappedTo() != null) {
 				continue;
 			}
@@ -166,5 +170,24 @@ public class MappingFinder {
 	private void decrementCounter() {
 		Utils.validatePositive(counter);
 		counter--;
+	}
+	
+	/**
+	 * For each not-mapped student entitySet, compute it's priority.
+	 * 
+	 * Map the exemplarEntitySet to this studentEntitySet, compute mapping penalty.
+	 * 
+	 * @param mapping
+	 * @param exemplarEntitySet
+	 */
+	private void computeEntitySetsPriority(List<EntitySet> studentEntitySets, Mapping mapping, EntitySet exemplarEntitySet) {
+		for (EntitySet studentEntitySet: studentEntitySets) {
+			if (studentEntitySet.getMappedTo() != null) {
+				continue;
+			}
+			map(mapping, exemplarEntitySet, studentEntitySet);
+			studentEntitySet.setPriority(getMappingEvaluator().getMappingPenalty(mapping));
+			unmap(mapping, exemplarEntitySet, studentEntitySet);
+		}
 	}
 }

@@ -33,10 +33,11 @@ public class Evaluator implements IEvaluator {
 		Utils.validateNotNull(mapping);
 
 		finalizeMapping(mapping);
-		evaluate(mapping, getTransformationsPenalty(mapping));
+		evaluate(mapping, getMappingPenaltyInternal(mapping));
 		unfinalizeMapping(mapping);
 	}
 
+	@Override
 	public boolean shallPruneBranch(Mapping mapping) {
 		Utils.validateNotNull(mapping);
 
@@ -44,15 +45,20 @@ public class Evaluator implements IEvaluator {
 			return false;
 		}
 
-		return getTransformationsPenalty(mapping) > getBestPenalty();
+		return getMappingPenaltyInternal(mapping) > getBestPenalty();
 	}
 
 	@Override
 	public Map<EntitySet, EntitySet> getBestMapping() {
 		return bestMapping;
 	}
+	
+	@Override
+	public double getMappingPenalty(Mapping mapping) {
+		return getMappingPenaltyInternal(mapping);
+	}
 
-	private double getTransformationsPenalty(Mapping mapping) {
+	private double getMappingPenaltyInternal(Mapping mapping) {
 		List<Transformation> originalTransformations = new ArrayList<>(mapping.getTransformations());
 
 		mappingEvaluator.expandTransformationList(mapping);
