@@ -3,7 +3,7 @@ package languageProcessing;
 import java.util.HashMap;
 import java.util.Map;
 
-import common.Utils;
+import common.StringUtils;
 
 /**
  * @author - Adam Trizna
@@ -15,44 +15,43 @@ import common.Utils;
  */
 public class Dictionary implements LanguageProcessor {
 
-	private Map<String, String> data;
-
-	private Map<String, String> getData() {
-		if (data == null) {
-			data = new HashMap<>();
-
-			data.put("students", "people");
-			data.put("courses", "classes");
-
-			data.put("employees", "people");
-			data.put("jobs", "positions");
-			data.put("job_history", "position_history");
-			data.put("departments", "areas");
-
-			data.put("AA1", "AA2");
-			data.put("BB1", "BB2");
-		}
-		return data;
-	}
+	private Map<String,Map<String,Double>> cache;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public double getSimilarity(String word1, String word2) {
-		Utils.validateNotNull(word1);
-		Utils.validateNotNull(word2);
-
-		String word1LowerCase = word1.toLowerCase();
-		String word2LowerCase = word2.toLowerCase();
-
-		if (getData().containsKey(word1LowerCase) && word2LowerCase.equals(getData().get(word1LowerCase))) {
-			return 1;
+		Double similarity = getSimilarityInternal(word1, word2);
+		return similarity != null ? similarity.doubleValue() : 0;
+	}
+	
+	private Double getSimilarityInternal(String word1, String word2) {
+		if (getCache().containsKey(word1)) {
+			return getCache().get(word1).get(word2);
 		}
-		if (getData().containsKey(word2LowerCase) && word1LowerCase.equals(getData().get(word2LowerCase))) {
-			return 1;
+		if (getCache().containsKey(word2)) {
+			return getCache().get(word2).get(word1);
 		}
+		
+		double similarity = StringUtils.areEqual(word1, word2) ? 1 : 0;
+		saveToCache(word1, word2, similarity);
+		return similarity;
+	}
+	
 
-		return 0;
+
+	private Map<String,Map<String,Double>> getCache() {
+		if (cache == null) {
+			cache = new HashMap<>();
+		}
+		return cache;
+	}
+	
+	private void saveToCache(String word1, String word2, double similarity) {
+		if (!getCache().containsKey(word1)) {
+			getCache().put(word1,new HashMap<>());
+		}
+		getCache().get(word1).put(word2, Double.valueOf(1));
 	}
 }

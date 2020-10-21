@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import common.Clock;
 import common.LoggerUtils;
 import common.MappingUtils;
 import common.PrintUtils;
@@ -11,6 +12,8 @@ import common.Utils;
 import comparing.Mapping;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
+import languageProcessing.Dictionary;
+import languageProcessing.LanguageProcessor;
 import mappingSearch.mappingEvaluator.Evaluator;
 import mappingSearch.mappingEvaluator.IEvaluator;
 import transformations.Transformation;
@@ -28,6 +31,7 @@ import transformations.Transformator;
 public class MappingFinder {
 
 	IEvaluator mappingEvaluator;
+	LanguageProcessor dictionary;
 
 	/**
 	 * Stack level counter
@@ -46,6 +50,10 @@ public class MappingFinder {
 		exemplarModel.setExemplar(true);
 		studentModel.setExemplar(false);
 
+		if (Utils.EARLY_STOP) {
+			Clock.getInstance().start(500);
+		}
+		
 		search(new Mapping(exemplarModel, studentModel));
 		if (Utils.PRINT_RESULT) {
 			System.out.println("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
@@ -59,7 +67,7 @@ public class MappingFinder {
 	 * Performs backtracking algorithm to find optimal entity sets mapping.
 	 */
 	private void search(Mapping mapping) {
-		if (shallPrune(mapping)) {
+		if (shallPrune(mapping) || (Utils.EARLY_STOP && Clock.getInstance().boundReached())) {
 			return;
 		}
 		if (branchComplete(mapping)) {
@@ -79,7 +87,8 @@ public class MappingFinder {
 		List<EntitySet> studentEntitySets = new ArrayList<>(studentModel.getEntitySets());
 		studentEntitySets.add(MappingUtils.EMPTY_ENTITY_SET);
 		
-//		studentModel.getEntitySets().sort(EntitySetComparator.getInstance());
+		computeEntitySetsPriority(studentEntitySets,exemplarEntitySet);
+		studentModel.getEntitySets().sort(EntitySetComparator.getInstance());
 		
 		for (EntitySet studentEntitySet : studentEntitySets) {
 			if (studentEntitySet.getMappedTo() != null) {
@@ -169,4 +178,16 @@ public class MappingFinder {
 		Utils.validatePositive(counter);
 		counter--;
 	}
+	
+	private void computeEntitySetsPriority(List<EntitySet> directStudentEntitySets, EntitySet exemplarEntitySet) {
+		directStudentEntitySets.forEach(es -> es.setPriority(Double.valueOf(1 - getDictionary().getSimilarity(es.getName(), exemplarEntitySet.getName()))));
+	}
+
+	public LanguageProcessor getDictionary() {
+		if (dictionary == null) {
+			dictionary = new Dictionary();
+		}
+		return dictionary;
+	}
+
 }
