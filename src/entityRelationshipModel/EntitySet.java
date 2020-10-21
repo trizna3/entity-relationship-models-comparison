@@ -42,6 +42,11 @@ public class EntitySet extends ERModelElement implements Attributed {
 	 */
 	private Map<EntitySet, List<Relationship>> neighbours;
 	
+	/**
+	 * Used to determine order of bactrack tree traversal
+	 */
+	private Double priority;
+
 	public EntitySet(String name) {
 		this.name = name;
 		this.attributes = new ArrayList<Attribute>();
@@ -185,5 +190,17 @@ public class EntitySet extends ERModelElement implements Attributed {
 			result.addAll(getNeighbours().get(neighbour));
 		}
 		return result;
+	}
+
+	public Double getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Double priority) {
+		this.priority = priority;
+	}
+	
+	public void resetPriority() {
+		this.priority = null;
 	}
 }

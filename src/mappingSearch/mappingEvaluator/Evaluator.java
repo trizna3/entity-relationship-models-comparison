@@ -37,6 +37,7 @@ public class Evaluator implements IEvaluator {
 		unfinalizeMapping(mapping);
 	}
 
+	@Override
 	public boolean shallPruneBranch(Mapping mapping) {
 		Utils.validateNotNull(mapping);
 
@@ -52,8 +53,14 @@ public class Evaluator implements IEvaluator {
 		return bestMapping;
 	}
 	
+
 	private double getTransformationsPenaltyDirect(Mapping mapping) {
 		return mappingEvaluator.computeMappingPenalty(mapping);
+	}
+	
+	@Override
+	public double getMappingPenalty(Mapping mapping) {
+		return getTransformationsPenaltyDirect(mapping);
 	}
 
 	private void evaluate(Mapping mapping, double actualPenalty) {

@@ -36,7 +36,14 @@ public interface IEvaluator {
 	 * @return
 	 */
 	boolean shallPruneBranch(Mapping mapping);
-
+	
+	/**
+	 * Computes mapping's current penalty.
+	 * @param mapping
+	 * @return
+	 */
+	double getMappingPenalty(Mapping mapping);
+	
 	/**
 	 * @return Mapping with minimal penalty evaluated so far.
 	 */
