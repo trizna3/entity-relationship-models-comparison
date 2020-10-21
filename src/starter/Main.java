@@ -9,7 +9,6 @@ import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
-import mappingSearch.mappingEvaluator.MappingEvaluator;
 import transformations.Transformation;
 import transformations.Transformator;
 
@@ -46,10 +45,6 @@ public class Main {
 		esJobs.setMappedTo(esPositions);
 		esPositions.setMappedTo(esJobs);
 
-		new MappingEvaluator().expandTransformationList(mapping);
-
-//		System.out.println(model2);
-
 		for (Transformation transformation : mapping.getTransformations()) {
 			Transformator.execute(mapping, transformation);
 		}
@@ -59,10 +54,5 @@ public class Main {
 
 		System.out.println(ERModelUtils.modelsAreEqual(model1, model2));
 
-//		List<EntitySet> entitySets = new ArrayList<>(Arrays.asList(es1, es2));
-//
-//		EntitySet es = CollectionUtils.getFirst(entitySets, EntitySet.class, entitySet -> "es1".equals(entitySet.getName()));
-//
-//		System.out.println(es.getName());
 	}
 }

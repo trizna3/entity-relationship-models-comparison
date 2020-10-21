@@ -48,14 +48,23 @@ public class TransformationEvaluator {
 
 		return penalty;
 	}
-
+	
 	/**
-	 * Computes penalty for used transformation, based on transformation type.
+	 * Computes transformation penalty by it's code and inputs. 
 	 */
 	private double penalizeTransformation(Transformation transformation) {
-		if (transformationPenalties.containsKey(transformation.getCode())) {
-			return transformationPenalties.get(transformation.getCode());
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * Computes transformation penalty just by it's transformation code.
+	 * @param code
+	 * @return
+	 */
+	public double penalizeTransformation(EnumTransformation code) {
+		if (transformationPenalties.containsKey(code)) {
+			return transformationPenalties.get(code);
 		}
 		return 1;
-	}
+	} 
 }

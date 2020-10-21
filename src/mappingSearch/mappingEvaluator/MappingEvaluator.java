@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import common.ERModelUtils;
 import common.RelationshipUtils;
 import common.StringUtils;
-import common.TransformationUtils;
 import common.Utils;
+import common.enums.EnumTransformation;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.Attribute;
@@ -25,31 +24,45 @@ import entityRelationshipModel.Relationship;
  *
  */
 public class MappingEvaluator {
+	
+	TransformationEvaluator transformationEvaluator = new TransformationEvaluator();
 
 	/**
-	 * Processes mapping. Extends mapping transformation list by atomic
-	 * transformations, which would lead to (mapped) isomorphism between models.
+	 * Processes mapping. 
+	 * 
+	 * Original behavior:
+	 * 		Extends mapping transformation list by atomic
+	 * 		transformations, which would lead to (mapped) isomorphism between models.
+	 * 
+	 * Current behavior:
+	 * 		Same transformations are considered, but they are not longer extending 
+	 * 		any transformation list, but are being penalized right away.
 	 * 
 	 * NotMapped ER models elements are ignored.
 	 * 
 	 * @param mapping
 	 */
-	public void expandTransformationList(Mapping mapping) {
+	public double computeMappingPenalty(Mapping mapping) {
 		Utils.validateNotNull(mapping);
-
-		checkEntitySets(mapping);
-		checkRelationships(mapping);
-		checkMappingPairs(mapping);
+		
+		double penalty = 0;
+		
+		penalty += checkEntitySets(mapping);
+		penalty += checkRelationships(mapping);
+		penalty += checkMappingPairs(mapping);
+		
+		return penalty;
 	}
 
-	private void checkEntitySets(Mapping mapping) {
+	private double checkEntitySets(Mapping mapping) {
+		double penalty = 0;
+		
 		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
 			if (entitySet.getMappedTo() == null) {
 				continue;
 			}
 			if (entitySet.getMappedTo().isEmpty()) {
-				EntitySet esCopy = ERModelUtils.copyEntitySetDetached(entitySet);
-				TransformationUtils.addCreateEntitySet(mapping, esCopy);
+				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.CREATE_ENTITY_SET);
 			}
 		}
 		for (EntitySet entitySet : mapping.getStudentModel().getEntitySets()) {
@@ -57,12 +70,16 @@ public class MappingEvaluator {
 				continue;
 			}
 			if (entitySet.getMappedTo().isEmpty()) {
-				TransformationUtils.addRemoveEntitySet(mapping, entitySet);
+				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.REMOVE_ENTITY_SET);
 			}
 		}
+		
+		return penalty;
 	}
 
-	private void checkRelationships(Mapping mapping) {
+	private double checkRelationships(Mapping mapping) {
+		double penalty = 0;
+		
 		List<Relationship> exemplarToProcess = new ArrayList<>(mapping.getExemplarModel().getRelationships()).stream().filter(rel -> RelationshipUtils.isMapped(rel)).collect(Collectors.toList());
 		List<Relationship> studentsToProcess = new ArrayList<>(mapping.getStudentModel().getRelationships()).stream().filter(rel -> RelationshipUtils.isMapped(rel)).collect(Collectors.toList());
 
@@ -94,7 +111,7 @@ public class MappingEvaluator {
 					}
 					if (RelationshipUtils.relationshipsAreEquallyMapped(exemplarRel, studentRel, true, false)) {
 						if (exemplarRel instanceof Association) {
-							checkAttributes(mapping, (Association) exemplarRel, (Association) studentRel);
+							penalty += checkAttributes(mapping, (Association) exemplarRel, (Association) studentRel);
 						}
 						exemplarToProcess.remove(exemplarRel);
 						studentsToProcess.remove(studentRel);
@@ -116,9 +133,9 @@ public class MappingEvaluator {
 					}
 					if (RelationshipUtils.relationshipsAreEquallyMapped(exemplarRel, studentRel, false, false)) {
 						if (exemplarRel instanceof Association) {
-							checkAttributes(mapping, (Association) exemplarRel, (Association) studentRel);
+							penalty += checkAttributes(mapping, (Association) exemplarRel, (Association) studentRel);
 						}
-						TransformationUtils.addChangeCardinality(mapping, studentRel, exemplarRel);
+						penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.CHANGE_CARDINALITY);
 
 						exemplarToProcess.remove(exemplarRel);
 						studentsToProcess.remove(studentRel);
@@ -126,42 +143,55 @@ public class MappingEvaluator {
 					}
 				}
 
-				TransformationUtils.addCreateRelationship(mapping, RelationshipUtils.convertRelationship(exemplarRel));
+				if (exemplarRel instanceof Association) {
+					penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.CREATE_ASSOCIATION);
+				} else {
+					penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.CREATE_GENERALIZATION);
+				}
 			}
 		}
 
 		for (Relationship studentRelationship : studentsToProcess) {
-			TransformationUtils.addRemoveRelationship(mapping, studentRelationship);
+			if (studentRelationship instanceof Association) {
+				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.REMOVE_ASSOCIATION);
+			} else {
+				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.REMOVE_GENERALIZATION);
+			}
 		}
+		
+		return penalty;
 	}
 
-	private void checkMappingPairs(Mapping mapping) {
+	private double checkMappingPairs(Mapping mapping) {
+		double penalty = 0;
+		
 		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
 			EntitySet image = entitySet.getMappedTo();
 			if (image != null) {
 				if (!StringUtils.areEqual(entitySet.getName(), image.getName())) {
-					TransformationUtils.addRenameEntitySet(mapping, image, entitySet);
+					penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.RENAME_ENTITY_SET);
 				}
-				checkAttributes(mapping, entitySet, image);
+				penalty += checkAttributes(mapping, entitySet, image);
 			}
 		}
+		return penalty;
 	}
 
-	private void checkAttributes(Mapping mapping, Attributed exemplarAttributed, Attributed studentAttributed) {
-		// TODO: tuto by bola vhodna nejaka netrivialnejsia logika, aby si to nerobil
-		// len tak primitivne
-		// "RENAME_ENTITY_SET";
-		// "RENAME_ATTRIBUTE";
+	private double checkAttributes(Mapping mapping, Attributed exemplarAttributed, Attributed studentAttributed) {
+		double penalty = 0;
+
 		for (Attribute attribute : exemplarAttributed.getAttributes()) {
 			if (!studentAttributed.getAttributes().contains(attribute)) {
-				TransformationUtils.addCreateAttribute(mapping, studentAttributed, attribute);
+				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.CREATE_ATTRIBUTE);
 			}
 		}
 
 		for (Attribute attribute : studentAttributed.getAttributes()) {
 			if (!exemplarAttributed.getAttributes().contains(attribute)) {
-				TransformationUtils.addRemoveAttribute(mapping, studentAttributed, attribute);
+				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.REMOVE_ATTRIBUTE);
 			}
 		}
+		
+		return penalty;
 	}
 }

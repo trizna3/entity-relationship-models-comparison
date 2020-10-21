@@ -25,7 +25,6 @@ public class Evaluator implements IEvaluator {
 	private Map<EntitySet, EntitySet> bestMapping;
 	private List<Transformation> bestMappingTransformations;
 	private double bestPenalty;
-	TransformationEvaluator transformationEvaluator = new TransformationEvaluator();
 	MappingEvaluator mappingEvaluator = new MappingEvaluator();
 
 	@Override
@@ -33,7 +32,7 @@ public class Evaluator implements IEvaluator {
 		Utils.validateNotNull(mapping);
 
 		finalizeMapping(mapping);
-		evaluate(mapping, getTransformationsPenalty(mapping));
+		evaluate(mapping, getTransformationsPenaltyDirect(mapping));
 		unfinalizeMapping(mapping);
 	}
 
@@ -44,22 +43,16 @@ public class Evaluator implements IEvaluator {
 			return false;
 		}
 
-		return getTransformationsPenalty(mapping) > getBestPenalty();
+		return getTransformationsPenaltyDirect(mapping) > getBestPenalty();
 	}
 
 	@Override
 	public Map<EntitySet, EntitySet> getBestMapping() {
 		return bestMapping;
 	}
-
-	private double getTransformationsPenalty(Mapping mapping) {
-		List<Transformation> originalTransformations = new ArrayList<>(mapping.getTransformations());
-
-		mappingEvaluator.expandTransformationList(mapping);
-		double penalty = transformationEvaluator.evaluate(mapping);
-
-		mapping.setTransformations(originalTransformations);
-		return penalty;
+	
+	private double getTransformationsPenaltyDirect(Mapping mapping) {
+		return mappingEvaluator.computeMappingPenalty(mapping);
 	}
 
 	private void evaluate(Mapping mapping, double actualPenalty) {
