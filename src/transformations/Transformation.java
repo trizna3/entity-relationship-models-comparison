@@ -19,7 +19,7 @@ public class Transformation {
 	
 	public Transformation(Transformation other) {
 		this.code = other.getCode();
-		this.argumentMap = other.getArgumentMap();
+		this.argumentMap = new HashMap<>(other.getArgumentMap());
 	}
 
 	public EnumTransformation getCode() {
