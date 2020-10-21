@@ -11,6 +11,7 @@ import entityRelationshipModel.Attributed;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Relationship;
+import transformations.Transformation;
 
 /**
  * @author Adam Trizna
@@ -48,6 +49,10 @@ public class MappingEvaluator {
 		penalty += checkRelationships(mapping);
 		penalty += checkMappingPairs(mapping);
 		
+		for (Transformation t : mapping.getTransformations()) {
+			penalty += getTransformationEvaluator().penalizeTransformation(t);
+		}
+		
 		return penalty;
 	}
 
@@ -59,7 +64,7 @@ public class MappingEvaluator {
 				continue;
 			}
 			if (entitySet.getMappedTo().isEmpty()) {
-				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.CREATE_ENTITY_SET);
+				penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.CREATE_ENTITY_SET);
 			}
 		}
 		for (EntitySet entitySet : mapping.getStudentModel().getEntitySets()) {
@@ -67,7 +72,7 @@ public class MappingEvaluator {
 				continue;
 			}
 			if (entitySet.getMappedTo().isEmpty()) {
-				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.REMOVE_ENTITY_SET);
+				penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.REMOVE_ENTITY_SET);
 			}
 		}
 		
@@ -135,7 +140,7 @@ public class MappingEvaluator {
 						if (exemplarRel instanceof Association) {
 							penalty += checkAttributes(mapping, (Association) exemplarRel, (Association) studentRel);
 						}
-						penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.CHANGE_CARDINALITY);
+						penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.CHANGE_CARDINALITY);
 
 						exemplarModel.process(exemplarRel);
 						studentModel.process(studentRel);
@@ -144,9 +149,9 @@ public class MappingEvaluator {
 				}
 
 				if (exemplarRel instanceof Association) {
-					penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.CREATE_ASSOCIATION);
+					penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.CREATE_ASSOCIATION);
 				} else {
-					penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.CREATE_GENERALIZATION);
+					penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.CREATE_GENERALIZATION);
 				}
 			}
 		}
@@ -156,9 +161,9 @@ public class MappingEvaluator {
 				continue;
 			}
 			if (studentRelationship instanceof Association) {
-				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.REMOVE_ASSOCIATION);
+				penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.REMOVE_ASSOCIATION);
 			} else {
-				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.REMOVE_GENERALIZATION);
+				penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.REMOVE_GENERALIZATION);
 			}
 		}
 		
@@ -175,7 +180,7 @@ public class MappingEvaluator {
 			EntitySet image = entitySet.getMappedTo();
 			if (image != null) {
 				if (!StringUtils.areEqual(entitySet.getName(), image.getName())) {
-					penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.RENAME_ENTITY_SET);
+					penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.RENAME_ENTITY_SET);
 				}
 				penalty += checkAttributes(mapping, entitySet, image);
 			}
@@ -188,16 +193,20 @@ public class MappingEvaluator {
 
 		for (Attribute attribute : exemplarAttributed.getAttributes()) {
 			if (!studentAttributed.getAttributes().contains(attribute)) {
-				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.CREATE_ATTRIBUTE);
+				penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.CREATE_ATTRIBUTE);
 			}
 		}
 
 		for (Attribute attribute : studentAttributed.getAttributes()) {
 			if (!exemplarAttributed.getAttributes().contains(attribute)) {
-				penalty += transformationEvaluator.penalizeTransformation(EnumTransformation.REMOVE_ATTRIBUTE);
+				penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.REMOVE_ATTRIBUTE);
 			}
 		}
 		
 		return penalty;
+	}
+
+	private TransformationEvaluator getTransformationEvaluator() {
+		return transformationEvaluator;
 	}
 }

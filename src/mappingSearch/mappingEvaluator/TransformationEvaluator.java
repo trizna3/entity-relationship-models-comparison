@@ -26,8 +26,8 @@ public class TransformationEvaluator {
 		transformationPenalties.put(EnumTransformation.REBIND_1NN1_TO_MN, Double.valueOf(0));
 		transformationPenalties.put(EnumTransformation.REBIND_1NN1_TO_MN, Double.valueOf(0));
 		transformationPenalties.put(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET, Double.valueOf(0));
-		transformationPenalties.put(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, Double.valueOf(0));
-		transformationPenalties.put(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION, Double.valueOf(0));
+		transformationPenalties.put(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, Double.valueOf(0.2));
+		transformationPenalties.put(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION, Double.valueOf(0.2));
 		transformationPenalties.put(EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION, Double.valueOf(0.5));
 		transformationPenalties.put(EnumTransformation.CONTRACT_11_ASSOCIATION, Double.valueOf(0));
 		transformationPenalties.put(EnumTransformation.REBIND_NARY_ASSOCIATION, Double.valueOf(0.5));
@@ -52,8 +52,8 @@ public class TransformationEvaluator {
 	/**
 	 * Computes transformation penalty by it's code and inputs. 
 	 */
-	private double penalizeTransformation(Transformation transformation) {
-		throw new UnsupportedOperationException();
+	public double penalizeTransformation(Transformation transformation) {
+		return penalizeTransformation(transformation.getCode());
 	}
 	
 	/**
