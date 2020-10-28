@@ -46,5 +46,5 @@ public class AssociationSide extends RelationshipSide {
 	@Override
 	public void setRole(EnumRelationshipSideRole role) {
 		this.cardinality = role;
-	}
+	}	
 }

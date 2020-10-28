@@ -1,6 +1,7 @@
 package entityRelationshipModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import transformations.Transformable;
@@ -19,6 +20,16 @@ public class TransformableList extends Transformable {
 	public void setElements(List<Transformable> elements) {
 		this.elements = elements;
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TransformableList)) {
+			return false;
+		}
+		TransformableList other = (TransformableList) obj;
+		
+		Collections.sort(getElements(),Transformable.getComparator());
+		Collections.sort(other.getElements(),Transformable.getComparator());
+		return getElements().equals(other.getElements());
+	}
 }

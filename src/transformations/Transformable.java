@@ -1,5 +1,6 @@
 package transformations;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,5 +32,17 @@ public abstract class Transformable {
 	public boolean containsTransformationFlag(EnumTransformation flag) {
 		return getTransformationFlags().contains(flag);
 	}
-
+	
+	public static Comparator<Transformable> getComparator() {
+		return new Comparator<Transformable>() {
+			@Override
+			public int compare(Transformable o1, Transformable o2) {
+				if (o1 == null && o2 == null) return 0;
+				if (o1 == null) return 1;
+				if (o2 == null) return -1;
+				
+				return o1.equals(o2) ? 0 : 1;
+			}
+		}; 
+	}
 }

@@ -3,6 +3,7 @@ package entityRelationshipModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.StringUtils;
 import common.enums.EnumRelationshipSideRole;
 
 /**
@@ -57,5 +58,17 @@ public class Generalization extends Relationship {
 	@Override
 	public boolean isBinary() {
 		return true;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Generalization)) {
+			return false;
+		}
+		Generalization other = (Generalization) obj;
+		
+		return StringUtils.areEqual(getName(), other.getName()) && 
+				getSuperEntitySet().equals(other.getSuperEntitySet()) && 
+				getSubEntitySet().equals(other.getSubEntitySet());
 	}
 }

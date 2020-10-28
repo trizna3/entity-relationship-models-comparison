@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import common.PrintUtils;
+import common.StringUtils;
 import common.Utils;
 
 /**
@@ -203,4 +204,28 @@ public class EntitySet extends ERModelElement implements Attributed {
 	public void resetPriority() {
 		this.priority = null;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof EntitySet)) {
+			return false;
+		}
+		EntitySet other = (EntitySet) obj;
+		
+		if (!StringUtils.areEqual(this.getName(), other.getName())) {
+			return false;
+		}
+		return attributesAreEqual(other);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 17;
+		int prime = 37;
+		
+		hash = name != null ? hash + (prime * name.hashCode()) : hash;
+		hash = attributes != null ? hash + (prime * attributes.hashCode()) : hash;
+		
+		return hash;
+	}	
 }

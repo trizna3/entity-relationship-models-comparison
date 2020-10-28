@@ -1,7 +1,10 @@
 package entityRelationshipModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import common.StringUtils;
 
 /**
  * @author - Adam Trizna
@@ -87,5 +90,35 @@ public class Association extends Relationship implements Attributed {
 
 	public void setSides(List<AssociationSide> sides) {
 		this.sides = sides;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Association)) {
+			return false;
+		}
+		Association other = (Association) obj;
+		
+		if (!StringUtils.areEqual(getName(), other.getName())) {
+			return false;
+		}
+		
+		return sidesAreEqual(other) && attributesAreEqual(other);
+	}
+	
+	private boolean sidesAreEqual(Association other) {
+		if (getSides() == null && other.getSides() == null) {
+			return true;
+		}
+		if (getSides() == null || other.getSides() == null) {
+			return false;
+		} 
+		if (getSides().size() != other.getSides().size()) {
+			return false;
+		}
+		
+		Collections.sort(getSides(), AssociationSide.getComparator());
+		Collections.sort(other.getSides(), AssociationSide.getComparator());
+		return getSides().equals(other.getSides());
 	}
 }

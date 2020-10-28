@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import comparing.Mapping;
-import entityRelationshipModel.Association;
 import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
@@ -84,7 +83,7 @@ public class ERModelUtils extends Utils {
 				if (!entitySetsToProcess.contains(es2)) {
 					continue;
 				}
-				if (entitySetsAreEqual(es1, es2)) {
+				if (es1.equals(es2)) {
 					entitySetsToProcess.remove(es1);
 					entitySetsToProcess.remove(es2);
 					continue nextEs1;
@@ -105,7 +104,7 @@ public class ERModelUtils extends Utils {
 				if (!relationshipsToProcess.contains(rel2)) {
 					continue;
 				}
-				if (relationshipsAreEqual(rel1, rel2)) {
+				if (rel1.equals(rel2)) {
 					relationshipsToProcess.remove(rel1);
 					relationshipsToProcess.remove(rel2);
 					continue nextRel1;
@@ -114,83 +113,6 @@ public class ERModelUtils extends Utils {
 		}
 
 		return relationshipsToProcess.isEmpty();
-	}
-
-	/**
-	 * Determines if entity sets are equal by their content.
-	 * 
-	 * @param entitySet1
-	 * @param entitySet2
-	 * @return
-	 */
-	public static boolean entitySetsAreEqual(EntitySet entitySet1, EntitySet entitySet2) {
-		validateNotNull(entitySet1);
-		validateNotNull(entitySet2);
-
-		if (!StringUtils.areEqual(entitySet1.getName(), entitySet2.getName())) {
-			return false;
-		}
-		if (entitySet1.getAttributes() == null && entitySet2.getAttributes() == null) {
-			return true;
-		}
-		if (entitySet1.getAttributes() == null || entitySet2.getAttributes() == null) {
-			return false;
-		}
-		return entitySet1.getAttributes().containsAll(entitySet2.getAttributes()) && entitySet2.getAttributes().containsAll(entitySet1.getAttributes());
-	}
-
-	/**
-	 * Determines if relationships are equal by their content.
-	 * 
-	 * @param relationship1
-	 * @param relationship2
-	 * @return
-	 */
-	public static boolean relationshipsAreEqual(Relationship relationship1, Relationship relationship2) {
-		validateNotNull(relationship1);
-		validateNotNull(relationship2);
-
-		if (!relationship1.getClass().equals(relationship2.getClass())) {
-			return false;
-		}
-		if (relationship1.getSides().size() != relationship2.getSides().size()) {
-			return false;
-		}
-
-		Set<RelationshipSide> sidesToProcess = new HashSet<>();
-		sidesToProcess.addAll(relationship1.getSides());
-		sidesToProcess.addAll(relationship2.getSides());
-
-		nextSide1: for (RelationshipSide side1 : relationship1.getSides()) {
-			for (RelationshipSide side2 : relationship2.getSides()) {
-				if (!sidesToProcess.contains(side2)) {
-					continue;
-				}
-				if (relationshipSidesAreEqual(side1, side2)) {
-					sidesToProcess.remove(side1);
-					sidesToProcess.remove(side2);
-					continue nextSide1;
-				}
-			}
-		}
-		if (!sidesToProcess.isEmpty()) {
-			return false;
-		}
-
-		if (relationship1 instanceof Association) {
-			Association assoc1 = (Association) relationship1;
-			Association assoc2 = (Association) relationship2;
-
-			if (assoc1.getAttributes() == null && assoc2.getAttributes() == null) {
-				return true;
-			}
-			if (assoc1.getAttributes() == null || assoc2.getAttributes() == null) {
-				return false;
-			}
-			return assoc1.getAttributes().containsAll(assoc2.getAttributes()) && assoc2.getAttributes().containsAll(assoc1.getAttributes());
-		} else {
-			return true;
-		}
 	}
 
 	/**
@@ -207,7 +129,7 @@ public class ERModelUtils extends Utils {
 		if (!side1.getClass().equals(side2.getClass())) {
 			return false;
 		}
-		if (!entitySetsAreEqual(side1.getEntitySet(), side2.getEntitySet())) {
+		if (!side1.getEntitySet().equals(side2.getEntitySet())) {
 			return false;
 		}
 		if (side1.getRole() != side2.getRole()) {

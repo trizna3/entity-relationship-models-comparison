@@ -22,4 +22,13 @@ public abstract class RelationshipSide extends Transformable {
 	public String toString() {
 		return PrintUtils.print(this);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof RelationshipSide)) {
+			return false;
+		}
+		RelationshipSide other = (RelationshipSide) obj;
+		return getRole() == other.getRole() && getEntitySet().equals(other.getEntitySet());
+	}
 }
