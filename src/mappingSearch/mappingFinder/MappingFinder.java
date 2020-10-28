@@ -9,6 +9,7 @@ import common.ConfigManager;
 import common.LoggerUtils;
 import common.MappingUtils;
 import common.PrintUtils;
+import common.TransformationUtils;
 import common.Utils;
 import common.enums.EnumConstants;
 import comparing.Mapping;
@@ -110,11 +111,24 @@ public class MappingFinder {
 
 	private void searchThroughTransformation(Mapping mapping) {
 		List<Transformation> transformations = TransformationAnalyst.getPossibleTransformations(mapping);
-
-		for (Transformation transformation : transformations) {
-			executeTransformation(mapping, transformation);
-			search(mapping);
-			revertTransformation(mapping, transformation);
+		transformations.removeAll(mapping.getForbiddenTransformations());
+		
+		List<List<Transformation>> decomposition = decomposePossibleTransformations(transformations);
+		
+		for (List<Transformation> decPart : decomposition) {
+			for (int combSize=1; combSize<=decPart.size();combSize++) {
+				for (int[] combinationIndices : Utils.generateCombinations(decPart.size(), combSize)) {
+					int[] excludedIndices = Utils.getExcludedIndices(combinationIndices, decPart.size()-1);
+					
+					executeAll(decPart, combinationIndices, mapping);
+					forbidAll(decPart, excludedIndices, mapping);
+					
+					search(mapping);
+					
+					permitAll(decPart, excludedIndices, mapping);
+					revertAll(decPart, combinationIndices, mapping);
+				}
+			}
 		}
 		
 		TransformationAnalyst.freeTransformations(transformations);
@@ -197,5 +211,77 @@ public class MappingFinder {
 		}
 		return dictionary;
 	}
-
+	
+	/**
+	 * Decomposes given possibleTransformations into independent 'sets'.
+	 * Purpose: Transformations of one independent part CAN be executed in the same time.   
+	 * @param possibleTransformations
+	 * @return
+	 */
+	private List<List<Transformation>> decomposePossibleTransformations(List<Transformation> possibleTransformations) {
+		List<List<Transformation>> decomposition = new ArrayList<>(possibleTransformations.size());
+		for (Transformation transformation : possibleTransformations) {
+			if (transformation.isProcessed()) {
+				continue;
+			}
+			List<Transformation> decPart = new ArrayList<>(possibleTransformations.size());
+			decPart.add(transformation);
+			for (Transformation other : possibleTransformations) {
+				if (other.isProcessed()) {
+					continue;
+				}
+				// must be independent with ALL current decPart Transformations
+				boolean independent = true;
+				for (Transformation currentTransformation : decPart) {
+					if (!TransformationUtils.areIndependent(currentTransformation, other)) {
+						independent = false;
+						break;
+					}
+				}
+				if (independent) {
+					decPart.add(other);
+					other.setProcessed(true);
+				}				
+			}
+			decomposition.add(decPart);
+		}
+		return decomposition;
+	}
+	
+	/**
+	 * Executes all transformations on given positions
+	 * @param transformations
+	 * @param indices
+	 * @param mapping
+	 */
+	private void executeAll(List<Transformation> transformations, int[] indices, Mapping mapping) {
+		for (int index : indices) {
+			executeTransformation(mapping, transformations.get(index));
+		}
+	}
+	
+	/**
+	 * Reverts all transformations on given positions, working in reverse order
+	 * @param transformations
+	 * @param indices
+	 * @param mapping
+	 */
+	private void revertAll(List<Transformation> transformations, int[] indices, Mapping mapping) {
+		for (int i = indices.length-1; i >= 0 ; i--) {
+			int index = indices[i];
+			revertTransformation(mapping, transformations.get(index));
+		}
+	}
+	
+	private void forbidAll(List<Transformation> transformations, int[] indices, Mapping mapping) {
+		for (int index : indices) {
+			mapping.addForbiddenTransformation(transformations.get(index));
+		}
+	} 
+	
+	private void permitAll(List<Transformation> transformations, int[] indices, Mapping mapping) {
+		for (int index : indices) {
+			mapping.removeForbiddenTransformation(transformations.get(index));
+		}
+	}
 }

@@ -12,6 +12,10 @@ public class Transformation {
 
 	private EnumTransformation code;
 	private Map<Transformable, EnumTransformationRole> argumentMap;
+	/**
+	 * Used in transformation decomposition. 
+	 */
+	private boolean processed = false;
 
 	public Transformation(EnumTransformation code) {
 		this.code = code;
@@ -74,5 +78,13 @@ public class Transformation {
 			return false;
 		}
 		return getArgumentMap().equals(other.getArgumentMap());
+	}
+
+	public boolean isProcessed() {
+		return processed;
+	}
+
+	public void setProcessed(boolean processed) {
+		this.processed = processed;
 	}
 }

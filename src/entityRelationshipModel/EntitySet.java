@@ -216,16 +216,5 @@ public class EntitySet extends ERModelElement implements Attributed {
 			return false;
 		}
 		return attributesAreEqual(other);
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 17;
-		int prime = 37;
-		
-		hash = name != null ? hash + (prime * name.hashCode()) : hash;
-		hash = attributes != null ? hash + (prime * attributes.hashCode()) : hash;
-		
-		return hash;
 	}	
 }

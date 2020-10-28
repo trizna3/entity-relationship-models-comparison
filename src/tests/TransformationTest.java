@@ -87,40 +87,4 @@ public class TransformationTest {
 		assertTrue(t1.equals(t2));
 		assertTrue(t2.equals(t1));
 	}
-	
-	@Test
-	public void testTransformationEqualsByArguments_ArgsCopy() {
-		Transformation t1 = new Transformation(EnumTransformation.BIND_TO_NARY_ASSOCIATION);
-		Transformation t2 = new Transformation(EnumTransformation.BIND_TO_NARY_ASSOCIATION);
-		
-		EntitySet entitySet = new EntitySet("Test", Arrays.asList("a","b"));
-		t1.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
-		
-		EntitySet entitySetCopy = new EntitySet(entitySet);
-		t2.addArgument(entitySetCopy, EnumTransformationRole.ENTITY_SET);
-		
-		assertTrue(t1.equals(t2));
-		assertTrue(t2.equals(t1));
-	}
-	
-	@Test
-	public void testTransformationEqualsByArguments_ArgsIgnoreOrder() {
-		Transformation t1 = new Transformation(EnumTransformation.BIND_TO_NARY_ASSOCIATION);
-		Transformation t2 = new Transformation(EnumTransformation.BIND_TO_NARY_ASSOCIATION);
-		
-		EntitySet entitySet1 = new EntitySet("Test 1", Arrays.asList("a","b"));
-		EntitySet entitySet2 = new EntitySet("Test 2", Arrays.asList("a","b"));
-		
-		t1.addArgument(entitySet1, EnumTransformationRole.ENTITY_SET);
-		t1.addArgument(entitySet2, EnumTransformationRole.ENTITY_SET);
-		
-		EntitySet entitySet1Copy = new EntitySet(entitySet1);
-		EntitySet entitySet2Copy = new EntitySet(entitySet2);
-		
-		t2.addArgument(entitySet2Copy, EnumTransformationRole.ENTITY_SET);
-		t2.addArgument(entitySet1Copy, EnumTransformationRole.ENTITY_SET);
-		
-		assertTrue(t1.equals(t2));
-		assertTrue(t2.equals(t1));
-	}
 }

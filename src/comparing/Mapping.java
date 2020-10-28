@@ -29,6 +29,8 @@ public class Mapping {
 	private ERModel studentModel;
 
 	private List<Transformation> transformations;
+	
+	private List<Transformation> forbiddenTransformations;
 
 	public Mapping(ERModel exemplarModel, ERModel studentModel) {
 		this.exemplarModel = exemplarModel;
@@ -110,5 +112,22 @@ public class Mapping {
 
 	public void setTransformations(List<Transformation> transformations) {
 		this.transformations = transformations;
+	}
+
+	public List<Transformation> getForbiddenTransformations() {
+		if (forbiddenTransformations == null) {
+			forbiddenTransformations = new ArrayList<>();
+		}
+		return forbiddenTransformations;
+	}
+	
+	public void addForbiddenTransformation(Transformation t) {
+		Utils.validateNotNull(t);
+		getForbiddenTransformations().add(t);
+	}
+	
+	public void removeForbiddenTransformation(Transformation t) {
+		Utils.validateNotNull(t);
+		getForbiddenTransformations().remove(t);
 	}
 }

@@ -1,6 +1,8 @@
 package common;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import common.enums.EnumRelationshipSideRole;
@@ -210,6 +212,24 @@ public class TransformationUtils extends Utils {
 		transformationList.forEach(tr -> copy.add(new Transformation(tr)));
 		
 		return copy;
+	}
+	
+	private static boolean intersect(Collection<Transformable> set1, Collection<Transformable> set2) {
+		Iterator<Transformable> it1 = set1.iterator();
+		
+		while (it1.hasNext()) {
+			if (set2.contains(it1.next())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean areIndependent(Transformation t1, Transformation t2) {
+		validateNotNull(t1);
+		validateNotNull(t2);
+		
+		return !intersect(t1.getArgumentMap().keySet(),t2.getArgumentMap().keySet());
 	}
 	
 	private static void addRelationshipTransformation(Mapping mapping, Relationship relationship, boolean isCreation) {

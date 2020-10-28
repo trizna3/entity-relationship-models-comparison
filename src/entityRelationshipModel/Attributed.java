@@ -1,6 +1,5 @@
 package entityRelationshipModel;
 
-import java.util.Collections;
 import java.util.List;
 
 public interface Attributed {
@@ -20,9 +19,7 @@ public interface Attributed {
 		if (this.getAttributes().size() != other.getAttributes().size()) {
 			return false;
 		}
-		Collections.sort(this.getAttributes(), Attribute.getAttributeComparator());
-		Collections.sort(other.getAttributes(), Attribute.getAttributeComparator());
-		return this.getAttributes().equals(other.getAttributes());
+		return this.getAttributes().containsAll(other.getAttributes());
 	}
 
 }

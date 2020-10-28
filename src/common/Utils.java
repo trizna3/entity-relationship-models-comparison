@@ -1,5 +1,8 @@
 package common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
@@ -73,5 +76,60 @@ public class Utils {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * https://www.baeldung.com/java-combinations-algorithm
+	 * @param n
+	 * @param r
+	 * @return
+	 */
+	public static List<int[]> generateCombinations(int n, int r) {
+	    List<int[]> combinations = new ArrayList<>();
+	    int[] combination = new int[r];
+	 
+	    // initialize with lowest lexicographic combination
+	    for (int i = 0; i < r; i++) {
+	        combination[i] = i;
+	    }
+	 
+	    while (combination[r - 1] < n) {
+	        combinations.add(combination.clone());
+	 
+	         // generate next combination in lexicographic order
+	        int t = r - 1;
+	        while (t != 0 && combination[t] == n - r + t) {
+	            t--;
+	        }
+	        combination[t]++;
+	        for (int i = t + 1; i < r; i++) {
+	            combination[i] = combination[i - 1] + 1;
+	        }
+	    }
+	 
+	    return combinations;
+	}
+	
+	/**
+	 * Returns array of all ints, which are not present in given array, up to given index
+	 * @param originalIndices
+	 * @param maxIdx
+	 * @return
+	 */
+	public static int[] getExcludedIndices(int[] originalIndices,int maxIdx) {
+		int[] excludedIndices = new int[maxIdx - originalIndices.length + 1];
+		if (excludedIndices.length == 0) {
+			return excludedIndices;
+		}
+		int workingIdx = 0;
+		
+		for (int index=0;index<=maxIdx;index++) {
+			if (!ArrayUtils.contains(originalIndices, index)) {
+				excludedIndices[workingIdx] = index;
+				workingIdx ++;
+			}
+		} 
+		
+		return excludedIndices;
 	}
 }

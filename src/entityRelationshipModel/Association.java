@@ -1,7 +1,6 @@
 package entityRelationshipModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import common.StringUtils;
@@ -117,8 +116,6 @@ public class Association extends Relationship implements Attributed {
 			return false;
 		}
 		
-		Collections.sort(getSides(), AssociationSide.getComparator());
-		Collections.sort(other.getSides(), AssociationSide.getComparator());
-		return getSides().equals(other.getSides());
+		return getSides().containsAll(other.getSides());
 	}
 }

@@ -35,6 +35,7 @@ public class TransformationPool {
 	
 	public void freeTransformation(Transformation transformation) {
 		transformation.setCode(null);
+		transformation.setProcessed(false);
 		transformation.getArgumentMap().clear();
 		
 		usedTransformations.remove(transformation);
