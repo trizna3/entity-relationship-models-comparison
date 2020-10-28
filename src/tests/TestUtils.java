@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import common.Utils;
-import common.enums.EnumTransformation;
 import common.enums.EnumRelationshipSideRole;
+import common.enums.EnumTransformation;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.Attribute;
@@ -549,6 +549,365 @@ public class TestUtils {
 		model.addAllEntitySets(entitySets);
 		return model;
 	}
+	
+	/**
+	 * NRSR student Vzor
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_NRSR_Vzor() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno","Priezvisko")))); // 0
+		entitySets.add(new EntitySet("Schodze", new ArrayList<>(Arrays.asList("Od", "Do")))); // 1
+		entitySets.add(new EntitySet("Body", new ArrayList<>(Arrays.asList("Kedy", "Poradove cislo")))); // 2
+		entitySets.add(new EntitySet("Dokumenty", new ArrayList<>(Arrays.asList("Nazov", "Text")))); // 3
+		entitySets.add(new EntitySet("Typy bodov", new ArrayList<>(Arrays.asList("Nazov")))); // 4
+		entitySets.add(new EntitySet("Moznosti hlasovania", new ArrayList<>(Arrays.asList("Nazov")))); // 5
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+	
+	/**
+	 * NRSR student 1
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_NRSR_S1() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno","Priezvisko")))); // 0
+		entitySets.add(new EntitySet("Schodze", new ArrayList<>(Arrays.asList("Name", "Trvanie")))); // 1
+		entitySets.add(new EntitySet("Body", new ArrayList<>(Arrays.asList()))); // 2
+		entitySets.add(new EntitySet("Dokumenty", new ArrayList<>(Arrays.asList("Nazov")))); // 3
+		entitySets.add(new EntitySet("Typy bodov", new ArrayList<>(Arrays.asList("Minimalny pocet hlasov")))); // 4
+		entitySets.add(new EntitySet("Historia hlasov", new ArrayList<>(Arrays.asList("Kedy","Ako")))); // 5
+		entitySets.add(new EntitySet("Typy hlasovania", new ArrayList<>(Arrays.asList("Za","Proti","Zdrzal sa","Nehlasoval")))); // 6
+		entitySets.add(new EntitySet("NRSR", new ArrayList<>(Arrays.asList()))); // 7
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(7), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Generalization(entitySets.get(2), entitySets.get(4)));
+		
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+	
+	/**
+	 * NRSR student 2
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_NRSR_S2() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno","Priezvisko")))); // 0
+		entitySets.add(new EntitySet("Schodze", new ArrayList<>(Arrays.asList("Doba trvania")))); // 1
+		entitySets.add(new EntitySet("Body", new ArrayList<>(Arrays.asList("Nazov","Minimalny pocet poslancov")))); // 2
+		entitySets.add(new EntitySet("Dokumenty", new ArrayList<>(Arrays.asList("Nazov")))); // 3
+		entitySets.add(new EntitySet("Ako hlasovali", new ArrayList<>(Arrays.asList("Hlas")))); // 4
+		entitySets.add(new EntitySet("Moznosti hlasovania", new ArrayList<>(Arrays.asList("Nazov")))); // 5
+		entitySets.add(new EntitySet("Historia", new ArrayList<>(Arrays.asList("Meno","Priezvisko","Hlasoval")))); // 6
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+	
+	/**
+	 * BattleOfTitans Vzor
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_BattleOfTitans_Vzor() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Hry", new ArrayList<>(Arrays.asList("Tah")))); // 0
+		entitySets.add(new EntitySet("Hracie plochy", new ArrayList<>(Arrays.asList("Pocet riadkov","Pocet stlpcov")))); // 1
+		entitySets.add(new EntitySet("Policko", new ArrayList<>(Arrays.asList("Riadok","Stlpec")))); // 2
+		entitySets.add(new EntitySet("Pocasia", new ArrayList<>(Arrays.asList("Nazov")))); // 3
+		entitySets.add(new EntitySet("Typy policok", new ArrayList<>(Arrays.asList("Nazov")))); // 4
+		entitySets.add(new EntitySet("Typy pohonov", new ArrayList<>(Arrays.asList("Nazov")))); // 5
+		entitySets.add(new EntitySet("Jednotky", new ArrayList<>(Arrays.asList("Meno","Zivot","Sila utoku","Sila obrany","Aktualne akcne body","Akcne body")))); // 6
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+	
+	/**
+	 * BattleOfTitans student 1
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_BattleOfTitans_S1() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Hry", new ArrayList<>(Arrays.asList()))); // 0
+		entitySets.add(new EntitySet("Hracie plochy", new ArrayList<>(Arrays.asList("Pocet riadkov","Pocet stlpcov")))); // 1
+		entitySets.add(new EntitySet("Typy pocasia", new ArrayList<>(Arrays.asList()))); // 2
+		entitySets.add(new EntitySet("Typy policok", new ArrayList<>(Arrays.asList()))); // 3
+		entitySets.add(new EntitySet("Typy pohonov", new ArrayList<>(Arrays.asList()))); // 4
+		entitySets.add(new EntitySet("Jednotky", new ArrayList<>(Arrays.asList("Meno","Sila utoku","Sila obrany")))); // 5
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association("Aktualny stav",Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE)), new ArrayList<>(Arrays.asList("Tah"))));
+		relationships.add(new Association("Pocasie",Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY)), new ArrayList<>(Arrays.asList("Stlpec","Riadok"))));
+		relationships.add(new Association("Umiestnenie",Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY)), new ArrayList<>(Arrays.asList("Stlpec","Riadok"))));
+		relationships.add(new Association("Stav",Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_MANY)), new ArrayList<>(Arrays.asList("Stlpec","Riadok","Zivot","Akcne Body"))));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association("Posun",Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_MANY)), new ArrayList<>(Arrays.asList("Akcne Body"))));
+		
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+	
+	/**
+	 * BattleOfTitans student 2
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_BattleOfTitans_S2() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Hry", new ArrayList<>(Arrays.asList("ID")))); // 0
+		entitySets.add(new EntitySet("Hracie plochy", new ArrayList<>(Arrays.asList("Pocet riadkov","Pocet stlpcov")))); // 1
+		entitySets.add(new EntitySet("Pocasia", new ArrayList<>(Arrays.asList("Pocasie 1","Pocasie 2","Pocasie 3")))); // 2
+		entitySets.add(new EntitySet("Policka", new ArrayList<>(Arrays.asList("Typ","Jednotka")))); // 3
+		entitySets.add(new EntitySet("Typy pohonov", new ArrayList<>(Arrays.asList()))); // 4
+		entitySets.add(new EntitySet("Jednotky", new ArrayList<>(Arrays.asList("Meno","Sila utoku","Sila obrany")))); // 5
+		entitySets.add(new EntitySet("Pocet tahov", new ArrayList<>(Arrays.asList()))); // 6
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Generalization(entitySets.get(2), entitySets.get(6)));
+				
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+	
+	/**
+	 * Poistovna vzor
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_Poistovna_Vzor() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Konta", new ArrayList<>(Arrays.asList("Meno","Heslo")))); // 0
+		entitySets.add(new EntitySet("Zmluvy", new ArrayList<>(Arrays.asList("Od","Do","Mesacny poplatok")))); // 1
+		entitySets.add(new EntitySet("Zmluvy na poistenie nehnutelnosti", new ArrayList<>(Arrays.asList("Suma zodpovednost","Suma pohroma","Rozloha obytnej casti","Rozloha pivnice")))); // 2
+		entitySets.add(new EntitySet("Zmluvy na zivotne poistenie", new ArrayList<>(Arrays.asList("Suma uraz","Suma smrt","Suma PN")))); // 3
+		entitySets.add(new EntitySet("Typy nehnutelnosti", new ArrayList<>(Arrays.asList("Nazov")))); // 4
+		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno","Priezvisko")))); // 5
+		entitySets.add(new EntitySet("Adresy", new ArrayList<>(Arrays.asList("Ulica","Cislo","Mesto","PSC","Krajina")))); // 6
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Generalization(entitySets.get(1), entitySets.get(2)));
+		relationships.add(new Generalization(entitySets.get(1), entitySets.get(3)));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+//		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+				
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+	
+	/**
+	 * Poistovna student 1
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_Poistovna_S1() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Zakaznik", new ArrayList<>(Arrays.asList("Meno","Adresa","Pohlavie","Cislo OP")))); // 0
+		entitySets.add(new EntitySet("Poistenie", new ArrayList<>(Arrays.asList("Od","Do","Mesacny poplatok")))); // 1
+		entitySets.add(new EntitySet("Zmluvy na poistenie nehnutelnosti", new ArrayList<>(Arrays.asList("Suma zodpovednost","Suma pohroma","Rozloha obytnej casti","Rozloha pivnice")))); // 2
+		entitySets.add(new EntitySet("Zmluvy na zivotne poistenie", new ArrayList<>(Arrays.asList("Suma uraz","Suma smrt","Suma PN")))); // 3
+		entitySets.add(new EntitySet("Nehnutelnosti", new ArrayList<>(Arrays.asList("Adresa","Typ","Rozloha obytnej casti","Rozloha pivnice")))); // 4
+		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno","Priezvisko","Pohlavie","Narodnost","Adresa")))); // 5
+		entitySets.add(new EntitySet("Konto", new ArrayList<>(Arrays.asList("Meno","Heslo")))); // 6
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Generalization(entitySets.get(1), entitySets.get(2)));
+		relationships.add(new Generalization(entitySets.get(1), entitySets.get(3)));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+	
+	/**
+	 * Poistovna student 2
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_Poistovna_S2() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Konta", new ArrayList<>(Arrays.asList("Meno","Heslo")))); // 0
+		entitySets.add(new EntitySet("Zmluva", new ArrayList<>(Arrays.asList()))); // 1
+		entitySets.add(new EntitySet("Typy poistenia", new ArrayList<>(Arrays.asList("Nazov")))); // 2
+		entitySets.add(new EntitySet("Objekt poistenia", new ArrayList<>(Arrays.asList("Nazov","Vyska")))); // 3
+		
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association("Uzatvara",Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), new ArrayList<>(Arrays.asList("Odkedy","Dokedy"))));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+	
+	/**
+	 * UFO Vzor
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_UFO_Vzor() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Modely lietadiel", new ArrayList<>(Arrays.asList("Kod")))); // 0
+		entitySets.add(new EntitySet("Lietadla", new ArrayList<>(Arrays.asList("Seriove cislo","Meno")))); // 1
+		entitySets.add(new EntitySet("Stihacie modely", new ArrayList<>(Arrays.asList()))); // 2
+		entitySets.add(new EntitySet("Dopravne modely", new ArrayList<>(Arrays.asList("Kapacita osob","Kapacita hmotnost","Kapacita objem")))); // 3
+		entitySets.add(new EntitySet("Typy rakiet", new ArrayList<>(Arrays.asList("Nazov")))); // 4
+		entitySets.add(new EntitySet("Vojaci", new ArrayList<>(Arrays.asList("Meno","Aktualny zivot","Maximalny zivot","Rychlost","Sila","Obratnost","Inteligencia")))); // 5
+		entitySets.add(new EntitySet("Role vojakov", new ArrayList<>(Arrays.asList("Modifikator maximalneho zivota","Modifikator rychlosti","Modfikator sily","Modifikator obratnosti","Modifikator inteligencie","Nazov prace")))); // 6
+		
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Generalization(entitySets.get(0), entitySets.get(2)));
+		relationships.add(new Generalization(entitySets.get(0), entitySets.get(3)));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association("Unesie",Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_MANY)), new ArrayList<>(Arrays.asList("Mnozstvo"))));
+		relationships.add(new Association("Nesie",Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_MANY)), new ArrayList<>(Arrays.asList("Pocet"))));
+		relationships.add(new Association("Sluzi na",Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+	
+	/**
+	 * UFO student 1
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_UFO_S1() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Obranny system", new ArrayList<>(Arrays.asList("Lietadlo","Vojak")))); // 0
+		entitySets.add(new EntitySet("Lietadla", new ArrayList<>(Arrays.asList("Seriove cislo","Meno","Model","Druh")))); // 1
+		entitySets.add(new EntitySet("Stihacie modely", new ArrayList<>(Arrays.asList("Pocet rakiet","Typ rakiet")))); // 2
+		entitySets.add(new EntitySet("Dopravne modely", new ArrayList<>(Arrays.asList("Kapacita osob","Kapacita hmotnost","Kapacita objem")))); // 3
+		entitySets.add(new EntitySet("Raketa", new ArrayList<>(Arrays.asList("Hmotnost")))); // 4
+		entitySets.add(new EntitySet("Vojaci", new ArrayList<>(Arrays.asList("Meno","Aktualny zivot","Maximalny zivot","Rychlost","Sila","Obratnost","Inteligencia","Rola")))); // 5
+		entitySets.add(new EntitySet("Druh lietadla", new ArrayList<>(Arrays.asList("Stihacie","Dopravne")))); // 6
+		
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
+	
+	/**
+	 * UFO student 2
+	 * 
+	 * @return
+	 */
+	public static ERModel makeERModel_UFO_S2() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Modely lietadiel", new ArrayList<>(Arrays.asList("Nazov")))); // 0
+		entitySets.add(new EntitySet("Lietadla", new ArrayList<>(Arrays.asList("Seriove cislo","Meno")))); // 1
+		entitySets.add(new EntitySet("Stihacie modely", new ArrayList<>(Arrays.asList()))); // 2
+		entitySets.add(new EntitySet("Dopravne modely", new ArrayList<>(Arrays.asList("Kapacita osob","Kapacita hmotnost","Kapacita objem")))); // 3
+		entitySets.add(new EntitySet("Naklad", new ArrayList<>(Arrays.asList("Typy rakiet","Pocet")))); // 4
+		entitySets.add(new EntitySet("Vojaci", new ArrayList<>(Arrays.asList("Meno","Aktualny zivot","Maximalny zivot","Rychlost","Sila","Obratnost","Inteligencia")))); // 5
+		entitySets.add(new EntitySet("Role vojakov", new ArrayList<>(Arrays.asList("Modifikator maximalneho zivota","Modifikator rychlosti","Modfikator sily","Modifikator obratnosti","Modifikator inteligencie","Nazov prace")))); // 6
+		
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Generalization(entitySets.get(0), entitySets.get(2)));
+		relationships.add(new Generalization(entitySets.get(0), entitySets.get(3)));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association("Nesie",Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association("Unesie",Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association("Sluzi na",Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
 
 	public static boolean containsTransformation(List<Transformation> transformations, EnumTransformation code) {
 		Utils.validateNotNull(transformations);
@@ -562,3 +921,4 @@ public class TestUtils {
 		return false;
 	}
 }
+
