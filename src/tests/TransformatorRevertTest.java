@@ -30,7 +30,7 @@ public class TransformatorRevertTest {
 		Mapping mapping = new Mapping(null, model);
 
 		EntitySet entitySet = model.getEntitySets().get(1);
-		assert "Izby".equals(entitySet.getName());
+		assert "Izby".equals(entitySet.getNameText());
 
 		Attribute attribute = new Attribute("Cislo");
 
@@ -56,7 +56,7 @@ public class TransformatorRevertTest {
 		Mapping mapping = new Mapping(null, model);
 
 		EntitySet entitySet = model.getEntitySets().get(1);
-		assert "Izby".equals(entitySet.getName());
+		assert "Izby".equals(entitySet.getNameText());
 
 		Attribute attribute = new Attribute("Cislo");
 
@@ -86,10 +86,10 @@ public class TransformatorRevertTest {
 		Mapping mapping = new Mapping(null, model);
 
 		EntitySet entitySet = model.getEntitySets().get(1);
-		assert "Izby".equals(entitySet.getName());
+		assert "Izby".equals(entitySet.getNameText());
 
 		EntitySet neighbour = model.getEntitySets().get(0);
-		assert "Budovy".equals(neighbour.getName());
+		assert "Budovy".equals(neighbour.getNameText());
 
 		Association association = (Association) entitySet.getNeighbours().get(neighbour).get(0);
 		Attribute attribute = new Attribute("Cislo");

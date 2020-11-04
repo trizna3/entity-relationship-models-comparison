@@ -23,17 +23,25 @@ public abstract class Relationship extends ERModelElement {
 	/**
 	 * Relationship name.
 	 */
-	private String name;
+	private ERModelElementName name;
 
 	public abstract List<? extends RelationshipSide> getSides();
 
 	public abstract boolean isBinary();
 
-	public String getName() {
+	public String getNameText() {
+		return name != null ? name.getName() : null;
+	}
+
+	public void setNameText(String name) {
+		this.name = new ERModelElementName(name);
+	}
+	
+	public ERModelElementName getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(ERModelElementName name) {
 		this.name = name;
 	}
 

@@ -151,7 +151,7 @@ public class ERModelUtils extends Utils {
 		validateNotNull(name);
 
 		for (EntitySet entitySet : model.getEntitySets()) {
-			if (name.equals(entitySet.getName())) {
+			if (name.equals(entitySet.getNameText())) {
 				return entitySet;
 			}
 		}
@@ -190,7 +190,7 @@ public class ERModelUtils extends Utils {
 	public static EntitySet copyEntitySetDetached(EntitySet entitySet) {
 		validateNotNull(entitySet);
 
-		EntitySet copy = new EntitySet(entitySet.getName());
+		EntitySet copy = new EntitySet(entitySet.getNameText());
 		copy.setAttributes(new ArrayList<Attribute>(entitySet.getAttributes()));
 
 		return copy;

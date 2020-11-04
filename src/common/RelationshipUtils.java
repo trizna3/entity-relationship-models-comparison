@@ -266,7 +266,7 @@ public class RelationshipUtils extends Utils {
 	private static Association getAssociationClone(Association association, Map<EntitySet, EntitySet> entitySetMap) {
 		Association associationClone = new Association();
 
-		associationClone.setName(association.getName());
+		associationClone.setNameText(association.getNameText());
 		associationClone.setAttributes(new ArrayList<>(association.getAttributes()));
 		associationClone.setSides(association.getSides().stream().map(side -> new AssociationSide(entitySetMap.get(side.getEntitySet()), side.getRole())).collect(Collectors.toList()));
 		return associationClone;
@@ -275,7 +275,7 @@ public class RelationshipUtils extends Utils {
 	private static Generalization getGeneralizationClone(Generalization generalization, Map<EntitySet, EntitySet> entitySetMap) {
 		Generalization generalizationClone = new Generalization();
 
-		generalizationClone.setName(generalization.getName());
+		generalizationClone.setNameText(generalization.getNameText());
 		generalizationClone.getSides().add(0, new GeneralizationSide(entitySetMap.get(generalization.getFirstSide().getEntitySet()), generalization.getFirstSide().getRole()));
 		generalizationClone.getSides().add(1, new GeneralizationSide(entitySetMap.get(generalization.getSecondSide().getEntitySet()), generalization.getSecondSide().getRole()));
 

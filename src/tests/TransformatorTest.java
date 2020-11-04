@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -14,9 +15,9 @@ import common.ERModelUtils;
 import common.RelationshipUtils;
 import common.TransformationUtils;
 import common.enums.EnumConstants;
+import common.enums.EnumRelationshipSideRole;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
-import common.enums.EnumRelationshipSideRole;
 import comparing.Mapping;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.Attribute;
@@ -36,7 +37,7 @@ public class TransformatorTest {
 		Mapping mapping = new Mapping(null, model);
 
 		EntitySet entitySet = model.getEntitySets().get(1);
-		assert "Izby".equals(entitySet.getName());
+		assert "Izby".equals(entitySet.getNameText());
 
 		Attribute attribute = new Attribute("Cislo");
 
@@ -70,7 +71,7 @@ public class TransformatorTest {
 		Mapping mapping = new Mapping(null, model);
 
 		EntitySet entitySet = model.getEntitySets().get(1);
-		assert "Izby".equals(entitySet.getName());
+		assert "Izby".equals(entitySet.getNameText());
 
 		Attribute attribute = new Attribute("Cislo");
 
@@ -105,10 +106,10 @@ public class TransformatorTest {
 		Mapping mapping = new Mapping(null, model);
 
 		EntitySet entitySet = model.getEntitySets().get(1);
-		assert "Izby".equals(entitySet.getName());
+		assert "Izby".equals(entitySet.getNameText());
 
 		EntitySet neighbour = model.getEntitySets().get(0);
-		assert "Budovy".equals(neighbour.getName());
+		assert "Budovy".equals(neighbour.getNameText());
 
 		Association association = (Association) entitySet.getNeighbours().get(neighbour).get(0);
 
@@ -138,10 +139,10 @@ public class TransformatorTest {
 		Mapping mapping = new Mapping(null, model);
 
 		EntitySet entitySet = model.getEntitySets().get(1);
-		assert "Produkty".equals(entitySet.getName());
+		assert "Produkty".equals(entitySet.getNameText());
 
 		EntitySet neighbour = model.getEntitySets().get(2);
-		assert "Nazvy specialnych atributov".equals(neighbour.getName());
+		assert "Nazvy specialnych atributov".equals(neighbour.getNameText());
 
 		Association association = (Association) entitySet.getNeighbours().get(neighbour).get(0);
 
@@ -240,9 +241,12 @@ public class TransformatorTest {
 		assert association.isBinary();
 		EntitySet entitySet1 = association.getFirstSide().getEntitySet();
 		EntitySet entitySet2 = association.getSecondSide().getEntitySet();
+		List<Relationship> entitySet1Relationships = new ArrayList<>(entitySet1.getIncidentRelationships());
+		List<Relationship> entitySet2Relationships = new ArrayList<>(entitySet2.getIncidentRelationships());
+		
 
-		String entitySet1Name = entitySet1.getName();
-		String entitySet2Name = entitySet2.getName();
+		String entitySet1Name = entitySet1.getNameText();
+		String entitySet2Name = entitySet2.getNameText();
 
 		assert model.getEntitySets().size() == 6;
 
@@ -265,6 +269,19 @@ public class TransformatorTest {
 		for (Attribute attribute : entitySet2.getAttributes()) {
 			assertTrue(entitySet.getAttributes().contains(attribute));
 		}
+		
+		// relationships check
+		assertTrue(entitySet2.getIncidentRelationships().isEmpty());
+		for (Relationship relationship : entitySet2Relationships) {
+			if (relationship == association) continue;
+			assertTrue(RelationshipUtils.contains(relationship, entitySet1));
+			assertFalse(RelationshipUtils.contains(relationship, entitySet2));
+		}
+		for (Relationship relationship : entitySet1Relationships) {
+			if (relationship == association) continue;
+			assertTrue(RelationshipUtils.contains(relationship, entitySet1));
+			assertFalse(RelationshipUtils.contains(relationship, entitySet2));
+		}
 	}
 
 	@Test
@@ -281,8 +298,8 @@ public class TransformatorTest {
 		EntitySet entitySet1 = association.getFirstSide().getEntitySet();
 		EntitySet entitySet2 = association.getSecondSide().getEntitySet();
 
-		String entitySet1Name = entitySet1.getName();
-		String entitySet2Name = entitySet2.getName();
+		String entitySet1Name = entitySet1.getNameText();
+		String entitySet2Name = entitySet2.getNameText();
 
 		assert exemplarModel.getEntitySets().size() == 6;
 

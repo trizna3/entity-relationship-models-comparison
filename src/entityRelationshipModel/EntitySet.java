@@ -22,7 +22,7 @@ public class EntitySet extends ERModelElement implements Attributed {
 	/**
 	 * Entity set name.
 	 */
-	private String name;
+	private ERModelElementName name;
 	/**
 	 * List of entity set's attributes.
 	 */
@@ -49,12 +49,12 @@ public class EntitySet extends ERModelElement implements Attributed {
 	private Double priority;
 
 	public EntitySet(String name) {
-		this.name = name;
+		this.name = new ERModelElementName(name);
 		this.attributes = new ArrayList<Attribute>();
 	}
 
 	public EntitySet(String name, List<String> attributes) {
-		this.name = name;
+		this.name = new ERModelElementName(name);
 		if (attributes != null) {
 			for (String attribute : attributes) {
 				getAttributes().add(new Attribute(attribute));
@@ -63,14 +63,18 @@ public class EntitySet extends ERModelElement implements Attributed {
 	}
 
 	public EntitySet(EntitySet other) {
-		this.name = other.getName();
+		this.name = new ERModelElementName(other.getNameText());
 		this.attributes = new ArrayList<>(other.getAttributes());
 		this.empty = other.isEmpty();
 		this.mappedTo = other.getMappedTo();
 		this.neighbours = new HashMap<>(other.getNeighbours());
 	}
 
-	public String getName() {
+	public String getNameText() {
+		return name.getName();
+	}
+	
+	public ERModelElementName getName() {
 		return name;
 	}
 
@@ -81,7 +85,11 @@ public class EntitySet extends ERModelElement implements Attributed {
 		return attributes;
 	}
 
-	public void setName(String name) {
+	public void setNameText(String name) {
+		this.name = new ERModelElementName(name);
+	}
+	
+	public void setName(ERModelElementName name) {
 		this.name = name;
 	}
 
@@ -212,7 +220,7 @@ public class EntitySet extends ERModelElement implements Attributed {
 		}
 		EntitySet other = (EntitySet) obj;
 		
-		if (!StringUtils.areEqual(this.getName(), other.getName())) {
+		if (!StringUtils.areEqual(this.getNameText(), other.getNameText())) {
 			return false;
 		}
 		return attributesAreEqual(other);

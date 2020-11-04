@@ -179,7 +179,7 @@ public class MappingEvaluator {
 		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
 			EntitySet image = entitySet.getMappedTo();
 			if (image != null) {
-				if (!StringUtils.areEqual(entitySet.getName(), image.getName())) {
+				if (!StringUtils.areEqual(entitySet.getNameText(), image.getNameText())) {
 					penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.RENAME_ENTITY_SET);
 				}
 				penalty += checkAttributes(mapping, entitySet, image);

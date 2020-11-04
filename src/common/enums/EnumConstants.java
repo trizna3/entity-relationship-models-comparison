@@ -23,4 +23,6 @@ public class EnumConstants {
 	/*** OTHER ***/
 
 	public static final char ENTITY_SETS_DELIMITER = ';';
+	
+	public static final String ENTITY_SETS_DELIMITER_STR = ";";
 }

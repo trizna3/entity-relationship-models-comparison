@@ -19,10 +19,10 @@ public class TransformationAnalystTest {
 
 	@Test
 	public void getPossibleExtractAttributeToOwnEntitySetTransformations() {
-		ERModel model = TestUtils.getERModels().get(1);
+		ERModel model = TestUtils.getERModels().get(0);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleExtractAttributeToOwnEntitySetTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleExtractAttributeToOwnEntitySetTransformations(transformations, model, TestUtils.makeERModel8());
 
 		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET));
 	}
@@ -34,7 +34,7 @@ public class TransformationAnalystTest {
 		Mapping mapping = new Mapping(null, model);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleExtractAttributeToOwnEntitySetTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleExtractAttributeToOwnEntitySetTransformations(transformations, model, new ERModel());
 
 		for (Transformation transformation : transformations) {
 			Transformator.execute(mapping, transformation);
@@ -46,10 +46,10 @@ public class TransformationAnalystTest {
 
 	@Test
 	public void getPossibleMoveAttributeToIncidentEntitySetTransformations() {
-		ERModel model = TestUtils.getERModels().get(6);
+		ERModel model = TestUtils.makeERModel8();
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentEntitySetTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentEntitySetTransformations(transformations, model, TestUtils.getERModels().get(2));
 
 		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET));
 	}
@@ -61,7 +61,7 @@ public class TransformationAnalystTest {
 		Mapping mapping = new Mapping(null, model);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentEntitySetTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentEntitySetTransformations(transformations, model, new ERModel());
 
 		for (Transformation transformation : transformations) {
 			Transformator.execute(mapping, transformation);
@@ -73,10 +73,10 @@ public class TransformationAnalystTest {
 
 	@Test
 	public void getPossibleMoveAttributeToIncidentAssociationTransformations() {
-		ERModel model = TestUtils.getERModels().get(1);
+		ERModel model = TestUtils.makeERModel8();
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(transformations, model, TestUtils.getERModels().get(2));
 
 		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION));
 	}
@@ -88,7 +88,7 @@ public class TransformationAnalystTest {
 		Mapping mapping = new Mapping(null, model);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(transformations, model, new ERModel());
 
 		for (Transformation transformation : transformations) {
 			Transformator.execute(mapping, transformation);

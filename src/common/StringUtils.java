@@ -1,8 +1,13 @@
 package common;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import common.enums.EnumConstants;
 
 public class StringUtils extends Utils {
+	
+	private static Map<String,Integer> hashtable;
 
 	/**
 	 * Determines if strings are equal, case insensitive.
@@ -27,8 +32,13 @@ public class StringUtils extends Utils {
 	 * @param name
 	 * @return
 	 */
-	public static String getNamePart(String compositeName, int partIndex) {
+	public static String getNamePart(String compositeName, int partIndex, boolean fromBeginning) {
 		validateNotNull(compositeName);
+		
+		if (!fromBeginning) {
+			partIndex = count(compositeName,EnumConstants.ENTITY_SETS_DELIMITER_STR) - partIndex;
+
+		}
 
 		int cycleIdx = 0;
 		int idxFrom = 0;
@@ -45,5 +55,42 @@ public class StringUtils extends Utils {
 				cycleIdx++;
 			}
 		}
+	}
+	
+	/**
+	 * Counts number of occurrences of given pattern in given string.
+	 * @param string
+	 * @param character
+	 * @return
+	 */
+	public static int count(String string, String pattern) {
+		return string.length() - string.replace(pattern, "").length();
+	}
+	
+	/**
+	 * Computes case-insensitive hash.
+	 * 
+	 * Since String is immutable, cannot make it lower-case without creating new one.
+	 * Results are cached to hashtable. 
+	 *  
+	 * @param string
+	 * @return
+	 */
+	public static int computeStringHash(String string) {
+		validateNotNull(string);
+		
+		if (getHashtable().containsKey(string)) {
+			return getHashtable().get(string);
+		}
+		int hash = string.toLowerCase().hashCode();
+		getHashtable().put(string, hash);
+		return hash;
+	}
+
+	private static Map<String,Integer> getHashtable() {
+		if (hashtable == null) {
+			hashtable = new HashMap<>();
+		}
+		return hashtable;
 	}
 }

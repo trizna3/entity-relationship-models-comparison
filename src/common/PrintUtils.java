@@ -25,7 +25,7 @@ public class PrintUtils extends Utils {
 	public static final String print(EntitySet entitySet) {
 		validateNotNull(entitySet);
 
-		return entitySet.getName() + ": " + join(entitySet.getAttributes(), DELIMITER_COMMA);
+		return entitySet.getNameText() + ": " + join(entitySet.getAttributes(), DELIMITER_COMMA);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class PrintUtils extends Utils {
 	public static final String print(Map<EntitySet, EntitySet> map) {
 		StringBuilder result = new StringBuilder("Entity set map {\n");
 		for (EntitySet entitySet : map.keySet()) {
-			result.append("    " + entitySet.getName() + " : " + map.get(entitySet).getName() + "\n");
+			result.append("    " + entitySet.getNameText() + " : " + map.get(entitySet).getNameText() + "\n");
 		}
 		result.append("}");
 		return result.toString();
@@ -112,7 +112,7 @@ public class PrintUtils extends Utils {
 
 	public static final String getReprName(EntitySet entitySet) {
 		validateNotNull(entitySet);
-		return entitySet.getName();
+		return entitySet.getNameText();
 	}
 
 	public static final String getReprName(Relationship relationship) {

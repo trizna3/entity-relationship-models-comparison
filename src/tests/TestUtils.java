@@ -49,6 +49,31 @@ public class TestUtils {
 		model.addAllEntitySets(entitySets);
 		return model;
 	}
+	
+	public static ERModel makeERModel8() {
+		ERModel model = new ERModel();
+
+		List<EntitySet> entitySets = new ArrayList<>();
+		entitySets.add(new EntitySet("Budovy", new ArrayList<>(Arrays.asList("Ulica", "Cislo", "Mesto", "PSC")))); // 0
+		entitySets.add(new EntitySet("Izby", new ArrayList<>(Arrays.asList("C.Poschodia", "Kapacita", "Poplatok")))); // 1
+		entitySets.add(new EntitySet("Zmluvy", new ArrayList<>(Arrays.asList("Od", "Do")))); // 2
+		entitySets.add(new EntitySet("Platby", new ArrayList<>(Arrays.asList("Vyska", "Datum")))); // 3
+		entitySets.add(new EntitySet("Studenti", new ArrayList<>(Arrays.asList("Meno", "Priezvisko", "C.OP")))); // 4
+		entitySets.add(new EntitySet("Konta", new ArrayList<>(Arrays.asList("Kredit")))); // 5
+
+		List<Relationship> relationships = new ArrayList<>();
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), Arrays.asList("Cislo")));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+
+		model.addAllRelationships(relationships);
+		model.addAllEntitySets(entitySets);
+		return model;
+	}
 
 	/**
 	 * NRSR vzor
@@ -95,7 +120,7 @@ public class TestUtils {
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
-		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), Arrays.asList("cislo")));
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
 		relationships.add(new Generalization(entitySets.get(6), entitySets.get(4)));
 
@@ -222,16 +247,16 @@ public class TestUtils {
 
 		List<Relationship> relationships = new ArrayList<>();
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
-		((Association) relationships.get(0)).setName("Katalyzator");
+		((Association) relationships.get(0)).setNameText("Katalyzator");
 		((Association) relationships.get(0)).addAttribute(new Attribute("Hmotnost katalyzatora"));
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
-		((Association) relationships.get(1)).setName("Reaktant 1");
+		((Association) relationships.get(1)).setNameText("Reaktant 1");
 		((Association) relationships.get(1)).addAttribute(new Attribute("Hmotnost reaktantu A"));
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
-		((Association) relationships.get(2)).setName("Reaktant 2");
+		((Association) relationships.get(2)).setNameText("Reaktant 2");
 		((Association) relationships.get(2)).addAttribute(new Attribute("Hmotnost reaktantu B"));
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
-		((Association) relationships.get(3)).setName("Produkt");
+		((Association) relationships.get(3)).setNameText("Produkt");
 
 		model.addAllRelationships(relationships);
 		model.addAllEntitySets(entitySets);
@@ -758,7 +783,7 @@ public class TestUtils {
 //		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(3), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
-		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(6), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
+		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(2), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(4), EnumRelationshipSideRole.CARDINALITY_ONE)), null));
 				
 		model.addAllRelationships(relationships);
 		model.addAllEntitySets(entitySets);

@@ -136,19 +136,11 @@ public class MappingFinder {
 
 	private void map(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
 		mapping.map(exemplarEntitySet, studentEntitySet);
-		mapping.getExemplarModel().getNotMappedEntitySets().remove(exemplarEntitySet);
-		if (!studentEntitySet.isEmpty()) {
-			mapping.getStudentModel().getNotMappedEntitySets().remove(studentEntitySet);
-		}
 		incrementCounter();
 	}
 
 	private void unmap(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
 		mapping.unmap(exemplarEntitySet, studentEntitySet);
-		mapping.getExemplarModel().getNotMappedEntitySets().add(0, exemplarEntitySet);
-		if (!studentEntitySet.isEmpty()) {
-			mapping.getStudentModel().getNotMappedEntitySets().add(0, studentEntitySet);
-		}
 		decrementCounter();
 	}
 
@@ -202,7 +194,7 @@ public class MappingFinder {
 	}
 	
 	private void computeEntitySetsPriority(List<EntitySet> directStudentEntitySets, EntitySet exemplarEntitySet) {
-		directStudentEntitySets.forEach(es -> es.setPriority(Double.valueOf(1 - getDictionary().getSimilarity(es.getName(), exemplarEntitySet.getName()))));
+		directStudentEntitySets.forEach(es -> es.setPriority(Double.valueOf(1 - getDictionary().getSimilarity(es.getNameText(), exemplarEntitySet.getNameText()))));
 	}
 
 	public LanguageProcessor getDictionary() {

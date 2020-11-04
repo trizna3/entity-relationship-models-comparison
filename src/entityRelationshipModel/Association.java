@@ -34,7 +34,7 @@ public class Association extends Relationship implements Attributed {
 	}
 
 	public Association(String name, List<AssociationSide> sides, List<String> attributes) {
-		setName(name);
+		setNameText(name);
 		setSides(sides);
 		if (attributes != null) {
 			for (String attribute : attributes) {
@@ -98,7 +98,7 @@ public class Association extends Relationship implements Attributed {
 		}
 		Association other = (Association) obj;
 		
-		if (!StringUtils.areEqual(getName(), other.getName())) {
+		if (!StringUtils.areEqual(getNameText(), other.getNameText())) {
 			return false;
 		}
 		

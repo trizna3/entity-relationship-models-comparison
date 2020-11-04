@@ -12,7 +12,7 @@ import transformations.Transformable;
  * @author Adam Trizna
  *
  */
-public class Attribute extends Transformable {
+public class Attribute extends Transformable implements ERText {
 
 	private String attribute;
 
@@ -30,10 +30,15 @@ public class Attribute extends Transformable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Attribute)) {
+		if (!(obj instanceof ERText)) {
 			return false;
 		}
-		return StringUtils.areEqual(this.getAttribute(), ((Attribute) obj).getAttribute());
+		return StringUtils.areEqual(this.getText(), ((ERText) obj).getText());
+	}
+	
+	@Override
+	public int hashCode() {
+		return StringUtils.computeStringHash(attribute);
 	}
 
 	@Override
@@ -51,5 +56,10 @@ public class Attribute extends Transformable {
 				return o1.getAttribute().compareTo(o2.getAttribute());
 			}
 		}; 
+	}
+
+	@Override
+	public String getText() {
+		return attribute;
 	}
 }

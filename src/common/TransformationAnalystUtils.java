@@ -1,14 +1,16 @@
 package common;
 
 import java.util.List;
+import java.util.Set;
 
+import common.enums.EnumRelationshipSideRole;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
-import common.enums.EnumRelationshipSideRole;
 import common.objectPools.TransformationPool;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
+import entityRelationshipModel.ERText;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
@@ -153,13 +155,18 @@ public class TransformationAnalystUtils {
 		}
 	}
 
-	public static void getPossibleExtractAttributeToOwnEntitySetTransformations(List<Transformation> target, ERModel model) {
+	public static void getPossibleExtractAttributeToOwnEntitySetTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
+		Set<ERText> notMappedEntitySetNamesOrAttributes = MappingUtils.getNotMappedEntitySetNamesOrAttributes(otherModel);
+		
 		for (EntitySet entitySet : model.getEntitySets()) {
 			for (Attribute attribute : entitySet.getAttributes()) {
-
+				if (!notMappedEntitySetNamesOrAttributes.contains(attribute)) {
+					continue;
+				}
+				
 				Transformation transformation = TransformationPool.getInstance().getTransformation();
 				transformation.setCode(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
 				transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
@@ -171,10 +178,12 @@ public class TransformationAnalystUtils {
 
 	}
 
-	public static void getPossibleMoveAttributeToIncidentEntitySetTransformations(List<Transformation> target, ERModel model) {
+	public static void getPossibleMoveAttributeToIncidentEntitySetTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
+		Set<Attribute> otherModelAttributes = MappingUtils.getNotMappedEntitySetAttributes(otherModel);
+		
 		for (EntitySet entitySet : model.getEntitySets()) {
 			for (Relationship relationship : entitySet.getIncidentRelationships()) {
 				if (relationship instanceof Association) {
@@ -183,6 +192,9 @@ public class TransformationAnalystUtils {
 							continue;
 						}
 						if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION)) {
+							continue;
+						}
+						if (!otherModelAttributes.contains(attribute)) {
 							continue;
 						}
 						
@@ -199,9 +211,11 @@ public class TransformationAnalystUtils {
 		}
 	}
 
-	public static void getPossibleMoveAttributeToIncidentAssociationTransformations(List<Transformation> target, ERModel model) {
+	public static void getPossibleMoveAttributeToIncidentAssociationTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
+		
+		Set<Attribute> otherModelAttributes = MappingUtils.getNotMappedAssociationAttributes(otherModel);
 
 		for (EntitySet entitySet : model.getEntitySets()) {
 			for (Attribute attribute : entitySet.getAttributes()) {
@@ -210,6 +224,9 @@ public class TransformationAnalystUtils {
 						continue;
 					}
 					if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET)) {
+						continue;
+					}
+					if (!otherModelAttributes.contains(attribute)) {
 						continue;
 					}
 					if (relationship instanceof Association) {

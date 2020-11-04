@@ -63,6 +63,11 @@ public class Mapping {
 		if (!entitySet2.isEmpty()) {
 			entitySet2.setMappedTo(entitySet1);
 		}
+		
+		exemplarModel.getNotMappedEntitySets().remove(entitySet1);
+		if (!entitySet2.isEmpty()) {
+			studentModel.getNotMappedEntitySets().remove(entitySet2);
+		}
 	}
 
 	/**
@@ -86,6 +91,11 @@ public class Mapping {
 
 		entitySet1.setMappedTo(null);
 		entitySet2.setMappedTo(null);
+		
+		exemplarModel.getNotMappedEntitySets().add(0, entitySet1);
+		if (!entitySet2.isEmpty()) {
+			studentModel.getNotMappedEntitySets().add(0, entitySet2);
+		}
 	}
 
 	public List<Transformation> getTransformations() {

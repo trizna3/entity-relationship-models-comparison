@@ -11,4 +11,9 @@ public class TransformableFlag extends Transformable {
 	public boolean equals(Object obj) {
 		return (obj instanceof TransformableFlag);
 	}
+
+	@Override
+	public int hashCode() {
+		return 5171;
+	}
 }

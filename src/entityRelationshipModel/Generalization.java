@@ -67,7 +67,7 @@ public class Generalization extends Relationship {
 		}
 		Generalization other = (Generalization) obj;
 		
-		return StringUtils.areEqual(getName(), other.getName()) && 
+		return StringUtils.areEqual(getNameText(), other.getNameText()) && 
 				getSuperEntitySet().equals(other.getSuperEntitySet()) && 
 				getSubEntitySet().equals(other.getSubEntitySet());
 	}

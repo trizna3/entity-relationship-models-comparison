@@ -17,6 +17,7 @@ import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
 import entityRelationshipModel.Relationship;
 import entityRelationshipModel.RelationshipSide;
+import entityRelationshipModel.TransformableFlag;
 import transformations.Transformable;
 import transformations.Transformation;
 import transformations.Transformator;
@@ -218,7 +219,11 @@ public class TransformationUtils extends Utils {
 		Iterator<Transformable> it1 = set1.iterator();
 		
 		while (it1.hasNext()) {
-			if (set2.contains(it1.next())) {
+			Transformable t = it1.next();
+			if (t instanceof TransformableFlag) {
+				continue;
+			}
+			if (set2.contains(t)) {
 				return true;
 			}
 		}
