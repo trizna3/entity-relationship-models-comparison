@@ -491,8 +491,7 @@ public class Transformator {
 
 		EntitySet otherEntitySet = RelationshipUtils.getOtherEntitySet(association, entitySet);
 		entitySet.getAttributes().removeAll(otherEntitySet.getAttributes());
-		// tuto potrebujem robit nieco, ze daj mi vsetky party okrem posledneho
-		entitySet.setNameText(StringUtils.getNamePart(entitySet.getNameText(), 0,true));
+		entitySet.setNameText(StringUtils.getNamePartsFromBeginning(entitySet.getNameText(), 1));
 
 		if (flag != null)
 			mapping.getExemplarModel().addEntitySet(otherEntitySet);

@@ -58,6 +58,27 @@ public class StringUtils extends Utils {
 	}
 	
 	/**
+	 * Returns all name parts, up to (count-excludedPartIndex)
+	 * 
+	 * @param compositeName
+	 * @param partIndex
+	 * @return
+	 */
+	public static String getNamePartsFromBeginning(String compositeName, int excludedPartIndex) {
+		validateNotNull(compositeName);
+		
+		int count = count(compositeName,EnumConstants.ENTITY_SETS_DELIMITER_STR) - excludedPartIndex + 1;
+		int idxFrom = 0;
+		int upperBound = 0;
+
+		for (int i = 0; i < count; i++) {
+			upperBound = compositeName.indexOf(EnumConstants.ENTITY_SETS_DELIMITER, idxFrom);
+			idxFrom = upperBound + 1;
+		}
+		return compositeName.substring(0, upperBound);
+	}
+	
+	/**
 	 * Counts number of occurrences of given pattern in given string.
 	 * @param string
 	 * @param character

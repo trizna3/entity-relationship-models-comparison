@@ -137,7 +137,16 @@ public class EntitySet extends ERModelElement implements Attributed {
 			if (this.equals(neighbour)) {
 				continue;
 			}
-			getNeighbours().get(neighbour).remove(relationship);
+			
+			// must remove by index, (based on reference equality), in case of multiple duplicate relationships
+			int idxForRemoval = -1;
+			for (int i = 0; i < getNeighbours().get(neighbour).size(); i++) {
+				if (getNeighbours().get(neighbour).get(i) == relationship) {
+					idxForRemoval = i;
+				}
+			}
+			if (idxForRemoval != -1) getNeighbours().get(neighbour).remove(idxForRemoval);
+			
 			if (getNeighbours().get(neighbour).isEmpty()) {
 				getNeighbours().remove(neighbour);
 			}
