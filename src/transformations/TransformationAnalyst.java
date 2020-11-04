@@ -44,15 +44,15 @@ public class TransformationAnalyst {
 	}
 
 	private static void getPossibleExtractAttributeToOwnEntitySetTransformations(Mapping mapping, List<Transformation> result) {
-		TransformationAnalystUtils.getPossibleExtractAttributeToOwnEntitySetTransformations(result, mapping.getStudentModel());
+		TransformationAnalystUtils.getPossibleExtractAttributeToOwnEntitySetTransformations(result, mapping.getStudentModel(), mapping.getExemplarModel());
 	}
 
 	private static void getPossibleMoveAttributeToIncidentEntitySetTransformations(Mapping mapping, List<Transformation> result) {
-		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentEntitySetTransformations(result, mapping.getStudentModel());
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentEntitySetTransformations(result, mapping.getStudentModel(), mapping.getExemplarModel());
 	}
 
 	private static void getPossibleMoveAttributeToIncidentAssociationTransformations(Mapping mapping, List<Transformation> result) {
-		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(result, mapping.getStudentModel());
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(result, mapping.getStudentModel(), mapping.getExemplarModel());
 	}
 
 	private static void getPossibleRebindMNTo1NN1Transformations(Mapping mapping, List<Transformation> result) {

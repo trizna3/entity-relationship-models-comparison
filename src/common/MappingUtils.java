@@ -2,12 +2,18 @@ package common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import comparing.Mapping;
+import entityRelationshipModel.Association;
+import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
+import entityRelationshipModel.ERText;
 import entityRelationshipModel.EntitySet;
+import entityRelationshipModel.Relationship;
 
 public class MappingUtils extends Utils {
 
@@ -39,6 +45,57 @@ public class MappingUtils extends Utils {
 		}
 
 		return result;
+	}
+	
+	/**
+	 * Returns attributes of all (not mapped) entitySets - for moveAttributeToIncidentEntitySet transformation analysis
+	 * @param model
+	 * @return
+	 */
+	public static Set<Attribute> getNotMappedEntitySetAttributes(ERModel model) {
+		validateNotNull(model);
+		Set<Attribute> result = new HashSet<>();
+		for (EntitySet entitySet : model.getEntitySets()) {
+			if (entitySet.getMappedTo() == null) {
+				result.addAll(entitySet.getAttributes());
+			}
+		}
+		return result;		
+	}
+	
+	/**
+	 * Returns attributes of all (not mapped) associations - for moveAttributeToIncidentAssociation transformation analysis
+	 * @param model
+	 * @return
+	 */
+	public static Set<Attribute> getNotMappedAssociationAttributes(ERModel model) {
+		validateNotNull(model);
+		Set<Attribute> result = new HashSet<>();
+		for (Relationship relationship : model.getRelationships()) {
+			if (relationship instanceof Association && !RelationshipUtils.isMapped(relationship)) {
+				result.addAll( ((Association)relationship).getAttributes());				
+			}
+		}		
+		return result;		
+	}
+	
+	/**
+	 * Returns union of name and attributes
+	 * @param model
+	 * @return
+	 */
+	public static Set<ERText> getNotMappedEntitySetNamesOrAttributes(ERModel model) {
+		validateNotNull(model);
+		Set<ERText> result = new HashSet<>();
+		
+		for (EntitySet entitySet : model.getEntitySets()) {
+			if (entitySet.getMappedTo() == null) {
+				result.add(entitySet.getName());
+				result.addAll(entitySet.getAttributes());
+			}
+		}
+
+		return result;		
 	}
 
 	/**
