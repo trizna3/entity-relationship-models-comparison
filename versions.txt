@@ -25,3 +25,9 @@ v1.3
 - mapping penalty computation - instead of 'objectsToProcess' list, object.isProcessed boolean flag is used, to prevent list construction and maintenance.
 - transformation pooling implemented. 
 - small examples run in up to 11 seconds (globally better than v1.2) (see tests/testReport_smallExamples_technicalOpt_v4)
+
+v1.4
+- logic optimizations:
+- direct descendants ordering, for better prunning
+- ignoring independent node order during traversal
+- additional constraints on attribute transformations

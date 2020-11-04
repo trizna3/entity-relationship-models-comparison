@@ -159,11 +159,11 @@ public class TransformationAnalystUtils {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
-		Set<ERText> notMappedEntitySetNamesOrAttributes = MappingUtils.getNotMappedEntitySetNamesOrAttributes(otherModel);
+		Set<ERText> notMappedEntitySetNames = MappingUtils.getNotMappedEntitySetNames(otherModel);
 		
 		for (EntitySet entitySet : model.getEntitySets()) {
 			for (Attribute attribute : entitySet.getAttributes()) {
-				if (!notMappedEntitySetNamesOrAttributes.contains(attribute)) {
+				if (!notMappedEntitySetNames.contains(attribute)) {
 					continue;
 				}
 				

@@ -433,7 +433,7 @@ public class TestUtils {
 
 		List<EntitySet> entitySets = new ArrayList<>();
 		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno", "Priezvisko", "Rok narodenia")))); // 0
-		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno", "Priezvisko", "Rok narodenia")))); // 1
+		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno 2", "Priezvisko 2", "Rok narodenia 2")))); // 1
 		entitySets.add(new EntitySet("Vztahy", new ArrayList<>(Arrays.asList("Nazov", "Odkedy")))); // 2
 
 		List<Relationship> relationships = new ArrayList<>();

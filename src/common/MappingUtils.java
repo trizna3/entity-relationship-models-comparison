@@ -84,14 +84,13 @@ public class MappingUtils extends Utils {
 	 * @param model
 	 * @return
 	 */
-	public static Set<ERText> getNotMappedEntitySetNamesOrAttributes(ERModel model) {
+	public static Set<ERText> getNotMappedEntitySetNames(ERModel model) {
 		validateNotNull(model);
 		Set<ERText> result = new HashSet<>();
 		
 		for (EntitySet entitySet : model.getEntitySets()) {
 			if (entitySet.getMappedTo() == null) {
 				result.add(entitySet.getName());
-				result.addAll(entitySet.getAttributes());
 			}
 		}
 

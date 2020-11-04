@@ -455,6 +455,8 @@ public class Transformator {
 		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
 		transformation.addArgument(destEntitySet, EnumTransformationRole.SOURCE_ENTITY_SET);
 
+		destEntitySet.addAttribute(attribute);
+		
 		assert sourceEntitySet.getNeighbours().keySet().size() > 0;
 		if (sourceEntitySet.getNeighbours().keySet().size() > 1) {
 			assert sourceEntitySet.getNeighbours().get(sourceEntitySet).size() == 1;
@@ -463,7 +465,6 @@ public class Transformator {
 			mapping.getStudentModel().removeEntitySet(sourceEntitySet);
 			transformation.removeArgument(sourceEntitySet);
 		}
-		destEntitySet.addAttribute(attribute);
 
 		return transformation;
 	}
@@ -490,7 +491,7 @@ public class Transformator {
 
 		EntitySet otherEntitySet = RelationshipUtils.getOtherEntitySet(association, entitySet);
 		entitySet.getAttributes().removeAll(otherEntitySet.getAttributes());
-//		entitySet.setNameText(StringUtils.getNamePart(entitySet.getNameText(), 0,false));
+		// tuto potrebujem robit nieco, ze daj mi vsetky party okrem posledneho
 		entitySet.setNameText(StringUtils.getNamePart(entitySet.getNameText(), 0,true));
 
 		if (flag != null)
