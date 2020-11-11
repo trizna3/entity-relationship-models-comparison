@@ -68,8 +68,8 @@ public class TransformationAnalyst {
 	}
 
 	private static void getPossibleContract11AssociationTransformations(Mapping mapping, List<Transformation> result) {
-		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getExemplarModel());
-		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getStudentModel());
+		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getExemplarModel(), mapping.getStudentModel());
+		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(result, mapping.getStudentModel(), mapping.getExemplarModel());
 	}
 
 	private static void getPossibleRebindNaryAssociationTransformations(Mapping mapping, List<Transformation> result) {

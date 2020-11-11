@@ -146,20 +146,20 @@ public class MappingFinderLargeTest {
 		assertTrue(true);
 	}
 	
-//	@Test
-//	public void testFindBestMapping_Poistovna_2() {
-//		System.out.println("Test - mapping finder: Poistovna 2");
-//		ERModel exemplarModel = TestUtils.makeERModel_Poistovna_Vzor();
-//		ERModel studentModel = TestUtils.makeERModel_Poistovna_S2();
-//
-//		Collections.shuffle(exemplarModel.getEntitySets());
-//		Collections.shuffle(studentModel.getEntitySets());
-//
-//		MappingFinder finder = new MappingFinder();
-//		finder.getBestMapping(exemplarModel, studentModel);
-//
-//		assertTrue(true);
-//	}
+	@Test
+	public void testFindBestMapping_Poistovna_2() {
+		System.out.println("Test - mapping finder: Poistovna 2");
+		ERModel exemplarModel = TestUtils.makeERModel_Poistovna_Vzor();
+		ERModel studentModel = TestUtils.makeERModel_Poistovna_S2();
+
+		Collections.shuffle(exemplarModel.getEntitySets());
+		Collections.shuffle(studentModel.getEntitySets());
+
+		MappingFinder finder = new MappingFinder();
+		finder.getBestMapping(exemplarModel, studentModel);
+
+		assertTrue(true);
+	}
 //	
 //	@Test
 //	public void testFindBestMapping_UFO_1() {

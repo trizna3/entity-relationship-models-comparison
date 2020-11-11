@@ -12,6 +12,7 @@ import common.PrintUtils;
 import common.TransformationUtils;
 import common.Utils;
 import common.enums.EnumConstants;
+import comparing.EntitySetComparator;
 import comparing.Mapping;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;

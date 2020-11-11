@@ -184,7 +184,7 @@ public class TransformationAnalystTest {
 		ERModel model = TestUtils.getERModels().get(0);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(transformations, model, new ERModel());
 
 		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.CONTRACT_11_ASSOCIATION));
 	}
@@ -196,7 +196,7 @@ public class TransformationAnalystTest {
 		Mapping mapping = new Mapping(null, model);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(transformations, model, new ERModel());
 
 		for (Transformation transformation : transformations) {
 			Transformator.execute(mapping, transformation);

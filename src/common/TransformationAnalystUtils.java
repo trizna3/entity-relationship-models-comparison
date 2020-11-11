@@ -7,6 +7,7 @@ import common.enums.EnumRelationshipSideRole;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
 import common.objectPools.TransformationPool;
+import comparing.EntitySetComparator;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
@@ -20,7 +21,7 @@ import transformations.Transformation;
 
 public class TransformationAnalystUtils {
 
-	public static void getPossibleContract11AssociationTransformations(List<Transformation> target, ERModel model) {
+	public static void getPossibleContract11AssociationTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
@@ -36,6 +37,19 @@ public class TransformationAnalystUtils {
 				continue;
 			}
 			if (!EnumRelationshipSideRole.CARDINALITY_ONE.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
+				continue;
+			}
+			
+			boolean opposingEntitySetFound = false;
+			for (EntitySet entitySet : otherModel.getNotMappedEntitySets()) {
+				if (EntitySetComparator.getInstance().compareAssymetric(association.getFirstSide().getEntitySet(), entitySet) >= EntitySetComparator.SIMILARITY_TRESHOLD &&
+					EntitySetComparator.getInstance().compareAssymetric(association.getSecondSide().getEntitySet(), entitySet) >= EntitySetComparator.SIMILARITY_TRESHOLD) {
+					opposingEntitySetFound = true;
+					break;
+				}
+			}
+			
+			if (!opposingEntitySetFound) {
 				continue;
 			}
 
