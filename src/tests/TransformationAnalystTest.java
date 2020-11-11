@@ -103,7 +103,7 @@ public class TransformationAnalystTest {
 		ERModel model = TestUtils.getERModels().get(1);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleRebindMNTo1NN1Transformations(transformations, model);
+		TransformationAnalystUtils.getPossibleRebindMNTo1NN1Transformations(transformations, model, new ERModel());
 
 		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.REBIND_MN_TO_1NN1));
 	}
@@ -115,7 +115,7 @@ public class TransformationAnalystTest {
 		Mapping mapping = new Mapping(null, model);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleRebindMNTo1NN1Transformations(transformations, model);
+		TransformationAnalystUtils.getPossibleRebindMNTo1NN1Transformations(transformations, model, new ERModel());
 
 		for (Transformation transformation : transformations) {
 			Transformator.execute(mapping, transformation);
@@ -130,7 +130,7 @@ public class TransformationAnalystTest {
 		ERModel model = TestUtils.getERModels().get(4);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleRebind1NN1ToMNTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleRebind1NN1ToMNTransformations(transformations, model, new ERModel());
 
 		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.REBIND_1NN1_TO_MN));
 	}
@@ -142,7 +142,7 @@ public class TransformationAnalystTest {
 		Mapping mapping = new Mapping(null, model);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleRebind1NN1ToMNTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleRebind1NN1ToMNTransformations(transformations, model, new ERModel());
 
 		for (Transformation transformation : transformations) {
 			Transformator.execute(mapping, transformation);
@@ -211,7 +211,7 @@ public class TransformationAnalystTest {
 		ERModel model = TestUtils.getERModels().get(1);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(transformations, model, new ERModel());
 
 		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.REBIND_NARY_ASSOCIATION));
 	}
@@ -223,7 +223,7 @@ public class TransformationAnalystTest {
 		Mapping mapping = new Mapping(null, model);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(transformations, model);
+		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(transformations, model, new ERModel());
 
 		for (Transformation transformation : transformations) {
 			Transformator.execute(mapping, transformation);

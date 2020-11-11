@@ -89,7 +89,7 @@ public class MappingUtils extends Utils {
 		Set<ERText> result = new HashSet<>();
 		
 		for (EntitySet entitySet : model.getEntitySets()) {
-			if (entitySet.getMappedTo() == null) {
+			if (entitySet.getMappedTo() == null && entitySet.getName() != null && entitySet.getName().getName() != null) {
 				result.add(entitySet.getName());
 			}
 		}

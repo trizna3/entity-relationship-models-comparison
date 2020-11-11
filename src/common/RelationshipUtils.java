@@ -262,6 +262,19 @@ public class RelationshipUtils extends Utils {
 		}
 		return true;
 	}
+	
+	/**
+	 * Determines if given relationships are of the same grade (have same number of incident entity sets) 
+	 * @param relationship1
+	 * @param relationship2
+	 * @return
+	 */
+	public static boolean sameGrade(Relationship relationship1, Relationship relationship2) {
+		validateNotNull(relationship1);
+		validateNotNull(relationship2);
+		
+		return relationship1.getSides().size() == relationship2.getSides().size();
+	}
 
 	private static Association getAssociationClone(Association association, Map<EntitySet, EntitySet> entitySetMap) {
 		Association associationClone = new Association();

@@ -51,6 +51,12 @@ public class Utils {
 			throw new IllegalStateException("Relationship is not Binary!");
 		}
 	}
+	
+	public static void validateBinary(EntitySet entitySet) {
+		if (!entitySet.isBinary()) {
+			throw new IllegalStateException("EntitySet is not binary joining entity set!");
+		}
+	}
 
 	public static void validateContains(EntitySet entitySet, Attribute attribute) {
 		if (!entitySet.getAttributes().contains(attribute)) {
@@ -62,6 +68,12 @@ public class Utils {
 		validateNotNull(integer);
 		if (integer.intValue() < 1) {
 			throw new IllegalStateException("Integer value is not positive!");
+		}
+	}
+	
+	public static void validateSameGrade(Relationship relationship1, Relationship relationship2) {
+		if (!RelationshipUtils.sameGrade(relationship1, relationship2)) {
+			throw new IllegalStateException("Relationships are not of the same grade!");
 		}
 	}
 

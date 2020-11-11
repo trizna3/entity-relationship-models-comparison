@@ -7,6 +7,8 @@ import common.enums.EnumRelationshipSideRole;
 import common.enums.EnumTransformation;
 import common.enums.EnumTransformationRole;
 import common.objectPools.TransformationPool;
+import comparing.AssociationComparator;
+import comparing.EntitySetAssociationComparator;
 import comparing.EntitySetComparator;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.Attribute;
@@ -20,6 +22,10 @@ import entityRelationshipModel.TransformableFlag;
 import transformations.Transformation;
 
 public class TransformationAnalystUtils {
+	
+	private static EntitySetComparator entitySetComparator;
+	private static EntitySetAssociationComparator entitySetAssociationComparator;
+	private static AssociationComparator associationComparator;
 
 	public static void getPossibleContract11AssociationTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
 		Utils.validateNotNull(target);
@@ -42,8 +48,8 @@ public class TransformationAnalystUtils {
 			
 			boolean opposingEntitySetFound = false;
 			for (EntitySet entitySet : otherModel.getNotMappedEntitySets()) {
-				if (EntitySetComparator.getInstance().compareAssymetric(association.getFirstSide().getEntitySet(), entitySet) >= EntitySetComparator.SIMILARITY_TRESHOLD &&
-					EntitySetComparator.getInstance().compareAssymetric(association.getSecondSide().getEntitySet(), entitySet) >= EntitySetComparator.SIMILARITY_TRESHOLD) {
+				if (getEntitySetComparator().compareAssymetric(association.getFirstSide().getEntitySet(), entitySet) >= EntitySetComparator.SIMILARITY_TRESHOLD &&
+					getEntitySetComparator().compareAssymetric(association.getSecondSide().getEntitySet(), entitySet) >= EntitySetComparator.SIMILARITY_TRESHOLD) {
 					opposingEntitySetFound = true;
 					break;
 				}
@@ -66,7 +72,7 @@ public class TransformationAnalystUtils {
 		}
 	}
 
-	public static void getPossibleRebindMNTo1NN1Transformations(List<Transformation> target, ERModel model) {
+	public static void getPossibleRebindMNTo1NN1Transformations(List<Transformation> target, ERModel model, ERModel otherModel) {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
@@ -88,6 +94,28 @@ public class TransformationAnalystUtils {
 				continue;
 			}
 			
+			boolean matchingEntitySetFound = false;
+			for (EntitySet entitySet : otherModel.getEntitySets()) {
+				if (entitySet.getMappedTo() != null) {
+					continue;
+				}
+				if (!entitySet.isBinary()) {
+					continue;
+				}
+				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= EntitySetAssociationComparator.SIMILARITY_TRESHOLD) {
+					continue;
+				}
+				
+				matchingEntitySetFound = true;
+				break;				
+			}
+			
+			if (!matchingEntitySetFound) {
+				continue;
+			}
+			
+			System.out.println("budeme robit MN -> 1NN1");
+			
 			Transformation transformation = TransformationPool.getInstance().getTransformation();
 			transformation.setCode(EnumTransformation.REBIND_MN_TO_1NN1);
 			transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
@@ -96,24 +124,26 @@ public class TransformationAnalystUtils {
 		}
 	}
 
-	public static void getPossibleRebind1NN1ToMNTransformations(List<Transformation> target, ERModel model) {
+	public static void getPossibleRebind1NN1ToMNTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
 		nextES: for (EntitySet entitySet : model.getEntitySets()) {
-			if (entitySet.getNeighbours().size() != 2) {
+			// entity set validations
+			if (!entitySet.isBinary()) {
 				continue;
 			}
 			if (entitySet.getMappedTo() != null) {
 				continue;
 			}
-			List<Relationship> incidentRelationships = entitySet.getIncidentRelationships();
+			Set<Relationship> incidentRelationships = entitySet.getIncidentRelationships();
 			if (incidentRelationships.size() != 2) {
 				continue;
 			}
 			if (entitySet.containsTransformationFlag(EnumTransformation.REBIND_MN_TO_1NN1)) {
 				continue;
 			}
+			// validations on entity set's incident associations
 			Association association1 = null;
 			Association association2 = null;
 			for (Relationship relationship : incidentRelationships) {
@@ -129,13 +159,44 @@ public class TransformationAnalystUtils {
 				if (RelationshipUtils.getOtherSide(relationship, entitySet).getEntitySet().getMappedTo() != null) {
 					continue nextES;
 				}
-
+				
 				if (association1 == null) {
 					association1 = (Association) relationship;
 				} else {
 					association2 = (Association) relationship;
 				}
 			}
+			
+			// searching possible match candidate in other model
+			boolean matchingAssociationFound = false;
+			for (Relationship relationship : otherModel.getRelationships()) {
+				if (!(relationship instanceof Association)) {
+					continue;
+				}
+				Association association = (Association) relationship;
+				if (!association.isBinary()) {
+					continue;
+				}
+				if (!EnumRelationshipSideRole.CARDINALITY_MANY.equals(association.getFirstSide().getRole()) || association.getFirstSide().getEntitySet().getMappedTo() != null) {
+					continue;
+				}
+				if (!EnumRelationshipSideRole.CARDINALITY_MANY.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
+					continue;
+				}
+				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= EntitySetAssociationComparator.SIMILARITY_TRESHOLD) {
+					continue;
+				} 
+				
+				matchingAssociationFound = true;
+				break;
+			}
+			
+			
+			if (!matchingAssociationFound) {
+				continue;
+			}
+			
+			System.out.println("budeme robit 1NN1 -> MN");
 			
 			Transformation transformation = TransformationPool.getInstance().getTransformation();
 			transformation.setCode(EnumTransformation.REBIND_1NN1_TO_MN);
@@ -258,7 +319,7 @@ public class TransformationAnalystUtils {
 		}
 	}
 
-	public static void getPossibleRebindNaryAssociationTransformations(List<Transformation> target, ERModel model) {
+	public static void getPossibleRebindNaryAssociationTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
@@ -269,7 +330,32 @@ public class TransformationAnalystUtils {
 						continue nextRel;
 					}
 				}
-
+				
+				// search for match candidate
+				boolean matchCandidateFound = false;
+				nextCandidate: for (Relationship relationship2 : otherModel.getRelationships()) {
+					if (!(relationship2 instanceof Association)) {
+						continue nextCandidate;
+					}
+					if (!RelationshipUtils.sameGrade(relationship, relationship2)) {
+						continue nextCandidate;
+					}
+					for (RelationshipSide side : relationship2.getSides()) {
+						if (side.getEntitySet().getMappedTo() != null) {
+							continue nextCandidate;
+						}
+					}
+					if (getAssociationComparator().compareSymmetric((Association) relationship, (Association) relationship2) < AssociationComparator.SIMILARITY_TRESHOLD) {
+						continue;
+					}
+					matchCandidateFound = true;
+					break;
+				}
+				
+				if (matchCandidateFound) {
+					continue;
+				}
+				
 				Transformation transformation = TransformationPool.getInstance().getTransformation();
 				transformation.setCode(EnumTransformation.REBIND_NARY_ASSOCIATION);
 				transformation.addArgument(relationship, EnumTransformationRole.ASSOCIATION);
@@ -282,4 +368,25 @@ public class TransformationAnalystUtils {
 		}
 
 	}
+
+	private static EntitySetComparator getEntitySetComparator() {
+		if (entitySetComparator == null) {
+			entitySetComparator = EntitySetComparator.getInstance();
+		}
+		return entitySetComparator;
+	}
+
+	private static EntitySetAssociationComparator getEntitySetAssociationComparator() {
+		if (entitySetAssociationComparator == null) {
+			entitySetAssociationComparator = EntitySetAssociationComparator.getInstance();
+		}
+		return entitySetAssociationComparator;
+	}
+
+	private static AssociationComparator getAssociationComparator() {
+		if (associationComparator == null) {
+			associationComparator = AssociationComparator.getInstance();
+		}
+		return associationComparator;
+	} 
 }

@@ -3,19 +3,15 @@ package comparing;
 import java.util.Comparator;
 
 import common.Utils;
-import entityRelationshipModel.Attribute;
 import entityRelationshipModel.EntitySet;
-import languageProcessing.Dictionary;
-import languageProcessing.LanguageProcessor;
 
 public class EntitySetComparator implements Comparator<EntitySet> {
 	
 	private static EntitySetComparator INSTANCE = new EntitySetComparator();
-	private LanguageProcessor dictionary;
+	private AttributedComparator attributedComparator;
+	private NamedComparator namedComparator;
 	
 	public static final double SIMILARITY_TRESHOLD = 0.25;
-	public static final int ENTITY_SET_NAME_WEIGHT = 2;
-	public static final int ATTRIBUTE_WEIGHT = 2;
 	
 	public static EntitySetComparator getInstance() {
 		return INSTANCE;
@@ -28,7 +24,21 @@ public class EntitySetComparator implements Comparator<EntitySet> {
 	 * @return 
 	 */
 	public double compareSymmetric(EntitySet entitySet1, EntitySet entitySet2) {
-		return 0;
+		Utils.validateNotNull(entitySet1);
+		Utils.validateNotNull(entitySet2);
+		
+		double max = 0;
+		double value = 0;
+		
+		// entity sets name
+		max += ERComparator.NAME_WEIGHT;
+		value += ERComparator.NAME_WEIGHT * getNamedComparator().compareSymmetric(entitySet1, entitySet2);
+		
+		// entity sets attributes
+		max += ERComparator.ATTRIBUTE_WEIGHT;
+		value += ERComparator.ATTRIBUTE_WEIGHT * getAttributedComparator().compareSymmetric(entitySet1, entitySet2);
+		
+		return value == max ? 1 : value/max;
 	}
 	
 	/**
@@ -47,27 +57,13 @@ public class EntitySetComparator implements Comparator<EntitySet> {
 		double value = 0;
 		
 		// entity sets name
-		max += ENTITY_SET_NAME_WEIGHT;
-		value += ENTITY_SET_NAME_WEIGHT * getDictionary().getSimilarity(subEntitySet.getNameText(), superEntitySet.getNameText());
+		max += ERComparator.NAME_WEIGHT;
+		value += ERComparator.NAME_WEIGHT * getNamedComparator().compareSymmetric(subEntitySet, superEntitySet);
 		
 		// entity sets attributes
-		for (Attribute attribute : subEntitySet.getAttributes()) {
-			max += ATTRIBUTE_WEIGHT;
-
-			// !! working version
-			if (superEntitySet.getAttributes().contains(attribute)) {
-				value += ATTRIBUTE_WEIGHT;
-			}
-		}		
-		
-		return value/max;
-	}
-
-	public LanguageProcessor getDictionary() {
-		if (dictionary == null) {
-			dictionary = new Dictionary();
-		}
-		return dictionary;
+		max += ERComparator.ATTRIBUTE_WEIGHT;
+		value += ERComparator.ATTRIBUTE_WEIGHT * getAttributedComparator().compareAsymmetric(subEntitySet, superEntitySet);		
+		return value == max ? 1 : value/max;
 	}
 	
 	@Override
@@ -77,5 +73,18 @@ public class EntitySetComparator implements Comparator<EntitySet> {
 		}
 		return (int) (o1.getPriority().doubleValue() - o2.getPriority().doubleValue());
 	}
-	
+
+	private AttributedComparator getAttributedComparator() {
+		if (attributedComparator == null) {
+			attributedComparator = AttributedComparator.getInstance();
+		}
+		return attributedComparator;
+	}
+
+	private NamedComparator getNamedComparator() {
+		if (namedComparator == null) {
+			namedComparator = NamedComparator.getInstance();
+		}
+		return namedComparator;
+	}
 }

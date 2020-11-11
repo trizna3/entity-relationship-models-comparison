@@ -56,11 +56,11 @@ public class TransformationAnalyst {
 	}
 
 	private static void getPossibleRebindMNTo1NN1Transformations(Mapping mapping, List<Transformation> result) {
-		TransformationAnalystUtils.getPossibleRebindMNTo1NN1Transformations(result, mapping.getStudentModel());
+		TransformationAnalystUtils.getPossibleRebindMNTo1NN1Transformations(result, mapping.getStudentModel(), mapping.getExemplarModel());
 	}
 
 	private static void getPossibleRebind1NN1ToMNTransformations(Mapping mapping, List<Transformation> result) {
-		TransformationAnalystUtils.getPossibleRebind1NN1ToMNTransformations(result, mapping.getStudentModel());
+		TransformationAnalystUtils.getPossibleRebind1NN1ToMNTransformations(result, mapping.getStudentModel(), mapping.getExemplarModel());
 	}
 
 	private static void getPossibleGeneralizationToAssociationTransformations(Mapping mapping, List<Transformation> result) {
@@ -73,7 +73,7 @@ public class TransformationAnalyst {
 	}
 
 	private static void getPossibleRebindNaryAssociationTransformations(Mapping mapping, List<Transformation> result) {
-		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(result, mapping.getStudentModel());
-		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(result, mapping.getExemplarModel());
+		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(result, mapping.getStudentModel(), mapping.getExemplarModel());
+		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(result, mapping.getExemplarModel(), mapping.getStudentModel());
 	}
 }

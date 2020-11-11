@@ -18,7 +18,7 @@ import common.Utils;
  * @see Association
  * @see Generalization
  */
-public abstract class Relationship extends ERModelElement {
+public abstract class Relationship extends ERModelElement implements Named {
 
 	/**
 	 * Relationship name.
@@ -48,7 +48,6 @@ public abstract class Relationship extends ERModelElement {
 	@Override
 	public String toString() {
 		return PrintUtils.print(this);
-
 	}
 
 	public boolean contains(EntitySet entitySet) {
@@ -69,12 +68,12 @@ public abstract class Relationship extends ERModelElement {
 		return getSecond();
 	}
 
-	public RelationshipSide getFirst() {
+	protected RelationshipSide getFirst() {
 		Utils.validateBinary(this);
 		return getSides().get(0);
 	}
 
-	public RelationshipSide getSecond() {
+	protected RelationshipSide getSecond() {
 		Utils.validateBinary(this);
 		return getSides().get(1);
 	}

@@ -2,10 +2,16 @@ package entityRelationshipModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.junit.validator.ValidateWith;
 
 import common.PrintUtils;
+import common.RelationshipUtils;
 import common.StringUtils;
 import common.Utils;
 
@@ -17,7 +23,7 @@ import common.Utils;
  * Base element of entity relationship model. Entails a set of entities with
  * common properties (attributes).
  */
-public class EntitySet extends ERModelElement implements Attributed {
+public class EntitySet extends ERModelElement implements Attributed, Named {
 
 	/**
 	 * Entity set name.
@@ -47,6 +53,12 @@ public class EntitySet extends ERModelElement implements Attributed {
 	 * Used to determine order of bactrack tree traversal
 	 */
 	private Double priority;
+	
+	/**
+	 * Used in case of binary joining entity sets
+	 */
+	private EntitySet firstNeigbour;
+	private EntitySet secondNeigbour;
 
 	public EntitySet(String name) {
 		this.name = new ERModelElementName(name);
@@ -202,8 +214,8 @@ public class EntitySet extends ERModelElement implements Attributed {
 		getAttributes().remove(attribute);
 	}
 
-	public List<Relationship> getIncidentRelationships() {
-		List<Relationship> result = new ArrayList<>();
+	public Set<Relationship> getIncidentRelationships() {
+		Set<Relationship> result = new HashSet<>();
 		for (EntitySet neighbour : getNeighbours().keySet()) {
 			result.addAll(getNeighbours().get(neighbour));
 		}
@@ -234,4 +246,36 @@ public class EntitySet extends ERModelElement implements Attributed {
 		}
 		return attributesAreEqual(other);
 	}	
+	
+	public EntitySet getFirstNeighbour() {
+		Utils.validateBinary(this);
+		if (firstNeigbour == null) {
+			Iterator<List<Relationship>> it = getNeighbours().values().iterator();
+			firstNeigbour = RelationshipUtils.getOtherEntitySet(it.next().get(0), this);
+		}
+		return firstNeigbour;
+	}
+	
+	public EntitySet getSecondNeighbour() {
+		Utils.validateBinary(this);
+		if (secondNeigbour == null) {
+			Iterator<List<Relationship>> it = getNeighbours().values().iterator();
+			it.next();
+			secondNeigbour = RelationshipUtils.getOtherEntitySet(it.next().get(0), this);
+		}
+		return secondNeigbour;
+	}
+	
+	public boolean isBinary() {
+		if (getNeighbours().size() != 2) {
+			return false;
+		}
+		if (getNeighbours().values().stream().anyMatch(list -> list.size() != 1)) {
+			return false;
+		}
+		if (getIncidentRelationships().size() != 2) {
+			return false;
+		}
+		return true;
+	}
 }
