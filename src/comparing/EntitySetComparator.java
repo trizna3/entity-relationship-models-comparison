@@ -11,8 +11,7 @@ public class EntitySetComparator implements Comparator<EntitySet> {
 	private AttributedComparator attributedComparator;
 	private NamedComparator namedComparator;
 	
-	public static final double SIMILARITY_TRESHOLD = 0.25;
-	
+	public static final double SIMILARITY_TRESHOLD = 0.25;	
 	public static EntitySetComparator getInstance() {
 		return INSTANCE;
 	}

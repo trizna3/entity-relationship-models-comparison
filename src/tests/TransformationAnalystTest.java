@@ -181,7 +181,7 @@ public class TransformationAnalystTest {
 
 	@Test
 	public void getPossibleContract11AssociationTransformations() {
-		ERModel model = TestUtils.getERModels().get(0);
+		ERModel model = TestUtils.makeERModel_Internaty_Vzor();
 		List<Transformation> transformations = new ArrayList<>();
 
 		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(transformations, model, new ERModel());
