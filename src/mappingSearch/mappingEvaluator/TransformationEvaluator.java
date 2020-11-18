@@ -24,17 +24,30 @@ public class TransformationEvaluator {
 	static {
 		transformationPenalties.put(EnumTransformation.REBIND_MN_TO_1NN1, Double.valueOf(0));
 		transformationPenalties.put(EnumTransformation.REBIND_1NN1_TO_MN, Double.valueOf(0));
-		transformationPenalties.put(EnumTransformation.REBIND_1NN1_TO_MN, Double.valueOf(0));
 		transformationPenalties.put(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET, Double.valueOf(0));
 		transformationPenalties.put(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, Double.valueOf(0.2));
 		transformationPenalties.put(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION, Double.valueOf(0.2));
 		transformationPenalties.put(EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION, Double.valueOf(0.5));
+		transformationPenalties.put(EnumTransformation._11_ASSOCIATION_TO_GENERALIZATION, Double.valueOf(0.5));
 		transformationPenalties.put(EnumTransformation.CONTRACT_11_ASSOCIATION, Double.valueOf(0));
 		transformationPenalties.put(EnumTransformation.REBIND_NARY_ASSOCIATION, Double.valueOf(0.5));
-
+		
+ 		transformationPenalties.put(EnumTransformation.CREATE_ENTITY_SET, Double.valueOf(5));
+		transformationPenalties.put(EnumTransformation.CREATE_ASSOCIATION, Double.valueOf(3));
+		transformationPenalties.put(EnumTransformation.CREATE_GENERALIZATION, Double.valueOf(3));
+		transformationPenalties.put(EnumTransformation.CREATE_ATTRIBUTE, Double.valueOf(1));
+		transformationPenalties.put(EnumTransformation.REMOVE_ENTITY_SET, Double.valueOf(5));
+		transformationPenalties.put(EnumTransformation.REMOVE_ASSOCIATION, Double.valueOf(3));
+		transformationPenalties.put(EnumTransformation.REMOVE_GENERALIZATION, Double.valueOf(3));
+		transformationPenalties.put(EnumTransformation.REMOVE_ATTRIBUTE, Double.valueOf(1));
+		transformationPenalties.put(EnumTransformation.CHANGE_CARDINALITY, Double.valueOf(1));
+		transformationPenalties.put(EnumTransformation.RENAME_ENTITY_SET, Double.valueOf(5));
+		transformationPenalties.put(EnumTransformation.RENAME_ATTRIBUTE, Double.valueOf(1));
+		
 	}
 
 	/**
+	 * 
 	 * Compute penalty for given transformations made.
 	 */
 	public double evaluate(Mapping mapping) {

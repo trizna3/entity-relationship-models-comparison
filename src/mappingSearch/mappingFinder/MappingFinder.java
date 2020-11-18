@@ -42,11 +42,16 @@ public class MappingFinder {
 	private boolean trackProgress = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_TRACK_PROGRESS).toString());
 	private boolean earlyStop = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_EARLY_STOP).toString());
 	private int earlyStopBound = Integer.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_EARLY_STOP_BOUND).toString());
-
+	
 	/**
 	 * Stack level counter
 	 */
-	private Integer counter = new Integer(0);
+	private int depthCounter = 0;
+	private int maxDepth = 3;
+	private int maxDepthReached = 0;
+	
+	private int mappingNodesCount = 0;
+	private int transformationNodesCount = 0;
 
 	/**
 	 * Uses recursive backtrack algorithm to iterate over all possible mappings,
@@ -62,13 +67,18 @@ public class MappingFinder {
 
 		if (earlyStop) {
 			Clock.getInstance().start(earlyStopBound);
+		} else {
+			Clock.getInstance().start();
 		}
 		
 		search(new Mapping(exemplarModel, studentModel));
 		if (printResult) {
 			System.out.println("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
+			System.out.println("Total mapping nodes = " + mappingNodesCount + ", Total transformation nodes = " + transformationNodesCount);
+			System.out.println("Time elapsed = " + Clock.getInstance().getTimeElapsed());
 			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMapping()));
 			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMappingTransformations()));
+			System.out.println("-");
 		}
 		return getMappingEvaluator().getBestMapping();
 	}
@@ -77,15 +87,32 @@ public class MappingFinder {
 	 * Performs backtracking algorithm to find optimal entity sets mapping.
 	 */
 	private void search(Mapping mapping) {
-		if (shallPrune(mapping) || (earlyStop && Clock.getInstance().boundReached())) {
-			return;
-		}
-		if (branchComplete(mapping)) {
+		if (stoppingCriterionReached(mapping)) {
 			evaluate(mapping);
 			return;
 		}
 		searchThroughTransformation(mapping);
 		searchThroughMapping(mapping);
+	}
+	
+	private boolean stoppingCriterionReached(Mapping mapping) {
+		// early stop condition satisfied
+		if (earlyStop && Clock.getInstance().boundReached()) {
+			return true;
+		}
+		// maximum recursion depth reached
+		if (depthCounter >= maxDepth) {
+			return true;
+		}
+		// branch can be pruned due to it's high current penalty
+		if (shallPrune(mapping)) {
+			return true;
+		}
+		// branch is complete and cannot be extended more 
+		if (branchComplete(mapping)) {
+			return true;
+		}
+		return false;
 	}
 
 	private void searchThroughMapping(Mapping mapping) {
@@ -107,7 +134,7 @@ public class MappingFinder {
 			map(mapping, exemplarEntitySet, studentEntitySet);
 			search(mapping);
 			unmap(mapping, exemplarEntitySet, studentEntitySet);
-		}
+		}	
 	}
 
 	private void searchThroughTransformation(Mapping mapping) {
@@ -123,9 +150,11 @@ public class MappingFinder {
 					
 					executeAll(decPart, combinationIndices, mapping);
 					forbidAll(decPart, excludedIndices, mapping);
-					
+					incrementDepthCounter();
+					transformationNodesCount ++;
 					search(mapping);
 					
+					decrementDepthCounter();
 					permitAll(decPart, excludedIndices, mapping);
 					revertAll(decPart, combinationIndices, mapping);
 				}
@@ -137,12 +166,13 @@ public class MappingFinder {
 
 	private void map(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
 		mapping.map(exemplarEntitySet, studentEntitySet);
-		incrementCounter();
+		mappingNodesCount ++;
+//		incrementDepthCounter();
 	}
 
 	private void unmap(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
 		mapping.unmap(exemplarEntitySet, studentEntitySet);
-		decrementCounter();
+//		decrementDepthCounter();
 	}
 
 	private boolean branchComplete(Mapping mapping) {
@@ -170,7 +200,6 @@ public class MappingFinder {
 		}
 		Transformator.execute(mapping, transformation);
 		mapping.addTransformation(transformation);
-		incrementCounter();
 	}
 
 	private void revertTransformation(Mapping mapping, Transformation transformation) {
@@ -179,19 +208,23 @@ public class MappingFinder {
 		}
 		mapping.removeTransformation(transformation);
 		Transformator.revert(mapping, transformation);
-		decrementCounter();
 	}
 
-	private void incrementCounter() {
-		if (trackProgress && counter.intValue() == 0) {
+	private void incrementDepthCounter() {
+		if (trackProgress && depthCounter == 0) {
 			LoggerUtils.log("Backtrack hit recursive level 0");
 		}
-		counter++;
+		depthCounter++;
+		
+//		if (depthCounter > maxDepthReached) {
+//			System.out.println("Max recursion level reached = " + depthCounter);
+//			maxDepthReached = depthCounter;
+//		}
 	}
 
-	private void decrementCounter() {
-		Utils.validatePositive(counter);
-		counter--;
+	private void decrementDepthCounter() {
+		Utils.validatePositive(depthCounter);
+		depthCounter--;
 	}
 	
 	private void computeEntitySetsPriority(List<EntitySet> directStudentEntitySets, EntitySet exemplarEntitySet) {

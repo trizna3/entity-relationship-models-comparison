@@ -77,7 +77,7 @@ public class Evaluator implements IEvaluator {
 	 * @param mapping
 	 */
 	private List<EntitySet> finalizeMapping(Mapping mapping) {
-		assert mapping.getExemplarModel().getNotMappedEntitySets().isEmpty();
+//		assert mapping.getExemplarModel().getNotMappedEntitySets().isEmpty();
 
 		List<EntitySet> result = new ArrayList<>();
 
@@ -91,7 +91,7 @@ public class Evaluator implements IEvaluator {
 	 * @param mapping
 	 */
 	private void unfinalizeMapping(Mapping mapping) {
-		assert mapping.getExemplarModel().getNotMappedEntitySets().isEmpty();
+//		assert mapping.getExemplarModel().getNotMappedEntitySets().isEmpty();
 
 		ERModelUtils.unfinalizeModel(mapping.getStudentModel());
 	}
