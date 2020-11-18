@@ -114,8 +114,6 @@ public class TransformationAnalystUtils {
 				continue;
 			}
 			
-			System.out.println("budeme robit MN -> 1NN1");
-			
 			Transformation transformation = TransformationPool.getInstance().getTransformation();
 			transformation.setCode(EnumTransformation.REBIND_MN_TO_1NN1);
 			transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
@@ -195,8 +193,6 @@ public class TransformationAnalystUtils {
 			if (!matchingAssociationFound) {
 				continue;
 			}
-			
-			System.out.println("budeme robit 1NN1 -> MN");
 			
 			Transformation transformation = TransformationPool.getInstance().getTransformation();
 			transformation.setCode(EnumTransformation.REBIND_1NN1_TO_MN);

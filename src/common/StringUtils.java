@@ -107,6 +107,31 @@ public class StringUtils extends Utils {
 		getHashtable().put(string, hash);
 		return hash;
 	}
+	
+	/**
+	 * Removes otherName part from compositeName
+	 * 
+	 * We can assume we'll always take from beginning or from the end.
+	 * 
+	 * @param compositeName
+	 * @param otherName
+	 */
+	public static String decomposeName(String compositeName, String otherName) {
+		validateNotNull(compositeName);
+		validateNotNull(otherName);
+		
+		int otherIdx = compositeName.indexOf(otherName);
+		
+		if (otherIdx == -1) {
+			return compositeName;
+		}
+		else if (otherIdx == 0) {
+			return compositeName.substring(otherName.length()+1);	// exclude delimiter (should be 1 char)
+		}
+		else {
+			return compositeName.substring(0, otherIdx-1);	// exclude delimiter (should be 1 char)
+		}
+	}
 
 	private static Map<String,Integer> getHashtable() {
 		if (hashtable == null) {

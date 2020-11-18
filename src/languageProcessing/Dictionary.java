@@ -27,10 +27,10 @@ public class Dictionary implements LanguageProcessor {
 	}
 	
 	private Double getSimilarityInternal(String word1, String word2) {
-		if (getCache().containsKey(word1)) {
+		if (getCache().containsKey(word1) && getCache().get(word1).containsKey(word2)) {
 			return getCache().get(word1).get(word2);
 		}
-		if (getCache().containsKey(word2)) {
+		if (getCache().containsKey(word2) && getCache().get(word2).containsKey(word1)) {
 			return getCache().get(word2).get(word1);
 		}
 		
@@ -52,6 +52,6 @@ public class Dictionary implements LanguageProcessor {
 		if (!getCache().containsKey(word1)) {
 			getCache().put(word1,new HashMap<>());
 		}
-		getCache().get(word1).put(word2, Double.valueOf(1));
+		getCache().get(word1).put(word2, Double.valueOf(similarity));
 	}
 }

@@ -491,8 +491,8 @@ public class Transformator {
 
 		EntitySet otherEntitySet = RelationshipUtils.getOtherEntitySet(association, entitySet);
 		entitySet.getAttributes().removeAll(otherEntitySet.getAttributes());
-		entitySet.setNameText(StringUtils.getNamePartsFromBeginning(entitySet.getNameText(), 1));
-
+		entitySet.setNameText(StringUtils.decomposeName(entitySet.getNameText(), otherEntitySet.getNameText()));
+		
 		if (flag != null)
 			mapping.getExemplarModel().addEntitySet(otherEntitySet);
 		else
