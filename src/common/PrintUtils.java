@@ -71,6 +71,9 @@ public class PrintUtils extends Utils {
 	}
 
 	public static final String print(Map<EntitySet, EntitySet> map) {
+		if (map == null) {
+			return "";
+		}
 		StringBuilder result = new StringBuilder("Entity set map {\n");
 		for (EntitySet entitySet : map.keySet()) {
 			result.append("    " + entitySet.getNameText() + " : " + map.get(entitySet).getNameText() + "\n");
@@ -80,8 +83,11 @@ public class PrintUtils extends Utils {
 	}
 
 	public static final String print(List<Transformation> transformations) {
+		if (transformations == null) {
+			return "";
+		}
+		
 		StringBuilder result = new StringBuilder();
-
 		for (Transformation transformation : transformations) {
 			result.append(print(transformation) + "\n");
 		}

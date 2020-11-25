@@ -1,8 +1,9 @@
 package mappingSearch.mappingEvaluator;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
+import common.PenaltyConstants;
 import common.Utils;
 import common.enums.EnumTransformation;
 import comparing.Mapping;
@@ -20,30 +21,35 @@ import transformations.Transformation;
  */
 public class TransformationEvaluator {
 
-	private static final Map<EnumTransformation, Double> transformationPenalties = new HashMap<>();
+	
+	private static final Set<EnumTransformation> freeTransformations = new HashSet<>();
+	private static final Set<EnumTransformation> lightTransformations = new HashSet<>();
+	private static final Set<EnumTransformation> mediumTransformations = new HashSet<>();
+	private static final Set<EnumTransformation> heavyTransformations = new HashSet<>();
 	static {
-		transformationPenalties.put(EnumTransformation.REBIND_MN_TO_1NN1, Double.valueOf(0));
-		transformationPenalties.put(EnumTransformation.REBIND_1NN1_TO_MN, Double.valueOf(0));
-		transformationPenalties.put(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET, Double.valueOf(0));
-		transformationPenalties.put(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET, Double.valueOf(0.2));
-		transformationPenalties.put(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION, Double.valueOf(0.2));
-		transformationPenalties.put(EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION, Double.valueOf(0.5));
-		transformationPenalties.put(EnumTransformation._11_ASSOCIATION_TO_GENERALIZATION, Double.valueOf(0.5));
-		transformationPenalties.put(EnumTransformation.CONTRACT_11_ASSOCIATION, Double.valueOf(0));
-		transformationPenalties.put(EnumTransformation.REBIND_NARY_ASSOCIATION, Double.valueOf(0.5));
+		freeTransformations.add(EnumTransformation.REBIND_MN_TO_1NN1);
+		freeTransformations.add(EnumTransformation.REBIND_1NN1_TO_MN);
+		freeTransformations.add(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
+		freeTransformations.add(EnumTransformation.CONTRACT_11_ASSOCIATION);
 		
- 		transformationPenalties.put(EnumTransformation.CREATE_ENTITY_SET, Double.valueOf(5));
-		transformationPenalties.put(EnumTransformation.CREATE_ASSOCIATION, Double.valueOf(3));
-		transformationPenalties.put(EnumTransformation.CREATE_GENERALIZATION, Double.valueOf(3));
-		transformationPenalties.put(EnumTransformation.CREATE_ATTRIBUTE, Double.valueOf(1));
-		transformationPenalties.put(EnumTransformation.REMOVE_ENTITY_SET, Double.valueOf(5));
-		transformationPenalties.put(EnumTransformation.REMOVE_ASSOCIATION, Double.valueOf(3));
-		transformationPenalties.put(EnumTransformation.REMOVE_GENERALIZATION, Double.valueOf(3));
-		transformationPenalties.put(EnumTransformation.REMOVE_ATTRIBUTE, Double.valueOf(1));
-		transformationPenalties.put(EnumTransformation.CHANGE_CARDINALITY, Double.valueOf(1));
-		transformationPenalties.put(EnumTransformation.RENAME_ENTITY_SET, Double.valueOf(5));
-		transformationPenalties.put(EnumTransformation.RENAME_ATTRIBUTE, Double.valueOf(1));
+		lightTransformations.add(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET);
+		lightTransformations.add(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION);
+		lightTransformations.add(EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION);
+		lightTransformations.add(EnumTransformation._11_ASSOCIATION_TO_GENERALIZATION);
+		lightTransformations.add(EnumTransformation.REBIND_NARY_ASSOCIATION);
+		lightTransformations.add(EnumTransformation.CREATE_ATTRIBUTE);
+		lightTransformations.add(EnumTransformation.REMOVE_ATTRIBUTE);
+		lightTransformations.add(EnumTransformation.CHANGE_CARDINALITY);
+		lightTransformations.add(EnumTransformation.RENAME_ATTRIBUTE);
 		
+		mediumTransformations.add(EnumTransformation.CREATE_ASSOCIATION);
+		mediumTransformations.add(EnumTransformation.CREATE_GENERALIZATION);
+		mediumTransformations.add(EnumTransformation.REMOVE_ASSOCIATION);
+		mediumTransformations.add(EnumTransformation.REMOVE_GENERALIZATION);
+		
+		heavyTransformations.add(EnumTransformation.CREATE_ENTITY_SET);
+		heavyTransformations.add(EnumTransformation.REMOVE_ENTITY_SET);
+		heavyTransformations.add(EnumTransformation.RENAME_ENTITY_SET);		
 	}
 
 	/**
@@ -75,9 +81,18 @@ public class TransformationEvaluator {
 	 * @return
 	 */
 	public double penalizeTransformation(EnumTransformation code) {
-		if (transformationPenalties.containsKey(code)) {
-			return transformationPenalties.get(code);
+		if (freeTransformations.contains(code)) {
+			return PenaltyConstants.TRANSFORMATION_PENALTY_FREE;
 		}
-		return 1;
+		if (lightTransformations.contains(code)) {
+			return PenaltyConstants.TRANSFORMATION_PENALTY_LIGHT;
+		}
+		if (mediumTransformations.contains(code)) {
+			return PenaltyConstants.TRANSFORMATION_PENALTY_MEDIUM;
+		}
+		if (heavyTransformations.contains(code)) {
+			return PenaltyConstants.TRANSFORMATION_PENALTY_HEAVY;
+		}
+		throw new IllegalArgumentException("Unknown Transformation code - cannot compute penalty!");
 	} 
 }

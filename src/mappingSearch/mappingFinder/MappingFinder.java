@@ -9,6 +9,7 @@ import common.ConfigManager;
 import common.LoggerUtils;
 import common.MappingUtils;
 import common.PrintUtils;
+import common.SimilarityConstants;
 import common.TransformationUtils;
 import common.Utils;
 import common.enums.EnumConstants;
@@ -16,8 +17,8 @@ import comparing.EntitySetComparator;
 import comparing.Mapping;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
-import languageProcessing.Dictionary;
 import languageProcessing.LanguageProcessor;
+import languageProcessing.Word2VecDictionary;
 import mappingSearch.mappingEvaluator.Evaluator;
 import mappingSearch.mappingEvaluator.IEvaluator;
 import transformations.Transformation;
@@ -36,6 +37,7 @@ public class MappingFinder {
 
 	private IEvaluator mappingEvaluator;
 	private LanguageProcessor dictionary;
+	private Clock clock = new Clock();
 	
 	private boolean printResult = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_PRINT_RESULT).toString());
 	private boolean printTransformationProgress = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_PRINT_TRANSFORMATION_PROGRESS).toString());
@@ -66,16 +68,16 @@ public class MappingFinder {
 		studentModel.setExemplar(false);
 
 		if (earlyStop) {
-			Clock.getInstance().start(earlyStopBound);
+			clock.start(earlyStopBound);
 		} else {
-			Clock.getInstance().start();
+			clock.start();
 		}
 		
 		search(new Mapping(exemplarModel, studentModel));
 		if (printResult) {
 			System.out.println("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
 			System.out.println("Total mapping nodes = " + mappingNodesCount + ", Total transformation nodes = " + transformationNodesCount);
-			System.out.println("Time elapsed = " + Clock.getInstance().getTimeElapsed());
+			System.out.println("Time elapsed = " + clock.getTimeElapsed());
 			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMapping()));
 			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMappingTransformations()));
 			System.out.println("-");
@@ -97,7 +99,7 @@ public class MappingFinder {
 	
 	private boolean stoppingCriterionReached(Mapping mapping) {
 		// early stop condition satisfied
-		if (earlyStop && Clock.getInstance().boundReached()) {
+		if (earlyStop && clock.boundReached()) {
 			return true;
 		}
 		// maximum recursion depth reached
@@ -129,6 +131,9 @@ public class MappingFinder {
 		
 		for (EntitySet studentEntitySet : studentEntitySets) {
 			if (studentEntitySet.getMappedTo() != null) {
+				continue;
+			}
+			if (!MappingUtils.EMPTY_ENTITY_SET.equals(studentEntitySet) && EntitySetComparator.getInstance().compareSymmetric(exemplarEntitySet, studentEntitySet) < SimilarityConstants.SIMILARITY_TRESHOLD_ENTITY_SET) {
 				continue;
 			}
 			map(mapping, exemplarEntitySet, studentEntitySet);
@@ -233,7 +238,8 @@ public class MappingFinder {
 
 	public LanguageProcessor getDictionary() {
 		if (dictionary == null) {
-			dictionary = new Dictionary();
+//			dictionary = new Dictionary();
+			dictionary = new Word2VecDictionary();
 		}
 		return dictionary;
 	}

@@ -48,8 +48,8 @@ public class TransformationAnalystUtils {
 			
 			boolean opposingEntitySetFound = false;
 			for (EntitySet entitySet : otherModel.getNotMappedEntitySets()) {
-				if (getEntitySetComparator().compareAssymetric(association.getFirstSide().getEntitySet(), entitySet) >= EntitySetComparator.SIMILARITY_TRESHOLD &&
-					getEntitySetComparator().compareAssymetric(association.getSecondSide().getEntitySet(), entitySet) >= EntitySetComparator.SIMILARITY_TRESHOLD) {
+				if (getEntitySetComparator().compareAssymetric(association.getFirstSide().getEntitySet(), entitySet) >= SimilarityConstants.SIMILARITY_TRESHOLD_ENTITY_SET &&
+					getEntitySetComparator().compareAssymetric(association.getSecondSide().getEntitySet(), entitySet) >= SimilarityConstants.SIMILARITY_TRESHOLD_ENTITY_SET) {
 					opposingEntitySetFound = true;
 					break;
 				}
@@ -102,7 +102,7 @@ public class TransformationAnalystUtils {
 				if (!entitySet.isBinary()) {
 					continue;
 				}
-				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= EntitySetAssociationComparator.SIMILARITY_TRESHOLD) {
+				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= SimilarityConstants.SIMILARITY_TRESHOLD_ENTITY_SET_ASSOCIATION) {
 					continue;
 				}
 				
@@ -181,7 +181,7 @@ public class TransformationAnalystUtils {
 				if (!EnumRelationshipSideRole.CARDINALITY_MANY.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
 					continue;
 				}
-				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= EntitySetAssociationComparator.SIMILARITY_TRESHOLD) {
+				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= SimilarityConstants.SIMILARITY_TRESHOLD_ENTITY_SET_ASSOCIATION) {
 					continue;
 				} 
 				
@@ -341,7 +341,7 @@ public class TransformationAnalystUtils {
 							continue nextCandidate;
 						}
 					}
-					if (getAssociationComparator().compareSymmetric((Association) relationship, (Association) relationship2) < AssociationComparator.SIMILARITY_TRESHOLD) {
+					if (getAssociationComparator().compareSymmetric((Association) relationship, (Association) relationship2) < SimilarityConstants.SIMILARITY_TRESHOLD_ASSOCIATION) {
 						continue;
 					}
 					matchCandidateFound = true;

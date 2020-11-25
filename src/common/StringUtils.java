@@ -132,6 +132,10 @@ public class StringUtils extends Utils {
 			return compositeName.substring(0, otherIdx-1);	// exclude delimiter (should be 1 char)
 		}
 	}
+	
+	public static boolean isBlank(String string) {
+		return string == null || string.trim().length() == 0;
+	}
 
 	private static Map<String,Integer> getHashtable() {
 		if (hashtable == null) {

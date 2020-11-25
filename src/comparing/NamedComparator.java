@@ -2,8 +2,8 @@ package comparing;
 
 import common.Utils;
 import entityRelationshipModel.Named;
-import languageProcessing.Dictionary;
 import languageProcessing.LanguageProcessor;
+import languageProcessing.Word2VecDictionary;
 
 public class NamedComparator {
 	private static NamedComparator INSTANCE = new NamedComparator();
@@ -35,7 +35,8 @@ public class NamedComparator {
 	
 	private LanguageProcessor getDictionary() {
 		if (dictionary == null) {
-			dictionary = new Dictionary();
+//			dictionary = new Dictionary();
+			dictionary = new Word2VecDictionary();
 		}
 		return dictionary;
 	}

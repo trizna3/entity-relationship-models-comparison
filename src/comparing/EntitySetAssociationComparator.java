@@ -1,5 +1,6 @@
 package comparing;
 
+import common.SimilarityConstants;
 import common.Utils;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.EntitySet;
@@ -11,8 +12,6 @@ public class EntitySetAssociationComparator {
 	private EntitySetComparator entitySetComparator;
 	private AttributedComparator attributedComparator;
 	private NamedComparator namedComparator;
-	
-	public static final double SIMILARITY_TRESHOLD = 0.25;
 	
 	public static EntitySetAssociationComparator getInstance() {
 		return INSTANCE;
@@ -38,12 +37,12 @@ public class EntitySetAssociationComparator {
 		double value = 0;
 		
 		// elements names
-		max += ERComparator.NAME_WEIGHT;
-		value += ERComparator.NAME_WEIGHT * getNamedComparator().compareSymmetric(entitySet, association); 
+		max += SimilarityConstants.NAME_WEIGHT;
+		value += SimilarityConstants.NAME_WEIGHT * getNamedComparator().compareSymmetric(entitySet, association); 
 		
 		// elements attributes
-		max += ERComparator.ATTRIBUTE_WEIGHT;
-		value += ERComparator.ATTRIBUTE_WEIGHT * getAttributedComparator().compareSymmetric(entitySet, association);
+		max += SimilarityConstants.ATTRIBUTE_WEIGHT;
+		value += SimilarityConstants.ATTRIBUTE_WEIGHT * getAttributedComparator().compareSymmetric(entitySet, association);
 		
 		// elements incident entity sets (exactly 2 in both cases)
 		EntitySet assocEntitySet1 = association.getFirstSide().getEntitySet();
@@ -57,8 +56,8 @@ public class EntitySetAssociationComparator {
 		double c = getEntitySetComparator().compareSymmetric(assocEntitySet2, entitySetNeighbour2);
 		double d = getEntitySetComparator().compareSymmetric(assocEntitySet2, entitySetNeighbour1);
 		
-		max += 2 * ERComparator.ENTITY_SET_WEIGHT;
-		value += ERComparator.ENTITY_SET_WEIGHT * Math.max(a+c, b+d);
+		max += 2 * SimilarityConstants.ENTITY_SET_WEIGHT;
+		value += SimilarityConstants.ENTITY_SET_WEIGHT * Math.max(a+c, b+d);
 		
 		return value == max ? 1 : value/max;
 	}

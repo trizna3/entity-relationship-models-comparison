@@ -2,6 +2,7 @@ package comparing;
 
 import java.util.Comparator;
 
+import common.SimilarityConstants;
 import common.Utils;
 import entityRelationshipModel.EntitySet;
 
@@ -11,7 +12,6 @@ public class EntitySetComparator implements Comparator<EntitySet> {
 	private AttributedComparator attributedComparator;
 	private NamedComparator namedComparator;
 	
-	public static final double SIMILARITY_TRESHOLD = 0.25;	
 	public static EntitySetComparator getInstance() {
 		return INSTANCE;
 	}
@@ -30,12 +30,12 @@ public class EntitySetComparator implements Comparator<EntitySet> {
 		double value = 0;
 		
 		// entity sets name
-		max += ERComparator.NAME_WEIGHT;
-		value += ERComparator.NAME_WEIGHT * getNamedComparator().compareSymmetric(entitySet1, entitySet2);
+		max += SimilarityConstants.NAME_WEIGHT;
+		value += SimilarityConstants.NAME_WEIGHT * getNamedComparator().compareSymmetric(entitySet1, entitySet2);
 		
 		// entity sets attributes
-		max += ERComparator.ATTRIBUTE_WEIGHT;
-		value += ERComparator.ATTRIBUTE_WEIGHT * getAttributedComparator().compareSymmetric(entitySet1, entitySet2);
+		max += SimilarityConstants.ATTRIBUTE_WEIGHT;
+		value += SimilarityConstants.ATTRIBUTE_WEIGHT * getAttributedComparator().compareSymmetric(entitySet1, entitySet2);
 		
 		return value == max ? 1 : value/max;
 	}
@@ -56,12 +56,12 @@ public class EntitySetComparator implements Comparator<EntitySet> {
 		double value = 0;
 		
 		// entity sets name
-		max += ERComparator.NAME_WEIGHT;
-		value += ERComparator.NAME_WEIGHT * getNamedComparator().compareSymmetric(subEntitySet, superEntitySet);
+		max += SimilarityConstants.NAME_WEIGHT;
+		value += SimilarityConstants.NAME_WEIGHT * getNamedComparator().compareSymmetric(subEntitySet, superEntitySet);
 		
 		// entity sets attributes
-		max += ERComparator.ATTRIBUTE_WEIGHT;
-		value += ERComparator.ATTRIBUTE_WEIGHT * getAttributedComparator().compareAsymmetric(subEntitySet, superEntitySet);		
+		max += SimilarityConstants.ATTRIBUTE_WEIGHT;
+		value += SimilarityConstants.ATTRIBUTE_WEIGHT * getAttributedComparator().compareAsymmetric(subEntitySet, superEntitySet);		
 		return value == max ? 1 : value/max;
 	}
 	

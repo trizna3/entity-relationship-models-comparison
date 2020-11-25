@@ -511,7 +511,7 @@ public class TestUtils {
 		entitySets.add(new EntitySet("Zastavky", new ArrayList<>(Arrays.asList("Nazov")))); // 0
 		entitySets.add(new EntitySet("Linky", new ArrayList<>(Arrays.asList("Cislo")))); // 1
 		entitySets.add(new EntitySet("Vozidla", new ArrayList<>(Arrays.asList("Kod")))); // 2
-		entitySets.add(new EntitySet("Typy vozidla", new ArrayList<>(Arrays.asList("Nazov")))); // 3
+		entitySets.add(new EntitySet("Typ vozidla", new ArrayList<>(Arrays.asList("Nazov")))); // 3
 
 		List<Relationship> relationships = new ArrayList<>();
 		relationships.add(new Association("Zahrna", Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), new ArrayList<>(Arrays.asList("Cas po zastavku"))));

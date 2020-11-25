@@ -4,14 +4,6 @@ public class Clock {
 
 	private long startTime;
 	private long bound;
-	private static Clock INSTANCE;
-	
-	public static Clock getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new Clock();
-		}
-		return INSTANCE;
-	}
 
 	/**
 	 * Start counting time, setting upper bound for early stop
@@ -32,6 +24,10 @@ public class Clock {
 		return getTimeMillis() - startTime > bound;
 	}
 	
+	/**
+	 * returns time elapsed in ms
+	 * @return
+	 */
 	public long getTimeElapsed() {
 		return getTimeMillis() - startTime;
 	}
