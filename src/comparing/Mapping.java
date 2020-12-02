@@ -140,4 +140,17 @@ public class Mapping {
 		Utils.validateNotNull(t);
 		getForbiddenTransformations().remove(t);
 	}
+	
+	public void unmapAll() {
+		for (EntitySet es : getExemplarModel().getEntitySets()) {
+			if (es.getMappedTo() != null) {
+				unmap(es, es.getMappedTo());
+			}
+		}
+		for (EntitySet es : getStudentModel().getEntitySets()) {
+			if (es.getMappedTo() != null) {
+				unmap(es, es.getMappedTo());
+			}
+		}
+	}
 }

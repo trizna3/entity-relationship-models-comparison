@@ -16,6 +16,10 @@ import common.StringUtils;
 public class Dictionary implements LanguageProcessor {
 
 	private Map<String,Map<String,Double>> cache;
+	
+	public Dictionary() {
+		saveToCache("Studenti", "Ubytovani", 1);		
+	}
 
 	/**
 	 * {@inheritDoc}

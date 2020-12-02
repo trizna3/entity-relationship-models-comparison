@@ -1,6 +1,7 @@
 package entityRelationshipModel;
 
 import common.StringUtils;
+import common.enums.EnumConstants;
 
 public class ERModelElementName implements ERText {
 
@@ -34,5 +35,12 @@ public class ERModelElementName implements ERText {
 			return false;
 		}
 		return StringUtils.areEqual(this.getText(), ((ERText) obj).getText());
+	}
+	
+	public boolean isComposite() {
+		if (StringUtils.isBlank(getText())) {
+			return false;
+		}
+		return getText().indexOf(EnumConstants.ENTITY_SETS_DELIMITER) >= 0;
 	}
 }

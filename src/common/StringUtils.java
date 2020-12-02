@@ -136,6 +136,14 @@ public class StringUtils extends Utils {
 	public static boolean isBlank(String string) {
 		return string == null || string.trim().length() == 0;
 	}
+	
+	/**
+	 * Returns String array of composite name parts
+	 */
+	public static String[] getAllNameParts(String compositeName) {
+		validateNotNull(compositeName);
+		return compositeName.split(EnumConstants.ENTITY_SETS_DELIMITER_STR);
+	}
 
 	private static Map<String,Integer> getHashtable() {
 		if (hashtable == null) {

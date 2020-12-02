@@ -1,17 +1,10 @@
 package starter;
 
-import java.util.Arrays;
-
-import common.ERModelUtils;
-import common.enums.EnumRelationshipSideRole;
 import comparing.Mapping;
-import entityRelationshipModel.Association;
-import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.ERModel;
-import entityRelationshipModel.EntitySet;
-import transformations.Transformation;
-import transformations.Transformator;
-
+import mappingSearch.mappingEvaluator.Evaluator;
+import mappingSearch.mappingEvaluator.IEvaluator;
+import tests.TestUtils;
 /**
  * @author - Adam Trizna
  */
@@ -20,39 +13,41 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		EntitySet esEmployees = new EntitySet("Employees", null);
-		EntitySet esJobs = new EntitySet("Jobs", null);
-		EntitySet esEmpJobs = new EntitySet("EmpJobs", null);
+		debugTest();
+	}
+	
+	private static void debugTest() {
+		System.out.println("Test - mapping finder: Internaty 2");
+		ERModel exemplarModel = TestUtils.makeERModel_Internaty_Vzor();
+		ERModel studentModel = TestUtils.makeERModel_Internaty_S2();
+		IEvaluator evaluator = new Evaluator();
 
-		ERModel model1 = new ERModel();
-		model1.addEntitySet(esEmployees);
-		model1.addEntitySet(esJobs);
-		model1.addEntitySet(esEmpJobs);
-		model1.addRelationship(new Association(Arrays.asList(new AssociationSide(esEmployees, EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(esEmpJobs, EnumRelationshipSideRole.CARDINALITY_MANY)), null));
-		model1.addRelationship(new Association(Arrays.asList(new AssociationSide(esJobs, EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(esEmpJobs, EnumRelationshipSideRole.CARDINALITY_MANY)), null));
-
-		EntitySet esPeople = new EntitySet("People", null);
-		EntitySet esPositions = new EntitySet("Positions", null);
-
-		ERModel model2 = new ERModel();
-		model2.addEntitySet(esPeople);
-		model2.addEntitySet(esPositions);
-		model2.addRelationship(new Association(Arrays.asList(new AssociationSide(esPeople, EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(esPositions, EnumRelationshipSideRole.CARDINALITY_MANY)), null));
-
-		Mapping mapping = new Mapping(model1, model2);
-		esEmployees.setMappedTo(esPeople);
-		esPeople.setMappedTo(esEmployees);
-		esJobs.setMappedTo(esPositions);
-		esPositions.setMappedTo(esJobs);
-
-		for (Transformation transformation : mapping.getTransformations()) {
-			Transformator.execute(mapping, transformation);
-		}
-		System.out.println(model1);
-		System.out.println("---");
-		System.out.println(model2);
-
-		System.out.println(ERModelUtils.modelsAreEqual(model1, model2));
-
+		Mapping mappingJeho = new Mapping(exemplarModel, studentModel);		
+		mappingJeho.map(exemplarModel.getEntitySets().get(0), studentModel.getEntitySets().get(0));
+		mappingJeho.map(exemplarModel.getEntitySets().get(1), studentModel.getEntitySets().get(1));
+		mappingJeho.map(exemplarModel.getEntitySets().get(2), studentModel.getEntitySets().get(2));
+		mappingJeho.map(exemplarModel.getEntitySets().get(3), studentModel.getEntitySets().get(3));
+		mappingJeho.map(exemplarModel.getEntitySets().get(5), studentModel.getEntitySets().get(4));
+		evaluator.evaluate(mappingJeho);	// 63.5
+		mappingJeho.unmapAll();
+		
+		Mapping mappingMoj = new Mapping(exemplarModel, studentModel);
+		mappingMoj.map(exemplarModel.getEntitySets().get(0), studentModel.getEntitySets().get(0));
+		mappingMoj.map(exemplarModel.getEntitySets().get(1), studentModel.getEntitySets().get(1));
+		mappingMoj.map(exemplarModel.getEntitySets().get(2), studentModel.getEntitySets().get(2));
+		mappingMoj.map(exemplarModel.getEntitySets().get(3), studentModel.getEntitySets().get(3));
+		mappingMoj.map(exemplarModel.getEntitySets().get(4), studentModel.getEntitySets().get(4));		
+		evaluator.evaluate(mappingMoj);		// 62
+		mappingMoj.unmapAll();
+		
+		Mapping mappingJehoOpt = new Mapping(exemplarModel, studentModel);		
+		mappingJehoOpt.map(exemplarModel.getEntitySets().get(0), studentModel.getEntitySets().get(0));
+		mappingJehoOpt.map(exemplarModel.getEntitySets().get(1), studentModel.getEntitySets().get(1));
+		mappingJehoOpt.map(exemplarModel.getEntitySets().get(2), studentModel.getEntitySets().get(2));
+		mappingJehoOpt.map(exemplarModel.getEntitySets().get(3), studentModel.getEntitySets().get(3));
+		mappingJehoOpt.map(exemplarModel.getEntitySets().get(4), studentModel.getEntitySets().get(5));
+		mappingJehoOpt.map(exemplarModel.getEntitySets().get(5), studentModel.getEntitySets().get(4));
+		evaluator.evaluate(mappingJehoOpt);
+		mappingJeho.unmapAll();
 	}
 }

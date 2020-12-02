@@ -15,8 +15,10 @@ import common.Utils;
 import common.enums.EnumConstants;
 import comparing.EntitySetComparator;
 import comparing.Mapping;
+import comparing.NamedComparator;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
+import languageProcessing.Dictionary;
 import languageProcessing.LanguageProcessor;
 import languageProcessing.Word2VecDictionary;
 import mappingSearch.mappingEvaluator.Evaluator;
@@ -36,7 +38,8 @@ import transformations.Transformator;
 public class MappingFinder {
 
 	private IEvaluator mappingEvaluator;
-	private LanguageProcessor dictionary;
+	private NamedComparator namedComparator;
+	
 	private Clock clock = new Clock();
 	
 	private boolean printResult = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_PRINT_RESULT).toString());
@@ -123,11 +126,11 @@ public class MappingFinder {
 		
 		EntitySet exemplarEntitySet = exemplarModel.getNotMappedEntitySets().get(0);
 		
-		List<EntitySet> studentEntitySets = new ArrayList<>(studentModel.getEntitySets());
+		List<EntitySet> studentEntitySets = new ArrayList<>(studentModel.getNotMappedEntitySets());
 		studentEntitySets.add(MappingUtils.EMPTY_ENTITY_SET);
 		
 		computeEntitySetsPriority(studentEntitySets,exemplarEntitySet);
-		studentModel.getEntitySets().sort(EntitySetComparator.getInstance());
+		studentEntitySets.sort(EntitySetComparator.getInstance());
 		
 		for (EntitySet studentEntitySet : studentEntitySets) {
 			if (studentEntitySet.getMappedTo() != null) {
@@ -233,15 +236,7 @@ public class MappingFinder {
 	}
 	
 	private void computeEntitySetsPriority(List<EntitySet> directStudentEntitySets, EntitySet exemplarEntitySet) {
-		directStudentEntitySets.forEach(es -> es.setPriority(Double.valueOf(1 - getDictionary().getSimilarity(es.getNameText(), exemplarEntitySet.getNameText()))));
-	}
-
-	public LanguageProcessor getDictionary() {
-		if (dictionary == null) {
-//			dictionary = new Dictionary();
-			dictionary = new Word2VecDictionary();
-		}
-		return dictionary;
+		directStudentEntitySets.forEach(es -> es.setPriority(Double.valueOf(1 - getNamedComparator().compareSymmetric(es, exemplarEntitySet))));
 	}
 	
 	/**
@@ -315,5 +310,12 @@ public class MappingFinder {
 		for (int index : indices) {
 			mapping.removeForbiddenTransformation(transformations.get(index));
 		}
+	}
+
+	private NamedComparator getNamedComparator() {
+		if (namedComparator == null) {
+			namedComparator = NamedComparator.getInstance();
+		}
+		return namedComparator;
 	}
 }
