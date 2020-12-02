@@ -480,12 +480,12 @@ public class TestUtils {
 		ERModel model = new ERModel();
 
 		List<EntitySet> entitySets = new ArrayList<>();
-		entitySets.add(new EntitySet("Internaty", new ArrayList<>(Arrays.asList("Nazov", "Adresa")))); // 5
 		entitySets.add(new EntitySet("Budovy", new ArrayList<>(Arrays.asList("Nazov", "Adresa")))); // 0
 		entitySets.add(new EntitySet("Izby", new ArrayList<>(Arrays.asList("Cislo", "C.Poschodia", "Kapacita", "Poplatok")))); // 1
 		entitySets.add(new EntitySet("Zmluvy", new ArrayList<>(Arrays.asList("Od", "Do")))); // 2
 		entitySets.add(new EntitySet("Platby", new ArrayList<>(Arrays.asList("Vyska", "Datum")))); // 3
 		entitySets.add(new EntitySet("Ubytovani", new ArrayList<>(Arrays.asList("Kredit")))); // 4
+		entitySets.add(new EntitySet("Internaty", new ArrayList<>(Arrays.asList("Nazov", "Adresa")))); // 5
 
 		List<Relationship> relationships = new ArrayList<>();
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(5), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
