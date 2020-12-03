@@ -356,9 +356,10 @@ public class Transformator {
 
 		if (targetEntitySet == null) {
 			targetEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(EnumConstants.NAME_ATTRIBUTE)));
+			targetEntitySet.addTransformationFlag(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
 			mapping.getStudentModel().addEntitySet(targetEntitySet);
 		} else {
-			if (!targetEntitySet.getAttributes().contains(attribute)) {
+			if (!targetEntitySet.getAttributes().contains(attribute) && !StringUtils.areEqual(targetEntitySet.getNameText(),attribute.getText())) {
 				targetEntitySet.addAttribute(attribute);
 			}
 		}
@@ -426,7 +427,7 @@ public class Transformator {
 		model.removeRelationship(association);
 
 		if (entitySet == null) {
-			entitySet = new EntitySet(association.getNameText());
+			entitySet = new EntitySet(TransformationUtils.getNameForNaryRebindEntitySet(association));
 			entitySet.setAttributes(association.getAttributes());
 		}
 		model.addEntitySet(entitySet);
@@ -459,7 +460,7 @@ public class Transformator {
 		
 		assert sourceEntitySet.getNeighbours().keySet().size() > 0;
 		if (sourceEntitySet.getNeighbours().keySet().size() > 1) {
-			assert sourceEntitySet.getNeighbours().get(sourceEntitySet).size() == 1;
+			assert sourceEntitySet.getNeighbours().get(destEntitySet).size() == 1;
 			mapping.getStudentModel().removeRelationship(sourceEntitySet.getNeighbours().get(destEntitySet).get(0));
 		} else {
 			mapping.getStudentModel().removeEntitySet(sourceEntitySet);

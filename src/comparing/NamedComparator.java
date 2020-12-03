@@ -6,7 +6,6 @@ import entityRelationshipModel.ERModelElementName;
 import entityRelationshipModel.Named;
 import languageProcessing.Dictionary;
 import languageProcessing.LanguageProcessor;
-import languageProcessing.Word2VecDictionary;
 
 public class NamedComparator {
 	private static NamedComparator INSTANCE = new NamedComparator();
@@ -36,7 +35,7 @@ public class NamedComparator {
 		return value/max;
 	}
 	
-	private double getNamesSimilarity(ERModelElementName name1, ERModelElementName name2) {
+	public double getNamesSimilarity(ERModelElementName name1, ERModelElementName name2) {
 		if (!name1.isComposite() && !name2.isComposite()) {
 			return getSimpleNamesSimilarity(name1, name2);
 		}

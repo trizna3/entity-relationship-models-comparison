@@ -3,6 +3,7 @@ package comparing;
 import java.util.Comparator;
 
 import common.SimilarityConstants;
+import common.StringUtils;
 import common.Utils;
 import entityRelationshipModel.EntitySet;
 
@@ -28,6 +29,10 @@ public class EntitySetComparator implements Comparator<EntitySet> {
 		
 		double max = 0;
 		double value = 0;
+		
+		if (StringUtils.areEqual(entitySet1.getNameText(),entitySet2.getNameText())) {
+			return 1;
+		}
 		
 		// entity sets name
 		max += SimilarityConstants.NAME_WEIGHT;

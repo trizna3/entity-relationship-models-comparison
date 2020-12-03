@@ -5,6 +5,7 @@ import common.StringUtils;
 import common.Utils;
 import common.enums.EnumTransformation;
 import comparing.Mapping;
+import comparing.NamedComparator;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.Attribute;
 import entityRelationshipModel.Attributed;
@@ -24,6 +25,7 @@ import transformations.Transformation;
 public class MappingEvaluator {
 	
 	TransformationEvaluator transformationEvaluator = new TransformationEvaluator();
+	private NamedComparator namedComparator;
 
 	/**
 	 * Processes mapping. 
@@ -179,7 +181,7 @@ public class MappingEvaluator {
 		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
 			EntitySet image = entitySet.getMappedTo();
 			if (image != null) {
-				if (!StringUtils.areEqual(entitySet.getNameText(), image.getNameText())) {
+				if (getNamedComparator().getNamesSimilarity(entitySet.getName(), image.getName()) < 1) {
 					penalty += getTransformationEvaluator().penalizeTransformation(EnumTransformation.RENAME_ENTITY_SET);
 				}
 				penalty += checkAttributes(mapping, entitySet, image);
@@ -208,5 +210,12 @@ public class MappingEvaluator {
 
 	private TransformationEvaluator getTransformationEvaluator() {
 		return transformationEvaluator;
+	}
+
+	private NamedComparator getNamedComparator() {
+		if (namedComparator == null) {
+			namedComparator = NamedComparator.getInstance();
+		}
+		return namedComparator;
 	}
 }

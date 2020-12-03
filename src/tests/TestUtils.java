@@ -774,7 +774,7 @@ public class TestUtils {
 		entitySets.add(new EntitySet("Zmluvy na zivotne poistenie", new ArrayList<>(Arrays.asList("Suma uraz","Suma smrt","Suma PN")))); // 3
 		entitySets.add(new EntitySet("Typy nehnutelnosti", new ArrayList<>(Arrays.asList("Nazov")))); // 4
 		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno","Priezvisko")))); // 5
-		entitySets.add(new EntitySet("Adresy", new ArrayList<>(Arrays.asList("Ulica","Cislo","Mesto","PSC","Krajina")))); // 6
+		entitySets.add(new EntitySet("Adresa", new ArrayList<>(Arrays.asList("Name"/*"Ulica","Cislo","Mesto","PSC","Krajina"*/)))); // 6
 
 		List<Relationship> relationships = new ArrayList<>();
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.CARDINALITY_ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.CARDINALITY_MANY)), null));
@@ -805,7 +805,7 @@ public class TestUtils {
 		entitySets.add(new EntitySet("Zmluvy na poistenie nehnutelnosti", new ArrayList<>(Arrays.asList("Suma zodpovednost","Suma pohroma","Rozloha obytnej casti","Rozloha pivnice")))); // 2
 		entitySets.add(new EntitySet("Zmluvy na zivotne poistenie", new ArrayList<>(Arrays.asList("Suma uraz","Suma smrt","Suma PN")))); // 3
 		entitySets.add(new EntitySet("Nehnutelnosti", new ArrayList<>(Arrays.asList("Adresa","Typ","Rozloha obytnej casti","Rozloha pivnice")))); // 4
-		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno","Priezvisko","Pohlavie","Narodnost","Adresa")))); // 5
+		entitySets.add(new EntitySet("Osoby", new ArrayList<>(Arrays.asList("Meno","Priezvisko"/*,"Pohlavie","Narodnost"*/,"Adresa")))); // 5
 		entitySets.add(new EntitySet("Konto", new ArrayList<>(Arrays.asList("Meno","Heslo")))); // 6
 
 		List<Relationship> relationships = new ArrayList<>();

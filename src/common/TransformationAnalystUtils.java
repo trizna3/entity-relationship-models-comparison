@@ -233,15 +233,33 @@ public class TransformationAnalystUtils {
 		Set<ERText> notMappedEntitySetNames = MappingUtils.getNotMappedEntitySetNames(otherModel);
 		
 		for (EntitySet entitySet : model.getEntitySets()) {
+			if (entitySet.containsTransformationFlag(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET)) {
+				continue;
+			}
 			for (Attribute attribute : entitySet.getAttributes()) {
 				if (!notMappedEntitySetNames.contains(attribute)) {
 					continue;
+				}
+				
+				// check if we've extracted this same attribute before
+				EntitySet destEntitySet = null;
+				for (EntitySet destEntitySetCandidate : model.getEntitySets()) {
+					if (destEntitySetCandidate == entitySet) {
+						continue;
+					}
+					if (StringUtils.areEqual(attribute.getText(),destEntitySetCandidate.getNameText())) {
+						destEntitySet = destEntitySetCandidate;
+						break;
+					}
 				}
 				
 				Transformation transformation = TransformationPool.getInstance().getTransformation();
 				transformation.setCode(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
 				transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
 				transformation.addArgument(entitySet, EnumTransformationRole.SOURCE_ENTITY_SET);
+				if (destEntitySet != null) {
+					transformation.addArgument(destEntitySet, EnumTransformationRole.DEST_ENTITY_SET);
+				}
 
 				target.add(transformation);
 			}
