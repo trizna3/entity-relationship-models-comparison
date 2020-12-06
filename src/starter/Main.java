@@ -1,8 +1,8 @@
 package starter;
 
-import common.MappingUtils;
 import comparing.Mapping;
 import entityRelationshipModel.ERModel;
+import languageProcessing.StanfordLemmatizer;
 import mappingSearch.mappingEvaluator.Evaluator;
 import mappingSearch.mappingEvaluator.IEvaluator;
 import tests.TestUtils;
@@ -14,10 +14,17 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		String sentence = "Today I went to the store and bought a cammel.";
+		
+		for (String word : sentence.split(" ")) {
+			System.out.println(StanfordLemmatizer.getInstance().lemmatizeWord(word));
+		}
+		
 		debugTest();
 	}
 	
 	private static void debugTest() {
+		
 		ERModel exemplarModel = TestUtils.makeERModel_Poistovna_Vzor();
 		ERModel studentModel = TestUtils.makeERModel_Poistovna_S1();
 		IEvaluator evaluator = new Evaluator();

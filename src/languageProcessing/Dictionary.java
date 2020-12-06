@@ -16,6 +16,7 @@ import common.StringUtils;
 public class Dictionary implements LanguageProcessor {
 
 	private Map<String,Map<String,Double>> cache;
+	private StanfordLemmatizer stanfordLemmatizer;
 	
 	public Dictionary() {
 		saveToCache("Studenti", "Ubytovani", 1);
@@ -27,6 +28,9 @@ public class Dictionary implements LanguageProcessor {
 	 */
 	@Override
 	public double getSimilarity(String word1, String word2) {
+		word1 = getStanfordLemmatizer().lemmatizeWord(word1);
+		word2 = getStanfordLemmatizer().lemmatizeWord(word2);
+		
 		Double similarity = getSimilarityInternal(word1, word2);
 		return similarity != null ? similarity.doubleValue() : 0;
 	}
@@ -54,9 +58,19 @@ public class Dictionary implements LanguageProcessor {
 	}
 	
 	private void saveToCache(String word1, String word2, double similarity) {
+		word1 = getStanfordLemmatizer().lemmatizeWord(word1);
+		word2 = getStanfordLemmatizer().lemmatizeWord(word2);
+		
 		if (!getCache().containsKey(word1)) {
 			getCache().put(word1,new HashMap<>());
 		}
 		getCache().get(word1).put(word2, Double.valueOf(similarity));
+	}
+
+	private StanfordLemmatizer getStanfordLemmatizer() {
+		if (stanfordLemmatizer == null) {
+			stanfordLemmatizer = StanfordLemmatizer.getInstance();
+		}
+		return stanfordLemmatizer;
 	}
 }
