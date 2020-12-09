@@ -14,9 +14,14 @@ import common.Utils;
 
 public class Word2VecDictionary implements LanguageProcessor{
 	
+	private static final Word2VecDictionary INSTANCE = new Word2VecDictionary();
 	private static Map<String,double[]> word2vec;
 	private static final String vectorFileName = "glove.6B.300d.txt";
 	private static boolean initialized = false;
+	
+	public static Word2VecDictionary getInstance() {
+		return INSTANCE;
+	}
 	
 	private void initialize() {
 		if (!initialized) {

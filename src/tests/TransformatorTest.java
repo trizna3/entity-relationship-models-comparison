@@ -261,7 +261,7 @@ public class TransformatorTest {
 
 		assertTrue(model.getEntitySets().size() == 5);
 		assertFalse(model.contains(association));
-		EntitySet entitySet = ERModelUtils.getEntitySetByName(model, entitySet1Name + EnumConstants.ENTITY_SETS_DELIMITER + entitySet2Name);
+		EntitySet entitySet = ERModelUtils.getEntitySetByName(model, entitySet1Name + EnumConstants.DELIMITER_SEMICOLON + entitySet2Name);
 		assertNotNull(entitySet);
 		for (Attribute attribute : entitySet1.getAttributes()) {
 			assertTrue(entitySet.getAttributes().contains(attribute));
@@ -316,7 +316,7 @@ public class TransformatorTest {
 
 		assertTrue(exemplarModel.getEntitySets().size() == 5);
 		assertFalse(exemplarModel.contains(association));
-		EntitySet entitySet = ERModelUtils.getEntitySetByName(exemplarModel, entitySet1Name + EnumConstants.ENTITY_SETS_DELIMITER + entitySet2Name);
+		EntitySet entitySet = ERModelUtils.getEntitySetByName(exemplarModel, entitySet1Name + EnumConstants.DELIMITER_SEMICOLON + entitySet2Name);
 		assertNotNull(entitySet);
 		for (Attribute attribute : entitySet1.getAttributes()) {
 			assertTrue(entitySet.getAttributes().contains(attribute));

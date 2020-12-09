@@ -89,8 +89,8 @@ public class NamedComparator {
 	
 	private LanguageProcessor getDictionary() {
 		if (dictionary == null) {
-			dictionary = new Dictionary();
-//			dictionary = new Word2VecDictionary();
+			dictionary = Dictionary.getInstance();
+//			dictionary = Word2VecDictionary.getInstance();
 		}
 		return dictionary;
 	}

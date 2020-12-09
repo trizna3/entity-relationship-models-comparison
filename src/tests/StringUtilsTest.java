@@ -16,7 +16,7 @@ public class StringUtilsTest {
 
 		for (int i = 0; i < count; i++) {
 			result.append("afsklfasjklfjaskljfaslk" + i);
-			result.append(EnumConstants.ENTITY_SETS_DELIMITER);
+			result.append(EnumConstants.DELIMITER_SEMICOLON);
 		}
 
 		return result.toString();

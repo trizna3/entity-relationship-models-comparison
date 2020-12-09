@@ -41,6 +41,6 @@ public class ERModelElementName implements ERText {
 		if (StringUtils.isBlank(getText())) {
 			return false;
 		}
-		return getText().indexOf(EnumConstants.ENTITY_SETS_DELIMITER) >= 0;
+		return getText().indexOf(EnumConstants.DELIMITER_SEMICOLON) >= 0;
 	}
 }

@@ -386,7 +386,7 @@ public class Transformator {
 			mapping.getStudentModel().removeRelationship(association);
 		entitySet1.getAttributes().addAll(entitySet2.getAttributes());
 		entitySet1.getAttributes().addAll(association.getAttributes());
-		entitySet1.setNameText(entitySet1.getNameText() + EnumConstants.ENTITY_SETS_DELIMITER + entitySet2.getNameText());
+		entitySet1.setNameText(entitySet1.getNameText() + EnumConstants.DELIMITER_SEMICOLON + entitySet2.getNameText());
 
 		TransformableList transformableList = new TransformableList();
 		transformableList.getElements().addAll(entitySet2.getIncidentRelationships());

@@ -1,9 +1,11 @@
 package languageProcessing;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import common.StringUtils;
+import common.multiKeyConfig.DictConfigManager;
 
 /**
  * @author - Adam Trizna
@@ -15,12 +17,18 @@ import common.StringUtils;
  */
 public class Dictionary implements LanguageProcessor {
 
+	private static final Dictionary INSTANCE = new Dictionary();
 	private Map<String,Map<String,Double>> cache;
 	private StanfordLemmatizer stanfordLemmatizer;
+	private DictConfigManager dictConfigManager;
 	
-	public Dictionary() {
-		saveToCache("Studenti", "Ubytovani", 1);
-		saveToCache("Druh lietadla","Modely lietadiel",1);
+	
+	public static Dictionary getInstance() {
+		return INSTANCE;
+	}
+	
+	private Dictionary() {
+		loadFromConfig();
 	}
 
 	/**
@@ -66,11 +74,36 @@ public class Dictionary implements LanguageProcessor {
 		}
 		getCache().get(word1).put(word2, Double.valueOf(similarity));
 	}
+	
+	private void loadFromConfig() {
+		List<String[]> configData = getDictConfigManager().getResourceData();
+		
+		for (String[] line : configData) {
+			if (line.length == 2) {
+				// add similarity pair
+				saveToCache(line[0], line[1], 1);
+			} else if (line.length > 2) {
+				// add similarity pair for all doubles
+				for (int i = 0; i < line.length; i++) {
+					for (int j = i; j < line.length; j++) {
+						saveToCache(line[i], line[j], 1);
+					}
+				}
+			}
+		}
+	}
 
 	private StanfordLemmatizer getStanfordLemmatizer() {
 		if (stanfordLemmatizer == null) {
 			stanfordLemmatizer = StanfordLemmatizer.getInstance();
 		}
 		return stanfordLemmatizer;
+	}
+
+	private DictConfigManager getDictConfigManager() {
+		if (dictConfigManager == null) {
+			dictConfigManager = DictConfigManager.getInstance();
+		}
+		return dictConfigManager;
 	}
 }

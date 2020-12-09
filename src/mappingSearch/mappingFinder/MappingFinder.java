@@ -11,8 +11,8 @@ import common.PrintUtils;
 import common.SimilarityConstants;
 import common.TransformationUtils;
 import common.Utils;
-import common.config.ConfigManager;
 import common.enums.EnumConstants;
+import common.keyConfig.AppConfigManager;
 import comparing.EntitySetComparator;
 import comparing.Mapping;
 import comparing.NamedComparator;
@@ -36,21 +36,21 @@ public class MappingFinder {
 
 	private IEvaluator mappingEvaluator;
 	private NamedComparator namedComparator;
+	private AppConfigManager appConfigManager = AppConfigManager.getInstance();
 	
 	private Clock clock = new Clock();
 	
-	private boolean printResult = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_PRINT_RESULT).toString());
-	private boolean printTransformationProgress = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_PRINT_TRANSFORMATION_PROGRESS).toString());
-	private boolean trackProgress = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_TRACK_PROGRESS).toString());
-	private boolean earlyStop = Boolean.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_EARLY_STOP).toString());
-	private int earlyStopBound = Integer.valueOf(ConfigManager.getResource(EnumConstants.CONFIG_EARLY_STOP_BOUND).toString());
+	private boolean printResult = Boolean.valueOf(appConfigManager.getResource(EnumConstants.CONFIG_PRINT_RESULT).toString());
+	private boolean printTransformationProgress = Boolean.valueOf(appConfigManager.getResource(EnumConstants.CONFIG_PRINT_TRANSFORMATION_PROGRESS).toString());
+	private boolean trackProgress = Boolean.valueOf(appConfigManager.getResource(EnumConstants.CONFIG_TRACK_PROGRESS).toString());
+	private boolean earlyStop = Boolean.valueOf(appConfigManager.getResource(EnumConstants.CONFIG_EARLY_STOP).toString());
+	private int earlyStopBound = Integer.valueOf(appConfigManager.getResource(EnumConstants.CONFIG_EARLY_STOP_BOUND).toString());
 	
 	/**
 	 * Stack level counter
 	 */
 	private int depthCounter = 0;
 	private int maxDepth = 3;
-	private int maxDepthReached = 0;
 	
 	private int mappingNodesCount = 0;
 	private int transformationNodesCount = 0;

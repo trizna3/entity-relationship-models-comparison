@@ -241,7 +241,7 @@ public class TransformationUtils extends Utils {
 			
 			for (RelationshipSide side : association.getSides()) {
 				if (compositeName.length() > 0) {
-					compositeName.append(EnumConstants.ENTITY_SETS_DELIMITER);
+					compositeName.append(EnumConstants.DELIMITER_SEMICOLON);
 				}
 				compositeName.append(side.getEntitySet().getNameText());
 			}
