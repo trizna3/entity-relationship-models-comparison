@@ -1,0 +1,85 @@
+entity set schodza {
+	"doba trvania"
+};
+
+entity set body {
+	"nazov"
+	"minimalny pocet poslancov"
+};
+
+entity set dokumenty {
+	"nazov"
+};
+
+entity set poslanci {
+	"meno"
+	"priezvisko"
+};
+
+entity set "ako hlasovali" {
+	"hlas"
+};
+
+entity set "historia" {
+	"meno"
+	"priezvisko"
+	"hlasovali"
+};
+
+entity set "moznosti hlasovania" {
+	"typ hlasu"
+};
+
+association between 
+{
+	schodza ONE 
+	body MANY
+}{};
+
+association between 
+{
+	schodza MANY
+	historia MANY
+}{};
+
+association "poslanci na schodzi" between 
+{
+	schodza MANY 
+	poslanci MANY
+}{};
+
+association "dokumenty v bode" between 
+{
+	body MANY 
+	dokumenty MANY
+}{};
+
+association between 
+{
+	body ONE
+	"ako hlasovali" MANY
+}{};
+
+association between 
+{
+	"ako hlasovali" MANY
+	poslanci ONE
+}{};
+
+association between 
+{
+	"ako hlasovali" ONE
+	historia ONE
+}{};
+
+association between 
+{
+	"moznosti hlasovania" MANY 
+	"ako hlasovali" MANY
+}{};
+
+association between 
+{
+	"moznosti hlasovania" MANY 
+	historia MANY
+}{};

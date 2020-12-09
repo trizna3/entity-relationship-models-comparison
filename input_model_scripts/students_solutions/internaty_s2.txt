@@ -1,0 +1,54 @@
+entity set internat {};
+
+entity set budova {
+	"poschodie"
+	"adresa"
+};
+
+entity set izba {
+	"kapacita"
+};
+
+entity set zmluva {
+	"zaciatok"
+	"koniec"
+};
+
+entity set poplatok {
+	"suma"
+	"cas"
+};
+
+entity set ubytovany {
+	"konto"
+};
+
+association between 
+{
+	internat ONE
+	budova MANY
+}{};
+
+association between 
+{
+	budova ONE 
+	izba MANY
+}{};
+
+association between 
+{
+	izba ONE
+	poplatok ONE
+}{};
+
+association between 
+{
+	izba ONE 
+	ubytovany ONE
+}{};
+
+association between 
+{
+	ubytovany ONE
+	zmluva ONE
+}{};

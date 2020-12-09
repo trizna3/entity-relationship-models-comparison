@@ -1,0 +1,51 @@
+entity set budovy {
+	"nazov"
+	"adresa"
+};
+
+entity set izby {
+	"poschodie"
+	"cislo dveri"
+	"kapacita"
+	"poplatok na osobu"
+};
+
+entity set zmluvy {
+	"zaciatok"
+	"koniec"
+};
+
+entity set platby {
+	"suma"
+	"cas"
+};
+
+entity set student {
+	"meno"
+	"vek"
+	"kredit na konte"
+};
+
+association between 
+{
+	budovy ONE 
+	izby MANY
+}{};
+
+association between 
+{
+	izby ONE
+	zmluvy MANY
+}{};
+
+association between 
+{
+	zmluvy ONE 
+	platby ONE
+}{};
+
+association between 
+{
+	platby MANY
+	student ONE
+}{};

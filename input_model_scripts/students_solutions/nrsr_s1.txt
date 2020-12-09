@@ -1,0 +1,32 @@
+
+	entity set nrsr {};
+
+	entity set poslanci {"name" "lastname"};
+
+	entity set schodze {"name" "trvanie"};
+
+	entity set body {};
+
+	entity set dokumenty {"nazov"};
+
+	entity set "typy bodov" {"minimalny pocet podanych hlasov"};
+
+	entity set "historia hlasov" {"kedy" "ako"};
+
+	entity set "typy hlasovania" {"za" "proti" "zdrzal sa" "nehlasoval"};
+
+	association between {nrsr ONE poslanci MANY}{};
+
+	association between {poslanci MANY "historia hlasov" ONE}{};
+
+	association between {poslanci MANY "typy hlasovania" ONE}{};
+
+	association between {body MANY dokumenty ONE}{};
+
+	generalization from "typy bodov" to body;
+
+	association between {body MANY schodze ONE}{};
+
+	association "poslanci na schodzi" between {poslanci MANY schodze MANY}{};
+
+	association "ako hlasovali" between {poslanci MANY body MANY schodze ONE}{};

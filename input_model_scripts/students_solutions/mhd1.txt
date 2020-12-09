@@ -1,0 +1,54 @@
+entity set zastavka {
+	"nazov"
+};
+
+entity set "trvanie cesty" {
+	"zaciatok"
+	"koniec"
+};
+
+entity set linky {
+	"cislo"
+	"trasa"
+};
+
+entity set "vozidlo" {
+	"kod"
+	"cas"
+};
+
+
+association between 
+{
+	zastavka MANY 
+	linky ONE
+}{
+};
+
+association between 
+{
+	linky MANY 
+	"trvanie cesty" ONE
+}{
+};
+
+association "autobus" between 
+{
+	linky ONE
+	vozidlo MANY
+}{
+};
+
+association "trolejbus" between 
+{
+	linky ONE
+	vozidlo MANY
+}{
+};
+
+association "elektricka" between 
+{
+	linky ONE
+	vozidlo MANY
+}{
+};

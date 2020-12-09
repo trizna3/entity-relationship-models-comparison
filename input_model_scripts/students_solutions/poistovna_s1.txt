@@ -1,0 +1,81 @@
+entity set zakaznik {
+	"meno"
+	"adresa"
+	"pohlavie"
+	"cislo op"
+};
+
+entity set konto {
+	"meno"
+	"heslo"
+};
+
+entity set poistenie {
+	"odkedy"
+	"dokedy"
+	"mesacny poplatok"
+};
+
+entity set "zivotne poistenie" {
+	"suma smrt"
+	"suma uraz"
+	"denna davka"
+	"meno poistenca"
+	"adresa poistenca"
+	"meno zakaznika"
+	"adresa zakaznika"
+};
+
+entity set "poistenie nehnutelnosti" {
+	"vyska havarie"
+	"vyska pohromy"
+	"meno zakaznika"
+	"adresa zakaznika"
+	"adresa nehnutelnosti"
+	"rozloha"
+	"typ"
+};
+
+entity set osoby {
+	"meno"
+	"datum narodenia"
+	"pohlavie"
+	"narodnost"
+	"adresa"
+};
+
+entity set nehnutelnosti {
+	"adresa"
+	"typ"
+	"rozloha obytnej casti"
+	"rozloha pivnicnej casti"
+};
+
+association between 
+{
+	zakaznik ONE 
+	"zivotne poistenie" MANY
+}{};
+
+association between 
+{
+	zakaznik ONE
+	"poistenie nehnutelnosti" MANY
+}{};
+
+association between 
+{
+	konto ONE
+	poistenie MANY
+}{};
+
+association between 
+{
+	osoby ONE 
+	"zivotne poistenie" MANY
+}{};
+
+
+generalization from "zivotne poistenie" to "poistenie";
+
+generalization from "poistenie nehnutelnosti" to "poistenie";

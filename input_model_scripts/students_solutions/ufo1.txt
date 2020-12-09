@@ -1,0 +1,85 @@
+entity set "obranny system" {
+	"lietadlo"
+	"vojak"
+};
+
+entity set "lietadla" {
+	"seriove cislo"
+	"meno"
+	"model"
+	"druh"
+};
+
+entity set "vojak" {
+	"meno"
+	"zivot"
+	"maximalny zivot"
+	"rychlost"
+	"sila"
+	"obratnost"
+	"inteligencia"
+	"lietadlo"
+	"rola"
+};
+
+entity set "dopravne" {
+	"kapacita osob"
+	"objem"
+	"hmotnost materialu"
+};
+
+entity set "druh lietadla" {
+	"stihacie"
+	"dopravne"
+};
+
+entity set "raketa" {
+	"hmotnost"
+};
+
+entity set "stihacie lietadla" {
+	"pocet rakiet"
+	"typy rakiet"
+};
+
+association between 
+{
+	"obranny system" ONE
+	"lietadla" MANY
+}{
+};
+
+association between 
+{
+	"obranny system" ONE
+	"vojak" MANY
+}{
+};
+
+association between 
+{
+	"lietadla" MANY
+	"druh lietadla" ONE
+}{
+};
+
+association between 
+{
+	"druh lietadla" MANY
+	"dopravne" ONE
+}{
+};
+
+association between 
+{
+	"druh lietadla" MANY
+	"stihacie lietadla" ONE
+}{
+};
+
+association between 
+{
+	"stihacie lietadla" MANY
+	"raketa" MANY
+}{
+};

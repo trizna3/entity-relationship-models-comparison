@@ -1,0 +1,22 @@
+entity set "produkty" {
+	"typ nazov"
+	"vaha"
+	"cena"
+};
+
+entity set "typ produktov" {
+	"chladnicka"
+	"pracka"
+};
+
+entity set "atributy" {
+	"objem"
+};
+
+association between
+{
+	"produkty" ONE
+	"typ produktov" ONE
+	"atributy" ONE
+}{
+};

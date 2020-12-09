@@ -1,0 +1,73 @@
+entity set hry {
+	"tah"
+};
+
+entity set "hracie plochy" {
+	"pocet riadkov"
+	"pocet stlpcov"
+};
+
+entity set policko {
+	"riadok"
+	"stlpec"
+};
+
+entity set "typy policok" {
+	"nazov"
+};
+
+entity set pocasia {
+	"nazov"
+};
+
+entity set "typy pohonov" {
+	"nazov"
+};
+
+entity set jednotky {
+	"meno"
+	"zivot"
+	"sila utoku"
+	"sila obrany"
+	"aktualne akcne body"
+	"akcne body"
+};
+
+association between 
+{
+	hry ONE 
+	"hracie plochy" ONE
+}{};
+
+association between 
+{
+	"hracie plochy" ONE
+	policko MANY
+}{};
+
+association between 
+{
+	policko MANY
+	"typy policok" ONE
+}{};
+
+association between 
+{
+	hry MANY 
+	pocasia ONE
+}{};
+
+association "posun" between 
+{
+	pocasia MANY
+	"typy pohonov" MANY
+	"typy policok" MANY
+}{
+	"akcne body"
+};
+
+association between 
+{
+	"typy pohonov" ONE
+	jednotky MANY
+}{};

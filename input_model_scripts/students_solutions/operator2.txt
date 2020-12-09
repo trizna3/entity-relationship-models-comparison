@@ -1,0 +1,24 @@
+entity set "balik" {
+	"nazov"
+	"poplatok"
+};
+
+entity set "datovy balik" {
+	"maximalna rychlost"
+	"maximalny objem"
+};
+
+entity set "hlasovy balik" {
+	"pocet bezplatnych sekund"
+	"cena za sekundu nad ramec"
+};
+
+entity set "sms balik" {
+	"maximalny pocet znakov"
+};
+
+generalization from "datovy balik" to "balik";
+
+generalization from "hlasovy balik" to "balik";
+
+generalization from "sms balik" to "balik";

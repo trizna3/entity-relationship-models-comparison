@@ -1,0 +1,65 @@
+entity set hry {
+	"id"
+};
+
+entity set "hracie plochy" {
+	"r"
+	"c"
+};
+
+entity set pocasia {
+	"pocasie 1"
+	"pocasie 2"
+	"pocasie 3"
+};
+
+entity set policka {
+	"typ"
+	"jednotka"
+};
+
+entity set jednotky {
+	"meno"
+	"zivot"
+	"sila utoku"
+	"sila obrany"
+	"pocet bodov"
+};
+
+entity set pohon {
+	"typ"
+};
+
+entity set "pocet tahov" {};
+
+association between 
+{
+	hry MANY
+	"hracie plochy" ONE
+}{};
+
+association between 
+{
+	"hracie plochy" ONE
+	policka MANY
+}{};
+
+association "pocasie na ploche" between 
+{
+	"hracie plochy" MANY
+	pocasia MANY
+}{};
+
+association between 
+{
+	policka ONE 
+	jednotky ONE
+}{};
+
+association between 
+{
+	jednotky MANY
+	"pohon" ONE
+}{};
+
+generalization from "pocet tahov" to "pocasia";

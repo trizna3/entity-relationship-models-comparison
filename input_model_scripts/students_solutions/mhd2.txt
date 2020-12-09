@@ -1,0 +1,46 @@
+entity set zastavky {
+	"nazov"
+};
+
+entity set vozidla {
+	"kod"
+	"typ vozidla"
+};
+
+entity set casy {
+	"cas odchodu"
+};
+
+entity set linky {
+	"cislo"
+	"typ vozidla"
+};
+
+association "Z-L" between 
+{
+	zastavky MANY
+	linky MANY
+}{
+	"trvanie"
+};
+
+association between 
+{
+	vozidla ONE
+	linky MANY
+}{
+};
+
+association between 
+{
+	vozidla ONE
+	casy MANY
+}{
+};
+
+association between 
+{
+	casy ONE
+	linky MANY
+}{
+};

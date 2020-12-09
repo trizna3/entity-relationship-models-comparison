@@ -1,0 +1,25 @@
+entity set "produkty" {
+	"nazov"
+	"vaha"
+	"cena"
+};
+
+entity set "typ produktu" {
+};
+
+entity set "atributy produktu" {
+};
+
+association between
+{
+	"produkty" MANY
+	"typ produktu" ONE
+}{
+};
+
+association between
+{
+	"atributy produktu" MANY
+	"typ produktu" ONE
+}{
+};

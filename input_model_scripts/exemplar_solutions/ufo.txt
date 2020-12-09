@@ -1,0 +1,72 @@
+entity set "modely lietadiel" {
+	"kod"
+};
+
+entity set "stihacie modely" {
+};
+
+entity set "typy rakiet" {
+};
+
+entity set "dopravne modely" {
+	"kapacita osob"
+	"kapacita hmotnost"
+	"kapacita objem"
+};
+
+entity set lietadla {
+	"seriove cislo"
+	"meno"
+};
+
+entity set vojaci {
+	"aktualny zivot"
+	"maximalny zivot"
+	"rychlost"
+	"sila"
+	"obratnost"
+	"inteligencia"
+};
+
+entity set "role vojakov" {
+	"modifikator maximalneho zivota"
+	"modifikator rychlosti"
+	"modifikator sily"
+	"modifikator obratnosti"
+	"modifikator inteligencie"
+	"nazov prace"	
+};
+
+association between 
+{
+	"modely lietadiel" ONE
+	lietadla MANY
+}{
+};
+
+association "sluzi na" between 
+{
+	"lietadla" ONE
+	"role vojakov" ONE
+	"vojaci" MANY
+}{
+};
+
+association "nesie" between 
+{
+	"lietadla" MANY
+	"typy rakiet" MANY
+}{
+};
+
+association "unesie" between 
+{
+	"stihacie modely" MANY
+	"typy rakiet" MANY
+}{
+	"mnozstvo"
+};
+
+generalization from "stihacie modely" to "modely lietadiel";
+
+generalization from "dopravne modely" to "modely lietadiel";

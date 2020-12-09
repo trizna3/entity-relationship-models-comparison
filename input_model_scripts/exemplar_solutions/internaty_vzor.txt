@@ -1,0 +1,69 @@
+entity set budovy {
+	"ulica"
+	"cislo"
+	"mesto"
+	"psc"
+};
+
+entity set izby {
+	"cislo"
+	"cislo poschodia"
+	"kapacita"
+	"poplatok"
+};
+
+entity set zmluvy {
+	"od"
+	"do"
+};
+
+entity set platby {
+	"vyska"
+	"datum a cas"
+};
+
+entity set konta {
+	"kredit"
+};
+
+entity set studenti {
+	"meno"
+	"priezvisko"
+	"cislo op"
+};
+
+association between 
+{
+	budovy ONE 
+	izby MANY
+}{};
+
+association between 
+{
+	izby ONE
+	zmluvy MANY
+}{};
+
+association between 
+{
+	zmluvy ONE 
+	platby MANY
+}{};
+
+association between 
+{
+	zmluvy MANY 
+	studenti ONE
+}{};
+
+association between 
+{
+	platby MANY
+	konta ONE
+}{};
+
+association between 
+{
+	konta ONE
+	studenti ONE
+}{};
