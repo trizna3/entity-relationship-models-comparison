@@ -31,3 +31,11 @@ v1.4
 - direct descendants ordering, for better prunning
 - ignoring independent node order during traversal
 - additional constraints on attribute transformations
+
+
+v2.0
+- heuristics optimized, weights adjusted
+- dictionaries fully implemented, configurable
+- finds optimal mapping
+- DOESN'T compute ERModelComparisonReport
+- NO conditional transformation
