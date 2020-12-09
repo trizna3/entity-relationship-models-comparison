@@ -3,8 +3,7 @@ package common.enums;
 public class EnumConstants {
 
 	/*** CONFIGURATION ***/
-	
-	public static final String CONFIG_NAME = "app.config";
+	public static final String CONFIG_NAME = "app_config.properties";
 	
 	public static final String CONFIG_PRINT_RESULT = "print_result";
 	

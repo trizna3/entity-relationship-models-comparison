@@ -117,9 +117,15 @@
             <version>1.0.1</version>
         </dependency>
         <dependency>
-		    <groupId>de.julielab</groupId>
-		    <artifactId>jcore-stanford-lemmatizer</artifactId>
-		    <version>2.3.10</version>
+		  	<groupId>edu.stanford.nlp</groupId>
+		  	<artifactId>stanford-corenlp</artifactId>
+		  	<version>3.6.0</version>
+		</dependency>
+		<dependency>
+		  	<groupId>edu.stanford.nlp</groupId>
+		  	<artifactId>stanford-corenlp</artifactId>
+		  	<version>3.6.0</version>
+		  	<classifier>models</classifier> <!--  will get the dependent model jars -->
 		</dependency>
 	</dependencies>
 </project>

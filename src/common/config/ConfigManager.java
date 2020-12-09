@@ -1,4 +1,4 @@
-package common;
+package common.config;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import common.Utils;
 import common.enums.EnumConstants;
 
 public class ConfigManager {

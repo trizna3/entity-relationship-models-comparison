@@ -60,6 +60,9 @@ public class Association extends Relationship implements Attributed {
 	};
 
 	public List<AssociationSide> getSides() {
+		if (sides == null) {
+			sides = new ArrayList<>();
+		}
 		return sides;
 	}
 

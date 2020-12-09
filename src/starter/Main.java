@@ -1,10 +1,14 @@
 package starter;
 
+import java.io.IOException;
+
 import comparing.Mapping;
 import entityRelationshipModel.ERModel;
-import languageProcessing.StanfordLemmatizer;
 import mappingSearch.mappingEvaluator.Evaluator;
 import mappingSearch.mappingEvaluator.IEvaluator;
+import mappingSearch.mappingFinder.MappingFinder;
+import parser.Parser;
+import parser.SyntaxException;
 import tests.TestUtils;
 /**
  * @author - Adam Trizna
@@ -14,10 +18,17 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		String sentence = "Today I went to the store and bought a cammel.";
-		
-		for (String word : sentence.split(" ")) {
-			System.out.println(StanfordLemmatizer.getInstance().lemmatizeWord(word));
+		try {
+			
+			ERModel model1 = Parser.fromString(Parser.fileToString("input_model_scripts//exemplar_solutions//internaty_vzor.txt"));
+			ERModel model2 = Parser.fromString(Parser.fileToString("input_model_scripts//students_solutions//internaty_s1.txt"));
+			
+			new MappingFinder().getBestMapping(model1, model2);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SyntaxException e) {
+			e.printStackTrace();
 		}
 		
 		debugTest();
@@ -46,4 +57,6 @@ public class Main {
 		evaluator.evaluate(mappingMoj);
 		mappingMoj.unmapAll();
 	}
+	
+	
 }

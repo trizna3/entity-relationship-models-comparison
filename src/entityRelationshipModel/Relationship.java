@@ -34,7 +34,9 @@ public abstract class Relationship extends ERModelElement implements Named {
 	}
 
 	public void setNameText(String name) {
-		this.name = new ERModelElementName(name);
+		if (name != null) {
+			this.name = new ERModelElementName(name);
+		}
 	}
 	
 	public ERModelElementName getName() {
