@@ -75,12 +75,12 @@ public class MappingFinder {
 		
 		search(new Mapping(exemplarModel, studentModel));
 		if (printResult) {
-			System.out.println("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
-			System.out.println("Total mapping nodes = " + mappingNodesCount + ", Total transformation nodes = " + transformationNodesCount);
-			System.out.println("Time elapsed = " + clock.getTimeElapsed());
-			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMapping()));
-			System.out.println(PrintUtils.print(getMappingEvaluator().getBestMappingTransformations()));
-			System.out.println("-");
+			LoggerUtils.log("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
+			LoggerUtils.log("Total mapping nodes = " + mappingNodesCount + ", Total transformation nodes = " + transformationNodesCount);
+			LoggerUtils.log("Time elapsed = " + clock.getTimeElapsed());
+			LoggerUtils.log(PrintUtils.print(getMappingEvaluator().getBestMapping()));
+			LoggerUtils.log(PrintUtils.print(getMappingEvaluator().getBestMappingTransformations()));
+			LoggerUtils.log("-");
 		}
 		return getMappingEvaluator().getBestMapping();
 	}
@@ -222,7 +222,7 @@ public class MappingFinder {
 		depthCounter++;
 		
 //		if (depthCounter > maxDepthReached) {
-//			System.out.println("Max recursion level reached = " + depthCounter);
+//			LoggerUtils.log("Max recursion level reached = " + depthCounter);
 //			maxDepthReached = depthCounter;
 //		}
 	}

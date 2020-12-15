@@ -7,8 +7,8 @@ import entityRelationshipModel.EntitySet;
 
 public class ERModelComparisonTranslator {
 
-	public ERModelComparisonReport createReport(ERModel exemplarModel, ERModel studentModel, Map<EntitySet,EntitySet> mapping) {
+	public ERModelDiff computeDiff(ERModel exemplarModel, ERModel studentModel, Map<EntitySet,EntitySet> mapping) {
 		// TODO
-		return new ERModelComparisonReport();
+		return new ERModelDiff();
 	}
 }

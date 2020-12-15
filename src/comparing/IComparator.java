@@ -17,13 +17,13 @@ public interface IComparator {
      * @param exemplarModel
      * @param studentsModel
      */
-    public ERModelComparisonReport getCompareReport(ERModel exemplarModel, ERModel studentModel);
+    public ERModelDiff getCompareDiff(ERModel exemplarModel, ERModel studentModel);
     
     /**
-     * Recomputes models comparison report.
+     * Recomputes models diff.
      * 
      * @param exemplarModel
      * @param studentModel
      */
-    public void computeCompareReport(ERModel exemplarModel, ERModel studentModel);
+    public void computeCompareDiff(ERModel exemplarModel, ERModel studentModel);
 }

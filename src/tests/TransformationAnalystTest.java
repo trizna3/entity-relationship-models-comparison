@@ -100,10 +100,11 @@ public class TransformationAnalystTest {
 
 	@Test
 	public void getPossibleRebindMNTo1NN1Transformations() {
-		ERModel model = TestUtils.getERModels().get(1);
+		ERModel model = TestUtils.makeERModel_BattleOfTitans_Vzor();
+		ERModel model2 = TestUtils.makeERModel_BattleOfTitans_S1();
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleRebindMNTo1NN1Transformations(transformations, model, new ERModel());
+		TransformationAnalystUtils.getPossibleRebindMNTo1NN1Transformations(transformations, model, model2);
 
 		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.REBIND_MN_TO_1NN1));
 	}

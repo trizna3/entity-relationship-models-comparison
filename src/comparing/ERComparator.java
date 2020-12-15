@@ -18,32 +18,32 @@ public class ERComparator implements IComparator {
 
 	private MappingFinder mappingFinder;
 	private ERModelComparisonTranslator translator;
-	private ERModelComparisonReport comparisonReport;
+	private ERModelDiff comparisonDiff;
 	
 	/**
      * {@inheritDoc}
      */
     @Override
-    public ERModelComparisonReport getCompareReport(ERModel exemplarModel, ERModel studentModel) {
+    public ERModelDiff getCompareDiff(ERModel exemplarModel, ERModel studentModel) {
     	
     	Utils.validateNotNull(exemplarModel);
     	Utils.validateNotNull(studentModel);
     	
-    	if (comparisonReport == null) {
-    		computeCompareReport(exemplarModel, studentModel);
+    	if (comparisonDiff == null) {
+    		computeCompareDiff(exemplarModel, studentModel);
     	}
     	
-    	return comparisonReport;
+    	return comparisonDiff;
     }
     
     @Override
-	public void computeCompareReport(ERModel exemplarModel, ERModel studentModel) {
+	public void computeCompareDiff(ERModel exemplarModel, ERModel studentModel) {
     	
     	Utils.validateNotNull(exemplarModel);
     	Utils.validateNotNull(studentModel);
     	
     	Map<EntitySet, EntitySet> foundMap = getMappingFinder().getBestMapping(exemplarModel, studentModel);
-    	comparisonReport = getTranslator().createReport(exemplarModel, studentModel, foundMap);
+    	comparisonDiff = getTranslator().computeDiff(exemplarModel, studentModel, foundMap);
 	}
     
     private MappingFinder getMappingFinder() {

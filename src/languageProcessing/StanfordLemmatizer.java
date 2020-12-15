@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import common.Clock;
+import common.LoggerUtils;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
@@ -16,9 +18,15 @@ public class StanfordLemmatizer {
 
     protected StanfordCoreNLP pipeline;
     private Map<String,String> cache;
-    private static final StanfordLemmatizer INSTANCE = new StanfordLemmatizer();
+    private static StanfordLemmatizer INSTANCE;
     
     public static StanfordLemmatizer getInstance() {
+    	if (INSTANCE == null) {
+    		Clock clock = new Clock();
+    		clock.start();
+    		INSTANCE = new StanfordLemmatizer();
+    		LoggerUtils.log("Lemmatization lib loaded in " + clock.getTimeElapsed() + "ms");    		
+    	}
     	return INSTANCE;
     }
 

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import common.Clock;
+import common.LoggerUtils;
 import common.MathUtils;
 import common.StringUtils;
 import common.Utils;
@@ -43,7 +44,7 @@ public class Word2VecDictionary implements LanguageProcessor{
 			    line = br.readLine();
 	            counter ++;
 	            if (counter % 50000 == 0) {
-	            	System.out.println("word2vec: " + counter + " words processed");
+	            	LoggerUtils.log("word2vec: " + counter + " words processed");
 	            }
 	        }
 		} catch (FileNotFoundException e) {
@@ -52,7 +53,7 @@ public class Word2VecDictionary implements LanguageProcessor{
 			e.printStackTrace();
 		}
 		
-		System.out.println("Word vectors loaded in " + clock.getTimeElapsed() + "ms.\n");
+		LoggerUtils.log("Word vectors loaded in " + clock.getTimeElapsed() + "ms.\n");
 	}
 	
 	/**
