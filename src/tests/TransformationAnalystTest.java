@@ -100,8 +100,8 @@ public class TransformationAnalystTest {
 
 	@Test
 	public void getPossibleRebindMNTo1NN1Transformations() {
-		ERModel model = TestUtils.makeERModel_BattleOfTitans_Vzor();
-		ERModel model2 = TestUtils.makeERModel_BattleOfTitans_S1();
+		ERModel model = TestUtils.makeERModel_BattleOfTitans_S1();
+		ERModel model2 = TestUtils.makeERModel_BattleOfTitans_Vzor();
 		List<Transformation> transformations = new ArrayList<>();
 
 		TransformationAnalystUtils.getPossibleRebindMNTo1NN1Transformations(transformations, model, model2);
@@ -128,10 +128,11 @@ public class TransformationAnalystTest {
 
 	@Test
 	public void getPossibleRebind1NN1ToMNTransformations() {
-		ERModel model = TestUtils.getERModels().get(4);
+		ERModel model = TestUtils.makeERModel_BattleOfTitans_Vzor();
+		ERModel model2 = TestUtils.makeERModel_BattleOfTitans_S1();
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleRebind1NN1ToMNTransformations(transformations, model, new ERModel());
+		TransformationAnalystUtils.getPossibleRebind1NN1ToMNTransformations(transformations, model, model2);
 
 		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.REBIND_1NN1_TO_MN));
 	}
@@ -183,9 +184,10 @@ public class TransformationAnalystTest {
 	@Test
 	public void getPossibleContract11AssociationTransformations() {
 		ERModel model = TestUtils.makeERModel_Internaty_Vzor();
+		ERModel model2 = TestUtils.makeERModel_Internaty_S1();
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(transformations, model, new ERModel());
+		TransformationAnalystUtils.getPossibleContract11AssociationTransformations(transformations, model, model2);
 
 		assertTrue(TestUtils.containsTransformation(transformations, EnumTransformation.CONTRACT_11_ASSOCIATION));
 	}
