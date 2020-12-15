@@ -13,7 +13,7 @@ import common.MathUtils;
 import common.StringUtils;
 import common.Utils;
 
-public class Word2VecDictionary implements LanguageProcessor{
+class Word2VecDictionary implements LanguageProcessor{
 	
 	private static final Word2VecDictionary INSTANCE = new Word2VecDictionary();
 	private static Map<String,double[]> word2vec;

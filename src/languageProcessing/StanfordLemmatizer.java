@@ -14,7 +14,7 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 
-public class StanfordLemmatizer {
+class StanfordLemmatizer {
 
     protected StanfordCoreNLP pipeline;
     private Map<String,String> cache;

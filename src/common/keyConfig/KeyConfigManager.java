@@ -11,12 +11,12 @@ import common.Utils;
 public abstract class KeyConfigManager {
 
 	protected abstract String getConfigFileName();
-	protected abstract Object getResourceInternal(String resourceKey);
+	protected abstract String getResourceInternal(String resourceKey);
 	protected abstract void loadValues(Properties prop);
 	
 	private boolean resourceLoaded = false;
 	
-	public Object getResource(String resource) {
+	public String getResource(String resource) {
 		Utils.validateNotNull(resource);
 		
 		if (!resourceLoaded) {

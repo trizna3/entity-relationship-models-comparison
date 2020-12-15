@@ -4,7 +4,6 @@ import common.StringUtils;
 import common.Utils;
 import entityRelationshipModel.ERModelElementName;
 import entityRelationshipModel.Named;
-import languageProcessing.Dictionary;
 import languageProcessing.LanguageProcessor;
 
 public class NamedComparator {
@@ -89,8 +88,7 @@ public class NamedComparator {
 	
 	private LanguageProcessor getDictionary() {
 		if (dictionary == null) {
-			dictionary = Dictionary.getInstance();
-//			dictionary = Word2VecDictionary.getInstance();
+			dictionary = LanguageProcessor.getImplementation();
 		}
 		return dictionary;
 	}

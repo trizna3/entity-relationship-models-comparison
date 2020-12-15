@@ -3,6 +3,8 @@ package languageProcessing;
 import java.util.Collection;
 
 import common.Utils;
+import common.enums.EnumConstants;
+import common.keyConfig.AppConfigManager;
 import entityRelationshipModel.ERText;
 
 /**
@@ -32,5 +34,17 @@ public interface LanguageProcessor {
 		}
 		
 		return false;
+	}
+	
+	public static LanguageProcessor getImplementation() {
+		String languageProcessorImpl = AppConfigManager.getInstance().getResource(EnumConstants.CONFIG_LANGUAGE_PROCESSOR);
+		
+		if (EnumConstants.LP_DICTIONARY_IMPL.equals(languageProcessorImpl)) {
+			return Dictionary.getInstance();
+		}
+		if (EnumConstants.LP_WORD2VEC_DICT_IMPL.equals(languageProcessorImpl)) {
+			return Word2VecDictionary.getInstance();
+		} 
+		throw new IllegalStateException("No language processor implementation configured!");
 	}
 }

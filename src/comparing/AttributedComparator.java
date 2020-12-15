@@ -3,7 +3,6 @@ package comparing;
 import common.Utils;
 import entityRelationshipModel.Attribute;
 import entityRelationshipModel.Attributed;
-import languageProcessing.Dictionary;
 import languageProcessing.LanguageProcessor;
 
 public class AttributedComparator {
@@ -57,7 +56,7 @@ public class AttributedComparator {
 
 	private LanguageProcessor getDictionary() {
 		if (dictionary == null) {
-			dictionary = Dictionary.getInstance();
+			dictionary = LanguageProcessor.getImplementation();
 		}
 		return dictionary;
 	}

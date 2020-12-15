@@ -15,7 +15,7 @@ import common.multiKeyConfig.DictConfigManager;
  * Naive language processor. "Measures" words meaning similarity 1 or 0, wether
  * the word-pair is in manually pre-defined dictionary.
  */
-public class Dictionary implements LanguageProcessor {
+class Dictionary implements LanguageProcessor {
 
 	private static final Dictionary INSTANCE = new Dictionary();
 	private Map<String,Map<String,Double>> cache;

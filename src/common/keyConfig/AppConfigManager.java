@@ -13,6 +13,7 @@ public class AppConfigManager extends KeyConfigManager {
 	private static String TRACK_PROGRESS;
 	private static String EARLY_STOP;
 	private static String EARLY_STOP_BOUND;
+	private static String LANGUAGE_PROCESSOR;
 	
 	public static AppConfigManager getInstance() {
 		if (INSTANCE == null) {
@@ -27,7 +28,7 @@ public class AppConfigManager extends KeyConfigManager {
 	}
 	
 	@Override
-	protected Object getResourceInternal(String resourceKey) {
+	protected String getResourceInternal(String resourceKey) {
 		switch(resourceKey) {
 		case EnumConstants.CONFIG_PRINT_RESULT:
 			return PRINT_RESULT;
@@ -39,6 +40,8 @@ public class AppConfigManager extends KeyConfigManager {
 			return EARLY_STOP;
 		case EnumConstants.CONFIG_EARLY_STOP_BOUND:
 			return EARLY_STOP_BOUND;
+		case EnumConstants.CONFIG_LANGUAGE_PROCESSOR:
+			return LANGUAGE_PROCESSOR;
 		default:
 			throw new IllegalArgumentException("Unknown resource!");
 		}
@@ -51,5 +54,6 @@ public class AppConfigManager extends KeyConfigManager {
 		TRACK_PROGRESS = prop.getProperty(EnumConstants.CONFIG_TRACK_PROGRESS);
 		EARLY_STOP = prop.getProperty(EnumConstants.CONFIG_EARLY_STOP);
 		EARLY_STOP_BOUND = prop.getProperty(EnumConstants.CONFIG_EARLY_STOP_BOUND); 
+		LANGUAGE_PROCESSOR = prop.getProperty(EnumConstants.CONFIG_LANGUAGE_PROCESSOR);
 	}
 }

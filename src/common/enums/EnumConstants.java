@@ -17,6 +17,13 @@ public class EnumConstants {
 	
 	public static final String CONFIG_EARLY_STOP_BOUND = "early_stop_bound";
 	
+	public static final String CONFIG_LANGUAGE_PROCESSOR = "language_processor";
+	
+	/*** LANGUAGE PROCESSOR IMPLEMENTATIONS ***/
+	public static final String LP_DICTIONARY_IMPL = "dictionary";
+	
+	public static final String LP_WORD2VEC_DICT_IMPL = "word2vec_dict";
+	
 	/*** ATTRIBUTES ***/
 
 	public static final String NAME_ATTRIBUTE = "Name";
