@@ -3,6 +3,7 @@ package common;
 import java.util.List;
 import java.util.Map;
 
+import comparing.Mapping;
 import entityRelationshipModel.Attribute;
 import entityRelationshipModel.ERModel;
 import entityRelationshipModel.EntitySet;
@@ -171,6 +172,21 @@ public class PrintUtils extends Utils {
 	public static final String print(Attribute attribute) {
 		validateNotNull(attribute);
 		return attribute.getAttribute();
+	}
+	
+	public static final String print(Mapping mapping) {
+		validateNotNull(mapping);
+		
+		StringBuilder sb =  new StringBuilder("[");
+		
+		Map<EntitySet,EntitySet> esMap = MappingUtils.createEntitySetMap(mapping);
+		for (EntitySet es : esMap.keySet()) {
+			sb.append("(" + es.getNameText() + "<->" + esMap.get(es).getNameText() +") ");
+		}
+		sb.append("]\n");
+		sb.append(print(mapping.getTransformations()));
+		
+		return sb.toString();
 	}
 
 	private static String join(Iterable<?> objects, String delimiter) {

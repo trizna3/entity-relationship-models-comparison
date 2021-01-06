@@ -110,7 +110,7 @@ public class MappingUtils extends Utils {
 		Map<EntitySet, EntitySet> map = new HashMap<EntitySet, EntitySet>();
 		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
 			if (entitySet.getMappedTo() == null) {
-				map.put(new EntitySet(entitySet), MappingUtils.EMPTY_ENTITY_SET);
+				map.put(new EntitySet(entitySet), new EntitySet("---"));
 			} else {
 				map.put(new EntitySet(entitySet), new EntitySet(entitySet.getMappedTo()));
 			}

@@ -236,6 +236,9 @@ public class TransformationAnalystUtils {
 			if (entitySet.containsTransformationFlag(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET)) {
 				continue;
 			}
+			if (entitySet.getMappedTo() != null) {
+				continue;
+			}
 			for (Attribute attribute : entitySet.getAttributes()) {
 				if (!notMappedEntitySetNames.contains(attribute)) {
 					continue;

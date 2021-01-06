@@ -1,7 +1,6 @@
 package mappingSearch.mappingEvaluator;
 
 import common.RelationshipUtils;
-import common.StringUtils;
 import common.Utils;
 import common.enums.EnumTransformation;
 import comparing.Mapping;

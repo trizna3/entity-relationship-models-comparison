@@ -32,9 +32,9 @@ public class Evaluator implements IEvaluator {
 	public void evaluate(Mapping mapping) {
 		Utils.validateNotNull(mapping);
 
-		finalizeMapping(mapping);
+		List<EntitySet> finalizedEntitySets = finalizeMapping(mapping);
 		evaluate(mapping, getTransformationsPenaltyDirect(mapping));
-		unfinalizeMapping(mapping);
+		unfinalizeMapping(mapping,finalizedEntitySets);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class Evaluator implements IEvaluator {
 	}
 	
 
-	private double getTransformationsPenaltyDirect(Mapping mapping) {
+	public double getTransformationsPenaltyDirect(Mapping mapping) {
 		return mappingEvaluator.computeMappingPenalty(mapping);
 	}
 	
@@ -77,11 +77,10 @@ public class Evaluator implements IEvaluator {
 	 * @param mapping
 	 */
 	private List<EntitySet> finalizeMapping(Mapping mapping) {
-//		assert mapping.getExemplarModel().getNotMappedEntitySets().isEmpty();
-
 		List<EntitySet> result = new ArrayList<>();
 
 		ERModelUtils.finalizeModel(mapping.getStudentModel(), result);
+		ERModelUtils.finalizeModel(mapping.getExemplarModel(), result);
 		return result;
 	}
 
@@ -90,10 +89,9 @@ public class Evaluator implements IEvaluator {
 	 * 
 	 * @param mapping
 	 */
-	private void unfinalizeMapping(Mapping mapping) {
-//		assert mapping.getExemplarModel().getNotMappedEntitySets().isEmpty();
-
-		ERModelUtils.unfinalizeModel(mapping.getStudentModel());
+	private void unfinalizeMapping(Mapping mapping, List<EntitySet> targetEntitySets) {
+		ERModelUtils.unfinalizeModel(mapping.getStudentModel(),targetEntitySets);
+		ERModelUtils.unfinalizeModel(mapping.getExemplarModel(),targetEntitySets);
 	}
 
 	public double getBestPenalty() {

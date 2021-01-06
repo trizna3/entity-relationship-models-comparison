@@ -45,4 +45,23 @@ public class CollectionUtils extends Utils {
 		}
 		return list1.equals(list2);
 	}
+	
+	/**
+	 * Determines, if obj is contained in given collection, uses refference id comparison, not overriden compareTo/hashCode. 
+	 * @param <T>
+	 * @param collection
+	 * @param obj
+	 * @return
+	 */
+	public static <T> boolean trueContains(Collection<T> collection, T obj) {
+		validateNotNull(collection);
+		validateNotNull(obj);
+		
+		for (T element : collection) {
+			if(element == obj) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

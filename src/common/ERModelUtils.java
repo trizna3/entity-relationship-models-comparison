@@ -219,11 +219,11 @@ public class ERModelUtils extends Utils {
 	 * 
 	 * @param model
 	 */
-	public static void unfinalizeModel(ERModel model) {
+	public static void unfinalizeModel(ERModel model,List<EntitySet> targetEntitySets) {
 		validateNotNull(model);
 
 		for (EntitySet entitySet : model.getEntitySets()) {
-			if (MappingUtils.EMPTY_ENTITY_SET.equals(entitySet.getMappedTo())) {
+			if (CollectionUtils.trueContains(targetEntitySets,entitySet)) {
 				entitySet.setMappedTo(null);
 			}
 		}

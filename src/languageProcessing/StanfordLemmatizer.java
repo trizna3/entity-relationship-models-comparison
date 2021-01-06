@@ -68,7 +68,8 @@ class StanfordLemmatizer {
                 break nextSentence;
             }
         }
-
+        // case insensitivity
+        result = result.toLowerCase();
         getCache().put(word, result);
         return result;
     }

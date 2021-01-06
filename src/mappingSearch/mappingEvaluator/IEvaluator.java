@@ -58,4 +58,6 @@ public interface IEvaluator {
 	 * @return Penalty of best mapping found so far.
 	 */
 	double getBestPenalty();
+	
+	public double getTransformationsPenaltyDirect(Mapping mapping);
 }
