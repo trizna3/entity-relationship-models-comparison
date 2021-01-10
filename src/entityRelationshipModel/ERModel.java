@@ -20,6 +20,7 @@ public class ERModel {
 
 	private List<EntitySet> entitySets;
 	private List<Relationship> relationships;
+	private List<EntitySet> originalEntitySets;
 
 	private boolean isExemplar;
 	
@@ -200,5 +201,13 @@ public class ERModel {
 			toProcess = 0;
 		}
 		return toProcess;
-	}		
+	}
+	
+	public void saveOriginalEntitySets() {
+		originalEntitySets = new ArrayList<>(getEntitySets());
+	}
+	
+	public boolean isOriginalEntitySet(EntitySet entitySet) {
+		return originalEntitySets != null && originalEntitySets.contains(entitySet);
+	}
 }

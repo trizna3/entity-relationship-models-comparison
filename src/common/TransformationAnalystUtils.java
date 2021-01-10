@@ -48,8 +48,8 @@ public class TransformationAnalystUtils {
 			
 			boolean opposingEntitySetFound = false;
 			for (EntitySet entitySet : otherModel.getNotMappedEntitySets()) {
-				if (getEntitySetComparator().compareAssymetric(association.getFirstSide().getEntitySet(), entitySet) >= SimilarityConstants.SIMILARITY_TRESHOLD_ENTITY_SET &&
-					getEntitySetComparator().compareAssymetric(association.getSecondSide().getEntitySet(), entitySet) >= SimilarityConstants.SIMILARITY_TRESHOLD_ENTITY_SET) {
+				if (getEntitySetComparator().compareAssymetric(association.getFirstSide().getEntitySet(), entitySet) >= SimilarityConstantsUtils.getEntitySetSimilarityTreshold() &&
+					getEntitySetComparator().compareAssymetric(association.getSecondSide().getEntitySet(), entitySet) >= SimilarityConstantsUtils.getEntitySetSimilarityTreshold()) {
 					opposingEntitySetFound = true;
 					break;
 				}
@@ -102,7 +102,7 @@ public class TransformationAnalystUtils {
 				if (!entitySet.isBinary()) {
 					continue;
 				}
-				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= SimilarityConstants.SIMILARITY_TRESHOLD_ENTITY_SET_ASSOCIATION) {
+				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= SimilarityConstantsUtils.getEntitySetAssociationSimilarityTreshold()) {
 					continue;
 				}
 				
@@ -134,17 +134,13 @@ public class TransformationAnalystUtils {
 			if (entitySet.getMappedTo() != null) {
 				continue;
 			}
-			Set<Relationship> incidentRelationships = entitySet.getIncidentRelationships();
-			if (incidentRelationships.size() != 2) {
-				continue;
-			}
 			if (entitySet.containsTransformationFlag(EnumTransformation.REBIND_MN_TO_1NN1)) {
 				continue;
 			}
 			// validations on entity set's incident associations
 			Association association1 = null;
 			Association association2 = null;
-			for (Relationship relationship : incidentRelationships) {
+			for (Relationship relationship : entitySet.getIncidentRelationships()) {
 				if (relationship instanceof Association == false) {
 					continue nextES;
 				}
@@ -181,7 +177,7 @@ public class TransformationAnalystUtils {
 				if (!EnumRelationshipSideRole.CARDINALITY_MANY.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
 					continue;
 				}
-				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= SimilarityConstants.SIMILARITY_TRESHOLD_ENTITY_SET_ASSOCIATION) {
+				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= SimilarityConstantsUtils.getEntitySetAssociationSimilarityTreshold()) {
 					continue;
 				} 
 				
@@ -362,7 +358,7 @@ public class TransformationAnalystUtils {
 							continue nextCandidate;
 						}
 					}
-					if (getAssociationComparator().compareSymmetric((Association) relationship, (Association) relationship2) < SimilarityConstants.SIMILARITY_TRESHOLD_ASSOCIATION) {
+					if (getAssociationComparator().compareSymmetric((Association) relationship, (Association) relationship2) < SimilarityConstantsUtils.getAssociationTreshold()) {
 						continue;
 					}
 					matchCandidateFound = true;

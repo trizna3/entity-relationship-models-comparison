@@ -3,7 +3,7 @@ package comparing;
 import java.util.HashSet;
 import java.util.Set;
 
-import common.SimilarityConstants;
+import common.SimilarityConstantsUtils;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.RelationshipSide;
 
@@ -23,11 +23,11 @@ public class AssociationComparator {
 		double max = 0;
 		double value = 0;
 		
-		max += SimilarityConstants.NAME_WEIGHT;
-		value += SimilarityConstants.NAME_WEIGHT * getNamedComparator().compareSymmetric(association1, association2);
+		max += SimilarityConstantsUtils.getNameWeight();
+		value += SimilarityConstantsUtils.getNameWeight() * getNamedComparator().compareSymmetric(association1, association2);
 		
-		max += SimilarityConstants.ATTRIBUTE_WEIGHT;
-		value += SimilarityConstants.ATTRIBUTE_WEIGHT * getAttributedComparator().compareSymmetric(association1, association2);
+		max += SimilarityConstantsUtils.getAttributeWeight(association1,association2);
+		value += SimilarityConstantsUtils.getAttributeWeight(association1,association2) * getAttributedComparator().compareSymmetric(association1, association2);
 		
 		// greedy matching, not a perfect marriage solution
 		Set<Integer> usedIndices = new HashSet<>(association2.getSides().size());
@@ -45,7 +45,7 @@ public class AssociationComparator {
 					matchedSideIdx = i;
 				}
 			}
-			max += SimilarityConstants.ENTITY_SET_WEIGHT;
+			max += SimilarityConstantsUtils.getEntitySetWeight();
 			value += maxSimilarity;
 			usedIndices.add(matchedSideIdx);
 		}

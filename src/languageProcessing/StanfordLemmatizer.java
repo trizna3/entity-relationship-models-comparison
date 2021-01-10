@@ -57,19 +57,21 @@ class StanfordLemmatizer {
         // run all Annotators on this text
         this.pipeline.annotate(document);
         
-        String result = word;
+        StringBuilder resultSB = new StringBuilder();
 
         // Iterate over all of the sentences found
-        nextSentence: for(CoreMap sentence: document.get(SentencesAnnotation.class)) {
+        for(CoreMap sentence: document.get(SentencesAnnotation.class)) {
             // Iterate over all tokens in a sentence
             for (CoreLabel token: sentence.get(TokensAnnotation.class)) {
                 // Retrieve and add the lemma for each word into the list of lemmas
-                result = token.get(LemmaAnnotation.class);
-                break nextSentence;
+            	if (resultSB.length() > 0) {
+            		resultSB.append(" ");
+            	}
+            	resultSB.append(token.get(LemmaAnnotation.class));
             }
         }
         // case insensitivity
-        result = result.toLowerCase();
+        String result = resultSB.toString().toLowerCase();
         getCache().put(word, result);
         return result;
     }

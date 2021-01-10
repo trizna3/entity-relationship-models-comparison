@@ -21,5 +21,9 @@ public interface Attributed {
 		}
 		return this.getAttributes().containsAll(other.getAttributes());
 	}
+	
+	default int getAttributesCount() {
+		return getAttributes() == null ? 0 : getAttributes().size();
+	}
 
 }

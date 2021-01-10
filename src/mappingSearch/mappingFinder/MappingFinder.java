@@ -8,7 +8,7 @@ import common.Clock;
 import common.LoggerUtils;
 import common.MappingUtils;
 import common.PrintUtils;
-import common.SimilarityConstants;
+import common.SimilarityConstantsUtils;
 import common.TransformationUtils;
 import common.Utils;
 import common.enums.EnumConstants;
@@ -54,7 +54,7 @@ public class MappingFinder {
 	
 	private int mappingNodesCount = 0;
 	private int transformationNodesCount = 0;
-
+	
 	/**
 	 * Uses recursive backtrack algorithm to iterate over all possible mappings,
 	 * compute their penalties, get the one with the lowest penalty.
@@ -64,6 +64,15 @@ public class MappingFinder {
 	 * @return Mapping of minimal penalty.
 	 */
 	public Map<EntitySet, EntitySet> getBestMapping(ERModel exemplarModel, ERModel studentModel) {
+		
+		prepareSearch(exemplarModel,studentModel);
+		search(new Mapping(exemplarModel, studentModel));
+		postProcessSearch();
+		
+		return getMappingEvaluator().getBestMapping();
+	}
+	
+	private void prepareSearch(ERModel exemplarModel, ERModel studentModel) {
 		exemplarModel.setExemplar(true);
 		studentModel.setExemplar(false);
 
@@ -73,7 +82,11 @@ public class MappingFinder {
 			clock.start();
 		}
 		
-		search(new Mapping(exemplarModel, studentModel));
+		exemplarModel.saveOriginalEntitySets();
+		studentModel.saveOriginalEntitySets();
+	}
+	
+	private void postProcessSearch() {
 		if (printResult) {
 			LoggerUtils.log("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
 			LoggerUtils.log("Total mapping nodes = " + mappingNodesCount + ", Total transformation nodes = " + transformationNodesCount);
@@ -82,7 +95,6 @@ public class MappingFinder {
 			LoggerUtils.log(PrintUtils.print(getMappingEvaluator().getBestMappingTransformations()));
 			LoggerUtils.log("-");
 		}
-		return getMappingEvaluator().getBestMapping();
 	}
 
 	/**
@@ -133,7 +145,7 @@ public class MappingFinder {
 			if (studentEntitySet.getMappedTo() != null) {
 				continue;
 			}
-			if (!MappingUtils.EMPTY_ENTITY_SET.equals(studentEntitySet) && EntitySetComparator.getInstance().compareSymmetric(exemplarEntitySet, studentEntitySet) < SimilarityConstants.SIMILARITY_TRESHOLD_ENTITY_SET) {
+			if (!isSuitablePair(mapping, exemplarEntitySet, studentEntitySet)) {
 				continue;
 			}
 			map(mapping, exemplarEntitySet, studentEntitySet);
@@ -157,6 +169,7 @@ public class MappingFinder {
 					forbidAll(decPart, excludedIndices, mapping);
 					incrementDepthCounter();
 					transformationNodesCount ++;
+					
 					search(mapping);
 					
 					decrementDepthCounter();
@@ -314,5 +327,19 @@ public class MappingFinder {
 			namedComparator = NamedComparator.getInstance();
 		}
 		return namedComparator;
+	}
+		
+	private boolean isSuitablePair(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
+		if (MappingUtils.EMPTY_ENTITY_SET.equals(studentEntitySet)) {
+			return true;
+		}
+		if (!mapping.getExemplarModel().isOriginalEntitySet(exemplarEntitySet) || !mapping.getStudentModel().isOriginalEntitySet(studentEntitySet)) {
+			// let entitySets, which were created during the search, pass
+			return true;
+		}
+		if (EntitySetComparator.getInstance().compareSymmetric(exemplarEntitySet, studentEntitySet) >= SimilarityConstantsUtils.getEntitySetSimilarityTreshold()) {
+			return true;
+		}
+		return false;
 	}
 }

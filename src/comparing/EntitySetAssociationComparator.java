@@ -1,6 +1,6 @@
 package comparing;
 
-import common.SimilarityConstants;
+import common.SimilarityConstantsUtils;
 import common.Utils;
 import entityRelationshipModel.Association;
 import entityRelationshipModel.EntitySet;
@@ -37,12 +37,12 @@ public class EntitySetAssociationComparator {
 		double value = 0;
 		
 		// elements names
-		max += SimilarityConstants.NAME_WEIGHT;
-		value += SimilarityConstants.NAME_WEIGHT * getNamedComparator().compareSymmetric(entitySet, association); 
+		max += SimilarityConstantsUtils.getNameWeight();
+		value += SimilarityConstantsUtils.getNameWeight() * getNamedComparator().compareSymmetric(entitySet, association); 
 		
 		// elements attributes
-		max += SimilarityConstants.ATTRIBUTE_WEIGHT;
-		value += SimilarityConstants.ATTRIBUTE_WEIGHT * getAttributedComparator().compareSymmetric(entitySet, association);
+		max += SimilarityConstantsUtils.getAttributeWeight(entitySet, association);
+		value += SimilarityConstantsUtils.getAttributeWeight(entitySet, association) * getAttributedComparator().compareSymmetric(entitySet, association);
 		
 		// elements incident entity sets (exactly 2 in both cases)
 		EntitySet assocEntitySet1 = association.getFirstSide().getEntitySet();
@@ -56,8 +56,8 @@ public class EntitySetAssociationComparator {
 		double c = getEntitySetComparator().compareSymmetric(assocEntitySet2, entitySetNeighbour2);
 		double d = getEntitySetComparator().compareSymmetric(assocEntitySet2, entitySetNeighbour1);
 		
-		max += 2 * SimilarityConstants.ENTITY_SET_WEIGHT;
-		value += SimilarityConstants.ENTITY_SET_WEIGHT * Math.max(a+c, b+d);
+		max += 2 * SimilarityConstantsUtils.getEntitySetWeight();
+		value += SimilarityConstantsUtils.getEntitySetWeight() * Math.max(a+c, b+d);
 		
 		return value == max ? 1 : value/max;
 	}
