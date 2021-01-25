@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.Utils;
+
 public abstract class MultiKeyConfigManager {
 
 	protected abstract String getConfigFileName();
@@ -24,11 +26,19 @@ public abstract class MultiKeyConfigManager {
 	
 	private void loadValues() {
 		try {
-			Files.lines(Paths.get(getConfigFileName())).forEach(line -> getData().add(line.split(getDelimiter())));
+			Files.lines(Paths.get(getConfigFileName())).forEach(line -> processLine(line));
 			resourceLoaded = true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void processLine(String line) {
+		Utils.validateNotNull(line);
+		if (line.length() < 1 || line.charAt(0) == '#') {
+			return;
+		}
+		getData().add(line.split(getDelimiter()));
 	}
 	
 	private List<String[]> getData() {

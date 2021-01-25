@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import common.Clock;
-import common.LoggerUtils;
 import common.MappingUtils;
 import common.PrintUtils;
 import common.SimilarityConstantsUtils;
@@ -88,12 +87,12 @@ public class MappingFinder {
 	
 	private void postProcessSearch() {
 		if (printResult) {
-			LoggerUtils.log("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
-			LoggerUtils.log("Total mapping nodes = " + mappingNodesCount + ", Total transformation nodes = " + transformationNodesCount);
-			LoggerUtils.log("Time elapsed = " + clock.getTimeElapsed());
-			LoggerUtils.log(PrintUtils.print(getMappingEvaluator().getBestMapping()));
-			LoggerUtils.log(PrintUtils.print(getMappingEvaluator().getBestMappingTransformations()));
-			LoggerUtils.log("-");
+			PrintUtils.log("Best mapping penalty = " + getMappingEvaluator().getBestPenalty());
+			PrintUtils.log("Total mapping nodes = " + mappingNodesCount + ", Total transformation nodes = " + transformationNodesCount);
+			PrintUtils.log("Time elapsed = " + clock.getTimeElapsed());
+			PrintUtils.log(PrintUtils.print(getMappingEvaluator().getBestMapping()));
+			PrintUtils.log(PrintUtils.print(getMappingEvaluator().getBestMappingTransformations()));
+			PrintUtils.log("-");
 		}
 	}
 
@@ -214,7 +213,7 @@ public class MappingFinder {
 
 	private void executeTransformation(Mapping mapping, Transformation transformation) {
 		if (printTransformationProgress) {
-			LoggerUtils.logTransformation(transformation, LoggerUtils.DIRECTION_DOWN);
+			PrintUtils.logTransformation(transformation, PrintUtils.DIRECTION_DOWN);
 		}
 		Transformator.execute(mapping, transformation);
 		mapping.addTransformation(transformation);
@@ -222,7 +221,7 @@ public class MappingFinder {
 
 	private void revertTransformation(Mapping mapping, Transformation transformation) {
 		if (printTransformationProgress) {
-			LoggerUtils.logTransformation(transformation, LoggerUtils.DIRECTION_UP);
+			PrintUtils.logTransformation(transformation, PrintUtils.DIRECTION_UP);
 		}
 		mapping.removeTransformation(transformation);
 		Transformator.revert(mapping, transformation);
@@ -230,7 +229,7 @@ public class MappingFinder {
 
 	private void incrementDepthCounter() {
 		if (trackProgress && depthCounter == 0) {
-			LoggerUtils.log("Backtrack hit recursive level 0");
+			PrintUtils.log("Backtrack hit recursive level 0");
 		}
 		depthCounter++;
 		

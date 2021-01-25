@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import common.Clock;
-import common.LoggerUtils;
+import common.PrintUtils;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
@@ -25,7 +25,7 @@ class StanfordLemmatizer {
     		Clock clock = new Clock();
     		clock.start();
     		INSTANCE = new StanfordLemmatizer();
-    		LoggerUtils.log("Lemmatization lib loaded in " + clock.getTimeElapsed() + "ms");    		
+    		PrintUtils.log("Lemmatization lib loaded in " + clock.getTimeElapsed() + "ms");    		
     	}
     	return INSTANCE;
     }

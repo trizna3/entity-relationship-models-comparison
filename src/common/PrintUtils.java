@@ -16,6 +16,8 @@ public class PrintUtils extends Utils {
 
 	public static final String DELIMITER_DASH = "-";
 	public static final String DELIMITER_COMMA = ",";
+	public final static String DIRECTION_DOWN = "->";
+	public final static String DIRECTION_UP = "<-";
 
 	/**
 	 * Returns toString of EntitySet class
@@ -187,6 +189,21 @@ public class PrintUtils extends Utils {
 		sb.append(print(mapping.getTransformations()));
 		
 		return sb.toString();
+	}
+	
+	public static void log(String text) {
+		System.out.println(text);
+	}
+
+	public static void logTransformation(Transformation transformation, String direction) {
+		Utils.validateNotNull(transformation);
+		Utils.validateNotNull(direction);
+
+		StringBuilder result = new StringBuilder();
+
+		result.append(direction + PrintUtils.print(transformation));
+
+		log(result.toString());
 	}
 
 	private static String join(Iterable<?> objects, String delimiter) {
