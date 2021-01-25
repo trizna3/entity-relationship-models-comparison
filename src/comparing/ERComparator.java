@@ -1,10 +1,7 @@
 package comparing;
 
-import java.util.Map;
-
 import common.Utils;
 import entityRelationshipModel.ERModel;
-import entityRelationshipModel.EntitySet;
 import mappingSearch.mappingFinder.MappingFinder;
 
 /**
@@ -42,8 +39,8 @@ public class ERComparator implements IComparator {
     	Utils.validateNotNull(exemplarModel);
     	Utils.validateNotNull(studentModel);
     	
-    	Map<EntitySet, EntitySet> foundMap = getMappingFinder().getBestMapping(exemplarModel, studentModel);
-    	comparisonDiff = getTranslator().computeDiff(exemplarModel, studentModel, foundMap);
+    	Mapping foundMapping = getMappingFinder().getBestMapping(exemplarModel, studentModel);
+    	comparisonDiff = getTranslator().computeDiff(exemplarModel, studentModel, foundMapping);
 	}
     
     private MappingFinder getMappingFinder() {

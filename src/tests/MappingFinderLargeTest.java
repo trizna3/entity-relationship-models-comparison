@@ -6,10 +6,14 @@ import java.util.Collections;
 
 import org.junit.Test;
 
+import common.Logger;
+import comparing.Mapping;
 import entityRelationshipModel.ERModel;
 import mappingSearch.mappingFinder.MappingFinder;
 
 public class MappingFinderLargeTest {
+	
+	private static final String BASE_PATH = "C:\\Users\\adamt\\OneDrive\\Documents\\Materials\\entity-relationship-models-comparison\\training_models\\output\\";
 
 	@Test
 	public void testFindBestMapping_Internaty_1() {
@@ -21,7 +25,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		logResult(finder.getBestMapping(exemplarModel, studentModel),"internaty_1");
 
 		assertTrue(true);
 	}
@@ -36,7 +40,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		logResult(finder.getBestMapping(exemplarModel, studentModel),"internaty_2");
 
 		assertTrue(true);
 	}
@@ -51,7 +55,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		logResult(finder.getBestMapping(exemplarModel, studentModel),"mhd_1");
 
 		assertTrue(true);
 	}
@@ -66,7 +70,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		logResult(finder.getBestMapping(exemplarModel, studentModel),"mhd_2");
 
 		assertTrue(true);
 	}
@@ -81,7 +85,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		logResult(finder.getBestMapping(exemplarModel, studentModel),"nrsr_1");
 
 		assertTrue(true);
 	}
@@ -96,7 +100,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		logResult(finder.getBestMapping(exemplarModel, studentModel),"nrsr_2");
 
 		assertTrue(true);
 	}
@@ -111,7 +115,7 @@ public class MappingFinderLargeTest {
 //		Collections.shuffle(studentModel.getEntitySets());
 //
 //		MappingFinder finder = new MappingFinder();
-//		finder.getBestMapping(exemplarModel, studentModel);
+//		logResult(finder.getBestMapping(exemplarModel, studentModel),"battle_of_titans_1");
 //
 //		assertTrue(true);
 //	}
@@ -126,7 +130,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		logResult(finder.getBestMapping(exemplarModel, studentModel),"battle_of_titans_2");
 
 		assertTrue(true);
 	}
@@ -141,7 +145,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		logResult(finder.getBestMapping(exemplarModel, studentModel),"poistovna_1");
 
 		assertTrue(true);
 	}
@@ -156,7 +160,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		logResult(finder.getBestMapping(exemplarModel, studentModel),"poistovna_2");
 
 		assertTrue(true);
 	}
@@ -171,7 +175,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		logResult(finder.getBestMapping(exemplarModel, studentModel),"ufo_1");
 
 		assertTrue(true);
 	}
@@ -186,8 +190,15 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		logResult(finder.getBestMapping(exemplarModel, studentModel),"ufo_2");
 
 		assertTrue(true);
+	}
+	
+	private void logResult(Mapping mapping, String instanceName) {
+		String filepath = BASE_PATH + instanceName + ".txt";
+		Logger logger = new Logger(filepath);
+		logger.logMapping(mapping);
+		logger.close();
 	}
 }

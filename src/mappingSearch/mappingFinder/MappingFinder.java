@@ -62,13 +62,48 @@ public class MappingFinder {
 	 * @param studentModel
 	 * @return Mapping of minimal penalty.
 	 */
-	public Map<EntitySet, EntitySet> getBestMapping(ERModel exemplarModel, ERModel studentModel) {
+	public Mapping getBestMapping(ERModel exemplarModel, ERModel studentModel) {
 		
 		prepareSearch(exemplarModel,studentModel);
 		search(new Mapping(exemplarModel, studentModel));
 		postProcessSearch();
 		
-		return getMappingEvaluator().getBestMapping();
+		return constructMapping();
+	}
+	
+	/**
+	 * MappingEvaluator returns Map<EntitySet,EntitySet> and List<Transformation>.
+	 * Reason is we want to minimize created objects count, so we don't copy whole mappings in the search process.
+	 * 
+	 * Method constructs final Mapping object from MappingEvaluator results.
+	 * 
+	 * @param exemplarModel
+	 * @param studentModel
+	 * @return
+	 */
+	private Mapping constructMapping() {
+		ERModel exemplarModel = new ERModel();
+		ERModel studentModel = new ERModel();
+		
+		Mapping mapping = new Mapping(exemplarModel,studentModel);
+		
+		Map<EntitySet,EntitySet> esMap = getMappingEvaluator().getBestMapping();
+		for (EntitySet esKey : esMap.keySet()) {
+			if (!exemplarModel.contains(esKey)) {
+				exemplarModel.addEntitySet(esKey);
+			}
+			esKey.setMappedTo(esMap.get(esKey));
+			if (!MappingUtils.EMPTY_ENTITY_SET.equals(esMap.get(esKey))) {
+				if (!studentModel.contains(esMap.get(esKey))) {
+					studentModel.addEntitySet(esMap.get(esKey));
+				}
+				esMap.get(esKey).setMappedTo(esKey);
+			}
+		}
+		
+		mapping.setTransformations(getMappingEvaluator().getBestMappingTransformations());
+		
+		return mapping;
 	}
 	
 	private void prepareSearch(ERModel exemplarModel, ERModel studentModel) {
