@@ -10,6 +10,7 @@ import entityRelationshipModel.AssociationSide;
 import entityRelationshipModel.Attribute;
 import entityRelationshipModel.EntitySet;
 import entityRelationshipModel.Generalization;
+import tests.ValidationEvaluator;
 import transformations.Transformation;
 
 public class Logger {
@@ -27,6 +28,11 @@ public class Logger {
 		getWriter().close();
 	}
 	
+	/**
+	 * Writes mapping to file.
+	 * 
+	 * @param mapping = result of mapping search algorithm.
+	 */
 	public void logMapping(Mapping mapping) {
 		Utils.validateNotNull(mapping);
 		
@@ -39,6 +45,50 @@ public class Logger {
 		// transformations
 		for (Transformation transformation : mapping.getTransformations()) {
 			logTransformation(transformation);
+		}
+	}
+	
+	/**
+	 * Writes validation evaluation result
+	 * 
+	 * @param golden = target mapping
+	 * @param result = difference of golden mapping - found mapping
+	 */
+	public void logValidationEvaluationResult(ValidationEvaluator.MappingParsed golden, ValidationEvaluator.EvaluationResult result) {
+		Utils.validateNotNull(golden);
+		Utils.validateNotNull(result);
+		
+		ValidationEvaluator.MappingParsed missing = result.getMissing();
+		ValidationEvaluator.MappingParsed overflow = result.getOverflow();
+		
+		/* MAPPING PAIRS */
+		int goldenPairs = golden.getMap().keySet().size();
+		int missingPairs = missing.getMap().keySet().size();
+		int overPairs = overflow.getMap().keySet().size();
+		
+		getWriter().println("Mapping " + (goldenPairs-missingPairs) + "/" + goldenPairs + " pairs, " + overPairs + " additional pairs.");
+		getWriter().println("Missing pairs: " + (missing.getMap().keySet().isEmpty() ? PrintUtils.DELIMITER_DASH : ""));
+		for (String entitySet : missing.getMap().keySet()) {
+			getWriter().println(" " + entitySet + PrintUtils.DELIMITER_DASH + missing.getMap().get(entitySet));
+		}
+		getWriter().println("Additional pairs: " + (overflow.getMap().keySet().isEmpty() ? PrintUtils.DELIMITER_DASH : ""));
+		for (String entitySet : overflow.getMap().keySet()) {
+			getWriter().println(" " + entitySet + PrintUtils.DELIMITER_DASH + overflow.getMap().get(entitySet));
+		}
+		
+		/* MAPPING TRANSFORMATIONS */
+		int goldenTrans = golden.getTransformations().keySet().size();
+		int missingTrans = missing.getTransformations().keySet().size();
+		int overTrans = overflow.getTransformations().keySet().size();
+		
+		getWriter().println("\nMapping  " + (goldenTrans-missingTrans) + "/" + goldenTrans + " transformations, " + overTrans + " additional transformations.");
+		getWriter().println("Missing transformations: " + (missing.getTransformations().keySet().isEmpty() ? PrintUtils.DELIMITER_DASH : ""));
+		for (String entitySet : missing.getTransformations().keySet()) {
+			getWriter().println(" " + entitySet + PrintUtils.DELIMITER_COLON + String.join(PrintUtils.DELIMITER_DASH,missing.getTransformations().get(entitySet)));
+		}
+		getWriter().println("Additional transformations: " + (overflow.getTransformations().keySet().isEmpty() ? PrintUtils.DELIMITER_DASH : ""));
+		for (String entitySet : overflow.getTransformations().keySet()) {
+			getWriter().println(" " + entitySet + PrintUtils.DELIMITER_COLON + String.join(PrintUtils.DELIMITER_DASH,overflow.getTransformations().get(entitySet)));
 		}
 	}
 	
@@ -88,7 +138,6 @@ public class Logger {
 		StringBuilder message = new StringBuilder(transformation.getCode().toString());
 		message.append(PrintUtils.DELIMITER_COLON);
 		message.append(association.getFirstSide().getEntitySet().getNameText() + PrintUtils.DELIMITER_DASH + association.getSecondSide().getEntitySet().getNameText());
-		message.append(PrintUtils.DELIMITER_SEMICOLON);
 		return message.toString();
 	}
 	private String logRebind1NN1ToMN(Transformation transformation) {
@@ -98,7 +147,6 @@ public class Logger {
 		StringBuilder message = new StringBuilder(transformation.getCode().toString());
 		message.append(PrintUtils.DELIMITER_COLON);
 		message.append(entitySet.getNameText());
-		message.append(PrintUtils.DELIMITER_SEMICOLON);
 		return message.toString();
 	}
 	private String logMoveAttributeToIncidentEntitySet(Transformation transformation) {
@@ -111,7 +159,6 @@ public class Logger {
 		message.append(attribute.getText());
 		message.append(PrintUtils.DELIMITER_DASH);
 		message.append(entitySet.getNameText());
-		message.append(PrintUtils.DELIMITER_SEMICOLON);
 		return message.toString();
 	}
 	private String logMoveAttributeToIncidentAssociation(Transformation transformation) {
@@ -124,7 +171,6 @@ public class Logger {
 		message.append(attribute.getText());
 		message.append(PrintUtils.DELIMITER_DASH);
 		message.append(association.getNameText());
-		message.append(PrintUtils.DELIMITER_SEMICOLON);
 		return message.toString();
 	}
 	private String logExtractAttrToOwnEntitySet(Transformation transformation) {
@@ -137,7 +183,6 @@ public class Logger {
 		message.append(attribute.getText());
 		message.append(PrintUtils.DELIMITER_DASH);
 		message.append(entitySet.getNameText());
-		message.append(PrintUtils.DELIMITER_SEMICOLON);
 		return message.toString();
 	}
 	private String logGeneralizationTo11Associaton(Transformation transformation) {
@@ -149,7 +194,6 @@ public class Logger {
 		message.append(generalization.getSubEntitySet().getNameText());
 		message.append(PrintUtils.DELIMITER_DASH);
 		message.append(generalization.getSuperEntitySet().getNameText());
-		message.append(PrintUtils.DELIMITER_SEMICOLON);
 		return message.toString();
 	}
 	private String logContract11Association(Transformation transformation) {
@@ -161,7 +205,6 @@ public class Logger {
 		message.append(association.getFirstSide().getEntitySet().getNameText());
 		message.append(PrintUtils.DELIMITER_DASH);
 		message.append(association.getSecondSide().getEntitySet().getNameText());
-		message.append(PrintUtils.DELIMITER_SEMICOLON);
 		return message.toString();
 	}
 	private String logRebindNaryAssociation(Transformation transformation) {
@@ -183,7 +226,6 @@ public class Logger {
 			message.append(es.getNameText());
 		}
 
-		message.append(PrintUtils.DELIMITER_SEMICOLON);
 		return message.toString();
 	}
 	

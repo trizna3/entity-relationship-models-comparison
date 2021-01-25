@@ -6,6 +6,7 @@
 package parser;
 
 import java.util.List;
+
 import lombok.Getter;
 
 /**
@@ -13,8 +14,10 @@ import lombok.Getter;
  * @author shanki
  */
 public class SyntaxException extends Exception {
-
-    @Getter
+     
+	private static final long serialVersionUID = 8906049881238949098L;
+	
+	@Getter
     private final List<String> errors;
 
     SyntaxException(List<String> errors) {

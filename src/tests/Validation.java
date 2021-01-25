@@ -17,21 +17,21 @@ import parser.SyntaxException;
 
 public class Validation {
 	
-	private static final String BASE_PATH = "C:\\Users\\adamt\\OneDrive\\Documents\\Materials\\entity-relationship-models-comparison\\data\\";
+	public static final String BASE_PATH = "C:\\Users\\adamt\\OneDrive\\Documents\\Materials\\entity-relationship-models-comparison\\data\\";
 	
 	/**
 	 * Map: instance name -> max student id
 	 */
-	private static final Map<String, Integer> INSTANCES = new HashMap<>();
+	public static final Map<String, Integer> INSTANCES = new HashMap<>();
 
-	private static final String INSTANCE61 = "6.1";
-	private static final String INSTANCE62 = "6.2";
-	private static final String INSTANCE63 = "6.3";
-	private static final String INSTANCE64 = "6.4";
-	private static final String INSTANCE65 = "6.5";
-	private static final String INSTANCE71 = "7.1";
-	private static final String INSTANCE72 = "7.2";
-	private static final String INSTANCE73 = "7.3";
+	public static final String INSTANCE61 = "6.1";
+	public static final String INSTANCE62 = "6.2";
+	public static final String INSTANCE63 = "6.3";
+	public static final String INSTANCE64 = "6.4";
+	public static final String INSTANCE65 = "6.5";
+	public static final String INSTANCE71 = "7.1";
+	public static final String INSTANCE72 = "7.2";
+	public static final String INSTANCE73 = "7.3";
 	
 	static {
 		INSTANCES.put(INSTANCE61, 4);
@@ -45,12 +45,20 @@ public class Validation {
 	} 
 	
 	
-	private String getScriptsPath() {
+	public final static String getScriptsPath() {
 		return BASE_PATH + "scripts\\";
 	}
 	
-	private String getOutputPath() {
+	public final static String getOutputPath() {
 		return BASE_PATH + "output\\";
+	}
+	
+	public final static String getGoldenPath() {
+		return BASE_PATH + "golden\\";
+	}
+	
+	public final static String getResultPath() {
+		return BASE_PATH + "result\\";
 	}
 	
 	/**
