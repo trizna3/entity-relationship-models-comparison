@@ -1,0 +1,63 @@
+entity set halls {
+	"capacity"
+};
+
+
+entity set screenings {
+	"date"
+	"time"
+};
+
+entity set films {
+	"title"
+};
+
+entity set tickets {
+};
+
+entity set users {
+	"name"
+	"email"
+	"password"
+};
+
+entity set seats {
+	"row"
+	"seat number"
+};
+
+association between 
+{
+	halls ONE 
+	screenings MANY
+}{};
+
+association between 
+{
+	screenings MANY 
+	films ONE
+}{};
+
+association between
+{
+	screenings ONE
+	tickets MANY
+}{};
+
+association between 
+{
+	tickets ONE 
+	users MANY 
+}{};
+
+association between 
+{
+	halls ONE 
+	seats MANY 
+}{};
+
+association between 
+{
+	seats ONE 
+	tickets MANY 
+}{};

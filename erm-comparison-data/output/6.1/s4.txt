@@ -1,0 +1,5 @@
+customers-users
+auditoriums-halls
+tickets-tickets
+films-films
+screenings-screenings

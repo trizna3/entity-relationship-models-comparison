@@ -1,0 +1,7 @@
+Mapping 6/6 pairs, 0 additional pairs.
+Missing pairs: -
+Additional pairs: -
+
+Mapping  0/0 transformations, 0 additional transformations.
+Missing transformations: -
+Additional transformations: -

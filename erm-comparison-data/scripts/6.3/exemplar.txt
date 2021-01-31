@@ -1,0 +1,66 @@
+entity set teams {
+	"name"
+};
+
+entity set players {
+	"first name"
+	"last name"
+};
+
+entity set matches {
+	"date"
+	"time"
+};
+
+entity set points {
+	"type (g/a)"
+	"period"
+	"time"
+};
+
+entity set rounds {
+	"number"
+};
+
+
+association "winner" between 
+{
+	teams ONE 
+	matches MANY
+}{};
+
+association "home" between 
+{
+	teams ONE 
+	matches MANY
+}{};
+
+association "away" between 
+{
+	teams ONE 
+	matches MANY
+}{};
+
+association between 
+{
+	teams ONE 
+	players MANY
+}{};
+
+association between 
+{
+	players ONE 
+	points MANY
+}{};
+
+association between 
+{
+	matches ONE 
+	points MANY
+}{};
+
+association between 
+{
+	matches MANY
+	rounds ONE
+}{};

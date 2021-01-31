@@ -1,0 +1,7 @@
+teams-team
+players-players
+matches-matches
+points-points
+rounds-empty
+FLIP_CARDINALITY:E-matches-rounds
+CONTRACT_11_ASSOCIATION:E-matches-rounds

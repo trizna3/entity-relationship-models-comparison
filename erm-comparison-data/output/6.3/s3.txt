@@ -1,0 +1,5 @@
+rounds-EMPTY
+points-points
+teams-team
+matches-matches
+players-players

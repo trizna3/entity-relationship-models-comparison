@@ -1,0 +1,10 @@
+Mapping 4/5 pairs, 1 additional pairs.
+Missing pairs: 
+ points-points
+Additional pairs: 
+ points-players;matches;points
+
+Mapping  0/0 transformations, 1 additional transformations.
+Missing transformations: -
+Additional transformations: 
+ rebind_nary_association:s-players-matches-points

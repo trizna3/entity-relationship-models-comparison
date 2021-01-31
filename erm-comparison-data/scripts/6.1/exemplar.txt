@@ -1,0 +1,46 @@
+entity set auditoriums{
+	"capacity"
+};
+
+entity set screenings {
+	"date"
+	"time"
+};
+
+entity set films {
+	"name"
+	"year"
+	"has license"
+};
+
+entity set tickets {
+};
+
+entity set customers {
+	"username"
+	"password"
+};
+
+association between 
+{
+	auditoriums ONE 
+	screenings MANY
+}{};
+
+association between
+{
+	screenings ONE
+	tickets MANY
+}{};
+
+association between 
+{
+	screenings MANY 
+	films ONE
+}{};
+
+association between 
+{
+	tickets MANY 
+	customers ONE
+}{};

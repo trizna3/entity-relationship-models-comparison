@@ -1,0 +1,72 @@
+
+entity set cinema {
+};
+
+entity set "cinema halls" {
+};
+
+
+entity set screening {
+	"date"
+	"time"
+};
+
+entity set films {
+	"name"
+};
+
+entity set tickets {
+	"row"
+	"column"
+};
+
+entity set users {
+};
+
+entity set "seats layout" {
+	"rows"
+	"columns"
+};
+
+
+association between 
+{
+	cinema ONE 
+	"cinema halls" MANY
+}{};
+
+association "has license" between 
+{
+	cinema MANY 
+	films MANY
+}{};
+
+association between
+{
+	cinema ONE
+	screening MANY
+}{};
+
+association between 
+{
+	screening MANY 
+	"cinema halls" ONE
+}{};
+
+association between 
+{
+	screening ONE 
+	tickets ONE
+}{};
+
+association between 
+{
+	tickets MANY
+	users ONE
+}{};
+
+association between 
+{
+	"cinema halls" MANY
+	"seats layout" MANY
+}{};

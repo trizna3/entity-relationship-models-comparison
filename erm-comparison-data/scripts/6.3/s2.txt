@@ -1,0 +1,53 @@
+entity set teams {
+	"name"
+};
+
+entity set players {
+};
+
+entity set match {
+	"round"
+};
+
+entity set statistics {
+	"goal"
+	"assist"
+	"time"
+	"period"
+};
+
+association  between 
+{
+	teams ONE 
+	match MANY
+}{};
+
+association between 
+{
+	teams ONE 
+	match MANY
+}{};
+
+association between 
+{
+	teams ONE 
+	players MANY
+}{};
+
+association "assistant" between 
+{
+	players ONE 
+	statistics ONE
+}{};
+
+association "scored" between 
+{
+	players ONE 
+	statistics ONE
+}{};
+
+association between 
+{
+	match ONE 
+	statistics ONE
+}{};

@@ -1,0 +1,6 @@
+films-movies
+customers-users
+auditoriums-cinema halls
+seats-seats
+screenings-screenings
+tickets-tickets

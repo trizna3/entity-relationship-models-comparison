@@ -1,0 +1,57 @@
+entity set teams {
+	"name"
+};
+
+entity set players {
+	"name"
+	"surname"
+};
+
+entity set games {
+	"winner"
+};
+
+entity set points {
+	"minute"
+	"third"
+	"type"
+};
+
+entity set rounds {
+};
+
+association "is winner" between 
+{
+	teams ONE
+	games MANY
+}{};
+
+association "compete" between 
+{
+	teams MANY
+	games MANY
+}{};
+
+association "player of" between 
+{
+	teams ONE 
+	players MANY
+}{};
+
+association "gets" between 
+{
+	players ONE
+	points MANY
+}{};
+
+association "in game" between
+{
+	games ONE 
+	points MANY
+}{};
+
+association "consist of" between
+{
+	games MANY
+	rounds ONE
+}{};

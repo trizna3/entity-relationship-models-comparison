@@ -1,0 +1,56 @@
+entity set hockey_teams {
+};
+
+entity set players {
+	"name"
+	"surname"
+	"role"
+};
+
+entity set matches {
+	"winner"
+};
+
+entity set points {
+	"goals"
+	"assists"
+	"minute"
+	"part"
+};
+
+entity set rounds {
+	"team_1"
+	"team_2"
+};
+
+
+association between 
+{
+	hockey_teams ONE 
+	matches MANY
+}{};
+
+association between 
+{
+	hockey_teams ONE 
+	matches MANY
+}{};
+
+association between 
+{
+	hockey_teams ONE 
+	players MANY
+}{};
+
+association between 
+{
+	matches ONE 
+	rounds MANY
+}{};
+
+association between 
+{
+	players MANY
+	matches ONE
+	points MANY
+}{};
