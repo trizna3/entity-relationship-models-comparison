@@ -37,12 +37,12 @@ association "shares" between
 association between 
 {
 	users ONE 
-	ratings MANY
+	rating MANY
 }{};
 
 association between 
 {
-	ratings MANY 
+	rating MANY 
 	trips ONE
 }{};
 

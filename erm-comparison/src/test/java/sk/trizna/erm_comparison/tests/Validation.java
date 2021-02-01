@@ -37,11 +37,11 @@ public class Validation {
 		INSTANCES.put(INSTANCE61, 4);
 		INSTANCES.put(INSTANCE62, 4);
 		INSTANCES.put(INSTANCE63, 5);
-//		INSTANCES.put(INSTANCE64, 4);
-//		INSTANCES.put(INSTANCE65, 4);
-//		INSTANCES.put(INSTANCE71, 2);
-//		INSTANCES.put(INSTANCE72, 3);
-//		INSTANCES.put(INSTANCE73, 2);
+		INSTANCES.put(INSTANCE64, 4);
+		INSTANCES.put(INSTANCE65, 4);
+		INSTANCES.put(INSTANCE71, 2);
+		INSTANCES.put(INSTANCE72, 3);
+		INSTANCES.put(INSTANCE73, 2);
 	} 
 	
 	
@@ -76,6 +76,10 @@ public class Validation {
 				}
 			}
 		} catch (SyntaxException | IOException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Error parsing/creating model.");
 			e.printStackTrace();
 			assertTrue(false);
 		}

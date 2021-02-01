@@ -36,7 +36,7 @@ association "bought" between
 association "supplied" between 
 {
 	pallet MANY
-	suppliers ONE
+	supplier ONE
 }{
 	"date"
 };
