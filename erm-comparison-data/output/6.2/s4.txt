@@ -1,6 +1,6 @@
-seats-seats
-customers-users
-tickets-tickets
 screenings-screenings
 films-films
+seats-seats
+tickets-tickets
+customers-users
 auditoriums-halls

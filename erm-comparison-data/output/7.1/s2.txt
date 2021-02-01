@@ -1,0 +1,8 @@
+students-null
+theses-EMPTY
+teachers-teachers
+projects-projects
+persons-EMPTY
+courses-EMPTY
+semestral projects-EMPTY
+REBIND_MN_TO_1NN1:S-authors-projects

@@ -1,0 +1,12 @@
+Mapping 3/4 pairs, 2 additional pairs.
+Missing pairs: 
+ values;attributes-attributes
+Additional pairs: 
+ values-empty
+ attributes-attributes
+
+Mapping  0/2 transformations, 0 additional transformations.
+Missing transformations: 
+ contract_11_associaiton:e-values-attributes
+ flip_cardinality:e-values-attributes
+Additional transformations: -

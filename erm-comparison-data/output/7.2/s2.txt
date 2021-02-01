@@ -1,0 +1,8 @@
+buyers-buyer
+crates-crates
+suppliers-EMPTY
+sales-EMPTY
+purchases-EMPTY
+varieties-EMPTY
+operations-EMPTY
+firms-EMPTY

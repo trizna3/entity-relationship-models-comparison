@@ -1,5 +1,5 @@
-teams-hockey_teams
 matches-matches
+teams-hockey_teams
 rounds-rounds
 points-players;matches;points
 players-players

@@ -1,0 +1,10 @@
+Mapping 3/4 pairs, 1 additional pairs.
+Missing pairs: 
+ pictures-photos
+Additional pairs: 
+ pictures-route
+
+Mapping  1/1 transformations, 1 additional transformations.
+Missing transformations: -
+Additional transformations: 
+ rebind_mn_to_1nn1:s-trips-coordinates

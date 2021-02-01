@@ -1,0 +1,11 @@
+Mapping 3/4 pairs, 1 additional pairs.
+Missing pairs: 
+ pictures-images
+Additional pairs: 
+ pictures-empty
+
+Mapping  0/1 transformations, 1 additional transformations.
+Missing transformations: 
+ rebind_1nn1_to_mn:s-ratings
+Additional transformations: 
+ rebind_1nn1_to_mn:s-rating

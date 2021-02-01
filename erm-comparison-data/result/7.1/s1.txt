@@ -1,0 +1,13 @@
+Mapping 4/7 pairs, 3 additional pairs.
+Missing pairs: 
+ persons-empty
+ students-authors
+ theses-final
+Additional pairs: 
+ persons-authors
+ students-empty
+ theses-empty
+
+Mapping  0/0 transformations, 0 additional transformations.
+Missing transformations: -
+Additional transformations: -

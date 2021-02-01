@@ -1,5 +1,5 @@
-screenings-screenings
 tickets-tickets
-customers-customers
 auditoriums-auditoriums
+screenings-screenings
+customers-customers
 films-films

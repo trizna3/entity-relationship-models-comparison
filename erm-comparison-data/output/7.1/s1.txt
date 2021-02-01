@@ -1,0 +1,7 @@
+persons-authors
+semestral projects-semestral
+teachers-teachers
+projects-project
+theses-EMPTY
+students-EMPTY
+courses-EMPTY
