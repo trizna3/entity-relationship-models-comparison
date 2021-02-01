@@ -126,13 +126,13 @@ public class ValidationEvaluator {
 		/* MAPPING PAIRS */
 		for (String entitySet : golden.getMap().keySet()) {
 			if (!output.getMap().containsKey(entitySet) || 
-				!StringUtils.areEqual(golden.getMap().get(entitySet), output.getMap().get(entitySet))) {
+				!StringUtils.areEqualByNameParts(golden.getMap().get(entitySet), output.getMap().get(entitySet))) {
 				missingMap.put(entitySet, golden.getMap().get(entitySet));
 			}
 		}
 		for (String entitySet : output.getMap().keySet()) {
 			if (!golden.getMap().containsKey(entitySet) || 
-				!StringUtils.areEqual(output.getMap().get(entitySet), golden.getMap().get(entitySet))) {
+				!StringUtils.areEqualByNameParts(output.getMap().get(entitySet), golden.getMap().get(entitySet))) {
 				overflowMap.put(entitySet, output.getMap().get(entitySet));
 			}
 		}

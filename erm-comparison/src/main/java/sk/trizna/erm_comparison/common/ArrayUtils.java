@@ -13,7 +13,7 @@ public class ArrayUtils {
 	
 	public static <T> boolean contains(T[] array, T element) {
 		for (T item : array) {
-			if (element == item) {
+			if (element != null && element.equals(item)) {
 				return true;
 			}
 		}
@@ -63,6 +63,6 @@ public class ArrayUtils {
 				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 }

@@ -25,6 +25,24 @@ public class StringUtils extends Utils {
 		}
 		return string1.equalsIgnoreCase(string2);
 	}
+	
+	/**
+	 * Determines if two composite names are equal, ignoring order by name parts
+	 * 
+	 * @param compositeName1
+	 * @param compositeName2
+	 * @return
+	 */
+	public static boolean areEqualByNameParts(String compositeName1, String compositeName2) {
+		if (compositeName1 == null && compositeName2 == null) {
+			return true;
+		}
+		if (compositeName1 == null || compositeName2 == null) {
+			return false;
+		}
+		
+		return ArrayUtils.equalsIgnoreOrder(getAllNameParts(compositeName1), getAllNameParts(compositeName2));
+	}
 
 	/**
 	 * Given composite name, returns name part.
