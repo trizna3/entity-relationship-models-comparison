@@ -1,0 +1,4 @@
+users-users
+trips-trips
+pictures-pictures
+points-ways

@@ -31,3 +31,44 @@ points,statistics
 matches,games
 period,third
 type (g/a),type
+
+# priklad 6.4
+points,ways
+text,descriptions
+pictures,images
+points,coordinates
+rates,ratings
+pictures,photos
+number,rank
+
+# priklad 6.5
+options,choices
+has,has choices
+options,answers
+has,has options
+is correct,has the right answer
+selects,user answers
+text,description
+
+# priklad 7.1
+students,authors
+semestral projects,semestral
+theses,final
+name,first name
+surname,last name
+is similar to, similarity
+
+# priklad 7.2
+suppliers,seller
+crates,box
+weight,total weight
+varieties,variety
+sugar,sugar content
+average size, size
+sugar content,sweetness
+operations,trades
+buyers,customers
+varieties,sort
+
+# priklad 7.3
+date,time

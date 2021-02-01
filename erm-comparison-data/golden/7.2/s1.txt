@@ -1,0 +1,10 @@
+firms-firms
+suppliers-seller
+buyers-buyers
+purchases;operations;sales-operations
+crates-box
+varieties-variety
+GENERALIZATION_TO_11_ASSOCIATION:E-purchases-operations
+GENERALIZATION_TO_11_ASSOCIATION:E-sales-operations
+CONTRACT_11_ASSOCIATION:E-purchases-operations
+CONTRACT_11_ASSOCIATION:E-sales-operations

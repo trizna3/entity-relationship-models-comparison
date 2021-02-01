@@ -1,0 +1,10 @@
+projects-projects
+courses-course
+semestral projects-semestral
+theses-final
+teachers-teachers
+students-authors
+persons-empty
+semester-semester
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-course-semestral
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:E-semester-semestral projects

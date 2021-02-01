@@ -1,0 +1,10 @@
+firms-empty
+suppliers-seller
+buyers-buyer
+purchases;operations;sales-trades
+crates-crates
+varieties-odrody
+GENERALIZATION_TO_11_ASSOCIATION:E-purchases-operations
+GENERALIZATION_TO_11_ASSOCIATION:E-sales-operations
+CONTRACT_11_ASSOCIATION:E-purchases-operations
+CONTRACT_11_ASSOCIATION:E-sales-operations

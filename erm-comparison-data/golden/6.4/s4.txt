@@ -1,0 +1,5 @@
+users-users
+trips-trips
+pictures-photos
+points-coordinates
+REBIND_1NN1_TO_MN:S-ratings
