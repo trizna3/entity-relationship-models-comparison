@@ -1,0 +1,46 @@
+entity set buyer {
+};
+
+entity set trades {
+	"operation"
+	"date"
+};
+
+entity set seller {
+};
+
+entity set crates {
+	"size"
+	"weight"
+};
+
+entity set odrody {
+	"size"
+	"sweetness"
+};
+
+association between 
+{
+	buyer ONE
+	trades MANY
+}{};
+
+association between 
+{
+	seller ONE
+	trades MANY
+}{};
+
+association "amounts" between 
+{
+	trades MANY
+	crates MANY
+}{
+	"amount"
+};
+
+association between 
+{
+	crates MANY
+	odrody ONE
+}{};

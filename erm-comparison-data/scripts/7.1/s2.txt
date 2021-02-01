@@ -1,0 +1,60 @@
+entity set teachers {
+	"name"
+};
+
+entity set authors {
+	"name"
+};
+
+entity set projects {
+	"text"
+};
+
+entity set final {
+};
+
+entity set semestral {
+	"course"
+};
+
+entity set semesters {
+	"name"
+	"year"
+};
+
+association between 
+{
+	teachers ONE
+	final MANY
+}{};
+
+association between 
+{
+	final MANY
+	semesters MANY
+}{};
+
+association between 
+{
+	semesters ONE
+	semestral MANY
+}{};
+
+association "similarity" between 
+{
+	projects MANY
+	projects MANY
+}{
+	"percentage"
+};
+
+association between 
+{
+	authors MANY
+	projects MANY
+}{};
+
+generalization from final to projects;
+
+generalization from semestral to projects;
+

@@ -1,0 +1,52 @@
+entity set users {
+};
+
+entity set trips {
+};
+
+entity set rating {
+	"number"
+};
+
+entity set sequence {
+	"number"
+};
+
+entity set pictures {
+	"text"
+};
+
+entity set points {
+	"x"
+	"y"
+};
+
+association between 
+{
+	users ONE 
+	trips MANY
+}{};
+
+association between 
+{
+	users ONE 
+	rating MANY
+}{};
+
+association between 
+{
+	trips ONE 
+	pictures MANY
+}{};
+
+association between 
+{
+	trips ONE 
+	sequence MANY
+}{};
+
+association between 
+{
+	sequence ONE 
+	points MANY
+}{};

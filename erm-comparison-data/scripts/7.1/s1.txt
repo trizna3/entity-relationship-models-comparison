@@ -1,0 +1,73 @@
+entity set authors {
+	"name"
+	"surname"
+};
+
+entity set project {
+	"text"
+	"percent of similarity"
+	"end date"
+};
+
+entity set "project type" {
+};
+
+entity set semestral {
+	"year"
+	"semester"
+};
+
+entity set final {
+	"year"
+};
+
+entity set role {
+};
+
+entity set supervisor {
+};
+
+entity set oponent {
+};
+
+entity set consultant {
+};
+
+entity set teachers {
+	"name"
+	"surname"
+};
+
+association between 
+{
+	authors ONE
+	project MANY
+}{};
+
+association between 
+{
+	project MANY
+	"project type" ONE
+}{};
+
+generalization from semestral to "project type";
+
+generalization from final to "project type";
+
+association between 
+{
+	final ONE
+	teachers MANY
+}{};
+
+association between 
+{
+	teachers ONE
+	role MANY
+}{};
+
+generalization from supervisor to role;
+
+generalization from oponent to role;
+
+generalization from consultant to role;

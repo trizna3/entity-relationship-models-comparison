@@ -1,0 +1,74 @@
+entity set projects {
+	"text"
+};
+
+entity set students {
+};
+
+entity set persons {
+	"first name"
+	"last name"
+};
+
+entity set courses {
+	"name"
+};
+
+entity set "semestral projects" {
+	"year"
+	"semester"
+};
+
+entity set theses {
+	"start date"
+	"end date"
+};
+
+entity set teachers {
+};
+
+association "is similar to" between 
+{
+	projects MANY
+	projects MANY
+}{
+	"similarity"
+};
+
+association "has author" between 
+{
+	projects MANY
+	students MANY
+}{};
+
+generalization from students to persons;
+
+generalization from teachers to persons;
+
+generalization from "semestral projects" to projects;
+
+generalization from theses to projects;
+
+association between
+{
+	courses ONE
+	"semestral projects" MANY
+}{};
+
+association "opposes" between
+{
+	theses MANY
+	teachers MANY
+}{};
+
+association "consults" between
+{
+	theses MANY
+	teachers MANY
+}{};
+
+association "supervises" between
+{
+	theses MANY
+	teachers ONE
+}{};

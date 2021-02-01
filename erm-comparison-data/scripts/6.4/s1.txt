@@ -1,0 +1,54 @@
+entity set users {
+	"name"
+	"passwords"
+};
+
+entity set trips {
+	"descriptions"
+};
+
+entity set pictures {
+	"x"
+	"y"
+	"title"
+};
+
+entity set ways {
+	"x"
+	"y"
+};
+
+entity set ratings {
+	"rate"
+};
+
+association between 
+{
+	users ONE 
+	trips MANY
+}{};
+
+association between 
+{
+	users ONE 
+	pictures MANY
+}{};
+
+association between 
+{
+	pictures MANY 
+	trips ONE 
+}{};
+
+association between 
+{
+	trips ONE 
+	ways MANY
+}{};
+
+association between 
+{
+	trips ONE 
+	ratings MANY
+}{};
+

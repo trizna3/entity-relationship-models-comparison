@@ -1,0 +1,57 @@
+entity set users {
+	"name"
+	"surname"
+};
+
+entity set tests {
+	"is available"
+};
+
+entity set questions {
+	"text"
+};
+
+entity set "test registration" {
+	"date"
+};
+
+entity set answers {
+	"text"
+};
+
+association between 
+{
+	tests MANY
+	questions MANY
+}{};
+
+association between 
+{
+	tests ONE
+	"test registration" MANY
+}{};
+
+association between 
+{
+	"test registration" MANY
+	users ONE
+}{};
+
+association "has options" between 
+{
+	questions ONE
+	answers ONE
+}{};
+
+association "has the right answer" between 
+{
+	questions ONE
+	answers MANY
+}{};
+
+association "user answers" between 
+{
+	"test registration" MANY
+	questions MANY
+	answers MANY
+}{};

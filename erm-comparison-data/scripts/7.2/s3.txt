@@ -1,0 +1,42 @@
+entity set sort {
+	"sweetness"
+	"size"
+};
+
+entity set pallet {
+	"weight"
+	"size"
+};
+
+entity set customers {
+	"name"
+	"surname"
+};
+
+entity set supplier {
+	"name"
+	"surname"
+};
+
+
+association "is sort" between 
+{
+	sort ONE
+	pallet MANY
+}{};
+
+association "bought" between 
+{
+	pallet MANY
+	customers ONE
+}{
+	"date"
+};
+
+association "supplied" between 
+{
+	pallet MANY
+	suppliers ONE
+}{
+	"date"
+};

@@ -1,0 +1,51 @@
+entity set users {
+	"name"
+};
+
+entity set trips {
+	"text"
+};
+
+entity set pictures {
+	"description"
+};
+
+entity set points {
+	"sequence number"
+	"x"
+	"y"
+};
+
+association "owns" between 
+{
+	users ONE 
+	trips MANY
+}{};
+
+
+
+association "rates" between 
+{
+	users MANY 
+	trips MANY
+}{
+	"number"
+};
+
+association "goes through" between 
+{
+	trips ONE 
+	points MANY
+}{};
+
+association between 
+{
+	trips ONE 
+	pictures MANY
+}{};
+
+association "taken at" between 
+{
+	pictures MANY 
+	points ONE
+}{};

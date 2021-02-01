@@ -1,0 +1,47 @@
+entity set users {
+	"name"
+};
+
+entity set tests {
+	"name"
+};
+
+entity set questions {
+	"text"
+};
+
+entity set options {
+	"text"
+};
+
+association "enroled" between 
+{
+	users MANY
+	tests MANY
+}{};
+
+association "has" between 
+{
+	tests ONE
+	questions MANY
+}{};
+
+association "is correct" between 
+{
+	questions ONE
+	options ONE
+}{};
+
+association "has" between 
+{
+	questions ONE
+	options MANY
+}{};
+
+association "selects" between 
+{
+	users MANY
+	tests ONE
+	options ONE
+}{};
+

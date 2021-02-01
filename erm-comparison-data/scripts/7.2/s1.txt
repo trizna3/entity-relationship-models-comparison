@@ -1,0 +1,55 @@
+entity set firms {
+	"name"
+	"address"
+};
+
+entity set seller {
+};
+
+entity set buyers {
+};
+
+entity set operations {
+	"sell"
+	"buy"
+	"date"
+	"price"
+};
+
+entity set box {
+	"weight"
+};
+
+entity set variety {
+	"sugar"
+	"size"
+	"name"
+};
+
+generalization from seller to firms;
+
+generalization from buyers to firms;
+
+association between 
+{
+	operations MANY
+	seller ONE
+}{};
+
+association between 
+{
+	operations MANY
+	buyers ONE
+}{};
+
+association between 
+{
+	box ONE
+	operations MANY
+}{};
+
+association between 
+{
+	box ONE
+	variety ONE
+}{};

@@ -1,0 +1,63 @@
+entity set firms {
+	"name"
+	"address"
+};
+
+entity set suppliers {
+};
+
+entity set buyers {
+};
+
+entity set operations {
+	"date"
+	"price"
+};
+
+entity set purchases {
+};
+
+entity set sales {
+};
+
+entity set crates {
+	"average size"
+	"total weight"
+};
+
+entity set varieties {
+	"sugar content"
+	"average size"
+};
+
+generalization from suppliers to firms;
+
+generalization from buyers to firms;
+
+association between 
+{
+	suppliers ONE
+	purchases MANY
+}{};
+
+association between 
+{
+	sales ONE
+	buyers MANY
+}{};
+
+generalization from purchases to operations;
+
+generalization from sales to operations;
+
+association between 
+{
+	operations MANY
+	crates ONE
+}{};
+
+association between 
+{
+	crates MANY
+	varieties ONE
+}{};

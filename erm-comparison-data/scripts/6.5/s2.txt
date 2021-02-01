@@ -1,0 +1,64 @@
+entity set users {
+	"name"
+	"password"
+};
+
+entity set tests {
+};
+
+entity set questions {
+};
+
+entity set answers {
+};
+
+entity set choices {
+};
+
+association between 
+{
+	tests MANY
+	questions MANY
+}{};
+
+association between 
+{
+	tests MANY
+	users MANY
+}{};
+
+association "has choices" between 
+{
+	questions MANY
+	choices MANY
+}{};
+
+association "is correct" between 
+{
+	questions MANY
+	choices ONE
+}{};
+
+association between 
+{
+	users ONE
+	answers MANY
+}{};
+
+association between 
+{
+	tests ONE
+	answers MANY
+}{};
+
+association between 
+{
+	questions ONE
+	answers MANY
+}{};
+
+association between 
+{
+	choices ONE
+	answers MANY
+}{};

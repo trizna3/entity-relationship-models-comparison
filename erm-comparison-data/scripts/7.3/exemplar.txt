@@ -1,0 +1,47 @@
+entity set projects {
+	"name"
+	"date"
+};
+
+entity set experiments {
+	"name"
+	"date"
+};
+
+entity set steps {
+	"name"
+	"date"
+	"time"
+};
+
+entity set values {
+	"value"
+};
+
+entity set attributes {
+	"name"
+};
+
+association between 
+{
+	projects ONE
+	experiments MANY
+}{};
+
+association between 
+{
+	experiments ONE
+	steps MANY
+}{};
+
+association between 
+{
+	steps ONE
+	values MANY
+}{};
+
+association between 
+{
+	values MANY
+	attributes ONE
+}{};

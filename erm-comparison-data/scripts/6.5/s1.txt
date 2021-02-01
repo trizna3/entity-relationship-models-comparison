@@ -1,0 +1,41 @@
+entity set users {
+	"name"
+	"password"
+};
+
+entity set tests {
+};
+
+entity set questions {
+	"done"
+};
+
+entity set options {
+	"text"
+};
+
+association between 
+{
+	tests ONE
+	questions MANY
+}{};
+
+association between 
+{
+	tests MANY
+	users ONE
+}{};
+
+association between 
+{
+	questions ONE
+	options MANY
+}{};
+
+association between 
+{
+	questions ONE
+	options ONE
+	users MANY
+}{};
+

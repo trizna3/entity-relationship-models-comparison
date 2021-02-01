@@ -1,0 +1,60 @@
+entity set users {
+	"name"
+	"surname"
+	"email"
+	"password"
+};
+
+entity set trips {
+	"text"
+};
+
+entity set ratings {
+	"rank"
+};
+
+entity set coordinates {
+	"x"
+	"y"
+};
+
+entity set photos {
+	"description"
+	"name"
+};
+
+association "visited" between 
+{
+	users ONE 
+	trips MANY
+}{};
+
+association "rating" between 
+{
+	ratings MANY
+	trips ONE
+}{};
+
+association "wrote rating" between 
+{
+	users ONE 
+	ratings MANY
+}{};
+
+association "route" between 
+{
+	trips MANY
+	coordinates MANY
+}{};
+
+association "belongs to trip" between 
+{
+	trips ONE 
+	photos MANY
+}{};
+
+association "where" between 
+{
+	photos MANY
+	coordinates ONE
+}{};

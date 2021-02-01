@@ -1,0 +1,90 @@
+entity set users {
+	"name"
+	"surname"
+	"username"
+	"password"
+};
+
+entity set trips {
+	"text"
+	"rating"
+};
+
+entity set rating {
+	"stars"
+};
+
+entity set edges {
+	"sequence number"
+};
+
+entity set coordinates {
+	"x"
+	"y"
+};
+
+entity set images {
+	"link"
+	"description"
+};
+
+association "shares" between 
+{
+	users ONE 
+	trips MANY
+}{};
+
+association between 
+{
+	users ONE 
+	ratings MANY
+}{};
+
+association between 
+{
+	ratings MANY 
+	trips ONE
+}{};
+
+association between 
+{
+	trips ONE 
+	edges MANY
+}{};
+
+association between 
+{
+	trips ONE 
+	images MANY
+}{};
+
+association "start point" between 
+{
+	edges ONE 
+	coordinates MANY
+}{};
+
+
+association "start point" between 
+{
+	edges MANY 
+	coordinates ONE
+}{};
+
+association "end point" between 
+{
+	edges MANY 
+	coordinates ONE
+}{};
+
+association between 
+{
+	trips ONE 
+	images MANY
+}{};
+
+association between 
+{
+	coordinates ONE 
+	images MANY
+}{};
