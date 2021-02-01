@@ -2,6 +2,7 @@ package sk.trizna.erm_comparison.tests;
 
 import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.tests.common.ValidationEvaluatorUtils;
 
 public class Logger extends sk.trizna.erm_comparison.common.Logger{
 	
@@ -22,12 +23,14 @@ public class Logger extends sk.trizna.erm_comparison.common.Logger{
 		ValidationEvaluator.MappingParsed missing = result.getMissing();
 		ValidationEvaluator.MappingParsed overflow = result.getOverflow();
 		
-		/* MAPPING PAIRS */
-		int goldenPairs = golden.getMap().keySet().size();
-		int missingPairs = missing.getMap().keySet().size();
-		int overPairs = overflow.getMap().keySet().size();
+		int[] resultStats = ValidationEvaluatorUtils.parseEvaluationResult(golden, result);
 		
-		getWriter().println("Mapping " + (goldenPairs-missingPairs) + "/" + goldenPairs + " pairs, " + overPairs + " additional pairs.");
+		/* MAPPING PAIRS */
+		int matchedPairs = resultStats[0];
+		int goldenPairs = resultStats[1];
+		int overPairs = resultStats[2];
+		
+		getWriter().println(ValidationEvaluatorUtils.getPairsResultMessage(matchedPairs, goldenPairs, overPairs));
 		getWriter().println("Missing pairs: " + (missing.getMap().keySet().isEmpty() ? PrintUtils.DELIMITER_DASH : ""));
 		for (String entitySet : missing.getMap().keySet()) {
 			getWriter().println(" " + entitySet + PrintUtils.DELIMITER_DASH + missing.getMap().get(entitySet));
@@ -38,11 +41,12 @@ public class Logger extends sk.trizna.erm_comparison.common.Logger{
 		}
 		
 		/* MAPPING TRANSFORMATIONS */
-		int goldenTrans = golden.getTransformations().keySet().size();
-		int missingTrans = missing.getTransformations().keySet().size();
-		int overTrans = overflow.getTransformations().keySet().size();
+		int matchedTrans = resultStats[3];
+		int goldenTrans = resultStats[4];
+		int overTrans = resultStats[5];
 		
-		getWriter().println("\nMapping  " + (goldenTrans-missingTrans) + "/" + goldenTrans + " transformations, " + overTrans + " additional transformations.");
+		
+		getWriter().println("\n"+ValidationEvaluatorUtils.getTransformationResultMessage(matchedTrans, goldenTrans, overTrans));
 		getWriter().println("Missing transformations: " + (missing.getTransformations().keySet().isEmpty() ? PrintUtils.DELIMITER_DASH : ""));
 		for (String entitySet : missing.getTransformations().keySet()) {
 			getWriter().println(" " + entitySet + PrintUtils.DELIMITER_COLON + String.join(PrintUtils.DELIMITER_DASH,missing.getTransformations().get(entitySet)));

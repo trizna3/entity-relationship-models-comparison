@@ -11,14 +11,18 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import sk.trizna.erm_comparison.common.ArrayUtils;
 import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.StringUtils;
 import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
+import sk.trizna.erm_comparison.tests.common.ValidationEvaluatorUtils;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ValidationEvaluator {
 	
 	private static final Set<String> ARGUMENT_ORDER_INSENSITIVE_TRANSFORMATIONS = new HashSet<String>(Arrays.asList(
@@ -72,20 +76,50 @@ public class ValidationEvaluator {
 	}
 	
 	@Test
-	public void validateInstance61() {
+	public void _validateInstance61() {
 		validateInstance(Validation.INSTANCE61);
 		assertTrue(true);
 	}
 	
 	@Test
-	public void validateInstance62() {
+	public void _validateInstance62() {
 		validateInstance(Validation.INSTANCE62);
 		assertTrue(true);
 	}
 	
 	@Test
-	public void validateInstance63() {
+	public void _validateInstance63() {
 		validateInstance(Validation.INSTANCE63);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance64() {
+		validateInstance(Validation.INSTANCE64);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance65() {
+		validateInstance(Validation.INSTANCE65);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance71() {
+		validateInstance(Validation.INSTANCE71);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance72() {
+		validateInstance(Validation.INSTANCE72);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance73() {
+		validateInstance(Validation.INSTANCE73);
 		assertTrue(true);
 	}
 	
@@ -100,6 +134,7 @@ public class ValidationEvaluator {
 			
 			EvaluationResult result = evaluate(golden, output);
 			logResult(golden, result, instanceName, studentId);
+			saveStats(golden, result, instanceName, studentId);
 			
 			assertTrue(true);
 		}
@@ -225,5 +260,41 @@ public class ValidationEvaluator {
 		Logger logger = new Logger(filepath);
 		logger.logValidationEvaluationResult(golden, result);
 		logger.close();
+		
+	}
+
+	
+	@Test
+	public void reportResultStatistics() {
+		Map<String,int[]> stats = ValidationEvaluatorStatistics.getResultStats();
+		
+		for (String instanceName : stats.keySet()) {
+			int[] stat = stats.get(instanceName);
+			System.out.println("\n"+instanceName);
+			System.out.println(ValidationEvaluatorUtils.getPairsResultMessage(stat[0], stat[1], stat[2]));
+			System.out.println(ValidationEvaluatorUtils.getTransformationResultMessage(stat[3], stat[4], stat[5]));
+		}
+		
+		int[] stat = ValidationEvaluatorStatistics.getTotalStats();
+		System.out.println("\nTotal");
+		System.out.println(ValidationEvaluatorUtils.getPairsResultMessage(stat[0], stat[1], stat[2]));
+		System.out.println(ValidationEvaluatorUtils.getTransformationResultMessage(stat[3], stat[4], stat[5]));
+	}
+
+	
+	
+	private void saveStats(MappingParsed golden, EvaluationResult result, String instanceName, int studentId) {
+		// add current instance stats
+		int[] stats = ValidationEvaluatorUtils.parseEvaluationResult(golden, result);
+		ValidationEvaluatorStatistics.getResultStats().put(instanceName,stats);
+		
+		// increment total stats
+		int[] totalStats = ValidationEvaluatorStatistics.getTotalStats();
+		totalStats[0] += stats[0];
+		totalStats[1] += stats[1];
+		totalStats[2] += stats[2];
+		totalStats[3] += stats[3];
+		totalStats[4] += stats[4];
+		totalStats[5] += stats[5];
 	}
 }

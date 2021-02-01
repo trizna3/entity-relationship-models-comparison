@@ -103,6 +103,36 @@ public class Validation {
 		assertTrue(true);
 	}
 	
+	@Test
+	public void runInstance64() {
+		runInstance(INSTANCE64);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void runInstance65() {
+		runInstance(INSTANCE65);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void runInstance71() {
+		runInstance(INSTANCE71);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void runInstance72() {
+		runInstance(INSTANCE72);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void runInstance73() {
+		runInstance(INSTANCE73);
+		assertTrue(true);
+	}
+
 	public void runInstance(String instanceName) {
 		System.out.println("Running instance " + instanceName);
 		
