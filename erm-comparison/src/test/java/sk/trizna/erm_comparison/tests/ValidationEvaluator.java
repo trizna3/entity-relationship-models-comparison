@@ -276,7 +276,7 @@ public class ValidationEvaluator {
 		}
 		
 		int[] stat = ValidationEvaluatorStatistics.getTotalStats();
-		System.out.println("\nTotal");
+		System.out.println("\nTotal instances ran: " + ValidationEvaluatorStatistics.getInstanceCounter());
 		System.out.println(ValidationEvaluatorUtils.getPairsResultMessage(stat[0], stat[1], stat[2]));
 		System.out.println(ValidationEvaluatorUtils.getTransformationResultMessage(stat[3], stat[4], stat[5]));
 	}
@@ -296,5 +296,7 @@ public class ValidationEvaluator {
 		totalStats[3] += stats[3];
 		totalStats[4] += stats[4];
 		totalStats[5] += stats[5];
+		
+		ValidationEvaluatorStatistics.incrementInstanceCounter();
 	}
 }

@@ -14,6 +14,8 @@ public class ValidationEvaluatorStatistics {
 	 */
 	private static int[] totalStats;
 	
+	private static int instanceCounter;
+	
 	public static Map<String,int[]> getResultStats() {
 		if (resultStats == null) {
 			resultStats = new HashMap<>();
@@ -26,5 +28,13 @@ public class ValidationEvaluatorStatistics {
 			totalStats = new int[] {0,0,0,0,0,0};
 		}
 		return totalStats;
+	}
+
+	public static int getInstanceCounter() {
+		return instanceCounter;
+	}
+	
+	public static void incrementInstanceCounter() {
+		instanceCounter ++;
 	}
 }
