@@ -40,4 +40,13 @@ public class CollectionUtils extends Utils {
 		}
 		return false;
 	}
+	
+	public static <T> void removeAllMaxOnce(List<T> list, List<T> targets) {
+		validateNotNull(list);
+		validateNotNull(targets);
+		
+		for (T target : targets) {
+			list.remove(list.indexOf(target));
+		}
+	}
 }

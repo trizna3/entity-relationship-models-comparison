@@ -3,6 +3,7 @@ package sk.trizna.erm_comparison.transformations;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import sk.trizna.erm_comparison.common.CollectionUtils;
 import sk.trizna.erm_comparison.common.RelationshipUtils;
 import sk.trizna.erm_comparison.common.StringUtils;
 import sk.trizna.erm_comparison.common.TransformationUtils;
@@ -491,7 +492,7 @@ public class Transformator {
 		TransformableFlag flag = (TransformableFlag) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
 
 		EntitySet otherEntitySet = RelationshipUtils.getOtherEntitySet(association, entitySet);
-		entitySet.getAttributes().removeAll(otherEntitySet.getAttributes());
+		CollectionUtils.removeAllMaxOnce(entitySet.getAttributes(),otherEntitySet.getAttributes());
 		entitySet.setNameText(StringUtils.decomposeName(entitySet.getNameText(), otherEntitySet.getNameText()));
 		
 		if (flag != null)

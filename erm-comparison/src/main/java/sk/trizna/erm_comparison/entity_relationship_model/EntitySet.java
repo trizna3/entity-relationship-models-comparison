@@ -142,9 +142,11 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 	public void removeNeighbours(Relationship relationship) {
 		Utils.validateContains(relationship, this);
 
+		boolean skipSelf = true;
 		for (RelationshipSide side : relationship.getSides()) {
 			EntitySet neighbour = side.getEntitySet();
-			if (this.equals(neighbour)) {
+			if (skipSelf && this.equals(neighbour)) {
+				skipSelf = false;	// skip this entitySet only once
 				continue;
 			}
 			
@@ -177,9 +179,11 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 	public void addNeighbours(Relationship relationship) {
 		Utils.validateContains(relationship, this);
 
+		boolean skipSelf = true; 
 		for (RelationshipSide side : relationship.getSides()) {
 			EntitySet neighbour = side.getEntitySet();
-			if (this.equals(neighbour)) {
+			if (skipSelf && this.equals(neighbour)) {
+				skipSelf = false;	// skip this entitySet only once 
 				continue;
 			}
 			if (!getNeighbours().containsKey(neighbour)) {

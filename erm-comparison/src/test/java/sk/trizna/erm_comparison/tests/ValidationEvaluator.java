@@ -32,6 +32,12 @@ public class ValidationEvaluator {
 			EnumTransformation.REBIND_NARY_ASSOCIATION.toString())
 			);
 	
+	private static boolean isArgumentOrderInsensitiveTransformation(String transformationType) {
+		if (transformationType == null) {
+			return false;
+		}
+		return ARGUMENT_ORDER_INSENSITIVE_TRANSFORMATIONS.contains(transformationType.toUpperCase());
+	}
 
 	public class MappingParsed {
 		private Map<String,String> map;
@@ -177,7 +183,7 @@ public class ValidationEvaluator {
 			if (!output.getTransformations().containsKey(transformation)) {
 				missingTransformations.put(transformation, golden.getTransformations().get(transformation));
 			} else {
-				if (ARGUMENT_ORDER_INSENSITIVE_TRANSFORMATIONS.contains(transformation)) {
+				if (isArgumentOrderInsensitiveTransformation(transformation)) {
 					if (!StringUtils.equalsIgnoreOrder(golden.getTransformations().get(transformation), output.getTransformations().get(transformation), LanguageProcessor.getImplementation())) {
 						missingTransformations.put(transformation, golden.getTransformations().get(transformation));
 					}
@@ -192,7 +198,7 @@ public class ValidationEvaluator {
 			if (!golden.getTransformations().containsKey(transformation)) {
 				overflowTransformations.put(transformation, output.getTransformations().get(transformation));
 			} else {
-				if (ARGUMENT_ORDER_INSENSITIVE_TRANSFORMATIONS.contains(transformation)) {
+				if (isArgumentOrderInsensitiveTransformation(transformation)) {
 					if (!StringUtils.equalsIgnoreOrder(output.getTransformations().get(transformation),golden.getTransformations().get(transformation), LanguageProcessor.getImplementation())) {
 						overflowTransformations.put(transformation, output.getTransformations().get(transformation));
 					}

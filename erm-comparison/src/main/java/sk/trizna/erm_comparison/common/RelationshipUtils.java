@@ -220,7 +220,7 @@ public class RelationshipUtils extends Utils {
 		newEntitySet.addNeighbours(relationship);
 
 		for (RelationshipSide side : relationship.getSides()) {
-			if (!newEntitySet.equals(side.getEntitySet())) {
+			if (!newEntitySet.equals(side.getEntitySet()) && !oldEntitySet.equals(side.getEntitySet())) {
 				side.getEntitySet().removeNeighbour(oldEntitySet, relationship);
 				side.getEntitySet().addNeighbour(newEntitySet, relationship);
 			}
