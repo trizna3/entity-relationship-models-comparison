@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
+import sk.trizna.erm_comparison.language_processing.LanguageProcessor;
 
 public class StringUtils extends Utils {
 	
@@ -17,14 +18,33 @@ public class StringUtils extends Utils {
 	 * @return
 	 */
 	public static boolean areEqual(String string1, String string2) {
+		return areEqual(string1, string2, null);
+	}
+	
+	/**
+	 * Determines if strings are equal by given dictionary, case insensitive.
+	 * If not dictionary is provided, computes case insensitive string equality.
+	 * 
+	 * @param string1
+	 * @param string2
+	 * @param dict
+	 * @return
+	 */
+	public static boolean areEqual(String string1, String string2, LanguageProcessor dict) {
 		if (string1 == null && string2 == null) {
 			return true;
 		}
 		if (string1 == null || string2 == null) {
 			return false;
 		}
-		return string1.equalsIgnoreCase(string2);
+		
+		if (dict == null) {
+			return string1.equalsIgnoreCase(string2);
+		} else {
+			return dict.getSimilarity(string1, string2) == 1;
+		}
 	}
+	
 	
 	/**
 	 * Determines if two composite names are equal, ignoring order by name parts
@@ -41,9 +61,127 @@ public class StringUtils extends Utils {
 			return false;
 		}
 		
-		return ArrayUtils.equalsIgnoreOrder(getAllNameParts(compositeName1), getAllNameParts(compositeName2));
+		return StringUtils.equalsIgnoreOrder(getAllNameParts(compositeName1), getAllNameParts(compositeName2), LanguageProcessor.getImplementation());
 	}
-
+	
+	/**
+	 * string arrays equality
+	 * @param array1
+	 * @param array2
+	 * @return
+	 */
+	public static boolean equals(String[] array1, String[] array2) {
+		return equals(array1,array2,null);
+	}
+	
+	/**
+	 * string arrays equality, determined by dictionary
+	 * @param array1
+	 * @param array2
+	 * @param dictionary
+	 * @return
+	 */
+	public static boolean equals(String[] array1, String[] array2, LanguageProcessor dictionary) {
+		if (array1 == null || array2 == null) {
+			return false;
+		}
+		if (array1.length != array2.length) {
+			return false;
+		}
+		if (dictionary == null) {
+			for (int i=0; i<array1.length; i++) {
+				if (!array1[i].equals(array2[i])) {
+					return false;
+				}
+			}
+		} else {
+			for (int i=0; i<array1.length; i++) {
+				if (dictionary.getSimilarity(array1[i], array2[i]) != 1) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * string arrays order insensitive equality
+	 * @param array1
+	 * @param array2
+	 * @return
+	 */
+	public static  boolean equalsIgnoreOrder(String[] array1, String[] array2) {
+		return equalsIgnoreOrder(array1, array2, null);
+	}
+	
+	/**
+	 * string arrays order insensitive equality, determined by dictionary
+	 * @param array1
+	 * @param array2
+	 * @param dictionary
+	 * @return
+	 */
+	public static  boolean equalsIgnoreOrder(String[] array1, String[] array2, LanguageProcessor dictionary) {
+		if (array1 == null || array2 == null) {
+			return false;
+		}
+		if (array1.length != array2.length) {
+			return false;
+		}
+		if (dictionary == null) {
+			for (int i=0; i<array1.length; i++) {
+				if (!contains(array2, array1[i])) {
+					return false;
+				}
+			}
+		} else {
+			for (int i=0; i<array1.length; i++) {
+				if (!contains(array2, array1[i], dictionary)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * string array contains string element
+	 * 
+	 * @param array
+	 * @param element
+	 * @return
+	 */
+	public static boolean contains(String[] array, String element) {
+		return contains(array, element, null);
+	}
+	
+	/**
+	 * string array contains string element, determined by dictionary
+	 * @param array
+	 * @param element
+	 * @param dictionary
+	 * @return
+	 */
+	public static boolean contains(String[] array, String element, LanguageProcessor dictionary) {
+		if (array == null || element == null) {
+			return false;
+		}
+		if (dictionary == null) {
+			for (String item : array) {
+				if (element != null && element.equals(item)) {
+					return true;
+				}
+			}
+		} else {
+			for (String item : array) {
+				if (dictionary.getSimilarity(item,element) == 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Given composite name, returns name part.
 	 * 

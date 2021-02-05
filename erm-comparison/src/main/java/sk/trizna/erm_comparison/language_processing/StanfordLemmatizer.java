@@ -13,6 +13,7 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import sk.trizna.erm_comparison.common.Clock;
 import sk.trizna.erm_comparison.common.PrintUtils;
+import sk.trizna.erm_comparison.common.StringUtils;
 
 class StanfordLemmatizer {
 
@@ -44,7 +45,7 @@ class StanfordLemmatizer {
     
     public String lemmatizeWord(String word)
     {
-    	if (word == null) {
+    	if (StringUtils.isBlank(word)) {
     		return word;
     	}
     	if (getCache().containsKey(word)) {

@@ -15,11 +15,11 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import sk.trizna.erm_comparison.common.ArrayUtils;
 import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.StringUtils;
 import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
+import sk.trizna.erm_comparison.language_processing.LanguageProcessor;
 import sk.trizna.erm_comparison.tests.common.ValidationEvaluatorUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -178,11 +178,11 @@ public class ValidationEvaluator {
 				missingTransformations.put(transformation, golden.getTransformations().get(transformation));
 			} else {
 				if (ARGUMENT_ORDER_INSENSITIVE_TRANSFORMATIONS.contains(transformation)) {
-					if (!ArrayUtils.equalsIgnoreOrder(golden.getTransformations().get(transformation), output.getTransformations().get(transformation))) {
+					if (!StringUtils.equalsIgnoreOrder(golden.getTransformations().get(transformation), output.getTransformations().get(transformation), LanguageProcessor.getImplementation())) {
 						missingTransformations.put(transformation, golden.getTransformations().get(transformation));
 					}
 				} else {
-					if (!ArrayUtils.equals(golden.getTransformations().get(transformation), output.getTransformations().get(transformation))) {
+					if (!StringUtils.equals(golden.getTransformations().get(transformation), output.getTransformations().get(transformation), LanguageProcessor.getImplementation())) {
 						missingTransformations.put(transformation, golden.getTransformations().get(transformation));
 					}
 				}
@@ -193,11 +193,11 @@ public class ValidationEvaluator {
 				overflowTransformations.put(transformation, output.getTransformations().get(transformation));
 			} else {
 				if (ARGUMENT_ORDER_INSENSITIVE_TRANSFORMATIONS.contains(transformation)) {
-					if (!ArrayUtils.equalsIgnoreOrder(output.getTransformations().get(transformation),golden.getTransformations().get(transformation))) {
+					if (!StringUtils.equalsIgnoreOrder(output.getTransformations().get(transformation),golden.getTransformations().get(transformation), LanguageProcessor.getImplementation())) {
 						overflowTransformations.put(transformation, output.getTransformations().get(transformation));
 					}
 				} else {
-					if (!ArrayUtils.equals(output.getTransformations().get(transformation),golden.getTransformations().get(transformation))) {
+					if (!StringUtils.equals(output.getTransformations().get(transformation),golden.getTransformations().get(transformation), LanguageProcessor.getImplementation())) {
 						overflowTransformations.put(transformation, output.getTransformations().get(transformation));
 					}
 				}
