@@ -43,5 +43,6 @@ association "selects" between
 	users MANY
 	tests ONE
 	options ONE
+	questions ONE
 }{};
 

@@ -2,4 +2,5 @@ users-users
 tests-tests
 questions-questions
 options-choices
-REBIND_NARY_ASSOCIATION:S-answers
+selects-answers
+REBIND_NARY_ASSOCIATION:E-users-tests-questions-options
