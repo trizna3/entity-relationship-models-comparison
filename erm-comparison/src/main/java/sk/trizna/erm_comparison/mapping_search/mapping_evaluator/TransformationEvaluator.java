@@ -3,9 +3,9 @@ package sk.trizna.erm_comparison.mapping_search.mapping_evaluator;
 import java.util.HashSet;
 import java.util.Set;
 
-import sk.trizna.erm_comparison.common.PenaltyConstants;
 import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
+import sk.trizna.erm_comparison.common.enums.PenaltyConstants;
 import sk.trizna.erm_comparison.comparing.Mapping;
 import sk.trizna.erm_comparison.transformations.Transformation;
 

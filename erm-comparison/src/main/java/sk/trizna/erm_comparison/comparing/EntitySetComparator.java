@@ -2,9 +2,9 @@ package sk.trizna.erm_comparison.comparing;
 
 import java.util.Comparator;
 
-import sk.trizna.erm_comparison.common.SimilarityConstantsUtils;
 import sk.trizna.erm_comparison.common.StringUtils;
 import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.enums.SimilarityConstantsUtils;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 
 public class EntitySetComparator implements Comparator<EntitySet> {

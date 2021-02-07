@@ -10,7 +10,6 @@ import java.util.Map;
 import sk.trizna.erm_comparison.common.Clock;
 import sk.trizna.erm_comparison.common.MathUtils;
 import sk.trizna.erm_comparison.common.PrintUtils;
-import sk.trizna.erm_comparison.common.StringUtils;
 import sk.trizna.erm_comparison.common.Utils;
 
 class Word2VecDictionary implements LanguageProcessor{
@@ -18,9 +17,10 @@ class Word2VecDictionary implements LanguageProcessor{
 	private static final Word2VecDictionary INSTANCE = new Word2VecDictionary();
 	private static Map<String,double[]> word2vec;
 	private static final String vectorFileName = "glove.6B.300d.txt";
+	private StanfordLemmatizer stanfordLemmatizer;
 	private static boolean initialized = false;
 	
-	public static Word2VecDictionary getInstance() {
+	static Word2VecDictionary getInstance() {
 		return INSTANCE;
 	}
 	
@@ -87,24 +87,29 @@ class Word2VecDictionary implements LanguageProcessor{
 	}
 
 	@Override
-	public double getSimilarity(String word1, String word2) {
+	public Double getSimilarityInternal(String word1, String word2) {
 		initialize();
-		
-		if (StringUtils.areEqual(word1, word2)) {
-			return 1;
-		}
-		if (StringUtils.isBlank(word1) || StringUtils.isBlank(word2)) {
-			return 0;
-		}
 		
 		double[] vec1 = getVector(word1);
 		double[] vec2 = getVector(word2);
 		
 		if (vec1 == null || vec2 == null) {
 			// unknown word
-			return 0;
+			return Double.valueOf(0);
 		}
 		
 		return MathUtils.dot(vec1, vec2) / (MathUtils.norm(vec1) * MathUtils.norm(vec2));
+	}
+	
+	@Override
+	public String getLemma(String word) {
+		return getStanfordLemmatizer().lemmatizeWord(word);
+	}
+
+	private StanfordLemmatizer getStanfordLemmatizer() {
+		if (stanfordLemmatizer == null) {
+			stanfordLemmatizer = StanfordLemmatizer.getInstance();
+		}
+		return stanfordLemmatizer;
 	}
 }

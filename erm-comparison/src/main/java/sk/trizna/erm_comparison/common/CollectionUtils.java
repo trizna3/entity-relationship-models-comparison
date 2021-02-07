@@ -41,6 +41,13 @@ public class CollectionUtils extends Utils {
 		return false;
 	}
 	
+	/**
+	 * Collection<T>.removaAll(Collection<T>), but each argument element is removed max once
+	 * 
+	 * @param <T>
+	 * @param list
+	 * @param targets
+	 */
 	public static <T> void removeAllMaxOnce(List<T> list, List<T> targets) {
 		validateNotNull(list);
 		validateNotNull(targets);

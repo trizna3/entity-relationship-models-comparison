@@ -27,14 +27,16 @@ public class Association extends Relationship implements Attributed {
 	private List<Attribute> attributes;
 
 	public Association() {
+		super(null);
 	};
 
 	public Association(List<AssociationSide> sides) {
+		super(null);
 		setSides(sides);
 	}
 
 	public Association(String name, List<AssociationSide> sides, List<String> attributes) {
-		setNameText(name);
+		super(name);
 		setSides(sides);
 		if (attributes != null) {
 			for (String attribute : attributes) {
@@ -44,6 +46,7 @@ public class Association extends Relationship implements Attributed {
 	}
 
 	public Association(List<AssociationSide> sides, List<String> attributes) {
+		super(null);
 		setSides(sides);
 		if (attributes != null) {
 			for (String attribute : attributes) {
@@ -53,6 +56,7 @@ public class Association extends Relationship implements Attributed {
 	}
 
 	public Association(Association association) {
+		super(association.getNameText());
 		setSides(new ArrayList<AssociationSide>(association.getSides().size()));
 		association.getSides().stream().forEach(side -> getSides().add(new AssociationSide(side)));
 

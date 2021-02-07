@@ -26,20 +26,24 @@ public class Generalization extends Relationship {
 	private List<GeneralizationSide> sides;
 
 	public Generalization() {
+		super(null);
 		this.sides = new ArrayList<GeneralizationSide>(2);
 	};
 
 	public Generalization(List<GeneralizationSide> sides) {
+		super(null);
 		this.sides = sides;
 	}
 
 	public Generalization(EntitySet superEntitySet, EntitySet subEntitySet) {
+		super(null);
 		sides = new ArrayList<GeneralizationSide>(2);
 		sides.add(0, new GeneralizationSide(superEntitySet, EnumRelationshipSideRole.ROLE_SUPER));
 		sides.add(1, new GeneralizationSide(subEntitySet, EnumRelationshipSideRole.ROLE_SUB));
 	}
 
 	public Generalization(Generalization generalization) {
+		super(null);
 		sides = new ArrayList<GeneralizationSide>(generalization.getSides());
 	}
 

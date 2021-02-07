@@ -6,6 +6,7 @@ import java.util.Set;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
+import sk.trizna.erm_comparison.common.enums.SimilarityConstantsUtils;
 import sk.trizna.erm_comparison.common.object_pools.TransformationPool;
 import sk.trizna.erm_comparison.comparing.AssociationComparator;
 import sk.trizna.erm_comparison.comparing.EntitySetAssociationComparator;

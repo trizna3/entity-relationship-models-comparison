@@ -144,4 +144,13 @@ public class Utils {
 		
 		return excludedIndices;
 	}
+	
+	public static Object firstNonNull(Object... objects) {
+		if (objects != null) {
+			for (Object obj : objects) {
+				if (obj != null) return obj;
+			}
+		}
+		return null;
+	}
 }

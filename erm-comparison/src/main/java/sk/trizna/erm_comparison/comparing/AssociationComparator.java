@@ -3,7 +3,7 @@ package sk.trizna.erm_comparison.comparing;
 import java.util.HashSet;
 import java.util.Set;
 
-import sk.trizna.erm_comparison.common.SimilarityConstantsUtils;
+import sk.trizna.erm_comparison.common.enums.SimilarityConstantsUtils;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 

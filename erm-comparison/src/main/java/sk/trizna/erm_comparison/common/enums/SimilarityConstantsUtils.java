@@ -1,5 +1,6 @@
-package sk.trizna.erm_comparison.common;
+package sk.trizna.erm_comparison.common.enums;
 
+import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.entity_relationship_model.Attributed;
 
 public class SimilarityConstantsUtils extends Utils {

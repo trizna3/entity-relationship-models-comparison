@@ -20,33 +20,14 @@ import sk.trizna.erm_comparison.common.Utils;
  */
 public abstract class Relationship extends ERModelElement implements Named {
 
-	/**
-	 * Relationship name.
-	 */
-	private ERModelElementName name;
-
 	public abstract List<? extends RelationshipSide> getSides();
 
 	public abstract boolean isBinary();
-
-	public String getNameText() {
-		return name != null ? name.getName() : null;
-	}
-
-	public void setNameText(String name) {
-		if (name != null) {
-			this.name = new ERModelElementName(name);
-		}
+	
+	public Relationship(String name) {
+		super(name);
 	}
 	
-	public ERModelElementName getName() {
-		return name;
-	}
-
-	public void setName(ERModelElementName name) {
-		this.name = name;
-	}
-
 	@Override
 	public String toString() {
 		return PrintUtils.print(this);
