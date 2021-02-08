@@ -2,8 +2,10 @@ package sk.trizna.erm_comparison.starter;
 
 import java.io.IOException;
 
+import sk.trizna.erm_comparison.comparing.ERMComparator;
+import sk.trizna.erm_comparison.comparing.ERMComparatorImpl;
+import sk.trizna.erm_comparison.comparing.ERModelDiff;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
-import sk.trizna.erm_comparison.mappingSearch.mapping_finder.MappingFinder;
 import sk.trizna.erm_comparison.parser.Parser;
 import sk.trizna.erm_comparison.parser.SyntaxException;
 /**
@@ -16,10 +18,15 @@ public class Main {
 		
 		try {
 			
+			ERMComparator comparator = new ERMComparatorImpl();
+			
+			
 			ERModel model1 = Parser.fromString(Parser.fileToString("..//erm-comparison-data//input_model_scripts//exemplar_solutions//internaty_vzor.txt"));
 			ERModel model2 = Parser.fromString(Parser.fileToString("..//erm-comparison-data//input_model_scripts//students_solutions//internaty_s1.txt"));
 			
-			new MappingFinder().getBestMapping(model1, model2);
+			ERModelDiff diff = comparator.getModelsDiff(model1, model2);
+			
+			System.out.println();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

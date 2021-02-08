@@ -9,7 +9,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import sk.trizna.erm_comparison.common.Logger;
-import sk.trizna.erm_comparison.comparing.Mapping;
+import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.mappingSearch.mapping_finder.MappingFinder;
 import sk.trizna.erm_comparison.parser.Parser;
@@ -143,7 +143,7 @@ public class Validation {
 				ERModel studentModel = getStudentModel(instanceName, studentId);
 				
 				MappingFinder finder = new MappingFinder();
-				Mapping mapping = finder.getBestMapping(exemplarModel, studentModel);
+				Mapping mapping = finder.findBestMapping(exemplarModel, studentModel);
 				logResult(mapping, instanceName, studentId);
 				assertTrue(true);
 			}

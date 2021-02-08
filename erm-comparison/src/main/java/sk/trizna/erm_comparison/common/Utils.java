@@ -153,4 +153,14 @@ public class Utils {
 		}
 		return null;
 	}
+	
+	public static boolean areEqual(Object obj1, Object obj2) {
+		if (obj1 == null || obj2 == null) {
+			return false;
+		}
+		if (!isSameClass(obj1, obj2)) {
+			return false;
+		}
+		return obj1.equals(obj2);
+	}
 }

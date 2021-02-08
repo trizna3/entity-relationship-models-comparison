@@ -1,7 +1,7 @@
 package sk.trizna.erm_comparison.mapping_search.mapping_evaluator;
 
-import sk.trizna.erm_comparison.comparing.Mapping;
-import sk.trizna.erm_comparison.comparing.MappingEvaluation;
+import sk.trizna.erm_comparison.comparing.mapping.Mapping;
+import sk.trizna.erm_comparison.comparing.mapping.MappingEvaluation;
 
 /**
  * @author - Adam Trizna

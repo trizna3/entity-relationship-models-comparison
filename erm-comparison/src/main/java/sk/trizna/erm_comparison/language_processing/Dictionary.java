@@ -14,7 +14,7 @@ import sk.trizna.erm_comparison.common.multi_key_config.DictConfigManager;
  * Naive language processor. "Measures" words meaning similarity 1 or 0, whether
  * the word-pair is in manually pre-defined dictionary.
  */
-class Dictionary implements LanguageProcessor {
+class Dictionary extends AbstractLanguageProcessor {
 
 	private static final Dictionary INSTANCE = new Dictionary();
 	private Map<String,Map<String,Double>> cache;

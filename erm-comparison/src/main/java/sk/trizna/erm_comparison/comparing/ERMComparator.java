@@ -9,7 +9,7 @@ import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 /**
  * Interface of entity relationship comparators.
  */
-public interface IComparator {
+public interface ERMComparator {
 
     /**
      * Gets two ER models. Returns models difference in a sense of their capability of holding data.
@@ -17,5 +17,8 @@ public interface IComparator {
      * @param exemplarModel
      * @param studentsModel
      */
-    public ERModelDiff getCompareDiff(ERModel exemplarModel, ERModel studentModel);
+    public abstract ERModelDiff getModelsDiff(ERModel exemplarModel, ERModel studentModel);
+    
+    
+    public abstract ERModelDiffReport getModelsDiffReport(ERModel exemplarModel, ERModel studentModel);
 }

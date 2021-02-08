@@ -7,6 +7,8 @@ public class EnumConstants {
 	
 	public static final String DICT_CONFIG_NAME = "resource//cfg//dict_config.properties";
 	
+	public static final String TRANSLATION_NAME = "resource//cfg//translation.properties";
+	
 	public static final String CONFIG_PRINT_RESULT = "print_result";
 	
 	public static final String CONFIG_PRINT_TRANSFORMATION_PROGRESS = "print_transformation_progress";

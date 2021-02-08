@@ -5,7 +5,7 @@ import java.util.List;
 
 import sk.trizna.erm_comparison.common.TransformationAnalystUtils;
 import sk.trizna.erm_comparison.common.object_pools.TransformationPool;
-import sk.trizna.erm_comparison.comparing.Mapping;
+import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 
 /**
  * @author - Adam Trizna

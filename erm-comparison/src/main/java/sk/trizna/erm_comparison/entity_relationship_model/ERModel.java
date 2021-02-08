@@ -65,13 +65,19 @@ public class ERModel {
 		}
 	}
 
-	public void addRelationship(Relationship relationship) {
+	public void addRelationship(Relationship relationship, boolean updateNeighbours) {
 		Utils.validateNotNull(relationship);
-		// update neighbor maps
-		for (RelationshipSide side : relationship.getSides()) {
-			side.getEntitySet().addNeighbours(relationship);
+		if (updateNeighbours) {
+			// update neighbor maps
+			for (RelationshipSide side : relationship.getSides()) {
+				side.getEntitySet().addNeighbours(relationship);
+			}
 		}
 		getRelationships().add(relationship);
+	}
+	
+	public void addRelationship(Relationship relationship) {
+		addRelationship(relationship,true);
 	}
 
 	public void addAllRelationships(Iterable<Relationship> relationships) {

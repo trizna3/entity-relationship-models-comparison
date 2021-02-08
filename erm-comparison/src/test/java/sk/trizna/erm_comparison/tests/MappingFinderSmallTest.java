@@ -21,7 +21,7 @@ public class MappingFinderSmallTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		finder.findBestMapping(exemplarModel, studentModel);
 
 		assertTrue(true);
 	}
@@ -36,7 +36,7 @@ public class MappingFinderSmallTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		finder.findBestMapping(exemplarModel, studentModel);
 
 		assertTrue(true);
 	}
@@ -51,7 +51,7 @@ public class MappingFinderSmallTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		finder.findBestMapping(exemplarModel, studentModel);
 
 		assertTrue(true);
 	}
@@ -66,7 +66,7 @@ public class MappingFinderSmallTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		finder.findBestMapping(exemplarModel, studentModel);
 
 		assertTrue(true);
 	}
@@ -81,7 +81,7 @@ public class MappingFinderSmallTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		finder.findBestMapping(exemplarModel, studentModel);
 
 		assertTrue(true);
 	}
@@ -96,7 +96,7 @@ public class MappingFinderSmallTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		finder.getBestMapping(exemplarModel, studentModel);
+		finder.findBestMapping(exemplarModel, studentModel);
 
 		assertTrue(true);
 	}

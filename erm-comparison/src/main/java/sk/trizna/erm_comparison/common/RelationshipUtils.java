@@ -29,8 +29,7 @@ public class RelationshipUtils extends Utils {
 	public static EnumRelationshipSideRole getRole(Relationship relationship, EntitySet entitySet) {
 		validateNotNull(relationship);
 		validateNotNull(entitySet);
-		validateContains(relationship, entitySet);
-
+		
 		for (RelationshipSide side : relationship.getSides()) {
 			if (entitySet.equals(side.getEntitySet())) {
 				return side.getRole();

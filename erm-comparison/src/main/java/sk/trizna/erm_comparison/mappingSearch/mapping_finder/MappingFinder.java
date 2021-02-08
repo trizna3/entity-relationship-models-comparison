@@ -13,11 +13,13 @@ import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.enums.SimilarityConstantsUtils;
 import sk.trizna.erm_comparison.common.key_config.AppConfigManager;
 import sk.trizna.erm_comparison.comparing.EntitySetComparator;
-import sk.trizna.erm_comparison.comparing.Mapping;
-import sk.trizna.erm_comparison.comparing.MappingEvaluation;
 import sk.trizna.erm_comparison.comparing.NamedComparator;
+import sk.trizna.erm_comparison.comparing.mapping.Mapping;
+import sk.trizna.erm_comparison.comparing.mapping.MappingEvaluation;
+import sk.trizna.erm_comparison.comparing.mapping.MappingExtended;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
+import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 import sk.trizna.erm_comparison.mapping_search.mapping_evaluator.Evaluator;
 import sk.trizna.erm_comparison.mapping_search.mapping_evaluator.IEvaluator;
 import sk.trizna.erm_comparison.transformations.Transformation;
@@ -61,11 +63,13 @@ public class MappingFinder {
 	 * @param studentModel
 	 * @return Mapping of minimal penalty.
 	 */
-	public Mapping getBestMapping(ERModel exemplarModel, ERModel studentModel) {
+	public MappingExtended findBestMapping(ERModel exemplarModel, ERModel studentModel) {
 		
 		preProcessSearch(exemplarModel,studentModel);
 		search(new Mapping(exemplarModel, studentModel));
 		postProcessSearch();
+		
+		getMappingEvaluator().getBestMapping();
 		
 		return constructMapping();
 	}
@@ -80,21 +84,31 @@ public class MappingFinder {
 	 * @param studentModel
 	 * @return
 	 */
-	private Mapping constructMapping() {
+	private MappingExtended constructMapping() {
 		ERModel exemplarModel = new ERModel();
 		ERModel studentModel = new ERModel();
 		
-		Mapping mapping = new Mapping(exemplarModel,studentModel);
+		MappingExtended mapping = new MappingExtended(exemplarModel,studentModel,getMappingEvaluator().getBestMapping());
 		
 		Map<EntitySet,EntitySet> esMap = getMappingEvaluator().getBestMapping().getEntitySetMap();
 		for (EntitySet esKey : esMap.keySet()) {
 			if (!exemplarModel.contains(esKey)) {
 				exemplarModel.addEntitySet(esKey);
 			}
+			for (Relationship exemplarRel : esKey.getIncidentRelationships()) {
+				if (!exemplarModel.contains(exemplarRel)) {
+					exemplarModel.addRelationship(exemplarRel,false);
+				}
+			}
 			esKey.setMappedTo(esMap.get(esKey));
 			if (!MappingUtils.EMPTY_ENTITY_SET.equals(esMap.get(esKey))) {
 				if (!studentModel.contains(esMap.get(esKey))) {
 					studentModel.addEntitySet(esMap.get(esKey));
+				}
+				for (Relationship studentRel : esMap.get(esKey).getIncidentRelationships()) {
+					if (!studentModel.contains(studentRel)) {
+						studentModel.addRelationship(studentRel,false);
+					}
 				}
 				esMap.get(esKey).setMappedTo(esKey);
 			}

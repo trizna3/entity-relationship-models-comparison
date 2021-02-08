@@ -2,8 +2,6 @@ package sk.trizna.erm_comparison.language_processing;
 
 import java.util.Collection;
 
-import sk.trizna.erm_comparison.common.StringUtils;
-import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.key_config.AppConfigManager;
 import sk.trizna.erm_comparison.entity_relationship_model.ERText;
@@ -17,36 +15,30 @@ import sk.trizna.erm_comparison.entity_relationship_model.ERText;
  */
 public interface LanguageProcessor {
 	
-    abstract Double getSimilarityInternal(String word1, String word2);
-    abstract String getLemma(String word);
-    
-    /**
+	/**
+	 * Returns similarity measurement of given word pair. possible value from interval <0,1> 
      * @param word1
      * @param word2
-     * @return similarity measure of given word pair. <0,1>
      */
-	public default double getSimilarity(String word1, String word2) {
-		word1 = getLemma(word1);
-		word2 = getLemma(word2);
-		
-		if (StringUtils.areEqual(word1, word2)) {
-			return 1;
-		}
-		return (Double) Utils.firstNonNull(getSimilarityInternal(word1, word2), Double.valueOf(0));
-	}
+	public double getSimilarity(String word1, String word2);
     
-	public default boolean contains(Collection<? extends ERText> words, String word) {
-		Utils.validateNotNull(words);
-		Utils.validateNotNull(word);
-		
-		for (ERText text : words) {
-			if (getSimilarity(text.getText(), word) == 1) {	// greater than threshold?
-				return true;
-			}
-		}
-		
-		return false;
-	}
+	/**
+	 * Returns true iff target word is equal with any of given words element.
+	 * Equality is determined by languageProcessor's similarity measure.
+	 * 
+	 * @param words
+	 * @param word
+	 */
+	public boolean contains(Collection<? extends ERText> words, String word);
+	
+	/**
+	 * Returns true iff given word pair is equal.
+	 * Equality is determined by languageProcessor's similarity measure.
+	 * 
+	 * @param word1
+	 * @param word2
+	 */
+	public boolean areEqual(String word1, String word2);
 	
 	public static LanguageProcessor getImplementation() {
 		String languageProcessorImpl = AppConfigManager.getInstance().getResource(EnumConstants.CONFIG_LANGUAGE_PROCESSOR);

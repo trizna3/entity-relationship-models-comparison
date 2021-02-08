@@ -1,4 +1,4 @@
-package sk.trizna.erm_comparison.comparing;
+package sk.trizna.erm_comparison.comparing.mapping;
 
 import java.util.ArrayList;
 import java.util.List;

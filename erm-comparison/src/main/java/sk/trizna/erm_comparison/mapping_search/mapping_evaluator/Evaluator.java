@@ -9,8 +9,8 @@ import sk.trizna.erm_comparison.common.ERModelUtils;
 import sk.trizna.erm_comparison.common.MappingUtils;
 import sk.trizna.erm_comparison.common.TransformationUtils;
 import sk.trizna.erm_comparison.common.Utils;
-import sk.trizna.erm_comparison.comparing.Mapping;
-import sk.trizna.erm_comparison.comparing.MappingEvaluation;
+import sk.trizna.erm_comparison.comparing.mapping.Mapping;
+import sk.trizna.erm_comparison.comparing.mapping.MappingEvaluation;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.transformations.Transformation;
 

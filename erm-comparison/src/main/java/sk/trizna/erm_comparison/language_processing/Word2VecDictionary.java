@@ -12,7 +12,7 @@ import sk.trizna.erm_comparison.common.MathUtils;
 import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.Utils;
 
-class Word2VecDictionary implements LanguageProcessor{
+class Word2VecDictionary extends AbstractLanguageProcessor {
 	
 	private static final Word2VecDictionary INSTANCE = new Word2VecDictionary();
 	private static Map<String,double[]> word2vec;

@@ -7,7 +7,7 @@ import java.util.Collections;
 import org.junit.Test;
 
 import sk.trizna.erm_comparison.common.Logger;
-import sk.trizna.erm_comparison.comparing.Mapping;
+import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.mappingSearch.mapping_finder.MappingFinder;
 
@@ -25,7 +25,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		logResult(finder.getBestMapping(exemplarModel, studentModel),"internaty_1");
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"internaty_1");
 
 		assertTrue(true);
 	}
@@ -40,7 +40,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		logResult(finder.getBestMapping(exemplarModel, studentModel),"internaty_2");
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"internaty_2");
 
 		assertTrue(true);
 	}
@@ -55,7 +55,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		logResult(finder.getBestMapping(exemplarModel, studentModel),"mhd_1");
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"mhd_1");
 
 		assertTrue(true);
 	}
@@ -70,7 +70,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		logResult(finder.getBestMapping(exemplarModel, studentModel),"mhd_2");
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"mhd_2");
 
 		assertTrue(true);
 	}
@@ -85,7 +85,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		logResult(finder.getBestMapping(exemplarModel, studentModel),"nrsr_1");
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"nrsr_1");
 
 		assertTrue(true);
 	}
@@ -100,7 +100,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		logResult(finder.getBestMapping(exemplarModel, studentModel),"nrsr_2");
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"nrsr_2");
 
 		assertTrue(true);
 	}
@@ -130,7 +130,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		logResult(finder.getBestMapping(exemplarModel, studentModel),"battle_of_titans_2");
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"battle_of_titans_2");
 
 		assertTrue(true);
 	}
@@ -145,7 +145,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		logResult(finder.getBestMapping(exemplarModel, studentModel),"poistovna_1");
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"poistovna_1");
 
 		assertTrue(true);
 	}
@@ -160,7 +160,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		logResult(finder.getBestMapping(exemplarModel, studentModel),"poistovna_2");
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"poistovna_2");
 
 		assertTrue(true);
 	}
@@ -175,7 +175,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		logResult(finder.getBestMapping(exemplarModel, studentModel),"ufo_1");
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"ufo_1");
 
 		assertTrue(true);
 	}
@@ -190,7 +190,7 @@ public class MappingFinderLargeTest {
 		Collections.shuffle(studentModel.getEntitySets());
 
 		MappingFinder finder = new MappingFinder();
-		logResult(finder.getBestMapping(exemplarModel, studentModel),"ufo_2");
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"ufo_2");
 
 		assertTrue(true);
 	}

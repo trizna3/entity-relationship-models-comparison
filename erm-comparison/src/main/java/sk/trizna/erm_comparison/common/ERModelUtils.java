@@ -6,8 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import sk.trizna.erm_comparison.comparing.Mapping;
+import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
@@ -16,6 +17,46 @@ import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 
 public class ERModelUtils extends Utils {
 
+	/**
+	 * Transforms each entitySet, incident to given relationship, to it's mapping image.
+	 * Returns list of all relationships from given otherModel which are incident to exactly all entitySet images (and no other).
+	 * 
+	 * @param relationship
+	 * @param otherModel
+	 * @return
+	 */
+	public static List<Relationship> getRelationshipImage(Relationship relationship, ERModel otherModel) {
+		Utils.validateNotNull(relationship);
+		Utils.validateNotNull(otherModel);
+		
+		List<EntitySet> entitySetImages = relationship.getSides()
+				.stream()
+				.map(side -> side.getEntitySet().getMappedTo())
+				.collect(Collectors.toList());
+		
+		return ERModelUtils.getRelationshipsByEntitySets(otherModel,entitySetImages);
+	}
+	
+	/**
+	 * Transforms each entitySet, to it's mapping image.
+	 * Returns list of all relationships from given otherModel which are incident to exactly all entitySet images (and no other).
+	 * 
+	 * @param entitySets
+	 * @param otherModel
+	 * @return
+	 */
+	public static List<Relationship> getRelationshipImage(List<EntitySet> entitySets, ERModel otherModel) {
+		Utils.validateNotNull(entitySets);
+		Utils.validateNotNull(otherModel);
+		
+		List<EntitySet> entitySetImages = entitySets
+				.stream()
+				.map(es -> es.getMappedTo())
+				.collect(Collectors.toList());
+		
+		return ERModelUtils.getRelationshipsByEntitySets(otherModel,entitySetImages);
+	}
+	
 	/**
 	 * Returns all relationships, which contain all of the given entitySets.
 	 */
@@ -26,7 +67,7 @@ public class ERModelUtils extends Utils {
 		for (EntitySet entitySet : entitySets) {
 			validateContains(model, entitySet);
 		}
-		List<Relationship> result = new ArrayList<>();
+		List<Relationship> result = new ArrayList<>(model.getRelationships().size());
 		nextRel: for (Relationship relationship : model.getRelationships()) {
 			for (EntitySet entitySet : entitySets) {
 				if (!RelationshipUtils.contains(relationship, entitySet)) {

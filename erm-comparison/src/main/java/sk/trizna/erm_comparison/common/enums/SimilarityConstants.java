@@ -1,5 +1,12 @@
 package sk.trizna.erm_comparison.common.enums;
 
+/**
+ * Similarity constants.
+ * Class fields are package-private on purpose and should be accessed by {@link SimilarityConstantsUtils} only.
+ * 
+ * @author Adam Trizna
+ *
+ */
 public class SimilarityConstants {
 	
 	/**
@@ -26,4 +33,8 @@ public class SimilarityConstants {
 	 * Minimal similarity for two associations to be 'similar' on <0,1>
 	 */
 	static final double SIMILARITY_TRESHOLD_ASSOCIATION = 0.25;
+	/**
+	 * Word pairs of greater(or equal) similarity value are considered equal by meaning.
+	 */
+	static final double LANGUAGE_PROCESSOR_EQUALITY_TRESHOLD = 0.8;
 }
