@@ -105,6 +105,7 @@ public class RelationshipMappingComputer {
 	private void searchMapping(Map<Relationship,Relationship> mapping, List<Relationship> exemplarRelationships, List<Relationship> studentRelationships) {
 		if (exemplarRelationships.isEmpty() || studentRelationships.isEmpty()) {
 			getEvaluator().evaluate(mapping);
+			return;
 		}
 		
 		Relationship exemplarRel = exemplarRelationships.get(0);

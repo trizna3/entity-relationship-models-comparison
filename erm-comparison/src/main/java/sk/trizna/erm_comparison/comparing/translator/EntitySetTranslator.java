@@ -45,7 +45,7 @@ public class EntitySetTranslator {
 			EntitySet student = entitySetMap.get(exemlar);
 			
 			if (!getDictionary().areEqual(exemlar.getNameText(),student.getNameText())) {
-				report.getEntitySetNamesNotes().add(TranslationUtils.translateRenameEntitySet(exemlar.getNameText(),student.getNameText()));
+				report.getEntitySetRenameNotes().add(TranslationUtils.translateRenameEntitySet(exemlar.getNameText(),student.getNameText()));
 			}
 		}
 	}

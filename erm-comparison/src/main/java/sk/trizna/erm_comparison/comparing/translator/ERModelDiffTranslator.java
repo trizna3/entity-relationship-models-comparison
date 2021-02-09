@@ -19,6 +19,7 @@ public class ERModelDiffTranslator {
 	private EntitySetTranslator entitySetTranslator = new EntitySetTranslator();
 	private RelationshipTranslator relationshipTranslator = new RelationshipTranslator();
 	private TransformationTranslator transformaionTranslator = new TransformationTranslator();
+	private AttributedTranslator attributedTranslator = new AttributedTranslator();
 	private RelationshipMappingComputer relationshipMappingComputer = new RelationshipMappingComputer(); 
 
 	/**
@@ -60,6 +61,7 @@ public class ERModelDiffTranslator {
 		getEntitySetTranslator().translate(report, diff);
 		getRelationshipTranslator().translate(report, diff);
 		getTransformaionTranslator().translate(report, diff);
+		getAttributedTranslator().translate(report, diff);
 		
 		return report;
 	}
@@ -78,5 +80,9 @@ public class ERModelDiffTranslator {
 
 	private RelationshipMappingComputer getRelationshipMappingComputer() {
 		return relationshipMappingComputer;
+	}
+
+	private AttributedTranslator getAttributedTranslator() {
+		return attributedTranslator;
 	}
 }

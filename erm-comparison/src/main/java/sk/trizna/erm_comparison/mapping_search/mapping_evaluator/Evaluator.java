@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import sk.trizna.erm_comparison.common.ERModelUtils;
-import sk.trizna.erm_comparison.common.MappingUtils;
 import sk.trizna.erm_comparison.common.TransformationUtils;
 import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.comparing.mapping.MappingEvaluation;
+import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
+import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
+import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 import sk.trizna.erm_comparison.transformations.Transformation;
 
 /**
@@ -26,6 +28,8 @@ import sk.trizna.erm_comparison.transformations.Transformation;
 public class Evaluator implements IEvaluator {
 
 	private Map<EntitySet, EntitySet> bestEntitySetMap;
+	private List<Relationship> bestMappingRelationshipsExemplar;
+	private List<Relationship> bestMappingRelationshipsStudent;
 	private List<Transformation> bestMappingTransformations;
 	private Double bestMappingPenalty;
 	MappingEvaluator mappingEvaluator = new MappingEvaluator();
@@ -42,12 +46,14 @@ public class Evaluator implements IEvaluator {
 			evaluate(mapping, penalty);
 		}
 		
-		return new MappingEvaluation(null, null, penalty);
+		return new MappingEvaluation(null, null, null, null, penalty);
 	}
 
 	@Override
 	public MappingEvaluation getBestMapping() {
 		return new MappingEvaluation(getBestEntitySetMap(),
+				getBestMappingRelationshipsExemplar(),
+				getBestMappingRelationshipsStudent(),
 				getBestMappingTransformations(),
 				getBestMappingPenalty());
 	}
@@ -59,8 +65,8 @@ public class Evaluator implements IEvaluator {
 	private void evaluate(Mapping mapping, double actualPenalty) {
 		if (getBestMappingPenalty() == null || actualPenalty < getBestMappingPenalty()) {
 			setBestMappingPenalty(actualPenalty);
-			setBestEntitySetMap(MappingUtils.createEntitySetMap(mapping));
 			setBestMappingTransformations(TransformationUtils.copyTransformationList(mapping.getTransformations()));
+			saveBestModelsState(mapping);
 		}
 	}
 
@@ -86,7 +92,88 @@ public class Evaluator implements IEvaluator {
 		ERModelUtils.unfinalizeModel(mapping.getStudentModel(),targetEntitySets);
 		ERModelUtils.unfinalizeModel(mapping.getExemplarModel(),targetEntitySets);
 	}
-
+	
+	/**
+	 * Saves models snapshot (clones key parts of models), since input models will be subject to further search
+	 * 
+	 * @param mapping
+	 */
+	private void saveBestModelsState(Mapping mapping) {
+		Map<EntitySet,EntitySet> cloneMap = saveBestEntitySetsMapping(mapping);
+		saveBestRelationships(mapping, cloneMap);	
+	}
+	
+	/**
+	 * Saves best entitySet mapping.
+	 * Returns map of original->cloned entity sets.
+	 * 
+	 * @param mapping
+	 * @return
+	 */
+	private Map<EntitySet,EntitySet> saveBestEntitySetsMapping(Mapping mapping) {
+		Map<EntitySet,EntitySet> cloneMap = new HashMap<EntitySet, EntitySet>();
+		
+		Map<EntitySet, EntitySet> bestMapping = new HashMap<EntitySet, EntitySet>();
+		for (EntitySet entitySet : mapping.getExemplarModel().getEntitySets()) {
+			if (entitySet.getMappedTo() != null) {
+				EntitySet entitySet1Clone = new EntitySet(entitySet); 
+				EntitySet entitySet2Clone = new EntitySet(entitySet.getMappedTo());
+				
+				cloneMap.put(entitySet, entitySet1Clone);
+				cloneMap.put(entitySet.getMappedTo(), entitySet2Clone);
+				bestMapping.put(entitySet1Clone, entitySet2Clone);
+			}
+		}
+		// finalize cloneMap
+		mapping.getExemplarModel().getEntitySets().forEach(entitySet -> {
+			if (!cloneMap.containsKey(entitySet)) {
+				cloneMap.put(entitySet, new EntitySet(entitySet));
+			}
+		});
+		mapping.getStudentModel().getEntitySets().forEach(entitySet -> {
+			if (!cloneMap.containsKey(entitySet)) {
+				cloneMap.put(entitySet, new EntitySet(entitySet));
+			}
+		});
+		
+		setBestEntitySetMap(bestMapping);
+		return cloneMap;
+	}
+	
+	/**
+	 * Saves best relationships, using original->clone entity set map.
+	 * 
+	 * @param mapping
+	 * @param cloneMap
+	 */
+	private void saveBestRelationships(Mapping mapping, Map<EntitySet,EntitySet> cloneMap) {
+		List<Relationship> bestRelationshipsExemplar = new ArrayList<Relationship>();
+		List<Relationship> bestRelationshipsStudent = new ArrayList<Relationship>();
+		
+		for (Relationship rel : mapping.getExemplarModel().getRelationships()) {
+			Relationship relClone;
+			if (rel instanceof Association) {
+				relClone = new Association((Association) rel, cloneMap);
+			} else {
+				relClone = new Generalization((Generalization) rel, cloneMap);
+			}
+			bestRelationshipsExemplar.add(relClone);
+		}
+		
+		for (Relationship rel : mapping.getStudentModel().getRelationships()) {
+			Relationship relClone;
+			if (rel instanceof Association) {
+				relClone = new Association((Association) rel, cloneMap);
+			} else {
+				relClone = new Generalization((Generalization) rel, cloneMap);
+			}
+			bestRelationshipsStudent.add(relClone);
+		}
+		
+		setBestMappingRelationshipsExemplar(bestRelationshipsExemplar);
+		setBestMappingRelationshipsStudent(bestRelationshipsStudent);
+	}
+	
 	private Map<EntitySet, EntitySet> getBestEntitySetMap() {
 		if (bestEntitySetMap == null) {
 			bestEntitySetMap = new HashMap<EntitySet, EntitySet>();
@@ -115,5 +202,27 @@ public class Evaluator implements IEvaluator {
 
 	private void setBestMappingPenalty(Double bestPenalty) {
 		this.bestMappingPenalty = bestPenalty;
+	}
+	
+	private List<Relationship> getBestMappingRelationshipsExemplar() {
+		if (bestMappingRelationshipsExemplar == null) {
+			bestMappingRelationshipsExemplar = new ArrayList<Relationship>();
+		}
+		return bestMappingRelationshipsExemplar;
+	}
+
+	private void setBestMappingRelationshipsExemplar(List<Relationship> bestMappingRelationships) {
+		this.bestMappingRelationshipsExemplar = bestMappingRelationships;
+	}
+
+	private List<Relationship> getBestMappingRelationshipsStudent() {
+		if (bestMappingRelationshipsStudent == null) {
+			bestMappingRelationshipsStudent = new ArrayList<Relationship>();
+		}
+		return bestMappingRelationshipsStudent;
+	}
+
+	private void setBestMappingRelationshipsStudent(List<Relationship> bestMappingRelationshipsStudent) {
+		this.bestMappingRelationshipsStudent = bestMappingRelationshipsStudent;
 	}
 }

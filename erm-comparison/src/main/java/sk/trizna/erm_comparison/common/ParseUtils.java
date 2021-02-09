@@ -11,9 +11,9 @@ public class ParseUtils extends Utils {
 		
 		switch(rawCardinality) {
 			case "ONE":
-				return EnumRelationshipSideRole.CARDINALITY_ONE;
+				return EnumRelationshipSideRole.ONE;
 			case "MANY":
-				return EnumRelationshipSideRole.CARDINALITY_MANY;
+				return EnumRelationshipSideRole.MANY;
 			default:
 				throw new IllegalArgumentException("Unknown cardinality type");
 		} 

@@ -19,7 +19,6 @@ import sk.trizna.erm_comparison.comparing.mapping.MappingEvaluation;
 import sk.trizna.erm_comparison.comparing.mapping.MappingExtended;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
-import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 import sk.trizna.erm_comparison.mapping_search.mapping_evaluator.Evaluator;
 import sk.trizna.erm_comparison.mapping_search.mapping_evaluator.IEvaluator;
 import sk.trizna.erm_comparison.transformations.Transformation;
@@ -95,24 +94,27 @@ public class MappingFinder {
 			if (!exemplarModel.contains(esKey)) {
 				exemplarModel.addEntitySet(esKey);
 			}
-			for (Relationship exemplarRel : esKey.getIncidentRelationships()) {
-				if (!exemplarModel.contains(exemplarRel)) {
-					exemplarModel.addRelationship(exemplarRel,false);
-				}
-			}
 			esKey.setMappedTo(esMap.get(esKey));
 			if (!MappingUtils.EMPTY_ENTITY_SET.equals(esMap.get(esKey))) {
 				if (!studentModel.contains(esMap.get(esKey))) {
 					studentModel.addEntitySet(esMap.get(esKey));
 				}
-				for (Relationship studentRel : esMap.get(esKey).getIncidentRelationships()) {
-					if (!studentModel.contains(studentRel)) {
-						studentModel.addRelationship(studentRel,false);
-					}
-				}
 				esMap.get(esKey).setMappedTo(esKey);
 			}
 		}
+		
+		mapping.getMappingEvaluation().getExemplarRelationships().forEach(relationship -> {
+			// model doesn't contain not-mapped entitySets, but relationship may contain such entitySets
+			if(exemplarModel.containsAll(relationship.getEntitySets())) { 
+				exemplarModel.addRelationship(relationship, true);
+			}
+		});
+		mapping.getMappingEvaluation().getStudentRelationships().forEach(relationship -> {
+			// model doesn't contain not-mapped entitySets, but relationship may contain such entitySets
+			if(studentModel.containsAll(relationship.getEntitySets())) { 
+				studentModel.addRelationship(relationship, true);
+			}
+		});
 		
 		mapping.setTransformations(getMappingEvaluator().getBestMapping().getTransformations());
 		

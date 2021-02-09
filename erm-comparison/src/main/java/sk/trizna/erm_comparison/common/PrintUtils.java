@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
+import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
@@ -195,6 +196,26 @@ public class PrintUtils extends Utils {
 	
 	public static void log(String text) {
 		System.out.println(text);
+	}
+	
+	public static String getNameByIncidentEntitySets(Association association) {
+		validateNotNull(association);
+		
+		StringBuilder assocName = new StringBuilder();
+		association.getSides().forEach(side -> {
+			if (assocName.length() > 0) {
+				assocName.append(",");
+			}
+			assocName.append(side.getEntitySet().getNameText());
+			assocName.append("(");
+			assocName.append(side.getRole().toString());
+			assocName.append(")");
+		});
+		
+		assocName.insert(0, "(");
+		assocName.append(")");
+		
+		return assocName.toString();
 	}
 
 	public static void logTransformation(Transformation transformation, String direction) {

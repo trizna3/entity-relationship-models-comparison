@@ -86,26 +86,6 @@ public class RelationshipUtils extends Utils {
 	}
 
 	/**
-	 * Determines if given relationships are equal. (relationships are in the same
-	 * model, no mapping involved)
-	 * 
-	 * @param relationship1
-	 * @param relationship2
-	 * @param checkRole
-	 * @return
-	 */
-	public static boolean relationshipsAreEqual(Relationship relationship1, Relationship relationship2, boolean checkRole) {
-		validateNotNull(relationship1);
-		validateNotNull(relationship2);
-
-		if (relationship1.isBinary() && relationship2.isBinary()) {
-			return binaryRelationshipsAreEqual(relationship1, relationship2, checkRole);
-		} else {
-			return multiRelationshipsAreEqual(relationship1, relationship2, checkRole);
-		}
-	}
-
-	/**
 	 * Determines if given relationships are equal in given mapping.
 	 * 
 	 * @param relationship1
@@ -274,6 +254,25 @@ public class RelationshipUtils extends Utils {
 		
 		return relationship1.getSides().size() == relationship2.getSides().size();
 	}
+	
+	/**
+	 * Returns true iff given relationship is incident to exactly all given entitySets and no other.
+	 * 
+	 * @param relationship
+	 * @param entitySets
+	 * @return
+	 */
+	public static boolean isEqual(Relationship relationship, List<EntitySet> entitySets) {
+		Utils.validateNotNull(relationship);
+		Utils.validateNotNull(entitySets);
+		
+		if (relationship.getSides().size() != entitySets.size()) {
+			return false;
+		}
+		
+		List<EntitySet> relEntitySets = relationship.getEntitySets();
+		return entitySets.containsAll(relEntitySets) && relEntitySets.containsAll(entitySets);
+	}
 
 	private static Association getAssociationClone(Association association, Map<EntitySet, EntitySet> entitySetMap) {
 		Association associationClone = new Association();
@@ -305,19 +304,6 @@ public class RelationshipUtils extends Utils {
 
 	private static boolean contains(Generalization generalization, EntitySet entitySet) {
 		return entitySet.equals(generalization.getSuperEntitySet()) || entitySet.equals(generalization.getSubEntitySet());
-	}
-
-	private static boolean binaryRelationshipsAreEqual(Relationship relationship1, Relationship relationship2, boolean checkRole) {
-		RelationshipSide first1 = relationship1.getFirstSide();
-		RelationshipSide first2 = relationship2.getFirstSide();
-		RelationshipSide second1 = relationship1.getSecondSide();
-		RelationshipSide second2 = relationship2.getSecondSide();
-
-		return (sidesAreEqual(first1, first2, checkRole) && sidesAreEqual(second1, second2, checkRole)) || (sidesAreEqual(first1, second2, checkRole) && sidesAreEqual(second1, first2, checkRole));
-	}
-
-	private static boolean multiRelationshipsAreEqual(Relationship relationship1, Relationship relationship2, boolean checkRole) {
-		throw new UnsupportedOperationException();
 	}
 
 	private static boolean sidesAreEqual(RelationshipSide side1, RelationshipSide side2, boolean checkRole) {

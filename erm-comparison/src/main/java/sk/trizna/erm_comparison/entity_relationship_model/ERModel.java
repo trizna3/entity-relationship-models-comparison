@@ -1,6 +1,7 @@
 package sk.trizna.erm_comparison.entity_relationship_model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import sk.trizna.erm_comparison.common.MappingUtils;
@@ -123,6 +124,10 @@ public class ERModel {
 
 	public boolean contains(EntitySet entitySet) {
 		return getEntitySets().contains(entitySet);
+	}
+	
+	public boolean containsAll(Collection<EntitySet> entitySets) {
+		return getEntitySets().containsAll(entitySets);
 	}
 
 	public boolean contains(Relationship relationship) {

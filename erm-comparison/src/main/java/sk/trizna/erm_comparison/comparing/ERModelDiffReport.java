@@ -60,7 +60,95 @@ public class ERModelDiffReport {
 	 * @return
 	 */
 	public String getReportText() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		switch (getInfoLevel()) {
+			case FULL:
+				return getDetailedReport();
+			case RESTRICTED:
+				return getRestrictedReport();
+		}
+		return null;
+	}
+	
+	private String getReportHeader() {
+		StringBuilder header = new StringBuilder();
+		
+		header.append("**************************************************\n");
+		header.append("** Entity-Relationship-Models comparison report **\n");
+		header.append("**************************************************\n");
+		
+		return header.toString();
+	}
+	
+	private String getRestrictedReport() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(getReportHeader());
+		sb.append("Missing entity sets count = " + getMissingEntitySetsNotes().size() + "\n");
+		sb.append("Unnecessary entity sets count = " + getAdditionalEntitySetsNotes().size() + "\n");
+		sb.append("Entity sets renamed count = " + getEntitySetRenameNotes().size() + "\n");
+		sb.append("Missing relationships count = " + getMissingRelationshipNotes().size() + "\n");
+		sb.append("Unnecessary relationships count = " + getAdditionalRelationshipNotes().size() + "\n");
+		sb.append("Missing attributes count = " + getMissingAttributesNotes().size() + "\n");
+		sb.append("Unnecessary attributes count = " + getAdditionalAttributesNotes().size() + "\n");
+		sb.append("More complex model modifications count = " + getTransformationNotes().size() + "\n");
+		
+		return sb.toString();
+	}
+	
+	private String getDetailedReport() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(getReportHeader());
+		if (!getMissingEntitySetsNotes().isEmpty()) {
+			sb.append("* missing entity sets report notes:\n");
+			getMissingEntitySetsNotes().forEach(note -> {
+				sb.append("- " + note + "\n");
+			});
+		}
+		if (!getAdditionalEntitySetsNotes().isEmpty()) {
+			sb.append("* unnecessary entity sets report notes:\n");
+			getAdditionalEntitySetsNotes().forEach(note -> {
+				sb.append("- " + note + "\n");
+			});
+		}
+		if (!getEntitySetRenameNotes().isEmpty()) {
+			sb.append("* entity sets renaming report notes:\n");
+			getEntitySetRenameNotes().forEach(note -> {
+				sb.append("- " + note + "\n");
+			});
+		}
+		if (!getMissingRelationshipNotes().isEmpty()) {
+			sb.append("* missing relationships report notes:\n");
+			getMissingRelationshipNotes().forEach(note -> {
+				sb.append("- " + note + "\n");
+			});
+		}
+		if (!getAdditionalRelationshipNotes().isEmpty()) {
+			sb.append("* unnecessary relationships report notes:\n");
+			getAdditionalRelationshipNotes().forEach(note -> {
+				sb.append("- " + note + "\n");
+			});
+		}
+		if (!getMissingAttributesNotes().isEmpty()) {
+			sb.append("* missing attributes report notes:\n");
+			getMissingAttributesNotes().forEach(note -> {
+				sb.append("- " + note + "\n");
+			});
+		}
+		if (!getAdditionalAttributesNotes().isEmpty()) {
+			sb.append("* unnecessary attributes report notes:\n");
+			getAdditionalAttributesNotes().forEach(note -> {
+				sb.append("- " + note + "\n");
+			});
+		}
+		if (!getTransformationNotes().isEmpty()) {
+			sb.append("* complex model modification report notes:\n");
+			getTransformationNotes().forEach(note -> {
+				sb.append("- " + note + "\n");
+			});
+		}
+		
+		return sb.toString();
 	}
 
 	public List<String> getMissingEntitySetsNotes() {
@@ -120,7 +208,7 @@ public class ERModelDiffReport {
 		return additionalRelationshipNotes;
 	}
 
-	public List<String> getEntitySetNamesNotes() {
+	public List<String> getEntitySetRenameNotes() {
 		if (entitySetRenameNotes == null) {
 			entitySetRenameNotes = new ArrayList<String>();
 		}

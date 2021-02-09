@@ -180,11 +180,11 @@ public class TransformationUtils extends Utils {
 	public static void flipCardinality(AssociationSide associationSide) {
 		validateNotNull(associationSide);
 
-		if (EnumRelationshipSideRole.CARDINALITY_ONE.equals(associationSide.getRole())) {
-			associationSide.setRole(EnumRelationshipSideRole.CARDINALITY_MANY);
+		if (EnumRelationshipSideRole.ONE.equals(associationSide.getRole())) {
+			associationSide.setRole(EnumRelationshipSideRole.MANY);
 		}
-		if (EnumRelationshipSideRole.CARDINALITY_MANY.equals(associationSide.getRole())) {
-			associationSide.setRole(EnumRelationshipSideRole.CARDINALITY_ONE);
+		if (EnumRelationshipSideRole.MANY.equals(associationSide.getRole())) {
+			associationSide.setRole(EnumRelationshipSideRole.ONE);
 		}
 	}
 

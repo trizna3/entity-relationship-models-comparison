@@ -29,7 +29,7 @@ public class EnumConstants {
 	/*** ATTRIBUTES ***/
 
 	public static final String NAME_ATTRIBUTE = "Name";
-
+	
 	/*** OTHER ***/
 
 	public static final char DELIMITER_SEMICOLON = ';';

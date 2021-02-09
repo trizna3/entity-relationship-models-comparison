@@ -2,6 +2,7 @@ package sk.trizna.erm_comparison.entity_relationship_model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import sk.trizna.erm_comparison.common.StringUtils;
 
@@ -59,6 +60,16 @@ public class Association extends Relationship implements Attributed {
 		super(association.getNameText());
 		setSides(new ArrayList<AssociationSide>(association.getSides().size()));
 		association.getSides().stream().forEach(side -> getSides().add(new AssociationSide(side)));
+
+		this.attributes = new ArrayList<>(association.getAttributes());
+	};
+	
+	public Association(Association association, Map<EntitySet,EntitySet> entitySetMap) {
+		super(association.getNameText());
+		setSides(new ArrayList<AssociationSide>(association.getSides().size()));
+		association.getSides().stream().forEach(side -> {
+			getSides().add(new AssociationSide(entitySetMap.get(side.getEntitySet()),side.getRole()));
+		});
 
 		this.attributes = new ArrayList<>(association.getAttributes());
 	};

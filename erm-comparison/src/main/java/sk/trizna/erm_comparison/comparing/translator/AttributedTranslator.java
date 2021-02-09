@@ -2,9 +2,9 @@ package sk.trizna.erm_comparison.comparing.translator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
-import sk.trizna.erm_comparison.common.ERModelUtils;
+import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.TranslationUtils;
 import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.comparing.ERModelDiff;
@@ -44,32 +44,14 @@ public class AttributedTranslator {
 	}
 	
 	private void translateRelationships(ERModelDiffReport report, ERModelDiff diff) {
-		List<Association> postProcessExemplar = new ArrayList<Association>();
-		List<Association> postProcessStudent = new ArrayList<Association>();
+		Map<Relationship,Relationship> relMap = diff.getRelationshipMap();
 		
-		for (Relationship studentRelationship : diff.getStudentModel().getRelationships()) {
-			if (!(studentRelationship instanceof Association)) {
-				continue;
-			}
-			List<EntitySet> entitySetImages = studentRelationship.getSides().stream().map(side -> side.getEntitySet().getMappedTo()).collect(Collectors.toList());
-			List<Relationship> exemplarRelationships = ERModelUtils.getRelationshipsByEntitySets(diff.getExemplarModel(),entitySetImages);
-			
-			if (exemplarRelationships.size() < 1) {
-				continue;
-			} else if (exemplarRelationships.size() == 1) {
-				if (exemplarRelationships.get(0) instanceof Association) {
-					translateAttributed((Association)exemplarRelationships.get(0), (Association)studentRelationship, report);
-				}
-			} else {
-				// relationship mapping is unclear, needed to resolve later
-				exemplarRelationships.stream().filter(rel -> rel instanceof Association).forEach(rel -> postProcessExemplar.add((Association)rel));
-				postProcessStudent.add((Association) studentRelationship);
+		for (Relationship rel : relMap.keySet()) {
+			Relationship relMapped = relMap.get(rel);
+			if (rel instanceof Association && relMapped instanceof Association) {
+				translateAttributed((Association)rel,(Association)relMapped, report);
 			}
 		}
-		
-		// TODO: some kind of brute force mapping
-//		postProcessExemplar
-//		postProcessStudent
 	}
 	
 	private void translateAttributed(Attributed exemplarAttributed, Attributed studentAttributed, ERModelDiffReport report) {
@@ -109,8 +91,10 @@ public class AttributedTranslator {
 	}
 	
 	private String getAttributedName(Attributed attributed) {
-		if (attributed instanceof Named) {
+		if (attributed instanceof EntitySet) {
 			return ((Named)attributed).getName().getText();
+		} else if (attributed instanceof Association) {
+			return PrintUtils.getNameByIncidentEntitySets((Association)attributed);
 		}
 		return attributed.toString();
 	}

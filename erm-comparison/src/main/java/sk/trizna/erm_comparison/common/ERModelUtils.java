@@ -63,18 +63,15 @@ public class ERModelUtils extends Utils {
 	public static List<Relationship> getRelationshipsByEntitySets(ERModel model, List<EntitySet> entitySets) {
 		validateNotNull(model);
 		validateNotNull(entitySets);
-
-		for (EntitySet entitySet : entitySets) {
+		entitySets.forEach(entitySet -> {
 			validateContains(model, entitySet);
-		}
+		});
+
 		List<Relationship> result = new ArrayList<>(model.getRelationships().size());
-		nextRel: for (Relationship relationship : model.getRelationships()) {
-			for (EntitySet entitySet : entitySets) {
-				if (!RelationshipUtils.contains(relationship, entitySet)) {
-					continue nextRel;
-				}
+		for (Relationship relationship : model.getRelationships()) {
+			if (RelationshipUtils.isEqual(relationship, entitySets)) {
+				result.add(relationship);
 			}
-			result.add(relationship);
 		}
 		return result;
 	}

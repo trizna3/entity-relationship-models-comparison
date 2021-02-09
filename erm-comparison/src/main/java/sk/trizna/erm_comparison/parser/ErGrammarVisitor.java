@@ -163,8 +163,8 @@ public class ErGrammarVisitor extends ErGrammarBaseVisitor<Object> {
             to = visitText(ctx.to);
         }
         
-        GeneralizationSide superSide = new GeneralizationSide(storedEntities.get(to),EnumRelationshipSideRole.ROLE_SUPER);
-        GeneralizationSide subSide = new GeneralizationSide(storedEntities.get(from),EnumRelationshipSideRole.ROLE_SUB);
+        GeneralizationSide superSide = new GeneralizationSide(storedEntities.get(to),EnumRelationshipSideRole.SUPER);
+        GeneralizationSide subSide = new GeneralizationSide(storedEntities.get(from),EnumRelationshipSideRole.SUB);
                 
         if (superSide.getEntitySet() == null) throw new NullPointerException(to + " doesn't exist");
         if (subSide.getEntitySet() == null) throw new NullPointerException(from + " doesn't exist");

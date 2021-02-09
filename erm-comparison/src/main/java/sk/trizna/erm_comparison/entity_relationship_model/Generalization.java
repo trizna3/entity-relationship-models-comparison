@@ -2,6 +2,7 @@ package sk.trizna.erm_comparison.entity_relationship_model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import sk.trizna.erm_comparison.common.StringUtils;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
@@ -38,13 +39,20 @@ public class Generalization extends Relationship {
 	public Generalization(EntitySet superEntitySet, EntitySet subEntitySet) {
 		super(null);
 		sides = new ArrayList<GeneralizationSide>(2);
-		sides.add(0, new GeneralizationSide(superEntitySet, EnumRelationshipSideRole.ROLE_SUPER));
-		sides.add(1, new GeneralizationSide(subEntitySet, EnumRelationshipSideRole.ROLE_SUB));
+		sides.add(0, new GeneralizationSide(superEntitySet, EnumRelationshipSideRole.SUPER));
+		sides.add(1, new GeneralizationSide(subEntitySet, EnumRelationshipSideRole.SUB));
 	}
 
 	public Generalization(Generalization generalization) {
 		super(null);
 		sides = new ArrayList<GeneralizationSide>(generalization.getSides());
+	}
+	
+	public Generalization(Generalization generalization, Map<EntitySet,EntitySet> entitySetMap) {
+		super(null);
+		sides = new ArrayList<GeneralizationSide>(0);
+		sides.add(0, new GeneralizationSide(entitySetMap.get(generalization.getSuperEntitySet()),EnumRelationshipSideRole.SUPER));
+		sides.add(1, new GeneralizationSide(entitySetMap.get(generalization.getSubEntitySet()),EnumRelationshipSideRole.SUB));
 	}
 
 	public List<GeneralizationSide> getSides() {
