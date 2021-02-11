@@ -1,11 +1,12 @@
 package sk.trizna.erm_comparison.entity_relationship_model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import sk.trizna.erm_comparison.transformations.Transformable;
 
-public class TransformableList extends Transformable {
+public class TransformableList extends Transformable implements Iterable<Transformable>{
 	
 	private List<Transformable> elements;
 
@@ -28,5 +29,10 @@ public class TransformableList extends Transformable {
 		TransformableList other = (TransformableList) obj;
 		
 		return getElements().containsAll(other.getElements());
+	}
+
+	@Override
+	public Iterator<Transformable> iterator() {
+		return getElements().iterator();
 	}
 }

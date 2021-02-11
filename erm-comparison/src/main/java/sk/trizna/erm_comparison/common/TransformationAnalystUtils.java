@@ -2,6 +2,7 @@ package sk.trizna.erm_comparison.common;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
@@ -20,6 +21,7 @@ import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
 import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableFlag;
+import sk.trizna.erm_comparison.entity_relationship_model.TransformableList;
 import sk.trizna.erm_comparison.transformations.Transformation;
 
 public class TransformationAnalystUtils {
@@ -380,7 +382,32 @@ public class TransformationAnalystUtils {
 				target.add(transformation);
 			}
 		}
-
+	}
+	
+	public static void getPossibleDecomposeAttributeTransformations(List<Transformation> target, ERModel model) {
+		Utils.validateNotNull(target);
+		Utils.validateNotNull(model);
+		
+		AttributeCompositionUtils.getAllComposedAttributes().forEach(attribute -> {
+			model.getEntitySets().forEach(entitySet -> {
+				if (entitySet.containsAttribute(attribute)) {
+					List<String> parts = AttributeCompositionUtils.getAttributeParts(attribute);
+					TransformableList transformableList = new TransformableList();
+					transformableList.setElements(parts.stream().map(part -> new Attribute(part)).collect(Collectors.toList()));
+					
+					Transformation transformation = TransformationPool.getInstance().getTransformation();
+					transformation.setCode(EnumTransformation.DECOMPOSE_ATTRIBUTE);
+					transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
+					transformation.addArgument(new Attribute(attribute), EnumTransformationRole.ATTRIBUTE);
+					transformation.addArgument(transformableList, EnumTransformationRole.TRANSFORMABLE_LIST);
+					
+					if (model.isExemplar()) {
+						transformation.addArgument(new TransformableFlag(), EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
+					}
+					target.add(transformation);
+				}
+			});
+		});
 	}
 
 	private static EntitySetComparator getEntitySetComparator() {

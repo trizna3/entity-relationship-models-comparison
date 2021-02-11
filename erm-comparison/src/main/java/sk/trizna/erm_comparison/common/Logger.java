@@ -10,6 +10,7 @@ import sk.trizna.erm_comparison.entity_relationship_model.AssociationSide;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
+import sk.trizna.erm_comparison.entity_relationship_model.TransformableList;
 import sk.trizna.erm_comparison.transformations.Transformable;
 import sk.trizna.erm_comparison.transformations.Transformation;
 
@@ -63,27 +64,30 @@ public class Logger {
 		String message = null;
 		if (EnumTransformation.REBIND_MN_TO_1NN1.equals(transformation.getCode())) {
 			message = logRebindMNTo1NN1(transformation);
-		}
+		} else
 		if (EnumTransformation.REBIND_1NN1_TO_MN.equals(transformation.getCode())) {
 			message = logRebind1NN1ToMN(transformation);
-		}
+		} else
 		if (EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET.equals(transformation.getCode())) {
 			message = logMoveAttributeToIncidentEntitySet(transformation);
-		}
+		} else
 		if (EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION.equals(transformation.getCode())) {
 			message = logMoveAttributeToIncidentAssociation(transformation);
-		}
+		} else
 		if (EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION.equals(transformation.getCode())) {
 			message = logGeneralizationTo11Associaton(transformation);
-		}
+		} else
 		if (EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET.equals(transformation.getCode())) {
 			message = logExtractAttrToOwnEntitySet(transformation);
-		}
+		} else
 		if (EnumTransformation.CONTRACT_11_ASSOCIATION.equals(transformation.getCode())) {
 			message = logContract11Association(transformation);
-		}
+		} else
 		if (EnumTransformation.REBIND_NARY_ASSOCIATION.equals(transformation.getCode())) {
 			message = logRebindNaryAssociation(transformation);
+		} else
+		if (EnumTransformation.DECOMPOSE_ATTRIBUTE.equals(transformation.getCode())) {
+			message = logDecomposeAttribute(transformation);
 		}
 		
 		if (message != null) {
@@ -178,6 +182,27 @@ public class Logger {
 			message.append(es.getNameText());
 		}
 
+		return message.toString();
+	}
+	
+	private String logDecomposeAttribute(Transformation transformation) {
+//		DECOMPOSE_ATTRIBUTE - ENTITY_SET, ATTRIBUTE, TRANSFORMABLE_LIST - ENTITY_SET, ATTRIBUTE, TRANSFORMABLE_LIST
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
+		Attribute attribute = (Attribute) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE);
+		TransformableList attributeList = (TransformableList) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_LIST);
+		
+		StringBuilder message = getTransformationLogHeader(transformation);
+		message.append(attribute.getText());
+		message.append(PrintUtils.DELIMITER_DASH);
+		message.append(entitySet.getNameText());
+		
+		for (Transformable attr : attributeList) {
+			if (attr instanceof Attribute) {
+				message.append(PrintUtils.DELIMITER_DASH);
+				message.append(((Attribute)attr).getText());
+			}
+		}
+		
 		return message.toString();
 	}
 	

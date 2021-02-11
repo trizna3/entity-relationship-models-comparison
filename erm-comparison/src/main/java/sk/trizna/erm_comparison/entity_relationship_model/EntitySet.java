@@ -260,4 +260,11 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 		}
 		return true;
 	}
+	
+	public boolean containsAttribute(String attribute) {
+		if (attribute == null) {
+			return false;
+		}
+		return getAttributes().stream().anyMatch(attr -> StringUtils.areEqual(attribute, attr.getAttribute()));
+	}
 }

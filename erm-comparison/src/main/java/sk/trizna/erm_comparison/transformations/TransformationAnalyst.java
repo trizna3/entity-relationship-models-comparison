@@ -35,6 +35,7 @@ public class TransformationAnalyst {
 		getPossibleGeneralizationToAssociationTransformations(mapping,result);
 		getPossibleContract11AssociationTransformations(mapping,result);
 		getPossibleRebindNaryAssociationTransformations(mapping,result);
+		getPossibleDecomposeAttributeTransformations(mapping,result);
 
 		return result;
 	}
@@ -75,5 +76,10 @@ public class TransformationAnalyst {
 	private static void getPossibleRebindNaryAssociationTransformations(Mapping mapping, List<Transformation> result) {
 		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(result, mapping.getStudentModel(), mapping.getExemplarModel());
 		TransformationAnalystUtils.getPossibleRebindNaryAssociationTransformations(result, mapping.getExemplarModel(), mapping.getStudentModel());
+	}
+	
+	private static void getPossibleDecomposeAttributeTransformations(Mapping mapping, List<Transformation> result) {
+		TransformationAnalystUtils.getPossibleDecomposeAttributeTransformations(result, mapping.getExemplarModel());
+		TransformationAnalystUtils.getPossibleDecomposeAttributeTransformations(result, mapping.getStudentModel());
 	}
 }

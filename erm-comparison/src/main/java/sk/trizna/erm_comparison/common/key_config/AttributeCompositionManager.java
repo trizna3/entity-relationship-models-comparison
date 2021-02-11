@@ -8,22 +8,22 @@ import java.util.Set;
 import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
 
-public class TranslationManager extends KeyConfigManager {
+public class AttributeCompositionManager extends KeyConfigManager {
 	
-	private static TranslationManager INSTANCE;
+	private static AttributeCompositionManager INSTANCE;
 	
-	private static Map<String,String> valueMap = new HashMap<String, String>(); 
+	private static Map<String,String> valueMap = new HashMap<String, String>();
 	
-	public static TranslationManager getInstance() {
+	public static AttributeCompositionManager getInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new TranslationManager();
+			INSTANCE = new AttributeCompositionManager();
 		}
 		return INSTANCE;
 	}
 	
 	@Override
 	protected String getConfigFileName() {
-		return EnumConstants.TRANSLATION_NAME;
+		return EnumConstants.ATTRIBUTE_COMPOSITION_NAME;
 	}
 	
 	@Override
@@ -44,7 +44,6 @@ public class TranslationManager extends KeyConfigManager {
 		for (Object key : prop.keySet()) {
 			valueMap.put(key.toString(), prop.get(key).toString());
 		}
-		
 	}
 
 	@Override

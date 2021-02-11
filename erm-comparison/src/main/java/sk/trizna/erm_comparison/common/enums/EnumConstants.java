@@ -9,6 +9,8 @@ public class EnumConstants {
 	
 	public static final String TRANSLATION_NAME = "resource//cfg//translation.properties";
 	
+	public static final String ATTRIBUTE_COMPOSITION_NAME = "resource//cfg//attribute_composition.properties";
+	
 	public static final String CONFIG_PRINT_RESULT = "print_result";
 	
 	public static final String CONFIG_PRINT_TRANSFORMATION_PROGRESS = "print_transformation_progress";

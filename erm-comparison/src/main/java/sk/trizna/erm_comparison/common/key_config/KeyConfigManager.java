@@ -5,16 +5,25 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Set;
 
 import sk.trizna.erm_comparison.common.Utils;
 
 public abstract class KeyConfigManager {
 
+	private boolean resourceLoaded = false;
+	
 	protected abstract String getConfigFileName();
 	protected abstract String getResourceInternal(String resourceKey);
 	protected abstract void loadValues(Properties prop);
+	protected abstract Set<String> keySetInternal();
 	
-	private boolean resourceLoaded = false;
+	public Set<String> keySet() {
+		if (!resourceLoaded) {
+			loadConfig();
+		}
+		return keySetInternal();
+	}
 	
 	public String getResource(String resource) {
 		Utils.validateNotNull(resource);

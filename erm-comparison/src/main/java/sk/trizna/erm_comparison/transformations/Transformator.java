@@ -102,6 +102,12 @@ public class Transformator {
 		if (EnumTransformation.BIND_TO_NARY_ASSOCIATION.equals(transformation.getCode())) {
 			return executeBindToNaryAssociation(mapping, transformation);
 		}
+		if (EnumTransformation.DECOMPOSE_ATTRIBUTE.equals(transformation.getCode())) {
+			return executeDecomposeAttribute(mapping, transformation);
+		}
+		if (EnumTransformation.COMPOSE_ATTRIBUTE.equals(transformation.getCode())) {
+			return executeComposeAttribute(mapping, transformation);
+		}
 		throw new IllegalArgumentException("Unknown transformation type!");
 	}
 
@@ -145,6 +151,10 @@ public class Transformator {
 			return EnumTransformation.BIND_TO_NARY_ASSOCIATION;
 		case BIND_TO_NARY_ASSOCIATION:
 			return EnumTransformation.REBIND_NARY_ASSOCIATION;
+		case DECOMPOSE_ATTRIBUTE:
+			return EnumTransformation.COMPOSE_ATTRIBUTE;
+		case COMPOSE_ATTRIBUTE:
+			return EnumTransformation.DECOMPOSE_ATTRIBUTE;
 		default:
 			return null;
 		}
@@ -541,6 +551,49 @@ public class Transformator {
 			transformation.addArgument(flag, EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
 		}
 
+		return transformation;
+	}
+	
+	private static Transformation executeDecomposeAttribute(Mapping mapping, Transformation transformation) {
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
+		Attribute attribute = (Attribute) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE);
+		TransformableList attributeList = (TransformableList) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_LIST);
+		
+		if (entitySet == null || attribute == null || attributeList == null) {
+			return transformation;
+		}
+		Utils.validateContains(entitySet, attribute);
+		
+		entitySet.removeAttribute(attribute);
+		attributeList.forEach(attr -> {
+			if (attr instanceof Attribute) {
+				entitySet.addAttribute((Attribute) attr);
+			}
+		});
+		
+		return transformation;
+	}
+	
+	private static Transformation executeComposeAttribute(Mapping mapping, Transformation transformation) {
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
+		Attribute attribute = (Attribute) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE);
+		TransformableList attributeList = (TransformableList) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_LIST);
+		
+		if (entitySet == null || attribute == null || attributeList == null) {
+			return transformation;
+		}
+		attributeList.forEach(attr -> {
+			Utils.validateContains(entitySet, (Attribute) attr);
+		});
+		
+		attributeList.forEach(attr -> {
+			if (attr instanceof Attribute) {
+				entitySet.removeAttribute((Attribute) attr);
+			}
+		});
+		entitySet.addAttribute(attribute);
+		
+		
 		return transformation;
 	}
 }
