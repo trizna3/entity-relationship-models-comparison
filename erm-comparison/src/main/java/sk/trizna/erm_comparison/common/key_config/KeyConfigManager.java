@@ -13,8 +13,8 @@ public abstract class KeyConfigManager {
 
 	private boolean resourceLoaded = false;
 	
+	public abstract <T extends Object> T getResource(String key);
 	protected abstract String getConfigFileName();
-	protected abstract String getResourceInternal(String resourceKey);
 	protected abstract void loadValues(Properties prop);
 	protected abstract Set<String> keySetInternal();
 	
@@ -25,14 +25,12 @@ public abstract class KeyConfigManager {
 		return keySetInternal();
 	}
 	
-	public String getResource(String resource) {
+	protected void preGetResource(String resource) {
 		Utils.validateNotNull(resource);
 		
 		if (!resourceLoaded) {
 			loadConfig();
 		}
-		
-		return getResourceInternal(resource);
 	}
 	
 	private void loadConfig() {

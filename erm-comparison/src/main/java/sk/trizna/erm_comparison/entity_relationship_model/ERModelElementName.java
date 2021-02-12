@@ -1,7 +1,7 @@
 package sk.trizna.erm_comparison.entity_relationship_model;
 
+import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.StringUtils;
-import sk.trizna.erm_comparison.common.enums.EnumConstants;
 
 public class ERModelElementName implements ERText {
 
@@ -41,6 +41,6 @@ public class ERModelElementName implements ERText {
 		if (StringUtils.isBlank(getText())) {
 			return false;
 		}
-		return getText().indexOf(EnumConstants.DELIMITER_SEMICOLON) >= 0;
+		return getText().indexOf(PrintUtils.DELIMITER_SEMICOLON) >= 0;
 	}
 }

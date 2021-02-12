@@ -163,4 +163,14 @@ public class Utils {
 		}
 		return obj1.equals(obj2);
 	}
+	
+	public static List<String> trimAll(String[] stringArray) {
+		validateNotNull(stringArray);
+		
+		List<String> result = new ArrayList<String>(stringArray.length);
+		for (int i = 0; i < stringArray.length; i++) {
+			result.add(stringArray[i].trim());
+		}
+		return result;
+	}
 }

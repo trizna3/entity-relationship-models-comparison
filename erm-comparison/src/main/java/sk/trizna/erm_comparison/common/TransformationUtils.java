@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
@@ -241,7 +240,7 @@ public class TransformationUtils extends Utils {
 			
 			for (RelationshipSide side : association.getSides()) {
 				if (compositeName.length() > 0) {
-					compositeName.append(EnumConstants.DELIMITER_SEMICOLON);
+					compositeName.append(PrintUtils.DELIMITER_SEMICOLON);
 				}
 				compositeName.append(side.getEntitySet().getNameText());
 			}

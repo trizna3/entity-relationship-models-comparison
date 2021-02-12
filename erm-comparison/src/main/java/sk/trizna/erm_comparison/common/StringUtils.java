@@ -3,7 +3,6 @@ package sk.trizna.erm_comparison.common;
 import java.util.HashMap;
 import java.util.Map;
 
-import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.language_processing.LanguageProcessor;
 
 public class StringUtils extends Utils {
@@ -192,7 +191,7 @@ public class StringUtils extends Utils {
 		validateNotNull(compositeName);
 		
 		if (!fromBeginning) {
-			partIndex = count(compositeName,EnumConstants.DELIMITER_SEMICOLON_STR) - partIndex;
+			partIndex = count(compositeName,PrintUtils.DELIMITER_SEMICOLON_STR) - partIndex;
 
 		}
 
@@ -200,7 +199,7 @@ public class StringUtils extends Utils {
 		int idxFrom = 0;
 
 		while (true) {
-			int delimiterIdx = compositeName.indexOf(EnumConstants.DELIMITER_SEMICOLON, idxFrom);
+			int delimiterIdx = compositeName.indexOf(PrintUtils.DELIMITER_SEMICOLON, idxFrom);
 			if (partIndex == cycleIdx) {
 				return delimiterIdx == -1 ? compositeName.substring(idxFrom) : compositeName.substring(idxFrom, delimiterIdx);
 			} else {
@@ -223,12 +222,12 @@ public class StringUtils extends Utils {
 	public static String getNamePartsFromBeginning(String compositeName, int excludedPartIndex) {
 		validateNotNull(compositeName);
 		
-		int count = count(compositeName,EnumConstants.DELIMITER_SEMICOLON_STR) - excludedPartIndex + 1;
+		int count = count(compositeName,PrintUtils.DELIMITER_SEMICOLON_STR) - excludedPartIndex + 1;
 		int idxFrom = 0;
 		int upperBound = 0;
 
 		for (int i = 0; i < count; i++) {
-			upperBound = compositeName.indexOf(EnumConstants.DELIMITER_SEMICOLON, idxFrom);
+			upperBound = compositeName.indexOf(PrintUtils.DELIMITER_SEMICOLON, idxFrom);
 			idxFrom = upperBound + 1;
 		}
 		return compositeName.substring(0, upperBound);
@@ -298,7 +297,7 @@ public class StringUtils extends Utils {
 	 */
 	public static String[] getAllNameParts(String compositeName) {
 		validateNotNull(compositeName);
-		return compositeName.split(EnumConstants.DELIMITER_SEMICOLON_STR);
+		return compositeName.split(PrintUtils.DELIMITER_SEMICOLON_STR);
 	}
 
 	private static Map<String,Integer> getHashtable() {

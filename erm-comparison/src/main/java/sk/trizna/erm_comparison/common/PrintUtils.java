@@ -17,7 +17,8 @@ public class PrintUtils extends Utils {
 
 	public static final String DELIMITER_DASH = "-";
 	public static final String DELIMITER_COLON = ":";
-	public static final String DELIMITER_SEMICOLON = ";";
+	public static final char DELIMITER_SEMICOLON = ';';
+	public static final String DELIMITER_SEMICOLON_STR = ";";
 	public static final String DELIMITER_COMMA = ",";
 	public final static String DIRECTION_DOWN = "->";
 	public final static String DIRECTION_UP = "<-";

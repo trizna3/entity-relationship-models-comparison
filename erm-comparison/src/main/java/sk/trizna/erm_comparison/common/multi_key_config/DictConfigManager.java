@@ -1,5 +1,6 @@
 package sk.trizna.erm_comparison.common.multi_key_config;
 
+import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
 
 public class DictConfigManager extends MultiKeyConfigManager {
@@ -20,6 +21,6 @@ public class DictConfigManager extends MultiKeyConfigManager {
 
 	@Override
 	protected String getDelimiter() {
-		return EnumConstants.DELIMITER_COMMA;
+		return PrintUtils.DELIMITER_COMMA;
 	}
 }

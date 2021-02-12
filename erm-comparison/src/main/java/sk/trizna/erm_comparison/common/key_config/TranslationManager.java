@@ -12,7 +12,7 @@ public class TranslationManager extends KeyConfigManager {
 	
 	private static TranslationManager INSTANCE;
 	
-	private static Map<String,String> valueMap = new HashMap<String, String>(); 
+	private Map<String,String> valueMap = new HashMap<String, String>(); 
 	
 	public static TranslationManager getInstance() {
 		if (INSTANCE == null) {
@@ -21,22 +21,22 @@ public class TranslationManager extends KeyConfigManager {
 		return INSTANCE;
 	}
 	
-	@Override
-	protected String getConfigFileName() {
-		return EnumConstants.TRANSLATION_NAME;
-	}
-	
-	@Override
-	protected String getResourceInternal(String resourceKey) {
-		Utils.validateNotNull(resourceKey);
-		
-		String value = valueMap.get(resourceKey);
+	@SuppressWarnings("unchecked")
+	public String getResource(String resource) {
+		preGetResource(resource);
+
+		String value = valueMap.get(resource);
 		if (value != null) {
 			return value;
 		}
 		throw new IllegalArgumentException("Unknown resource!");
 	}
-
+	
+	@Override
+	protected String getConfigFileName() {
+		return EnumConstants.TRANSLATION_NAME;
+	}
+	
 	@Override
 	protected void loadValues(Properties prop) {
 		Utils.validateNotNull(prop);

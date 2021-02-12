@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.Test;
 
 import sk.trizna.erm_comparison.common.ERModelUtils;
+import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.RelationshipUtils;
 import sk.trizna.erm_comparison.common.TransformationUtils;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
@@ -261,7 +262,7 @@ public class TransformatorTest {
 
 		assertTrue(model.getEntitySets().size() == 5);
 		assertFalse(model.contains(association));
-		EntitySet entitySet = ERModelUtils.getEntitySetByName(model, entitySet1Name + EnumConstants.DELIMITER_SEMICOLON + entitySet2Name);
+		EntitySet entitySet = ERModelUtils.getEntitySetByName(model, entitySet1Name + PrintUtils.DELIMITER_SEMICOLON + entitySet2Name);
 		assertNotNull(entitySet);
 		for (Attribute attribute : entitySet1.getAttributes()) {
 			assertTrue(entitySet.getAttributes().contains(attribute));
@@ -316,7 +317,7 @@ public class TransformatorTest {
 
 		assertTrue(exemplarModel.getEntitySets().size() == 5);
 		assertFalse(exemplarModel.contains(association));
-		EntitySet entitySet = ERModelUtils.getEntitySetByName(exemplarModel, entitySet1Name + EnumConstants.DELIMITER_SEMICOLON + entitySet2Name);
+		EntitySet entitySet = ERModelUtils.getEntitySetByName(exemplarModel, entitySet1Name + PrintUtils.DELIMITER_SEMICOLON + entitySet2Name);
 		assertNotNull(entitySet);
 		for (Attribute attribute : entitySet1.getAttributes()) {
 			assertTrue(entitySet.getAttributes().contains(attribute));

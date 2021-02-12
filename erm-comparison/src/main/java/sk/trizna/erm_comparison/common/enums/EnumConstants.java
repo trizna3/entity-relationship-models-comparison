@@ -11,6 +11,8 @@ public class EnumConstants {
 	
 	public static final String ATTRIBUTE_COMPOSITION_NAME = "resource//cfg//attribute_composition.properties";
 	
+	public static final String TRANSFORMATION_ROLE_NAME = "resource//cfg//transformation_role.properties";
+	
 	public static final String CONFIG_PRINT_RESULT = "print_result";
 	
 	public static final String CONFIG_PRINT_TRANSFORMATION_PROGRESS = "print_transformation_progress";
@@ -30,13 +32,5 @@ public class EnumConstants {
 	
 	/*** ATTRIBUTES ***/
 
-	public static final String NAME_ATTRIBUTE = "Name";
-	
-	/*** OTHER ***/
-
-	public static final char DELIMITER_SEMICOLON = ';';
-	
-	public static final String DELIMITER_SEMICOLON_STR = ";";
-	
-	public static final String DELIMITER_COMMA = ",";
+	public static final String NAME_ATTRIBUTE = "Name";	
 }

@@ -2,6 +2,7 @@ package sk.trizna.erm_comparison.starter;
 
 import java.io.IOException;
 
+import sk.trizna.erm_comparison.common.key_config.TransformationRoleManager;
 import sk.trizna.erm_comparison.comparing.ERMComparator;
 import sk.trizna.erm_comparison.comparing.ERMComparatorImpl;
 import sk.trizna.erm_comparison.comparing.ERModelDiffReport;
@@ -17,6 +18,9 @@ public class Main {
 	public static void main(String[] args) {
 		
 		try {
+			
+			TransformationRoleManager foo = TransformationRoleManager.getInstance();
+			foo.getResource("EXTRACT_ATTR_TO_OWN_ENTITY_SET");
 			ERMComparator comparator = new ERMComparatorImpl();
 			
 			

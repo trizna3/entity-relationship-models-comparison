@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.StringUtils;
-import sk.trizna.erm_comparison.common.enums.EnumConstants;
 
 public class StringUtilsTest {
 
@@ -16,7 +16,7 @@ public class StringUtilsTest {
 
 		for (int i = 0; i < count; i++) {
 			result.append("afsklfasjklfjaskljfaslk" + i);
-			result.append(EnumConstants.DELIMITER_SEMICOLON);
+			result.append(PrintUtils.DELIMITER_SEMICOLON);
 		}
 
 		return result.toString();

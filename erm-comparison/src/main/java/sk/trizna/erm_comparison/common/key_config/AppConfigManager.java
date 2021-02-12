@@ -10,7 +10,7 @@ import sk.trizna.erm_comparison.common.enums.EnumConstants;
 public class AppConfigManager extends KeyConfigManager {
 	
 	private static AppConfigManager INSTANCE;
-	private static Map<String,String> valueMap = new HashMap<>();
+	private Map<String,String> valueMap = new HashMap<>();
 	
 	public static AppConfigManager getInstance() {
 		if (INSTANCE == null) {
@@ -19,19 +19,21 @@ public class AppConfigManager extends KeyConfigManager {
 		return INSTANCE;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public String getResource(String resource) {
+		preGetResource(resource);
+		
+		if (valueMap.containsKey(resource)) {
+			return valueMap.get(resource);
+		}
+		throw new IllegalArgumentException("Unknown resource!");
+	}
+	
 	@Override
 	protected String getConfigFileName() {
 		return EnumConstants.APP_CONFIG_NAME;
 	}
 	
-	@Override
-	protected String getResourceInternal(String resourceKey) {
-		if (valueMap.containsKey(resourceKey)) {
-			return valueMap.get(resourceKey);
-		}
-		throw new IllegalArgumentException("Unknown resource!");
-	}
-
 	@Override
 	protected void loadValues(Properties prop) {
 		valueMap.put(EnumConstants.CONFIG_PRINT_RESULT, prop.getProperty(EnumConstants.CONFIG_PRINT_RESULT));

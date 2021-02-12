@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import sk.trizna.erm_comparison.common.CollectionUtils;
+import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.RelationshipUtils;
 import sk.trizna.erm_comparison.common.StringUtils;
 import sk.trizna.erm_comparison.common.TransformationUtils;
@@ -397,7 +398,7 @@ public class Transformator {
 			mapping.getStudentModel().removeRelationship(association);
 		entitySet1.getAttributes().addAll(entitySet2.getAttributes());
 		entitySet1.getAttributes().addAll(association.getAttributes());
-		entitySet1.setNameText(entitySet1.getNameText() + EnumConstants.DELIMITER_SEMICOLON + entitySet2.getNameText());
+		entitySet1.setNameText(entitySet1.getNameText() + PrintUtils.DELIMITER_SEMICOLON + entitySet2.getNameText());
 
 		TransformableList transformableList = new TransformableList();
 		transformableList.getElements().addAll(entitySet2.getIncidentRelationships());
