@@ -1,7 +1,5 @@
 package sk.trizna.erm_comparison.common.key_config;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +55,7 @@ public abstract class KeyListConfigManager<T extends Object> extends KeyConfigMa
 			return null;
 		}
 		
-		Object values = new ArrayList<Object>(Arrays.asList(value));
+		Object values = value;
 		
 		for (String delimiter : getDelimiters()) {
 			values = split(values,delimiter);
