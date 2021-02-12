@@ -77,22 +77,23 @@ public class TransformationUtils extends Utils {
 
 	/**
 	 * Adds the 'changeCardinality' transformation to the mapping's transformation
-	 * Assume the relationships are equally mapped.
+	 * 
 	 */
-	public static void addChangeCardinality(Mapping mapping, Relationship oldRel, Relationship newRel) {
+	public static void addChangeCardinality(Mapping mapping, Relationship oldRel) {
 		validateNotNull(mapping);
 		validateNotNull(oldRel);
-		validateNotNull(newRel);
+		
+		if (!(oldRel instanceof Association)) {
+			return;
+		}
 
 		for (RelationshipSide side : oldRel.getSides()) {
-			EnumRelationshipSideRole oppositeRole = RelationshipUtils.getRole(newRel, side.getEntitySet().getMappedTo());
-			if (side.getRole() != oppositeRole) {
+			Transformation transformation = new Transformation(EnumTransformation.CHANGE_CARDINALITY);
 
-				Transformation transformation = new Transformation(EnumTransformation.CHANGE_CARDINALITY);
-				transformation.addArgument(side, EnumTransformationRole.ASSOCIATION_SIDE);
+			transformation.addArgument(side.getEntitySet(), EnumTransformationRole.ENTITY_SET);
+			transformation.addArgument(oldRel, EnumTransformationRole.ASSOCIATION);
 
-				mapping.addTransformation(transformation);
-			}
+			mapping.addTransformation(transformation);
 		}
 	}
 

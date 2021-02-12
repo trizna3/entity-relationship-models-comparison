@@ -273,6 +273,19 @@ public class RelationshipUtils extends Utils {
 		List<EntitySet> relEntitySets = relationship.getEntitySets();
 		return entitySets.containsAll(relEntitySets) && relEntitySets.containsAll(entitySets);
 	}
+	
+	public static AssociationSide getSide(Association association, EntitySet entitySet) {
+		validateNotNull(entitySet);
+		validateNotNull(association);
+		validateContains(association, entitySet);
+		
+		for (AssociationSide side : association.getSides()) {
+			if (entitySet.equals(side.getEntitySet())) {
+				return side;
+			}
+		}
+		return null;
+	}
 
 	private static Association getAssociationClone(Association association, Map<EntitySet, EntitySet> entitySetMap) {
 		Association associationClone = new Association();

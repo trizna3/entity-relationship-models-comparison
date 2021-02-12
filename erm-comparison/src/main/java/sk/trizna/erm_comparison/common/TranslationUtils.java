@@ -129,4 +129,11 @@ public class TranslationUtils extends Utils {
 		translation.setArgument(TranslationConstants.ARG_ENTITY_SET_2, entitySet2);
 		return translation.toString();
 	}
+	
+	public static String translateChangeCardinality(String entitySet, String association) {
+		Translation translation = new Translation(EnumTransformation.CHANGE_CARDINALITY);
+		translation.setArgument(TranslationConstants.ARG_ENTITY_SET, entitySet);
+		translation.setArgument(TranslationConstants.ARG_ASSOCIATION, association);
+		return translation.toString();
+	}	
 }

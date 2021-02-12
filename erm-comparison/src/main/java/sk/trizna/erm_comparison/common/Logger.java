@@ -91,8 +91,11 @@ public class Logger {
 		} else
 		if (EnumTransformation.MERGE_ENTITY_SETS.equals(transformation.getCode())) {
 			message = logMergeEntitySets(transformation);
+		} else
+		if (EnumTransformation.CHANGE_CARDINALITY.equals(transformation.getCode())) {
+			message = logChangeCardinality(transformation);
 		}
-		
+	
 		if (message != null) {
 			getWriter().println(message);
 		}
@@ -221,6 +224,20 @@ public class Logger {
 		
 		return message.toString();
 	}
+	
+	private String logChangeCardinality(Transformation transformation) {
+//		CHANGE_CARDINALITY = ENTITY_SET, ASSOCIATION - ENTITY_SET, ASSOCIATION
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
+		Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
+		
+		StringBuilder message = getTransformationLogHeader(transformation);
+		message.append(entitySet.getNameText());
+		message.append(PrintUtils.DELIMITER_DASH);
+		message.append(association.getNameText());
+		
+		return message.toString();
+	}
+	
 	
 	/*
 	 * TODOs:

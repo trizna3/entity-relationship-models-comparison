@@ -174,6 +174,8 @@ public class Transformator {
 			return EnumTransformation.SPLIT_ENTITY_SETS;
 		case SPLIT_ENTITY_SETS:
 			return EnumTransformation.MERGE_ENTITY_SETS;
+		case CHANGE_CARDINALITY:
+			return EnumTransformation.CHANGE_CARDINALITY;
 		default:
 			return null;
 		}
@@ -250,8 +252,10 @@ public class Transformator {
 	}
 
 	private static Transformation executeChangeCardinality(Mapping mapping, Transformation transformation) {
-		AssociationSide associationSide = (AssociationSide) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION_SIDE);
-		TransformationUtils.flipCardinality(associationSide);
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
+		Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
+
+		TransformationUtils.flipCardinality(RelationshipUtils.getSide(association, entitySet));
 
 		return transformation;
 	}

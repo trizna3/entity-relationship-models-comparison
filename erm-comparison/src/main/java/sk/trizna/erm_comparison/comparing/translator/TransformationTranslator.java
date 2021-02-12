@@ -82,6 +82,11 @@ public class TransformationTranslator {
 			EntitySet entitySet2 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET2);
 			return TranslationUtils.translateMergeEntitySets(entitySet1.getNameText(),entitySet2.getNameText());
 		}
+		else if (EnumTransformation.CHANGE_CARDINALITY.equals(transformation.getCode())) {
+			EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
+			Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
+			return TranslationUtils.translateChangeCardinality(entitySet.getNameText(),PrintUtils.getNameByIncidentEntitySets(association));
+		}
 		else {
 			return null;
 		}

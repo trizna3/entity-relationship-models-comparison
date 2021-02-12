@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.StringUtils;
 
 /**
@@ -121,6 +122,12 @@ public class Association extends Relationship implements Attributed {
 		}
 		
 		return sidesAreEqual(other) && attributesAreEqual(other);
+	}
+	
+	@Override
+	public String getNameText() {
+		String nameText = super.getNameText();
+		return nameText != null ? nameText : PrintUtils.getNameByIncidentEntitySets(this);
 	}
 	
 	private boolean sidesAreEqual(Association other) {
