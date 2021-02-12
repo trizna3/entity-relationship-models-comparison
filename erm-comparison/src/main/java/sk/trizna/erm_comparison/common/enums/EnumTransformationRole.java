@@ -15,6 +15,8 @@ public enum EnumTransformationRole {
 	ENTITY_SET_TARGET,
 	ATTRIBUTE_TARGET,
 	TRANSFORMABLE_LIST,
+	ENTITY_SET1,
+	ENTITY_SET2,
 	/**
 	 * flag if the transformation shall be done on the exemplar model (default is
 	 * the student's model).

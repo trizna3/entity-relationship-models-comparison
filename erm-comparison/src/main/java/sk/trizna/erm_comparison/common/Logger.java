@@ -88,6 +88,9 @@ public class Logger {
 		} else
 		if (EnumTransformation.DECOMPOSE_ATTRIBUTE.equals(transformation.getCode())) {
 			message = logDecomposeAttribute(transformation);
+		} else
+		if (EnumTransformation.MERGE_ENTITY_SETS.equals(transformation.getCode())) {
+			message = logMergeEntitySets(transformation);
 		}
 		
 		if (message != null) {
@@ -202,6 +205,19 @@ public class Logger {
 				message.append(((Attribute)attr).getText());
 			}
 		}
+		
+		return message.toString();
+	}
+	
+	private String logMergeEntitySets(Transformation transformation) {
+//		MERGE_ENTITY_SETS = ENTITY_SET1, ENTITY_SET2 - ENTITY_SET, ?ENTITY_SET2, ?TRANSFORMABLE_LIST
+		EntitySet entitySet1 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET1);
+		EntitySet entitySet2 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET2);
+		
+		StringBuilder message = getTransformationLogHeader(transformation);
+		message.append(entitySet1.getNameText());
+		message.append(PrintUtils.DELIMITER_DASH);
+		message.append(entitySet2.getNameText());
 		
 		return message.toString();
 	}

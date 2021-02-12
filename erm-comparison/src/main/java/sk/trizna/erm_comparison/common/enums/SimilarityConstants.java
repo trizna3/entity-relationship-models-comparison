@@ -26,6 +26,10 @@ public class SimilarityConstants {
 	 */
 	static final double SIMILARITY_TRESHOLD_ENTITY_SET = 0.25;
 	/**
+	 * Minimal similarity for two entity sets to be 'very similar' (to be considered duplicate) on <0,1>
+	 */
+	static final double SIMILARITY_TRESHOLD_STRONG_ENTITY_SET = 0.6;
+	/**
 	 * Minimal similarity for an entity set and an association to be 'similar' on <0,1>
 	 */
 	static final double SIMILARITY_TRESHOLD_ENTITY_SET_ASSOCIATION = 0.25;

@@ -24,4 +24,8 @@ public class TranslationConstants {
 	public static final String ARG_DEST_ENTITY_SET = "[destEntitySet]";
 	
 	public static final String ARG_DEST_ASSOCIATION = "[destAssociation]";
+	
+	public static final String ARG_ENTITY_SET_1 = "[entitySet1]";
+	
+	public static final String ARG_ENTITY_SET_2 = "[entitySet2]";
 }

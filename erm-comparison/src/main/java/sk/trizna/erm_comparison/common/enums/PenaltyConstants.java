@@ -36,7 +36,8 @@ public class PenaltyConstants {
 					EnumTransformation.CREATE_ASSOCIATION,
 					EnumTransformation.CREATE_GENERALIZATION,
 					EnumTransformation.REMOVE_ASSOCIATION,
-					EnumTransformation.REMOVE_GENERALIZATION
+					EnumTransformation.REMOVE_GENERALIZATION,
+					EnumTransformation.MERGE_ENTITY_SETS
 					));
 	public static final Set<EnumTransformation> HEAVY_TRANSFORMATIONS = new HashSet<>(
 			Arrays.asList(

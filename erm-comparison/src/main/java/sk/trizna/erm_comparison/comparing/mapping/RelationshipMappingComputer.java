@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import sk.trizna.erm_comparison.common.ERModelUtils;
+import sk.trizna.erm_comparison.common.MappingUtils;
 import sk.trizna.erm_comparison.common.RelationshipUtils;
 import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.comparing.AttributedComparator;
@@ -45,6 +46,10 @@ public class RelationshipMappingComputer {
 				
 				EntitySet entitySet1 = exemplarModel.getEntitySets().get(i);
 				EntitySet entitySet2 = exemplarModel.getEntitySets().get(j);
+				
+				if (MappingUtils.EMPTY_ENTITY_SET.equals(entitySet1.getMappedTo()) || MappingUtils.EMPTY_ENTITY_SET.equals(entitySet2.getMappedTo())) {
+					continue;
+				}
 				
 				List<Relationship> exemplarRels = ERModelUtils.getRelationshipsByEntitySets(exemplarModel, Arrays.asList(entitySet1,entitySet2));
 				List<Relationship> studentRels = ERModelUtils.getRelationshipImage(Arrays.asList(entitySet1,entitySet2), studentModel);

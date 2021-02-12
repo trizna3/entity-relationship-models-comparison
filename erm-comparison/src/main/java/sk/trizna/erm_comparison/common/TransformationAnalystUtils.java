@@ -409,6 +409,32 @@ public class TransformationAnalystUtils extends Utils {
 			});
 		});
 	}
+	
+	public static void getPossibleMergeEntitySetsTransformations(List<Transformation> target, ERModel model) {
+		Utils.validateNotNull(target);
+		Utils.validateNotNull(model);
+		
+		for (int i = 0; i < model.getEntitySetsCount(); i++) {
+			EntitySet entitySet1 = model.getEntitySets().get(i);
+			for (int j = i; j < model.getEntitySetsCount(); j++) {
+				EntitySet entitySet2 = model.getEntitySets().get(j);
+				
+				if (entitySet1 == entitySet2) {
+					continue;
+				}
+				if (getEntitySetComparator().compareSymmetric(entitySet1, entitySet2) < SimilarityConstantsUtils.getEntitySetStrongSimilarityTreshold()) {
+					continue;
+				}
+				
+				Transformation transformation = TransformationPool.getInstance().getTransformation();
+				transformation.setCode(EnumTransformation.MERGE_ENTITY_SETS);
+				transformation.addArgument(entitySet1, EnumTransformationRole.ENTITY_SET1);
+				transformation.addArgument(entitySet2, EnumTransformationRole.ENTITY_SET2);
+				
+				target.add(transformation);
+			}
+		}
+	}
 
 	private static EntitySetComparator getEntitySetComparator() {
 		if (entitySetComparator == null) {

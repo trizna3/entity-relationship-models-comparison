@@ -122,4 +122,11 @@ public class TranslationUtils extends Utils {
 		translation.setArgument(TranslationConstants.ARG_ASSOCIATION, associationName);
 		return translation.toString();
 	}
+	
+	public static String translateMergeEntitySets(String entitySet1, String entitySet2) {
+		Translation translation = new Translation(EnumTransformation.MERGE_ENTITY_SETS);
+		translation.setArgument(TranslationConstants.ARG_ENTITY_SET_1, entitySet1);
+		translation.setArgument(TranslationConstants.ARG_ENTITY_SET_2, entitySet2);
+		return translation.toString();
+	}
 }

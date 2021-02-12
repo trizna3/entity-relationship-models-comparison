@@ -117,6 +117,12 @@ public class Transformator {
 		if (EnumTransformation.COMPOSE_ATTRIBUTE.equals(transformation.getCode())) {
 			return executeComposeAttribute(mapping, transformation);
 		}
+		if (EnumTransformation.MERGE_ENTITY_SETS.equals(transformation.getCode())) {
+			return executeMergeEntitySets(mapping, transformation);
+		}
+		if (EnumTransformation.SPLIT_ENTITY_SETS.equals(transformation.getCode())) {
+			return executeSplitEntitySets(mapping, transformation);
+		}
 		throw new IllegalArgumentException("Unknown transformation type!");
 	}
 
@@ -164,6 +170,10 @@ public class Transformator {
 			return EnumTransformation.COMPOSE_ATTRIBUTE;
 		case COMPOSE_ATTRIBUTE:
 			return EnumTransformation.DECOMPOSE_ATTRIBUTE;
+		case MERGE_ENTITY_SETS:
+			return EnumTransformation.SPLIT_ENTITY_SETS;
+		case SPLIT_ENTITY_SETS:
+			return EnumTransformation.MERGE_ENTITY_SETS;
 		default:
 			return null;
 		}
@@ -602,6 +612,51 @@ public class Transformator {
 		});
 		entitySet.addAttribute(attribute);
 		
+		
+		return transformation;
+	}
+
+	private static Transformation executeMergeEntitySets(Mapping mapping, Transformation transformation) {
+		EntitySet entitySet1 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET1);
+		EntitySet entitySet2 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET2);
+
+		entitySet1.getAttributes().addAll(entitySet2.getAttributes());
+		entitySet1.setNameText(entitySet1.getNameText() + PrintUtils.DELIMITER_SEMICOLON + entitySet2.getNameText());
+
+		TransformableList transformableList = new TransformableList();
+		transformableList.getElements().addAll(entitySet2.getIncidentRelationships());
+
+		for (Relationship relationship : entitySet2.getIncidentRelationships()) {
+			RelationshipUtils.rebindEntitySets(relationship, entitySet2, entitySet1);
+		}
+
+		mapping.getStudentModel().removeEntitySet(entitySet2);
+
+		transformation.clearArguments();
+		transformation.addArgument(entitySet1, EnumTransformationRole.ENTITY_SET);
+		transformation.addArgument(transformableList, EnumTransformationRole.TRANSFORMABLE_LIST);
+		transformation.addArgument(entitySet2, EnumTransformationRole.ENTITY_SET2);
+
+		return transformation;
+	}
+	
+	private static Transformation executeSplitEntitySets(Mapping mapping, Transformation transformation) {
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
+		EntitySet entitySet2 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET2);
+		TransformableList transformableList = (TransformableList) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_LIST);
+
+		CollectionUtils.removeAllMaxOnce(entitySet.getAttributes(),entitySet2.getAttributes());
+		entitySet.setNameText(StringUtils.decomposeName(entitySet.getNameText(), entitySet2.getNameText()));
+		
+		mapping.getStudentModel().addEntitySet(entitySet2);
+
+		for (Transformable transformable : transformableList.getElements()) {
+			RelationshipUtils.rebindEntitySets((Relationship) transformable, entitySet, entitySet2);
+		}
+
+		transformation.clearArguments();
+		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET1);
+		transformation.addArgument(entitySet2, EnumTransformationRole.ENTITY_SET2);
 		
 		return transformation;
 	}

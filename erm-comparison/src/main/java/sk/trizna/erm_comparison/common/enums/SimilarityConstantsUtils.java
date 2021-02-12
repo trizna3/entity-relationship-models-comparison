@@ -86,7 +86,19 @@ public class SimilarityConstantsUtils extends Utils {
 		return SimilarityConstants.SIMILARITY_TRESHOLD_ASSOCIATION;
 	}
 	
+	/**
+	 * @see SimilarityConstants#LANGUAGE_PROCESSOR_EQUALITY_TRESHOLD
+	 * @return
+	 */
 	public static final double getLanguageProcessorEqualityTreshold() {
 		return SimilarityConstants.LANGUAGE_PROCESSOR_EQUALITY_TRESHOLD;
+	}
+	
+	/**
+	 * @see SimilarityConstants#SIMILARITY_TRESHOLD_STRONG_ENTITY_SET
+	 * @return
+	 */
+	public static final double getEntitySetStrongSimilarityTreshold() {
+		return SimilarityConstants.SIMILARITY_TRESHOLD_STRONG_ENTITY_SET;
 	}
 }

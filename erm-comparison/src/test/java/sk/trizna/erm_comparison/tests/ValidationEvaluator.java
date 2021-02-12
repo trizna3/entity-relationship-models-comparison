@@ -29,7 +29,8 @@ public class ValidationEvaluator {
 			EnumTransformation.REBIND_MN_TO_1NN1.toString(), 
 			EnumTransformation.REBIND_1NN1_TO_MN.toString(), 
 			EnumTransformation.CONTRACT_11_ASSOCIATION.toString(), 
-			EnumTransformation.REBIND_NARY_ASSOCIATION.toString())
+			EnumTransformation.REBIND_NARY_ASSOCIATION.toString(),
+			EnumTransformation.MERGE_ENTITY_SETS.toString())
 			);
 	
 	private static boolean isArgumentOrderInsensitiveTransformation(String transformationType) {
