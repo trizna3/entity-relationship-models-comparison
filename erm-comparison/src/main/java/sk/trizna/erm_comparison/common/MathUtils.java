@@ -1,6 +1,6 @@
 package sk.trizna.erm_comparison.common;
 
-public class MathUtils {
+public class MathUtils extends Utils {
 
 	/**
 	 * Computes vector linalg norm

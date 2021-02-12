@@ -4,7 +4,7 @@ import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.TranslationConstants;
 import sk.trizna.erm_comparison.common.key_config.TranslationManager;
 
-public class TranslationUtils {
+public class TranslationUtils extends Utils {
 
 	private static final TranslationManager TRANSLATION_MANAGER = TranslationManager.getInstance(); 
 	

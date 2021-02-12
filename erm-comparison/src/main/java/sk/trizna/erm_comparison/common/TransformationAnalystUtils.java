@@ -24,7 +24,7 @@ import sk.trizna.erm_comparison.entity_relationship_model.TransformableFlag;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableList;
 import sk.trizna.erm_comparison.transformations.Transformation;
 
-public class TransformationAnalystUtils {
+public class TransformationAnalystUtils extends Utils {
 	
 	private static EntitySetComparator entitySetComparator;
 	private static EntitySetAssociationComparator entitySetAssociationComparator;

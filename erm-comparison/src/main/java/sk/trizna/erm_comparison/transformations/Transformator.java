@@ -25,12 +25,20 @@ import sk.trizna.erm_comparison.entity_relationship_model.TransformableFlag;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableList;
 
 public class Transformator {
-
+	
 	/**
 	 * Executes transformation by given transformation code and arguments. Returns
 	 * the arguments in transformed form.
 	 */
 	public static Transformation execute(Mapping mapping, Transformation transformation) {
+		TransformatorValidator.getInstance().preValidate(transformation);
+		transformation = executeInternal(mapping, transformation);
+		TransformatorValidator.getInstance().postValidate(transformation);
+		
+		return transformation;
+	}
+	
+	private static Transformation executeInternal(Mapping mapping, Transformation transformation) {
 		Utils.validateNotNull(mapping);
 		Utils.validateNotNull(transformation);
 

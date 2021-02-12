@@ -162,13 +162,20 @@ public class TransformationUtils extends Utils {
 	public static Transformable getTransformableByRole(Transformation transformation, EnumTransformationRole role) {
 		validateNotNull(transformation);
 		validateNotNull(role);
-
+		
 		for (Transformable transformable : transformation.getArguments()) {
 			if (role.equals(transformation.getArgumentMap().get(transformable))) {
 				return transformable;
 			}
 		}
 		return null;
+	}
+	
+	public static boolean containsRole(Transformation transformation, EnumTransformationRole role) {
+		validateNotNull(transformation);
+		validateNotNull(role);
+		
+		return transformation.getArgumentMap().containsValue(role);
 	}
 
 	/**

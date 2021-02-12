@@ -23,6 +23,8 @@ public class EnumConstants {
 	
 	public static final String CONFIG_EARLY_STOP_BOUND = "early_stop_bound";
 	
+	public static final String CONFIG_VALIDATE_ROLES = "validate_roles";
+	
 	public static final String CONFIG_LANGUAGE_PROCESSOR = "language_processor";
 	
 	/*** LANGUAGE PROCESSOR IMPLEMENTATIONS ***/

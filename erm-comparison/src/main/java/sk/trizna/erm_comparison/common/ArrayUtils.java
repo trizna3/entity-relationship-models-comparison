@@ -1,6 +1,6 @@
 package sk.trizna.erm_comparison.common;
 
-public class ArrayUtils {
+public class ArrayUtils extends Utils {
 
 	public static boolean contains(int[] array, int element) {
 		for (int item : array) {
