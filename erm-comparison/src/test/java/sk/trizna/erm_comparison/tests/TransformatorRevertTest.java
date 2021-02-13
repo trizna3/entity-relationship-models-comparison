@@ -18,7 +18,6 @@ import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableFlag;
-import sk.trizna.erm_comparison.transformations.Transformation;
 import sk.trizna.erm_comparison.transformations.Transformator;
 
 public class TransformatorRevertTest {

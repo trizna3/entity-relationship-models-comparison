@@ -25,6 +25,8 @@ public class EnumConstants {
 	
 	public static final String CONFIG_VALIDATE_ROLES = "validate_roles";
 	
+	public static final String CONFIG_CONDITIONAL_TRANSFORMATION = "conditional_transformation";
+	
 	public static final String CONFIG_LANGUAGE_PROCESSOR = "language_processor";
 	
 	/*** LANGUAGE PROCESSOR IMPLEMENTATIONS ***/

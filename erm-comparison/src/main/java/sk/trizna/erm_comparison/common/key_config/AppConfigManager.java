@@ -43,6 +43,7 @@ public class AppConfigManager extends KeyConfigManager {
 		valueMap.put(EnumConstants.CONFIG_EARLY_STOP_BOUND, prop.getProperty(EnumConstants.CONFIG_EARLY_STOP_BOUND));
 		valueMap.put(EnumConstants.CONFIG_LANGUAGE_PROCESSOR, prop.getProperty(EnumConstants.CONFIG_LANGUAGE_PROCESSOR));
 		valueMap.put(EnumConstants.CONFIG_VALIDATE_ROLES, prop.getProperty(EnumConstants.CONFIG_VALIDATE_ROLES));
+		valueMap.put(EnumConstants.CONFIG_CONDITIONAL_TRANSFORMATION, prop.getProperty(EnumConstants.CONFIG_CONDITIONAL_TRANSFORMATION));
 	}
 
 	@Override

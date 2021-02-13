@@ -28,7 +28,8 @@ public class TransformationPool {
 			return newTransformation;
 		}
 		
-		Transformation newTransformation = new Transformation(EnumTransformation.EMPTY);
+		Transformation newTransformation = new Transformation();
+		newTransformation.setCode(EnumTransformation.EMPTY);
 		usedTransformations.add(newTransformation);
 		return newTransformation;
 	}

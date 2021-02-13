@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
-import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
 import sk.trizna.erm_comparison.common.enums.SimilarityConstantsUtils;
-import sk.trizna.erm_comparison.common.object_pools.TransformationPool;
+import sk.trizna.erm_comparison.common.key_config.AppConfigManager;
 import sk.trizna.erm_comparison.comparing.AssociationComparator;
 import sk.trizna.erm_comparison.comparing.EntitySetAssociationComparator;
 import sk.trizna.erm_comparison.comparing.EntitySetComparator;
@@ -29,6 +29,7 @@ public class TransformationAnalystUtils extends Utils {
 	private static EntitySetComparator entitySetComparator;
 	private static EntitySetAssociationComparator entitySetAssociationComparator;
 	private static AssociationComparator associationComparator;
+	private static final boolean conditionalTransformation = Boolean.valueOf(AppConfigManager.getInstance().getResource(EnumConstants.CONFIG_CONDITIONAL_TRANSFORMATION));
 
 	public static void getPossibleContract11AssociationTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
 		Utils.validateNotNull(target);
@@ -62,16 +63,7 @@ public class TransformationAnalystUtils extends Utils {
 				continue;
 			}
 
-			Transformation transformation = TransformationPool.getInstance().getTransformation();
-			transformation.setCode(EnumTransformation.CONTRACT_11_ASSOCIATION);
-			transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
-
-			if (model.isExemplar()) {
-				transformation.addArgument(new TransformableFlag(), EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
-			}
-
-			target.add(transformation);
-
+			target.add(TransformationFactory.getContract11Association(association, model.isExemplar() ? new TransformableFlag() : null));
 		}
 	}
 
@@ -116,12 +108,8 @@ public class TransformationAnalystUtils extends Utils {
 			if (!matchingEntitySetFound) {
 				continue;
 			}
-			
-			Transformation transformation = TransformationPool.getInstance().getTransformation();
-			transformation.setCode(EnumTransformation.REBIND_MN_TO_1NN1);
-			transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
 
-			target.add(transformation);
+			target.add(TransformationFactory.getRebindMNTo1NN1(association,null,null,null));
 		}
 	}
 
@@ -192,14 +180,8 @@ public class TransformationAnalystUtils extends Utils {
 			if (!matchingAssociationFound) {
 				continue;
 			}
-			
-			Transformation transformation = TransformationPool.getInstance().getTransformation();
-			transformation.setCode(EnumTransformation.REBIND_1NN1_TO_MN);
-			transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
-			transformation.addArgument(association1, EnumTransformationRole.ASSOCIATION_1);
-			transformation.addArgument(association2, EnumTransformationRole.ASSOCIATION_2);
 
-			target.add(transformation);
+			target.add(TransformationFactory.getRebind1NN1ToMN(null, entitySet, association1, association2));
 		}
 	}
 
@@ -215,12 +197,8 @@ public class TransformationAnalystUtils extends Utils {
 				if (relationship.getSecondSide().getEntitySet().getMappedTo() != null) {
 					continue;
 				}
-				
-				Transformation transformation = TransformationPool.getInstance().getTransformation();
-				transformation.setCode(EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION);
-				transformation.addArgument(relationship, EnumTransformationRole.GENERALIZATION);
 
-				target.add(transformation);
+				target.add(TransformationFactory.getGeneralizationTo11Association(null, (Generalization) relationship));
 			}
 		}
 	}
@@ -255,15 +233,7 @@ public class TransformationAnalystUtils extends Utils {
 					}
 				}
 				
-				Transformation transformation = TransformationPool.getInstance().getTransformation();
-				transformation.setCode(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
-				transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
-				transformation.addArgument(entitySet, EnumTransformationRole.SOURCE_ENTITY_SET);
-				if (destEntitySet != null) {
-					transformation.addArgument(destEntitySet, EnumTransformationRole.DEST_ENTITY_SET);
-				}
-
-				target.add(transformation);
+				target.add(TransformationFactory.getExtractAttrToOwnEntitySet(attribute, entitySet, destEntitySet));
 			}
 		}
 
@@ -288,14 +258,8 @@ public class TransformationAnalystUtils extends Utils {
 						if (!otherModelAttributes.contains(attribute)) {
 							continue;
 						}
-						
-						Transformation transformation = TransformationPool.getInstance().getTransformation();
-						transformation.setCode(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET);
-						transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
-						transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
-						transformation.addArgument(relationship, EnumTransformationRole.ASSOCIATION);
 
-						target.add(transformation);
+						target.add(TransformationFactory.getMoveAttrToIncidentEntitySet(attribute, (Association) relationship, entitySet));
 					}
 				}
 			}
@@ -321,14 +285,7 @@ public class TransformationAnalystUtils extends Utils {
 						continue;
 					}
 					if (relationship instanceof Association) {
-						
-						Transformation transformation = TransformationPool.getInstance().getTransformation();
-						transformation.setCode(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION);
-						transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
-						transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
-						transformation.addArgument(relationship, EnumTransformationRole.ASSOCIATION);
-
-						target.add(transformation);
+						target.add(TransformationFactory.getMoveAttrToIncidentAssociation(attribute, entitySet, (Association) relationship));
 					}
 				}
 			}
@@ -371,15 +328,8 @@ public class TransformationAnalystUtils extends Utils {
 				if (matchCandidateFound) {
 					continue;
 				}
-				
-				Transformation transformation = TransformationPool.getInstance().getTransformation();
-				transformation.setCode(EnumTransformation.REBIND_NARY_ASSOCIATION);
-				transformation.addArgument(relationship, EnumTransformationRole.ASSOCIATION);
-				if (model.isExemplar()) {
-					transformation.addArgument(new TransformableFlag(), EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
-				}
 
-				target.add(transformation);
+				target.add(TransformationFactory.getRebindNaryAssociation((Association) relationship, null, model.isExemplar() ? new TransformableFlag() : null));
 			}
 		}
 	}
@@ -395,16 +345,7 @@ public class TransformationAnalystUtils extends Utils {
 					TransformableList transformableList = new TransformableList();
 					transformableList.setElements(parts.stream().map(part -> new Attribute(part)).collect(Collectors.toList()));
 					
-					Transformation transformation = TransformationPool.getInstance().getTransformation();
-					transformation.setCode(EnumTransformation.DECOMPOSE_ATTRIBUTE);
-					transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
-					transformation.addArgument(new Attribute(attribute), EnumTransformationRole.ATTRIBUTE);
-					transformation.addArgument(transformableList, EnumTransformationRole.TRANSFORMABLE_LIST);
-					
-					if (model.isExemplar()) {
-						transformation.addArgument(new TransformableFlag(), EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
-					}
-					target.add(transformation);
+					target.add(TransformationFactory.getDecomposeAttribute(entitySet, new Attribute(attribute), transformableList, model.isExemplar() ? new TransformableFlag() : null));
 				}
 			});
 		});
@@ -426,12 +367,7 @@ public class TransformationAnalystUtils extends Utils {
 					continue;
 				}
 				
-				Transformation transformation = TransformationPool.getInstance().getTransformation();
-				transformation.setCode(EnumTransformation.MERGE_ENTITY_SETS);
-				transformation.addArgument(entitySet1, EnumTransformationRole.ENTITY_SET1);
-				transformation.addArgument(entitySet2, EnumTransformationRole.ENTITY_SET2);
-				
-				target.add(transformation);
+				target.add(TransformationFactory.getMergeEntitySets(entitySet1, entitySet2));
 			}
 		}
 	}

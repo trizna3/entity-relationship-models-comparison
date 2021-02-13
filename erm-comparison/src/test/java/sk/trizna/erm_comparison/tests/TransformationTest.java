@@ -11,7 +11,6 @@ import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
-import sk.trizna.erm_comparison.transformations.Transformation;
 
 public class TransformationTest {
 

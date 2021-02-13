@@ -17,8 +17,7 @@ public class Transformation {
 	 */
 	private boolean processed = false;
 
-	public Transformation(EnumTransformation code) {
-		this.code = code;
+	public Transformation() {
 	}
 	
 	public Transformation(Transformation other) {
