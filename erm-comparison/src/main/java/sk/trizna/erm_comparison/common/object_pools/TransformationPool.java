@@ -30,6 +30,7 @@ public class TransformationPool extends AbstractObjectPool<Transformation> {
 		instance.setCode(null);
 		instance.setProcessed(false);
 		instance.getArgumentMap().clear();
+		instance.getPreconditions().clear();
 	}
 	
 	/**

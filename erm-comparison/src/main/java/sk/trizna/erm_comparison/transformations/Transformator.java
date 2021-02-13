@@ -38,9 +38,22 @@ public class Transformator {
 		return transformation;
 	}
 	
+	/**
+	 * Executes transformation preconditions, if there are any.
+	 * @param mapping
+	 * @param transformation
+	 */
+	private static void preExecuteInternal(Mapping mapping, Transformation transformation) {
+		transformation.getPreconditions().forEach(precondition -> {
+			execute(mapping, precondition);
+		});
+	}
+	
 	private static Transformation executeInternal(Mapping mapping, Transformation transformation) {
 		Utils.validateNotNull(mapping);
 		Utils.validateNotNull(transformation);
+		
+		preExecuteInternal(mapping, transformation);
 
 		if (EnumTransformation.CREATE_ENTITY_SET.equals(transformation.getCode())) {
 			return executeCreateEntitySet(mapping, transformation);

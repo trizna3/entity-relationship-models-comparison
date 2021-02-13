@@ -2,11 +2,9 @@ package sk.trizna.erm_comparison.entity_relationship_model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import sk.trizna.erm_comparison.common.utils.PrintUtils;
 import sk.trizna.erm_comparison.common.utils.RelationshipUtils;
@@ -196,10 +194,11 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 		getAttributes().remove(attribute);
 	}
 
-	public Set<Relationship> getIncidentRelationships() {
-		Set<Relationship> result = new HashSet<>();
+	public List<Relationship> getIncidentRelationships() {
+		List<Relationship> result = new ArrayList<Relationship>();
 		for (EntitySet neighbour : getNeighbours().keySet()) {
-			result.addAll(getNeighbours().get(neighbour));
+			for (Relationship rel : getNeighbours().get(neighbour))
+				if (!result.contains(rel)) result.add(rel);
 		}
 		return result;
 	}
@@ -255,7 +254,11 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 		if (getNeighbours().values().stream().anyMatch(list -> list.size() != 1)) {
 			return false;
 		}
-		if (getIncidentRelationships().size() != 2) {
+		List<Relationship> incidentRelationships = getIncidentRelationships();
+		if (incidentRelationships.size() != 2) {
+			return false;
+		}
+		if (incidentRelationships.stream().anyMatch(rel -> !rel.isBinary())) {
 			return false;
 		}
 		return true;

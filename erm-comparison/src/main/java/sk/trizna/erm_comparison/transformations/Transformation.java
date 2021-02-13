@@ -1,6 +1,8 @@
 package sk.trizna.erm_comparison.transformations;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,6 +14,7 @@ public class Transformation {
 
 	private EnumTransformation code;
 	private Map<Transformable, EnumTransformationRole> argumentMap;
+	private List<Transformation> preconditions;
 	/**
 	 * Used in transformation decomposition. 
 	 */
@@ -85,5 +88,20 @@ public class Transformation {
 
 	public void setProcessed(boolean processed) {
 		this.processed = processed;
+	}
+
+	public List<Transformation> getPreconditions() {
+		if (preconditions == null) {
+			preconditions = new ArrayList<Transformation>();
+		}
+		return preconditions;
+	}
+	
+	public void setPreconditions(List<Transformation> preconditions) {
+		this.preconditions = preconditions;
+	}
+
+	public void addPrecondition(Transformation precondition) {
+		getPreconditions().add(precondition);
 	}
 }

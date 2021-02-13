@@ -1,5 +1,6 @@
 package sk.trizna.erm_comparison.common.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -9,7 +10,9 @@ import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.SimilarityConstantsUtils;
+import sk.trizna.erm_comparison.common.exceptions.PreconditionsNotMetException;
 import sk.trizna.erm_comparison.common.key_config.AppConfigManager;
+import sk.trizna.erm_comparison.common.object_pools.PreconditionsNotMetExceptionPool;
 import sk.trizna.erm_comparison.common.object_pools.TransformableFlagPool;
 import sk.trizna.erm_comparison.comparing.AssociationComparator;
 import sk.trizna.erm_comparison.comparing.EntitySetAssociationComparator;
@@ -25,47 +28,95 @@ import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableList;
 import sk.trizna.erm_comparison.transformations.Transformation;
 
+/**
+ * Transformation analyst utilities
+ * 
+ * getPossible[transformation]Transformations method structure:
+ * 	- validate strong (mandatory) preconditions
+ * 	- validate soft preconditions (bypassable by minor precondition transformations)
+ * 
+ * 	- (if validation above passed successfully) add transformation to mapping
+ * 
+ * @author Adam Trizna
+ *
+ */
 public class TransformationAnalystUtils extends Utils {
 	
 	private static EntitySetComparator entitySetComparator;
 	private static EntitySetAssociationComparator entitySetAssociationComparator;
 	private static AssociationComparator associationComparator;
+	
 	private static final boolean conditionalTransformation = Boolean.valueOf(AppConfigManager.getInstance().getResource(EnumConstants.CONFIG_CONDITIONAL_TRANSFORMATION));
+	
+	private static final PreconditionsNotMetExceptionPool PRECONDITION_NOT_MET_POOL = PreconditionsNotMetExceptionPool.getInstance();
+	private static final TransformableFlagPool TRANSFORMABLE_FLAG_POOL = TransformableFlagPool.getInstance();
 
 	public static void getPossibleContract11AssociationTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 
 		for (Relationship relationship : model.getRelationships()) {
-			if (relationship instanceof Association == false) {
+			try {
+				contract11AssociationPreconditionsStrong(relationship,otherModel);
+				List<Transformation> preconditions = contract11AssociationPreconditionsSoft(relationship);
+				
+				Transformation transformation = TransformationFactory.getContract11Association((Association) relationship, model.isExemplar() ? TRANSFORMABLE_FLAG_POOL.getObject() : null);
+				transformation.setPreconditions(preconditions);
+				
+				target.add(transformation);
+			} catch (PreconditionsNotMetException e) {
+				PRECONDITION_NOT_MET_POOL.freeObject(e);
 				continue;
 			}
-			Association association = (Association) relationship;
-			if (!association.isBinary()) {
-				continue;
-			}
-			if (!EnumRelationshipSideRole.ONE.equals(association.getFirstSide().getRole()) || association.getFirstSide().getEntitySet().getMappedTo() != null) {
-				continue;
-			}
-			if (!EnumRelationshipSideRole.ONE.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
-				continue;
-			}
-			
-			boolean opposingEntitySetFound = false;
-			for (EntitySet entitySet : otherModel.getNotMappedEntitySets()) {
-				if (getEntitySetComparator().compareAssymetric(association.getFirstSide().getEntitySet(), entitySet) >= SimilarityConstantsUtils.getEntitySetSimilarityTreshold() &&
-					getEntitySetComparator().compareAssymetric(association.getSecondSide().getEntitySet(), entitySet) >= SimilarityConstantsUtils.getEntitySetSimilarityTreshold()) {
-					opposingEntitySetFound = true;
-					break;
-				}
-			}
-			
-			if (!opposingEntitySetFound) {
-				continue;
-			}
-
-			target.add(TransformationFactory.getContract11Association(association, model.isExemplar() ? TransformableFlagPool.getInstance().getObject() : null));
 		}
+	}
+	
+	private static void contract11AssociationPreconditionsStrong(Relationship relationship, ERModel otherModel) throws PreconditionsNotMetException {
+		if (relationship instanceof Association == false) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		Association association = (Association) relationship;
+		if (!association.isBinary()) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (association.getFirstSide().getEntitySet().getMappedTo() != null) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (association.getSecondSide().getEntitySet().getMappedTo() != null) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		boolean opposingEntitySetFound = false;
+		for (EntitySet entitySet : otherModel.getNotMappedEntitySets()) {
+			if (getEntitySetComparator().compareAssymetric(association.getFirstSide().getEntitySet(), entitySet) >= SimilarityConstantsUtils.getEntitySetSimilarityTreshold() &&
+				getEntitySetComparator().compareAssymetric(association.getSecondSide().getEntitySet(), entitySet) >= SimilarityConstantsUtils.getEntitySetSimilarityTreshold()) {
+				opposingEntitySetFound = true;
+				break;
+			}
+		}
+		if (!opposingEntitySetFound) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+	}
+
+	private static List<Transformation> contract11AssociationPreconditionsSoft(Relationship relationship) throws PreconditionsNotMetException {
+		List<Transformation> preconditions = null;
+		
+		if (!EnumRelationshipSideRole.ONE.equals(relationship.getFirstSide().getRole())) {
+			if (conditionalTransformation) {
+				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
+			} else {
+				throw PRECONDITION_NOT_MET_POOL.getObject();
+			}
+		}
+		if (!EnumRelationshipSideRole.ONE.equals(relationship.getSecondSide().getRole())) {
+			if (conditionalTransformation) {
+				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getSecondSide().getEntitySet()));
+			} else {
+				throw PRECONDITION_NOT_MET_POOL.getObject();
+			}
+		}
+		
+		return preconditions;
 	}
 
 	public static void getPossibleRebindMNTo1NN1Transformations(List<Transformation> target, ERModel model, ERModel otherModel) {
@@ -73,7 +124,119 @@ public class TransformationAnalystUtils extends Utils {
 		Utils.validateNotNull(model);
 
 		for (Relationship relationship : model.getRelationships()) {
-			if (relationship instanceof Association == false) {
+			try {
+				rebindMNTo1NN1PreconditionsStrong(relationship,otherModel);
+				List<Transformation> preconditions = rebindMNTo1NN1PreconditionsSoft(relationship);
+				
+				Transformation transformation = TransformationFactory.getRebindMNTo1NN1((Association)relationship,null,null,null);
+				transformation.setPreconditions(preconditions);
+				
+				target.add(transformation);
+			} catch (PreconditionsNotMetException e) {
+				PRECONDITION_NOT_MET_POOL.freeObject(e);
+				continue;
+			}
+		}
+	}
+
+	private static void rebindMNTo1NN1PreconditionsStrong(Relationship relationship, ERModel otherModel) throws PreconditionsNotMetException {
+		if (relationship instanceof Association == false) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		Association association = (Association) relationship;
+		if (!association.isBinary()) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (association.getFirstSide().getEntitySet().getMappedTo() != null) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (association.getSecondSide().getEntitySet().getMappedTo() != null) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (association.containsTransformationFlag(EnumTransformation.REBIND_1NN1_TO_MN)) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		
+		boolean matchingEntitySetFound = false;
+		for (EntitySet entitySet : otherModel.getEntitySets()) {
+			if (entitySet.getMappedTo() != null) {
+				continue;
+			}
+			if (!entitySet.isBinary()) {
+				continue;
+			}
+			if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= SimilarityConstantsUtils.getEntitySetAssociationSimilarityTreshold()) {
+				continue;
+			}
+			
+			matchingEntitySetFound = true;
+			break;				
+		}
+		if (!matchingEntitySetFound) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+	}
+	
+	private static List<Transformation> rebindMNTo1NN1PreconditionsSoft(Relationship relationship) throws PreconditionsNotMetException {
+		List<Transformation> preconditions = null;
+		
+		if (!EnumRelationshipSideRole.MANY.equals(relationship.getFirstSide().getRole())) {
+			if (conditionalTransformation) {
+				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
+			} else {
+				throw PRECONDITION_NOT_MET_POOL.getObject();
+			}
+		}
+		if (!EnumRelationshipSideRole.MANY.equals(relationship.getSecondSide().getRole())) {
+			if (conditionalTransformation) {
+				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
+			} else {
+				throw PRECONDITION_NOT_MET_POOL.getObject();
+			}
+		}
+		
+		return preconditions;
+	}
+
+	public static void getPossibleRebind1NN1ToMNTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
+		Utils.validateNotNull(target);
+		Utils.validateNotNull(model);
+
+		for (EntitySet entitySet : model.getEntitySets()) {
+			try {
+				rebind1NN1ToMNPreconditionsStrong(entitySet,otherModel);
+				List<Transformation> preconditions = rebind1NN1ToMNPreconditionsSoft(entitySet);
+				
+				List<Relationship> incidentRels = entitySet.getIncidentRelationships();
+				Association association1 = (Association) incidentRels.get(0);
+				Association association2 = (Association) incidentRels.get(1);
+				Transformation transformation = TransformationFactory.getRebind1NN1ToMN(null, entitySet, association1, association2);
+				transformation.setPreconditions(preconditions);
+				
+				target.add(transformation);
+			} catch (PreconditionsNotMetException e) {
+				PRECONDITION_NOT_MET_POOL.freeObject(e);
+				continue;
+			}
+		}
+	}
+	
+	public static void rebind1NN1ToMNPreconditionsStrong(EntitySet entitySet, ERModel otherModel) throws PreconditionsNotMetException {
+		// entity set validations
+		if (!entitySet.isBinary()) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (entitySet.getMappedTo() != null) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (entitySet.containsTransformationFlag(EnumTransformation.REBIND_MN_TO_1NN1)) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		
+		// searching possible match candidate in other model
+		boolean matchingAssociationFound = false;
+		for (Relationship relationship : otherModel.getRelationships()) {
+			if (!(relationship instanceof Association)) {
 				continue;
 			}
 			Association association = (Association) relationship;
@@ -86,104 +249,47 @@ public class TransformationAnalystUtils extends Utils {
 			if (!EnumRelationshipSideRole.MANY.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
 				continue;
 			}
-			if (association.containsTransformationFlag(EnumTransformation.REBIND_1NN1_TO_MN)) {
+			if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= SimilarityConstantsUtils.getEntitySetAssociationSimilarityTreshold()) {
 				continue;
-			}
+			} 
 			
-			boolean matchingEntitySetFound = false;
-			for (EntitySet entitySet : otherModel.getEntitySets()) {
-				if (entitySet.getMappedTo() != null) {
-					continue;
-				}
-				if (!entitySet.isBinary()) {
-					continue;
-				}
-				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= SimilarityConstantsUtils.getEntitySetAssociationSimilarityTreshold()) {
-					continue;
-				}
-				
-				matchingEntitySetFound = true;
-				break;				
-			}
-			
-			if (!matchingEntitySetFound) {
-				continue;
-			}
-
-			target.add(TransformationFactory.getRebindMNTo1NN1(association,null,null,null));
+			matchingAssociationFound = true;
+			break;
+		}
+		if (!matchingAssociationFound) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
 	}
-
-	public static void getPossibleRebind1NN1ToMNTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
-		Utils.validateNotNull(target);
-		Utils.validateNotNull(model);
-
-		nextES: for (EntitySet entitySet : model.getEntitySets()) {
-			// entity set validations
-			if (!entitySet.isBinary()) {
-				continue;
+	
+	public static List<Transformation> rebind1NN1ToMNPreconditionsSoft(EntitySet entitySet) throws PreconditionsNotMetException {
+		List<Transformation> preconditions = null;
+		
+		// validations on entity set's incident associations
+		for (Relationship relationship : entitySet.getIncidentRelationships()) {
+			if (relationship instanceof Association == false) {
+				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
-			if (entitySet.getMappedTo() != null) {
-				continue;
+			if (RelationshipUtils.getOtherSide(relationship, entitySet).getEntitySet().getMappedTo() != null) {
+				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
-			if (entitySet.containsTransformationFlag(EnumTransformation.REBIND_MN_TO_1NN1)) {
-				continue;
-			}
-			// validations on entity set's incident associations
-			Association association1 = null;
-			Association association2 = null;
-			for (Relationship relationship : entitySet.getIncidentRelationships()) {
-				if (relationship instanceof Association == false) {
-					continue nextES;
-				}
-				if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
-					continue nextES;
-				}
-				if (!EnumRelationshipSideRole.ONE.equals(RelationshipUtils.getOtherSide(relationship, entitySet).getRole())) {
-					continue nextES;
-				}
-				if (RelationshipUtils.getOtherSide(relationship, entitySet).getEntitySet().getMappedTo() != null) {
-					continue nextES;
-				}
-				
-				if (association1 == null) {
-					association1 = (Association) relationship;
+			if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
+				if (conditionalTransformation) {
+					addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
 				} else {
-					association2 = (Association) relationship;
+					throw PRECONDITION_NOT_MET_POOL.getObject();
 				}
 			}
-			
-			// searching possible match candidate in other model
-			boolean matchingAssociationFound = false;
-			for (Relationship relationship : otherModel.getRelationships()) {
-				if (!(relationship instanceof Association)) {
-					continue;
+			RelationshipSide otherSide = RelationshipUtils.getOtherSide(relationship, entitySet);
+			if (!EnumRelationshipSideRole.ONE.equals(otherSide.getRole())) {
+				if (conditionalTransformation) {
+					addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, otherSide.getEntitySet()));
+				} else {
+					throw PRECONDITION_NOT_MET_POOL.getObject();
 				}
-				Association association = (Association) relationship;
-				if (!association.isBinary()) {
-					continue;
-				}
-				if (!EnumRelationshipSideRole.MANY.equals(association.getFirstSide().getRole()) || association.getFirstSide().getEntitySet().getMappedTo() != null) {
-					continue;
-				}
-				if (!EnumRelationshipSideRole.MANY.equals(association.getSecondSide().getRole()) || association.getSecondSide().getEntitySet().getMappedTo() != null) {
-					continue;
-				}
-				if (getEntitySetAssociationComparator().compareSymmetric(entitySet, association) <= SimilarityConstantsUtils.getEntitySetAssociationSimilarityTreshold()) {
-					continue;
-				} 
-				
-				matchingAssociationFound = true;
-				break;
 			}
-			
-			
-			if (!matchingAssociationFound) {
-				continue;
-			}
-
-			target.add(TransformationFactory.getRebind1NN1ToMN(null, entitySet, association1, association2));
 		}
+		
+		return preconditions;
 	}
 
 	public static void getPossibleGeneralizationToAssociationTransformations(List<Transformation> target, ERModel model) {
@@ -218,7 +324,7 @@ public class TransformationAnalystUtils extends Utils {
 				continue;
 			}
 			for (Attribute attribute : entitySet.getAttributes()) {
-				if (!notMappedEntitySetNames.contains(attribute)) {
+				if (!notMappedEntitySetNames.contains(attribute)) {	
 					continue;
 				}
 				
@@ -250,21 +356,46 @@ public class TransformationAnalystUtils extends Utils {
 			for (Relationship relationship : entitySet.getIncidentRelationships()) {
 				if (relationship instanceof Association) {
 					for (Attribute attribute : ((Association) relationship).getAttributes()) {
-						if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
-							continue;
-						}
-						if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION)) {
-							continue;
-						}
-						if (!otherModelAttributes.contains(attribute)) {
-							continue;
-						}
+						try {
+							moveAttributeToIncidentEntitySetPreconditionsStrong(attribute,otherModelAttributes);
+							List<Transformation> preconditions = moveAttributeToIncidentEntitySetPreconditionsSoft(relationship,entitySet);
 
-						target.add(TransformationFactory.getMoveAttrToIncidentEntitySet(attribute, (Association) relationship, entitySet));
+							Transformation transformation = TransformationFactory.getMoveAttrToIncidentEntitySet(attribute, (Association) relationship, entitySet);
+							transformation.setPreconditions(preconditions);
+							
+							target.add(transformation);
+							
+						} catch (PreconditionsNotMetException e) {
+							PRECONDITION_NOT_MET_POOL.freeObject(e);
+							continue;
+						}
 					}
 				}
 			}
 		}
+	}
+	
+	private static void moveAttributeToIncidentEntitySetPreconditionsStrong(Attribute attribute, Set<Attribute> otherModelAttributes) throws PreconditionsNotMetException {
+		if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION)) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (!otherModelAttributes.contains(attribute)) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+	}
+	
+	private static List<Transformation> moveAttributeToIncidentEntitySetPreconditionsSoft(Relationship relationship, EntitySet entitySet) throws PreconditionsNotMetException {
+		List<Transformation> preconditions = null;
+		
+		if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
+			if (conditionalTransformation) {
+				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
+			} else {
+				throw PRECONDITION_NOT_MET_POOL.getObject();
+			}
+		}
+		
+		return preconditions;
 	}
 
 	public static void getPossibleMoveAttributeToIncidentAssociationTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
@@ -276,21 +407,48 @@ public class TransformationAnalystUtils extends Utils {
 		for (EntitySet entitySet : model.getEntitySets()) {
 			for (Attribute attribute : entitySet.getAttributes()) {
 				for (Relationship relationship : entitySet.getIncidentRelationships()) {
-					if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
+					
+					try {
+						moveAttributeToIncidentAssociationPreconditionsStrong(relationship,attribute,otherModelAttributes);
+						List<Transformation> preconditions = moveAttributeToIncidentAssociationPreconditionsSoft(relationship,entitySet);
+
+						Transformation transformation = TransformationFactory.getMoveAttrToIncidentAssociation(attribute, entitySet, (Association) relationship);
+						transformation.setPreconditions(preconditions);
+						
+						target.add(transformation);
+					} catch (PreconditionsNotMetException e) {
+						PRECONDITION_NOT_MET_POOL.freeObject(e);
 						continue;
-					}
-					if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET)) {
-						continue;
-					}
-					if (!otherModelAttributes.contains(attribute)) {
-						continue;
-					}
-					if (relationship instanceof Association) {
-						target.add(TransformationFactory.getMoveAttrToIncidentAssociation(attribute, entitySet, (Association) relationship));
 					}
 				}
 			}
 		}
+	}
+	
+	private static void moveAttributeToIncidentAssociationPreconditionsStrong(Relationship relationship, Attribute attribute, Set<Attribute> otherModelAttributes) throws PreconditionsNotMetException {
+		if (!(relationship instanceof Association)) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET)) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (!otherModelAttributes.contains(attribute)) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+	}
+	
+	private static List<Transformation> moveAttributeToIncidentAssociationPreconditionsSoft(Relationship relationship, EntitySet entitySet) throws PreconditionsNotMetException {
+		List<Transformation> preconditions = null;
+		
+		if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
+			if (conditionalTransformation) {
+				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
+			} else {
+				throw PRECONDITION_NOT_MET_POOL.getObject();
+			}
+		}
+		
+		return preconditions;
 	}
 
 	public static void getPossibleRebindNaryAssociationTransformations(List<Transformation> target, ERModel model, ERModel otherModel) {
@@ -330,7 +488,7 @@ public class TransformationAnalystUtils extends Utils {
 					continue;
 				}
 
-				target.add(TransformationFactory.getRebindNaryAssociation((Association) relationship, null, model.isExemplar() ? TransformableFlagPool.getInstance().getObject() : null));
+				target.add(TransformationFactory.getRebindNaryAssociation((Association) relationship, null, model.isExemplar() ? TRANSFORMABLE_FLAG_POOL.getObject() : null));
 			}
 		}
 	}
@@ -346,7 +504,7 @@ public class TransformationAnalystUtils extends Utils {
 					TransformableList transformableList = new TransformableList();
 					transformableList.setElements(parts.stream().map(part -> new Attribute(part)).collect(Collectors.toList()));
 					
-					target.add(TransformationFactory.getDecomposeAttribute(entitySet, new Attribute(attribute), transformableList, model.isExemplar() ? TransformableFlagPool.getInstance().getObject() : null));
+					target.add(TransformationFactory.getDecomposeAttribute(entitySet, new Attribute(attribute), transformableList, model.isExemplar() ? TRANSFORMABLE_FLAG_POOL.getObject() : null));
 				}
 			});
 		});
@@ -392,5 +550,19 @@ public class TransformationAnalystUtils extends Utils {
 			associationComparator = AssociationComparator.getInstance();
 		}
 		return associationComparator;
-	} 
+	}
+	
+	/**
+	 * Adds new precondition.
+	 * Moved to separate method, so we initialize preconditions ArrayList only when it's needed.
+	 * 
+	 * @param preconditions
+	 * @param precondition
+	 */
+	private static void addToPreconditions(List<Transformation> preconditions, Transformation precondition) {
+		if (preconditions == null) {
+			preconditions = new ArrayList<Transformation>();
+		}
+		preconditions.add(precondition);
+	}
 }
