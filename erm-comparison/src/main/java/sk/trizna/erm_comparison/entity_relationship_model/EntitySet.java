@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import sk.trizna.erm_comparison.common.PrintUtils;
-import sk.trizna.erm_comparison.common.RelationshipUtils;
-import sk.trizna.erm_comparison.common.StringUtils;
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.RelationshipUtils;
+import sk.trizna.erm_comparison.common.utils.StringUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 
 /**
  * @author - Adam Trizna

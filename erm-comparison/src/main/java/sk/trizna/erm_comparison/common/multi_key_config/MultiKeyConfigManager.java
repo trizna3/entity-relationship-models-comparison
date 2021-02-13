@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 
 public abstract class MultiKeyConfigManager {
 

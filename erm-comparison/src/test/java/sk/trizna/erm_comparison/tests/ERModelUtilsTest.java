@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import sk.trizna.erm_comparison.common.ERModelUtils;
+import sk.trizna.erm_comparison.common.utils.ERModelUtils;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 
 

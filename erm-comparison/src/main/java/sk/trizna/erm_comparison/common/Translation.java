@@ -1,5 +1,8 @@
 package sk.trizna.erm_comparison.common;
 
+import sk.trizna.erm_comparison.common.utils.TranslationUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
+
 public class Translation {
 
 	private String template;

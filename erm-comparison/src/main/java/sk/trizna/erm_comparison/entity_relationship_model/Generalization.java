@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import sk.trizna.erm_comparison.common.StringUtils;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
+import sk.trizna.erm_comparison.common.utils.StringUtils;
 
 /**
  * @author - Adam Trizna

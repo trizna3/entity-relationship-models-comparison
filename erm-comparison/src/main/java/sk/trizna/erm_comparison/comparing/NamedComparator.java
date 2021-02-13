@@ -1,7 +1,7 @@
 package sk.trizna.erm_comparison.comparing;
 
-import sk.trizna.erm_comparison.common.StringUtils;
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.StringUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModelElementName;
 import sk.trizna.erm_comparison.entity_relationship_model.Named;
 import sk.trizna.erm_comparison.language_processing.LanguageProcessor;

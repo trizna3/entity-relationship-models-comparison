@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import sk.trizna.erm_comparison.common.Clock;
-import sk.trizna.erm_comparison.common.MappingUtils;
-import sk.trizna.erm_comparison.common.PrintUtils;
-import sk.trizna.erm_comparison.common.TransformationUtils;
-import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.enums.SimilarityConstantsUtils;
 import sk.trizna.erm_comparison.common.key_config.AppConfigManager;
+import sk.trizna.erm_comparison.common.utils.MappingUtils;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.TransformationUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.comparing.EntitySetComparator;
 import sk.trizna.erm_comparison.comparing.NamedComparator;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;

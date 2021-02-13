@@ -3,7 +3,7 @@ package sk.trizna.erm_comparison.comparing;
 import java.util.HashMap;
 import java.util.Map;
 
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.comparing.mapping.MappingExtended;
 import sk.trizna.erm_comparison.comparing.translator.ERModelDiffTranslator;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;

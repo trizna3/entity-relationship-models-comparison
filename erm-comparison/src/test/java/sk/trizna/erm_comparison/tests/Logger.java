@@ -1,7 +1,7 @@
 package sk.trizna.erm_comparison.tests;
 
-import sk.trizna.erm_comparison.common.PrintUtils;
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.tests.common.ValidationEvaluatorUtils;
 
 public class Logger extends sk.trizna.erm_comparison.common.Logger{

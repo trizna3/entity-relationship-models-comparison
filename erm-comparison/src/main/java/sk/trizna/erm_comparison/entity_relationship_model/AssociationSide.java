@@ -1,7 +1,7 @@
 package sk.trizna.erm_comparison.entity_relationship_model;
 
-import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
+import sk.trizna.erm_comparison.common.utils.Utils;
 
 /**
  * @author - Adam Trizna

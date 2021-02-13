@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
+import sk.trizna.erm_comparison.common.utils.Utils;
 
 public class TranslationManager extends KeyConfigManager {
 	

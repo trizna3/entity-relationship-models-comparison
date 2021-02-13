@@ -15,10 +15,10 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import sk.trizna.erm_comparison.common.PrintUtils;
-import sk.trizna.erm_comparison.common.StringUtils;
-import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.StringUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.language_processing.LanguageProcessor;
 import sk.trizna.erm_comparison.tests.common.ValidationEvaluatorUtils;
 

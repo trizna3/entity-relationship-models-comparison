@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import sk.trizna.erm_comparison.common.Clock;
-import sk.trizna.erm_comparison.common.MathUtils;
-import sk.trizna.erm_comparison.common.PrintUtils;
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.MathUtils;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 
 class Word2VecDictionary extends AbstractLanguageProcessor {
 	

@@ -1,6 +1,6 @@
 package sk.trizna.erm_comparison.tests.common;
 
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.tests.ValidationEvaluator;
 
 public class ValidationEvaluatorUtils {

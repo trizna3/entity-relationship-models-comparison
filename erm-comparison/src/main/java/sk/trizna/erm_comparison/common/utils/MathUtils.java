@@ -1,4 +1,4 @@
-package sk.trizna.erm_comparison.common;
+package sk.trizna.erm_comparison.common.utils;
 
 public class MathUtils extends Utils {
 

@@ -1,8 +1,8 @@
 package sk.trizna.erm_comparison.mapping_search.mapping_evaluator;
 
-import sk.trizna.erm_comparison.common.RelationshipUtils;
-import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
+import sk.trizna.erm_comparison.common.utils.RelationshipUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.comparing.NamedComparator;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;

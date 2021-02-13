@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sk.trizna.erm_comparison.common.ERModelUtils;
-import sk.trizna.erm_comparison.common.MappingUtils;
-import sk.trizna.erm_comparison.common.RelationshipUtils;
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.ERModelUtils;
+import sk.trizna.erm_comparison.common.utils.MappingUtils;
+import sk.trizna.erm_comparison.common.utils.RelationshipUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.comparing.AttributedComparator;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;

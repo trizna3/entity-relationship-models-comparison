@@ -1,9 +1,10 @@
-package sk.trizna.erm_comparison.common;
+package sk.trizna.erm_comparison.common.utils;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import sk.trizna.erm_comparison.common.TransformationFactory;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;

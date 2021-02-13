@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.AssociationSide;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;

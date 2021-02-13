@@ -1,5 +1,6 @@
-package sk.trizna.erm_comparison.common;
+package sk.trizna.erm_comparison.common.utils;
 
+import sk.trizna.erm_comparison.common.Translation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.TranslationConstants;
 import sk.trizna.erm_comparison.common.key_config.TranslationManager;

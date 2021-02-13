@@ -1,7 +1,7 @@
 package sk.trizna.erm_comparison.common.multi_key_config;
 
-import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
 
 public class DictConfigManager extends MultiKeyConfigManager {
 

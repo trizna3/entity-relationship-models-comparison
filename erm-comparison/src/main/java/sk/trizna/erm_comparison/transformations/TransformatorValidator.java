@@ -2,12 +2,12 @@ package sk.trizna.erm_comparison.transformations;
 
 import java.util.List;
 
-import sk.trizna.erm_comparison.common.TransformationRoleUtils;
-import sk.trizna.erm_comparison.common.TransformationUtils;
-import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
 import sk.trizna.erm_comparison.common.key_config.AppConfigManager;
+import sk.trizna.erm_comparison.common.utils.TransformationRoleUtils;
+import sk.trizna.erm_comparison.common.utils.TransformationUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 
 /**
  * Validates transformation input/output arguments in {@link Transformator} methods.

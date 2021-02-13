@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import sk.trizna.erm_comparison.common.StringUtils;
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.StringUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 
 /**
  * Extension of {@link KeyConfigManager}, for managing configs of structure key = list of elements

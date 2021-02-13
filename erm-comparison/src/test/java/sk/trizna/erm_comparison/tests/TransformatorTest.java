@@ -11,14 +11,14 @@ import java.util.List;
 
 import org.junit.Test;
 
-import sk.trizna.erm_comparison.common.ERModelUtils;
-import sk.trizna.erm_comparison.common.PrintUtils;
-import sk.trizna.erm_comparison.common.RelationshipUtils;
-import sk.trizna.erm_comparison.common.TransformationUtils;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
+import sk.trizna.erm_comparison.common.utils.ERModelUtils;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.RelationshipUtils;
+import sk.trizna.erm_comparison.common.utils.TransformationUtils;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;

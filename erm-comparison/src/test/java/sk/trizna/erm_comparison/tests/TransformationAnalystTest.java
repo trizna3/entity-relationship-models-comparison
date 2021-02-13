@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import sk.trizna.erm_comparison.common.ERModelUtils;
-import sk.trizna.erm_comparison.common.TransformationAnalystUtils;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
+import sk.trizna.erm_comparison.common.utils.ERModelUtils;
+import sk.trizna.erm_comparison.common.utils.TransformationAnalystUtils;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.transformations.Transformation;

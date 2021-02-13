@@ -3,9 +3,9 @@ package sk.trizna.erm_comparison.entity_relationship_model;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import sk.trizna.erm_comparison.common.PrintUtils;
-import sk.trizna.erm_comparison.common.RelationshipUtils;
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.RelationshipUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 
 /**
  * @author - Adam Trizna

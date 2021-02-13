@@ -3,7 +3,7 @@ package sk.trizna.erm_comparison.comparing.mapping;
 import java.util.ArrayList;
 import java.util.List;
 
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.transformations.Transformation;

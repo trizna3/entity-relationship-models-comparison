@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.comparing.ERModelDiff;
 import sk.trizna.erm_comparison.comparing.ERModelDiffReport;
 import sk.trizna.erm_comparison.comparing.mapping.MappingExtended;

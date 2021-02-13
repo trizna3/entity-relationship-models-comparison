@@ -1,8 +1,8 @@
 package sk.trizna.erm_comparison.mapping_search.mapping_evaluator;
 
-import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.PenaltyConstants;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.transformations.Transformation;
 

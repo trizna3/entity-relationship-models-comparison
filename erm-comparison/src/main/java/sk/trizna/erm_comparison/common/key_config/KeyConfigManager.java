@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Set;
 
-import sk.trizna.erm_comparison.common.Utils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 
 public abstract class KeyConfigManager {
 

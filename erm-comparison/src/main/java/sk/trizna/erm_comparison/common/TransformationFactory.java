@@ -3,6 +3,7 @@ package sk.trizna.erm_comparison.common;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
 import sk.trizna.erm_comparison.common.object_pools.TransformationPool;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
 import sk.trizna.erm_comparison.entity_relationship_model.Attributed;

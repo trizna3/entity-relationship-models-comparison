@@ -2,8 +2,8 @@ package sk.trizna.erm_comparison.common.key_config;
 
 import java.util.List;
 
-import sk.trizna.erm_comparison.common.PrintUtils;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
 
 public class TransformationRoleManager extends KeyListConfigManager<List<List<String>>> {
 	

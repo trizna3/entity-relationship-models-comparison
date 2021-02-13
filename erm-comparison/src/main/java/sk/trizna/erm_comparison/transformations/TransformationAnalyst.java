@@ -3,8 +3,8 @@ package sk.trizna.erm_comparison.transformations;
 import java.util.ArrayList;
 import java.util.List;
 
-import sk.trizna.erm_comparison.common.TransformationAnalystUtils;
 import sk.trizna.erm_comparison.common.object_pools.TransformationPool;
+import sk.trizna.erm_comparison.common.utils.TransformationAnalystUtils;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 
 /**

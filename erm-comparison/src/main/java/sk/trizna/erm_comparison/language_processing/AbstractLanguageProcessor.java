@@ -2,9 +2,9 @@ package sk.trizna.erm_comparison.language_processing;
 
 import java.util.Collection;
 
-import sk.trizna.erm_comparison.common.StringUtils;
-import sk.trizna.erm_comparison.common.Utils;
 import sk.trizna.erm_comparison.common.enums.SimilarityConstantsUtils;
+import sk.trizna.erm_comparison.common.utils.StringUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.entity_relationship_model.ERText;
 
 public abstract class AbstractLanguageProcessor implements LanguageProcessor {

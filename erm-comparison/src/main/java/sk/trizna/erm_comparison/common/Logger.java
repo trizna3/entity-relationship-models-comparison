@@ -4,6 +4,9 @@ import java.io.PrintWriter;
 
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.TransformationUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.AssociationSide;

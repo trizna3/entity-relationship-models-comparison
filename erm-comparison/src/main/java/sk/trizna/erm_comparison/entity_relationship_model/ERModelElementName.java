@@ -1,7 +1,7 @@
 package sk.trizna.erm_comparison.entity_relationship_model;
 
-import sk.trizna.erm_comparison.common.PrintUtils;
-import sk.trizna.erm_comparison.common.StringUtils;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.StringUtils;
 
 public class ERModelElementName implements ERText {
 

@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import sk.trizna.erm_comparison.common.PrintUtils;
-import sk.trizna.erm_comparison.common.StringUtils;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.StringUtils;
 
 public class StringUtilsTest {
 

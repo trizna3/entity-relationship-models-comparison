@@ -2,8 +2,8 @@ package sk.trizna.erm_comparison.entity_relationship_model;
 
 import java.util.Comparator;
 
-import sk.trizna.erm_comparison.common.PrintUtils;
-import sk.trizna.erm_comparison.common.StringUtils;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.StringUtils;
 import sk.trizna.erm_comparison.transformations.Transformable;
 
 /**
