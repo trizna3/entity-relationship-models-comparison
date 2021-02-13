@@ -23,7 +23,7 @@ public class TransformationFactory {
 	public static Transformation getCreateEntitySet(EntitySet entitySet) {
 		Utils.validateNotNull(entitySet);
 
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.CREATE_ENTITY_SET);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
 
@@ -37,7 +37,7 @@ public class TransformationFactory {
 	public static Transformation getRemoveEntitySet(EntitySet entitySet) {
 		Utils.validateNotNull(entitySet);
 
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.REMOVE_ENTITY_SET);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
 
@@ -71,7 +71,7 @@ public class TransformationFactory {
 	public static Transformation getChangeCardinality(Association association, EntitySet entitySet) {
 		Utils.validateNotNull(association);
 		
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.CHANGE_CARDINALITY);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
 		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
@@ -86,7 +86,7 @@ public class TransformationFactory {
 		Utils.validateNotNull(entitySet);
 		Utils.validateNotNull(targetEntitySet);
 
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.RENAME_ENTITY_SET);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
 		transformation.addArgument(targetEntitySet, EnumTransformationRole.ENTITY_SET_TARGET);
@@ -102,7 +102,7 @@ public class TransformationFactory {
 		Utils.validateNotNull(attributeTarget);
 		Utils.validateNotNull(entitySet);
 
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.RENAME_ATTRIBUTE);
 		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
 		transformation.addArgument(attributeTarget, EnumTransformationRole.ATTRIBUTE_TARGET);
@@ -146,7 +146,7 @@ public class TransformationFactory {
 		Utils.validateNotNull(attribute);
 		Utils.validateNotNull(sourceEntitySet);
 		
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		
 		transformation.setCode(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
 		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
@@ -161,7 +161,7 @@ public class TransformationFactory {
 		Utils.validateNotNull(association);
 		Utils.validateNotNull(entitySet);
 		
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET);
 		
 		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
@@ -175,7 +175,7 @@ public class TransformationFactory {
 		Utils.validateNotNull(association);
 		Utils.validateNotNull(entitySet);
 		
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION);
 		
 		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
@@ -188,7 +188,7 @@ public class TransformationFactory {
 	public static Transformation getRebindMNTo1NN1(Association association, EntitySet entitySet, Association association1, Association association2) {
 		Utils.validateNotNull(association);
 		
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.REBIND_MN_TO_1NN1);
 		
 		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
@@ -204,7 +204,7 @@ public class TransformationFactory {
 		Utils.validateNotNull(association1);
 		Utils.validateNotNull(association2);
 		
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.REBIND_1NN1_TO_MN);
 		
 		if (association != null) transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
@@ -218,7 +218,7 @@ public class TransformationFactory {
 	public static Transformation getGeneralizationTo11Association(Association association, Generalization generalization) {
 		Utils.validateNotNull(generalization);
 		
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION);
 		
 		transformation.addArgument(generalization, EnumTransformationRole.GENERALIZATION);
@@ -230,7 +230,7 @@ public class TransformationFactory {
 	public static Transformation getContract11Association(Association association, TransformableFlag exemplarModelFlag) {
 		Utils.validateNotNull(association);
 		
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.CONTRACT_11_ASSOCIATION);
 		
 		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
@@ -242,7 +242,7 @@ public class TransformationFactory {
 	public static Transformation getRebindNaryAssociation(Association association, EntitySet entitySet, TransformableFlag exemplarModelFlag) {
 		Utils.validateNotNull(association);
 		
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.REBIND_NARY_ASSOCIATION);
 		
 		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
@@ -257,7 +257,7 @@ public class TransformationFactory {
 		Utils.validateNotNull(attribute);
 		Utils.validateNotNull(transformableList);
 		
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.DECOMPOSE_ATTRIBUTE);
 		
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
@@ -272,7 +272,7 @@ public class TransformationFactory {
 		Utils.validateNotNull(entitySet1);
 		Utils.validateNotNull(entitySet2);
 		
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(EnumTransformation.MERGE_ENTITY_SETS);
 		
 		transformation.addArgument(entitySet1, EnumTransformationRole.ENTITY_SET1);
@@ -286,7 +286,7 @@ public class TransformationFactory {
 		if (relationship instanceof Association) {
 			EnumTransformation transformationCode = isCreation ? EnumTransformation.CREATE_ASSOCIATION : EnumTransformation.REMOVE_ASSOCIATION;
 
-			Transformation transformation = TransformationPool.getInstance().getTransformation();
+			Transformation transformation = TransformationPool.getInstance().getObject();
 			transformation.setCode(transformationCode);
 			transformation.addArgument(relationship, EnumTransformationRole.ASSOCIATION);
 
@@ -295,7 +295,7 @@ public class TransformationFactory {
 		if (relationship instanceof Generalization) {
 			EnumTransformation transformationCode = isCreation ? EnumTransformation.CREATE_GENERALIZATION : EnumTransformation.REMOVE_GENERALIZATION;
 
-			Transformation transformation = TransformationPool.getInstance().getTransformation();
+			Transformation transformation = TransformationPool.getInstance().getObject();
 			transformation.setCode(transformationCode);
 			transformation.addArgument(relationship, EnumTransformationRole.GENERALIZATION);
 
@@ -307,7 +307,7 @@ public class TransformationFactory {
 	private static Transformation getAttributeTransformation(EntitySet entitySet, Attribute attribute, boolean isCreation) {
 		EnumTransformation transformationCode = isCreation ? EnumTransformation.CREATE_ATTRIBUTE : EnumTransformation.REMOVE_ATTRIBUTE;
 
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(transformationCode);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);
 		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
@@ -318,7 +318,7 @@ public class TransformationFactory {
 	private static Transformation getAttributeTransformation(Association association, Attribute attribute, boolean isCreation) {
 		EnumTransformation transformationCode = isCreation ? EnumTransformation.CREATE_ATTRIBUTE : EnumTransformation.REMOVE_ATTRIBUTE;
 
-		Transformation transformation = TransformationPool.getInstance().getTransformation();
+		Transformation transformation = TransformationPool.getInstance().getObject();
 		transformation.setCode(transformationCode);
 		transformation.addArgument(association, EnumTransformationRole.ASSOCIATION);
 		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);

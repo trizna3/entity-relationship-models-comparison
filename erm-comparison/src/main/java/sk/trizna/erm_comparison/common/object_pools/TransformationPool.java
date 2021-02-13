@@ -1,18 +1,14 @@
 package sk.trizna.erm_comparison.common.object_pools;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
+import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
+import sk.trizna.erm_comparison.common.utils.TransformationUtils;
+import sk.trizna.erm_comparison.entity_relationship_model.TransformableFlag;
 import sk.trizna.erm_comparison.transformations.Transformation;
 
-public class TransformationPool {
+public class TransformationPool extends AbstractObjectPool<Transformation> {
 	
-	private static TransformationPool INSTANCE;
-	
-	private List<Transformation> freeTransformations;
-	private List<Transformation> usedTransformations;
-	private int INITIAL_CAPACITY = 20;
+	private static TransformationPool INSTANCE;	
 	
 	public static TransformationPool getInstance() {
 		if (INSTANCE == null) {
@@ -21,30 +17,30 @@ public class TransformationPool {
 		return INSTANCE;
 	}
 	
-	public Transformation getTransformation() {
-		if (!freeTransformations.isEmpty()) {
-			Transformation newTransformation = freeTransformations.remove(0);
-			usedTransformations.add(newTransformation);
-			return newTransformation;
+	@Override
+	protected Transformation createObjectInternal() {
+		Transformation transformation = new Transformation();
+		transformation.setCode(EnumTransformation.EMPTY);
+		return transformation;
+	}
+
+	@Override
+	protected void freeObjectInternal(Transformation instance) {
+		freeExemplarFlag(instance);
+		instance.setCode(null);
+		instance.setProcessed(false);
+		instance.getArgumentMap().clear();
+	}
+	
+	/**
+	 * If transformation contains exemplarModelFlag, return it to it's Object Pool.
+	 * @param instance
+	 */
+	private void freeExemplarFlag(Transformation instance) {
+		TransformableFlag flag = (TransformableFlag) TransformationUtils.getTransformableByRole(instance, EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
+		
+		if (flag != null) {
+			TransformableFlagPool.getInstance().freeObject(flag);
 		}
-		
-		Transformation newTransformation = new Transformation();
-		newTransformation.setCode(EnumTransformation.EMPTY);
-		usedTransformations.add(newTransformation);
-		return newTransformation;
-	}
-	
-	public void freeTransformation(Transformation transformation) {
-		transformation.setCode(null);
-		transformation.setProcessed(false);
-		transformation.getArgumentMap().clear();
-		
-		usedTransformations.remove(transformation);
-		freeTransformations.add(transformation);
-	}
-	
-	private TransformationPool() {
-		freeTransformations = new ArrayList<Transformation>(INITIAL_CAPACITY);
-		usedTransformations = new ArrayList<Transformation>(INITIAL_CAPACITY);
 	}
 }

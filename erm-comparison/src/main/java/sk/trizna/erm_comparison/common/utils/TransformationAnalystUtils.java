@@ -10,6 +10,7 @@ import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.SimilarityConstantsUtils;
 import sk.trizna.erm_comparison.common.key_config.AppConfigManager;
+import sk.trizna.erm_comparison.common.object_pools.TransformableFlagPool;
 import sk.trizna.erm_comparison.comparing.AssociationComparator;
 import sk.trizna.erm_comparison.comparing.EntitySetAssociationComparator;
 import sk.trizna.erm_comparison.comparing.EntitySetComparator;
@@ -21,7 +22,6 @@ import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
 import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
-import sk.trizna.erm_comparison.entity_relationship_model.TransformableFlag;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableList;
 import sk.trizna.erm_comparison.transformations.Transformation;
 
@@ -64,7 +64,7 @@ public class TransformationAnalystUtils extends Utils {
 				continue;
 			}
 
-			target.add(TransformationFactory.getContract11Association(association, model.isExemplar() ? new TransformableFlag() : null));
+			target.add(TransformationFactory.getContract11Association(association, model.isExemplar() ? TransformableFlagPool.getInstance().getObject() : null));
 		}
 	}
 
@@ -330,7 +330,7 @@ public class TransformationAnalystUtils extends Utils {
 					continue;
 				}
 
-				target.add(TransformationFactory.getRebindNaryAssociation((Association) relationship, null, model.isExemplar() ? new TransformableFlag() : null));
+				target.add(TransformationFactory.getRebindNaryAssociation((Association) relationship, null, model.isExemplar() ? TransformableFlagPool.getInstance().getObject() : null));
 			}
 		}
 	}
@@ -346,7 +346,7 @@ public class TransformationAnalystUtils extends Utils {
 					TransformableList transformableList = new TransformableList();
 					transformableList.setElements(parts.stream().map(part -> new Attribute(part)).collect(Collectors.toList()));
 					
-					target.add(TransformationFactory.getDecomposeAttribute(entitySet, new Attribute(attribute), transformableList, model.isExemplar() ? new TransformableFlag() : null));
+					target.add(TransformationFactory.getDecomposeAttribute(entitySet, new Attribute(attribute), transformableList, model.isExemplar() ? TransformableFlagPool.getInstance().getObject() : null));
 				}
 			});
 		});

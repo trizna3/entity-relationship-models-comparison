@@ -42,7 +42,7 @@ public class TransformationAnalyst {
 	}
 	
 	public static void freeTransformations(List<Transformation> transformations) {
-		transformations.forEach(transformation -> TransformationPool.getInstance().freeTransformation(transformation));		
+		transformations.forEach(transformation -> TransformationPool.getInstance().freeObject(transformation));		
 	}
 
 	private static void getPossibleExtractAttributeToOwnEntitySetTransformations(Mapping mapping, List<Transformation> result) {
