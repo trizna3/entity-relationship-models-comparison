@@ -187,8 +187,16 @@ public class RelationshipUtils extends Utils {
 		validateNotNull(oldEntitySet);
 		validateNotNull(newEntitySet);
 
-		oldEntitySet.removeNeighbours(relationship);
+		boolean newEntitySetIsContained = relationship.contains(newEntitySet);
+		
+		// update oldEntitySet.neighbours references
+		List<RelationshipSide> allOldSides = RelationshipUtils.getAllSides(relationship, oldEntitySet);
+		assert allOldSides != null;
+		if (allOldSides.size() == 1) {
+			oldEntitySet.removeNeighbours(relationship);
+		}
 
+		// update side.entitySet from old to new
 		for (RelationshipSide side : relationship.getSides()) {
 			if (oldEntitySet.equals(side.getEntitySet())) {
 				side.setEntitySet(newEntitySet);
@@ -196,12 +204,21 @@ public class RelationshipUtils extends Utils {
 			}
 		}
 
-		newEntitySet.addNeighbours(relationship);
+		if (newEntitySetIsContained) {
+			for (EntitySet entitySet : relationship.getIncidentEntitySetsDistinct()) {
+				entitySet.removeNeighbour(oldEntitySet, relationship);
+				entitySet.addNeighbour(newEntitySet, relationship);
+			}
+		} else {
+			// update newEntitySet.neighbours references
+			newEntitySet.addNeighbours(relationship);
 
-		for (RelationshipSide side : relationship.getSides()) {
-			if (!newEntitySet.equals(side.getEntitySet()) && !oldEntitySet.equals(side.getEntitySet())) {
-				side.getEntitySet().removeNeighbour(oldEntitySet, relationship);
-				side.getEntitySet().addNeighbour(newEntitySet, relationship);
+			// update neighbour references of all other entitySets (update from old to new)
+			for (EntitySet entitySet : relationship.getIncidentEntitySetsDistinct()) {
+				if (!newEntitySet.equals(entitySet)) {
+					entitySet.removeNeighbour(oldEntitySet, relationship);
+					entitySet.addNeighbour(newEntitySet, relationship);
+				}
 			}
 		}
 	}
@@ -285,6 +302,20 @@ public class RelationshipUtils extends Utils {
 			}
 		}
 		return null;
+	}
+	
+	public static List<RelationshipSide> getAllSides(Relationship relationship, EntitySet entitySet) {
+		validateNotNull(relationship);
+		validateNotNull(entitySet);
+		
+		List<RelationshipSide> result = null;
+		for (RelationshipSide side : relationship.getSides()) {
+			if (side.getEntitySet() == entitySet) {
+				result = Utils.addToList(result, side);
+			}
+		}
+		
+		return result;
 	}
 
 	private static Association getAssociationClone(Association association, Map<EntitySet, EntitySet> entitySetMap) {

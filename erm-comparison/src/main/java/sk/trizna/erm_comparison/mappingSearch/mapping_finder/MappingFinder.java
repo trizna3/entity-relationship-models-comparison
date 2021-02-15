@@ -1,6 +1,7 @@
 package sk.trizna.erm_comparison.mappingSearch.mapping_finder;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -205,7 +206,7 @@ public class MappingFinder {
 
 	private void searchThroughTransformation(Mapping mapping) {
 		List<Transformation> transformations = TransformationAnalyst.getPossibleTransformations(mapping);
-		transformations.removeAll(mapping.getForbiddenTransformations());
+		transformations = filterForbiddenTransformations(transformations,mapping);
 		
 		List<List<Transformation>> decomposition = decomposePossibleTransformations(transformations);
 		
@@ -229,6 +230,22 @@ public class MappingFinder {
 		}
 		
 		TransformationAnalyst.freeTransformations(transformations);
+	}
+	
+	private List<Transformation> filterForbiddenTransformations(List<Transformation> possibleTransformations, Mapping mapping) {
+		possibleTransformations.removeAll(mapping.getForbiddenTransformations());
+		
+		
+		for (Transformation forbiddenTransformation : mapping.getForbiddenTransformations()) {
+			Iterator<Transformation> it = possibleTransformations.iterator();
+			while (it.hasNext()) {
+				if (TransformationUtils.areEqual(forbiddenTransformation, it.next())) {
+					it.remove();
+				}
+			}
+		}
+		
+		return possibleTransformations;
 	}
 
 	private void map(Mapping mapping, EntitySet exemplarEntitySet, EntitySet studentEntitySet) {
@@ -313,7 +330,7 @@ public class MappingFinder {
 			List<Transformation> decPart = new ArrayList<>(possibleTransformations.size());
 			decPart.add(transformation);
 			for (Transformation other : possibleTransformations) {
-				if (other.isProcessed()) {
+				if (other.isProcessed() || transformation == other) {
 					continue;
 				}
 				// must be independent with ALL current decPart Transformations

@@ -1,5 +1,6 @@
 package sk.trizna.erm_comparison.tests;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -83,13 +84,15 @@ public class TransformationAnalystTest {
 
 	@Test
 	public void getPossibleMoveAttributeToIncidentAssociationTransformationsExecution() {
-		ERModel model = TestUtils.getERModels().get(1);
+		ERModel model = TestUtils.makeERModel8();
 		ERModel modelClone = ERModelUtils.getClone(model);
 		Mapping mapping = new Mapping(null, model);
 		List<Transformation> transformations = new ArrayList<>();
 
-		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(transformations, model, new ERModel());
+		TransformationAnalystUtils.getPossibleMoveAttributeToIncidentAssociationTransformations(transformations, model, TestUtils.getERModels().get(2));
 
+		assertFalse(transformations.isEmpty());
+		
 		for (Transformation transformation : transformations) {
 			Transformator.execute(mapping, transformation);
 			Transformator.revert(mapping, transformation);

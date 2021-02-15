@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import sk.trizna.erm_comparison.common.utils.PrintUtils;
-import sk.trizna.erm_comparison.common.utils.StringUtils;
 
 /**
  * @author - Adam Trizna
@@ -109,38 +108,10 @@ public class Association extends Relationship implements Attributed {
 	public void setSides(List<AssociationSide> sides) {
 		this.sides = sides;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof Association)) {
-			return false;
-		}
-		Association other = (Association) obj;
-		
-		if (!StringUtils.areEqual(getNameText(), other.getNameText())) {
-			return false;
-		}
-		
-		return sidesAreEqual(other) && attributesAreEqual(other);
-	}
 	
 	@Override
 	public String getNameText() {
 		String nameText = super.getNameText();
 		return nameText != null ? nameText : PrintUtils.getNameByIncidentEntitySets(this);
-	}
-	
-	private boolean sidesAreEqual(Association other) {
-		if (getSides() == null && other.getSides() == null) {
-			return true;
-		}
-		if (getSides() == null || other.getSides() == null) {
-			return false;
-		} 
-		if (getSides().size() != other.getSides().size()) {
-			return false;
-		}
-		
-		return getSides().containsAll(other.getSides());
 	}
 }

@@ -217,11 +217,14 @@ public class Logger {
 	
 	private String logMergeEntitySets(Transformation transformation) {
 //		MERGE_ENTITY_SETS = ENTITY_SET1, ENTITY_SET2 - ENTITY_SET, ?ENTITY_SET2, ?TRANSFORMABLE_LIST
-		EntitySet entitySet1 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET1);
+		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
+		if (entitySet == null) {
+			entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET1);
+		}
 		EntitySet entitySet2 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET2);
 		
 		StringBuilder message = getTransformationLogHeader(transformation);
-		message.append(entitySet1.getNameText());
+		message.append(entitySet.getNameText());
 		message.append(PrintUtils.DELIMITER_DASH);
 		message.append(entitySet2.getNameText());
 		

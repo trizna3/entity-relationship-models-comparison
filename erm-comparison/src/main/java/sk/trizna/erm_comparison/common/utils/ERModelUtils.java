@@ -9,9 +9,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
+import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
+import sk.trizna.erm_comparison.entity_relationship_model.Attributed;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
+import sk.trizna.erm_comparison.entity_relationship_model.ERText;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
+import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
 import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 
@@ -121,7 +125,7 @@ public class ERModelUtils extends Utils {
 				if (!entitySetsToProcess.contains(es2)) {
 					continue;
 				}
-				if (es1.equals(es2)) {
+				if (ERModelUtils.areEqual(es1, es2)) {
 					entitySetsToProcess.remove(es1);
 					entitySetsToProcess.remove(es2);
 					continue nextEs1;
@@ -142,7 +146,7 @@ public class ERModelUtils extends Utils {
 				if (!relationshipsToProcess.contains(rel2)) {
 					continue;
 				}
-				if (rel1.equals(rel2)) {
+				if (ERModelUtils.areEqual(rel1,rel2)) {
 					relationshipsToProcess.remove(rel1);
 					relationshipsToProcess.remove(rel2);
 					continue nextRel1;
@@ -265,6 +269,77 @@ public class ERModelUtils extends Utils {
 				entitySet.setMappedTo(null);
 			}
 		}
+	}
+	
+	public static boolean areEqual(ERText text1, ERText text2) {
+		validateNotNull(text1);
+		validateNotNull(text2);
+		
+		return StringUtils.areEqual(text1.getText(), text2.getText());
+	}
+	
+	public static boolean areEqual(EntitySet entitySet1, EntitySet entitySet2) {
+		if (!StringUtils.areEqual(entitySet1.getNameText(), entitySet2.getNameText())) {
+			return false;
+		}
+		return attributesAreEqual(entitySet1,entitySet2);
+	}
+	
+	public static boolean areEqual(Relationship relationship1, Relationship relationship2) {
+		if (relationship1 instanceof Association && relationship2 instanceof Association) {
+			return areEqual((Association)relationship1, (Association)relationship2);
+		}
+		if (relationship1 instanceof Generalization && relationship2 instanceof Generalization) {
+			return areEqual((Generalization)relationship1, (Generalization)relationship2);
+		}
+		return false;
+	}
+	
+	public static boolean areEqual(Association association1, Association association2) {
+		if (!StringUtils.areEqual(association1.getNameText(), association2.getNameText())) {
+			return false;
+		}
+		return sidesAreEqual(association1,association2) && attributesAreEqual(association1,association2);
+	}
+	
+	public static boolean areEqual(RelationshipSide side1, RelationshipSide side2) {
+		return side1.getRole() == side2.getRole() && areEqual(side1.getEntitySet(),side2.getEntitySet());
+	} 
+	
+	public static boolean areEqual(Generalization generalization1, Generalization generalization2) {
+		return StringUtils.areEqual(generalization1.getNameText(), generalization2.getNameText()) &&
+				areEqual(generalization1.getSuperEntitySet(),generalization2.getSuperEntitySet()) &&
+				areEqual(generalization1.getSubEntitySet(),generalization2.getSubEntitySet());
+		}
+	
+	public static boolean sidesAreEqual(Association association1, Association association2) {
+		if (association1.getSides() == null && association2.getSides() == null) {
+			return true;
+		}
+		if (association1.getSides() == null || association2.getSides() == null) {
+			return false;
+		} 
+		if (association1.getSides().size() != association2.getSides().size()) {
+			return false;
+		}
+		
+		return CollectionUtils.containsAllSides(association1.getSides(), association2.getSides());
+	}
+	
+	public static boolean attributesAreEqual(Attributed attributed1, Attributed attribute2) {
+		if (attribute2 == null) {
+			return false;
+		}
+		if (attributed1.getAttributes() == null && attribute2.getAttributes() == null) {
+			return true;
+		}
+		if (attributed1.getAttributes() == null || attribute2.getAttributes() == null) {
+			return false;
+		}
+		if (attributed1.getAttributes().size() != attribute2.getAttributes().size()) {
+			return false;
+		}
+		return CollectionUtils.containsAllTexts(attributed1.getAttributes(), attribute2.getAttributes());
 	}
 
 	private static boolean modelsAreEqualByRelationships(ERModel model1, ERModel model2) {

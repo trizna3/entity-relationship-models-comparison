@@ -69,19 +69,6 @@ public class Transformation {
 		getArgumentMap().clear();
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof Transformation)) {
-			return false;
-		}
-		Transformation other = (Transformation) obj;
-		
-		if (getCode() != other.getCode()) {
-			return false;
-		}
-		return getArgumentMap().equals(other.getArgumentMap());
-	}
-
 	public boolean isProcessed() {
 		return processed;
 	}

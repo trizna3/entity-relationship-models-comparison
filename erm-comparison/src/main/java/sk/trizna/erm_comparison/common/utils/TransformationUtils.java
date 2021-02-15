@@ -2,8 +2,6 @@
 package sk.trizna.erm_comparison.common.utils;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
@@ -11,8 +9,13 @@ import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.AssociationSide;
+import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
+import sk.trizna.erm_comparison.entity_relationship_model.ERText;
+import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
+import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableFlag;
+import sk.trizna.erm_comparison.entity_relationship_model.TransformableList;
 import sk.trizna.erm_comparison.transformations.Transformable;
 import sk.trizna.erm_comparison.transformations.Transformation;
 import sk.trizna.erm_comparison.transformations.Transformator;
@@ -87,7 +90,14 @@ public class TransformationUtils extends Utils {
 		validateNotNull(t1);
 		validateNotNull(t2);
 		
-		return !intersect(t1.getArgumentMap().keySet(),t2.getArgumentMap().keySet());
+		for (Transformable arg1 : t1.getArgumentMap().keySet()) {
+			for (Transformable arg2 : t2.getArgumentMap().keySet()) {
+				if (areEqual(arg1, arg2)) {
+					return false;
+				}
+			} 
+		}
+		return true;
 	}
 	
 	/**
@@ -116,18 +126,70 @@ public class TransformationUtils extends Utils {
 		}
 	}
 	
-	private static boolean intersect(Collection<Transformable> set1, Collection<Transformable> set2) {
-		Iterator<Transformable> it1 = set1.iterator();
+	public static boolean areEqual(Transformation t1, Transformation t2) {
+		Utils.validateNotNull(t1);
+		Utils.validateNotNull(t2);
 		
-		while (it1.hasNext()) {
-			Transformable t = it1.next();
-			if (t instanceof TransformableFlag) {
-				continue;
+		if (t1.getCode() != t2.getCode()) {
+			return false;
+		}
+		if (t1.getArgumentMap().size() != t2.getArgumentMap().size()) {
+			return false;
+		}
+		for (EnumTransformationRole role : t1.getArgumentMap().values()) {
+			if (!areEqual(getTransformableByRole(t1, role),getTransformableByRole(t2, role))) {
+				return false;
 			}
-			if (set2.contains(t)) {
-				return true;
-			}
+			
+		}
+		return true;
+	}
+	
+	private static boolean areEqual(Transformable t1, Transformable t2) {
+		if (t1 == null && t2 == null) {
+			return true;
+		}
+		if (t1 == null || t2 == null) {
+			return false;
+		}
+		if (!t1.getClass().equals(t2.getClass())) {
+			return false;
+		}
+		if (t1 instanceof Attribute) {
+			return ERModelUtils.areEqual((ERText)t1, (ERText)t2);
+		}
+		if (t1 instanceof EntitySet) {
+			return ERModelUtils.areEqual((EntitySet)t1, (EntitySet)t2);
+		}
+		if (t1 instanceof Relationship) {
+			return ERModelUtils.areEqual((Relationship)t1, (Relationship)t2);
+		}
+		if (t1 instanceof RelationshipSide) {
+			return ERModelUtils.areEqual((RelationshipSide)t1, (RelationshipSide)t2);
+		}
+		if (t1 instanceof TransformableFlag) {
+			return true;
+		}
+		if (t1 instanceof TransformableList) {
+			return areEqual((TransformableList)t1, (TransformableList)t2);
 		}
 		return false;
+	}
+	
+	private static boolean areEqual(TransformableList list1, TransformableList list2) {
+		if (list1.size() != list2.size()) {
+			return false;
+		}
+		
+		transformable : for (Transformable t1 : list1) {
+			for (Transformable t2 : list2) {
+				if (areEqual(t1, t2)) {
+					continue transformable;
+				}
+			}
+			return false;
+		}
+		
+		return true;
 	}
 }

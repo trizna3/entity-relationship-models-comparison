@@ -2,24 +2,23 @@ package sk.trizna.erm_comparison.entity_relationship_model;
 
 import java.util.List;
 
+import sk.trizna.erm_comparison.common.utils.StringUtils;
+import sk.trizna.erm_comparison.common.utils.Utils;
+
 public interface Attributed {
 
 	List<Attribute> getAttributes();
 	
-	default boolean attributesAreEqual(Attributed other) {
-		if (other == null) {
-			return false;
+	default Attribute getAttribute(String string) {
+		Utils.validateNotNull(string);
+		
+		for (Attribute attribute : getAttributes()) {
+			if (StringUtils.areEqual(attribute.getText(), string)) {
+				return attribute;
+			}
 		}
-		if (this.getAttributes() == null && other.getAttributes() == null) {
-			return true;
-		}
-		if (this.getAttributes() == null || other.getAttributes() == null) {
-			return false;
-		}
-		if (this.getAttributes().size() != other.getAttributes().size()) {
-			return false;
-		}
-		return this.getAttributes().containsAll(other.getAttributes());
+		
+		return null;
 	}
 	
 	default int getAttributesCount() {

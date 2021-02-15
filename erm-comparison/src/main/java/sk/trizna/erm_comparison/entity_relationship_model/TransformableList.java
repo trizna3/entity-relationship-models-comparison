@@ -9,6 +9,13 @@ import sk.trizna.erm_comparison.transformations.Transformable;
 public class TransformableList extends Transformable implements Iterable<Transformable>{
 	
 	private List<Transformable> elements;
+	
+	public TransformableList() {
+	}
+	
+	public TransformableList(List<Transformable> elements) {
+		this.elements = elements;
+	}
 
 	public List<Transformable> getElements() {
 		if (elements == null) {
@@ -20,15 +27,13 @@ public class TransformableList extends Transformable implements Iterable<Transfo
 	public void setElements(List<Transformable> elements) {
 		this.elements = elements;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof TransformableList)) {
-			return false;
-		}
-		TransformableList other = (TransformableList) obj;
-		
-		return getElements().containsAll(other.getElements());
+	
+	public int size() {
+		return getElements().size();
+	}
+	
+	public boolean isEmpty() {
+		return getElements().isEmpty();
 	}
 
 	@Override

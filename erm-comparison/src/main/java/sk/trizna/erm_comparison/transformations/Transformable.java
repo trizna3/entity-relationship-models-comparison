@@ -1,36 +1,41 @@
 package sk.trizna.erm_comparison.transformations;
 
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
+import sk.trizna.erm_comparison.entity_relationship_model.TransformableList;
 
 public abstract class Transformable {
 
-	private Set<EnumTransformation> transformationFlags;
+	private Map<EnumTransformation,TransformableList> transformationFlags;
 
-	public Set<EnumTransformation> getTransformationFlags() {
+	public Map<EnumTransformation,TransformableList> getTransformationFlags() {
 		if (transformationFlags == null) {
-			transformationFlags = new HashSet<>();
+			transformationFlags = new HashMap<EnumTransformation, TransformableList>();
 		}
 		return transformationFlags;
 	}
 
-	public void setTransformationFlags(Set<EnumTransformation> transformationFlags) {
-		this.transformationFlags = transformationFlags;
-	}
-
 	public void addTransformationFlag(EnumTransformation flag) {
-		getTransformationFlags().add(flag);
+		getTransformationFlags().put(flag,null);
+	}
+	
+	public void addTransformationFlag(EnumTransformation flag, TransformableList list) {
+		getTransformationFlags().put(flag,list);
 	}
 
 	public void removeTransformationFlag(EnumTransformation flag) {
 		getTransformationFlags().remove(flag);
 	}
+	
+	public TransformableList getTransformationData(EnumTransformation flag) {
+		return getTransformationFlags().get(flag);
+	}
 
 	public boolean containsTransformationFlag(EnumTransformation flag) {
-		return getTransformationFlags().contains(flag);
+		return getTransformationFlags().containsKey(flag);
 	}
 	
 	public static Comparator<Transformable> getComparator() {

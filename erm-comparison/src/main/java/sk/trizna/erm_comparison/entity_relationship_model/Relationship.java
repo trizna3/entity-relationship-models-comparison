@@ -1,6 +1,7 @@
 package sk.trizna.erm_comparison.entity_relationship_model;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import sk.trizna.erm_comparison.common.utils.PrintUtils;
@@ -49,6 +50,10 @@ public abstract class Relationship extends ERModelElement implements Named {
 	public RelationshipSide getSecondSide() {
 		Utils.validateBinary(this);
 		return getSecond();
+	}
+	
+	public Set<EntitySet> getIncidentEntitySetsDistinct() {
+		return getSides().stream().map(side -> side.getEntitySet()).collect(Collectors.toSet());
 	}
 
 	protected RelationshipSide getFirst() {

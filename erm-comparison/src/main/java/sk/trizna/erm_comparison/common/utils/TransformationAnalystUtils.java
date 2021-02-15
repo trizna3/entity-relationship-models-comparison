@@ -1,6 +1,5 @@
 package sk.trizna.erm_comparison.common.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -103,14 +102,14 @@ public class TransformationAnalystUtils extends Utils {
 		
 		if (!EnumRelationshipSideRole.ONE.equals(relationship.getFirstSide().getRole())) {
 			if (conditionalTransformation) {
-				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
+				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
 		}
 		if (!EnumRelationshipSideRole.ONE.equals(relationship.getSecondSide().getRole())) {
 			if (conditionalTransformation) {
-				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getSecondSide().getEntitySet()));
+				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getSecondSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
@@ -182,14 +181,14 @@ public class TransformationAnalystUtils extends Utils {
 		
 		if (!EnumRelationshipSideRole.MANY.equals(relationship.getFirstSide().getRole())) {
 			if (conditionalTransformation) {
-				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
+				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
 		}
 		if (!EnumRelationshipSideRole.MANY.equals(relationship.getSecondSide().getRole())) {
 			if (conditionalTransformation) {
-				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
+				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
@@ -274,7 +273,7 @@ public class TransformationAnalystUtils extends Utils {
 			}
 			if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
 				if (conditionalTransformation) {
-					addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
+					preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
 				} else {
 					throw PRECONDITION_NOT_MET_POOL.getObject();
 				}
@@ -282,7 +281,7 @@ public class TransformationAnalystUtils extends Utils {
 			RelationshipSide otherSide = RelationshipUtils.getOtherSide(relationship, entitySet);
 			if (!EnumRelationshipSideRole.ONE.equals(otherSide.getRole())) {
 				if (conditionalTransformation) {
-					addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, otherSide.getEntitySet()));
+					preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, otherSide.getEntitySet()));
 				} else {
 					throw PRECONDITION_NOT_MET_POOL.getObject();
 				}
@@ -324,7 +323,7 @@ public class TransformationAnalystUtils extends Utils {
 				continue;
 			}
 			for (Attribute attribute : entitySet.getAttributes()) {
-				if (!notMappedEntitySetNames.contains(attribute)) {	
+				if (!CollectionUtils.containsText(notMappedEntitySetNames, attribute)) {
 					continue;
 				}
 				
@@ -379,7 +378,7 @@ public class TransformationAnalystUtils extends Utils {
 		if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION)) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
-		if (!otherModelAttributes.contains(attribute)) {
+		if (!CollectionUtils.containsText(otherModelAttributes, attribute)) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
 	}
@@ -389,7 +388,7 @@ public class TransformationAnalystUtils extends Utils {
 		
 		if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
 			if (conditionalTransformation) {
-				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
+				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
@@ -432,7 +431,7 @@ public class TransformationAnalystUtils extends Utils {
 		if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET)) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
-		if (!otherModelAttributes.contains(attribute)) {
+		if (!CollectionUtils.containsText(otherModelAttributes, attribute)) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
 	}
@@ -442,7 +441,7 @@ public class TransformationAnalystUtils extends Utils {
 		
 		if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
 			if (conditionalTransformation) {
-				addToPreconditions(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
+				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
@@ -497,14 +496,14 @@ public class TransformationAnalystUtils extends Utils {
 		Utils.validateNotNull(target);
 		Utils.validateNotNull(model);
 		
-		AttributeCompositionUtils.getAllComposedAttributes().forEach(attribute -> {
+		AttributeCompositionUtils.getAllComposedAttributes().forEach(attrText -> {
 			model.getEntitySets().forEach(entitySet -> {
-				if (entitySet.containsAttribute(attribute)) {
-					List<String> parts = AttributeCompositionUtils.getAttributeParts(attribute);
+				if (entitySet.containsAttribute(attrText)) {
+					List<String> parts = AttributeCompositionUtils.getAttributeParts(attrText);
 					TransformableList transformableList = new TransformableList();
 					transformableList.setElements(parts.stream().map(part -> new Attribute(part)).collect(Collectors.toList()));
 					
-					target.add(TransformationFactory.getDecomposeAttribute(entitySet, new Attribute(attribute), transformableList, model.isExemplar() ? TRANSFORMABLE_FLAG_POOL.getObject() : null));
+					target.add(TransformationFactory.getDecomposeAttribute(entitySet, entitySet.getAttribute(attrText), transformableList, model.isExemplar() ? TRANSFORMABLE_FLAG_POOL.getObject() : null));
 				}
 			});
 		});
@@ -516,9 +515,14 @@ public class TransformationAnalystUtils extends Utils {
 		
 		for (int i = 0; i < model.getEntitySetsCount(); i++) {
 			EntitySet entitySet1 = model.getEntitySets().get(i);
+			if (entitySet1.containsTransformationFlag(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET)) {
+				continue;
+			}
 			for (int j = i; j < model.getEntitySetsCount(); j++) {
 				EntitySet entitySet2 = model.getEntitySets().get(j);
-				
+				if (entitySet2.containsTransformationFlag(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET)) {
+					continue;
+				}
 				if (entitySet1 == entitySet2) {
 					continue;
 				}
@@ -550,19 +554,5 @@ public class TransformationAnalystUtils extends Utils {
 			associationComparator = AssociationComparator.getInstance();
 		}
 		return associationComparator;
-	}
-	
-	/**
-	 * Adds new precondition.
-	 * Moved to separate method, so we initialize preconditions ArrayList only when it's needed.
-	 * 
-	 * @param preconditions
-	 * @param precondition
-	 */
-	private static void addToPreconditions(List<Transformation> preconditions, Transformation precondition) {
-		if (preconditions == null) {
-			preconditions = new ArrayList<Transformation>();
-		}
-		preconditions.add(precondition);
 	}
 }

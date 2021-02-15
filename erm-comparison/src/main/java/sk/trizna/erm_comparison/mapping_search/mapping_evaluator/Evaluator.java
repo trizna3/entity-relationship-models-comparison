@@ -38,12 +38,14 @@ public class Evaluator implements IEvaluator {
 	public MappingEvaluation evaluateMapping(Mapping mapping, boolean finalize) {
 		Utils.validateNotNull(mapping);
 		
-		List<EntitySet> finalizedEntitySets = finalizeMapping(mapping);
-		double penalty = computePenalty(mapping);
-		unfinalizeMapping(mapping, finalizedEntitySets);
-		
+		double penalty;
 		if (finalize) {
+			List<EntitySet> finalizedEntitySets = finalizeMapping(mapping);
+			penalty = computePenalty(mapping);
+			unfinalizeMapping(mapping, finalizedEntitySets);
 			evaluate(mapping, penalty);
+		} else {
+			penalty = computePenalty(mapping);
 		}
 		
 		return new MappingEvaluation(null, null, null, null, penalty);

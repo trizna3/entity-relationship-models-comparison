@@ -70,8 +70,8 @@ public class ERModel {
 		Utils.validateNotNull(relationship);
 		if (updateNeighbours) {
 			// update neighbor maps
-			for (RelationshipSide side : relationship.getSides()) {
-				side.getEntitySet().addNeighbours(relationship);
+			for (EntitySet entitySet : relationship.getIncidentEntitySetsDistinct()) {
+				entitySet.addNeighbours(relationship);
 			}
 		}
 		getRelationships().add(relationship);
@@ -107,8 +107,8 @@ public class ERModel {
 		Utils.validateContains(this, relationship);
 
 		// update neighbor maps
-		for (RelationshipSide side : relationship.getSides()) {
-			side.getEntitySet().removeNeighbours(relationship);
+		for (EntitySet entitySet : relationship.getIncidentEntitySetsDistinct()) {
+			entitySet.removeNeighbours(relationship);
 		}
 
 		getRelationships().remove(relationship);

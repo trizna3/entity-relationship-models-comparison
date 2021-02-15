@@ -15,6 +15,7 @@ import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
+import sk.trizna.erm_comparison.common.utils.CollectionUtils;
 import sk.trizna.erm_comparison.common.utils.ERModelUtils;
 import sk.trizna.erm_comparison.common.utils.PrintUtils;
 import sk.trizna.erm_comparison.common.utils.RelationshipUtils;
@@ -39,7 +40,7 @@ public class TransformatorTest {
 		EntitySet entitySet = model.getEntitySets().get(1);
 		assert "Izby".equals(entitySet.getNameText());
 
-		Attribute attribute = new Attribute("Cislo");
+		Attribute attribute = entitySet.getAttribute("Cislo");
 
 		assert entitySet.getAttributes().contains(attribute);
 		assert model.getEntitySets().size() == 6;
@@ -58,7 +59,7 @@ public class TransformatorTest {
 		assertTrue(model.getEntitySets().size() == 7);
 		EntitySet newEntitySet = ERModelUtils.getEntitySetByName(model, attribute.getAttribute());
 		assertNotNull(newEntitySet);
-		assertTrue(newEntitySet.getAttributes().contains(new Attribute(EnumConstants.NAME_ATTRIBUTE)));
+		assertTrue(CollectionUtils.containsText(newEntitySet.getAttributes(),new Attribute(EnumConstants.NAME_ATTRIBUTE)));
 		Relationship relationship = entitySet.getNeighbours().get(newEntitySet).get(0);
 		assertNotNull(relationship);
 		assertEquals(RelationshipUtils.getRole(relationship, entitySet), EnumRelationshipSideRole.MANY);
@@ -73,7 +74,7 @@ public class TransformatorTest {
 		EntitySet entitySet = model.getEntitySets().get(1);
 		assert "Izby".equals(entitySet.getNameText());
 
-		Attribute attribute = new Attribute("Cislo");
+		Attribute attribute = entitySet.getAttribute("Cislo");
 
 		EntitySet newEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(EnumConstants.NAME_ATTRIBUTE)));
 		model.addEntitySet(newEntitySet);
@@ -113,7 +114,7 @@ public class TransformatorTest {
 
 		Association association = (Association) entitySet.getNeighbours().get(neighbour).get(0);
 
-		Attribute attribute = new Attribute("Cislo");
+		Attribute attribute = entitySet.getAttribute("Cislo");
 
 		assert entitySet.getAttributes().contains(attribute);
 		assert !association.getAttributes().contains(attribute);
@@ -148,8 +149,8 @@ public class TransformatorTest {
 
 		Attribute attribute = new Attribute("Hodnota");
 
-		assert !entitySet.getAttributes().contains(attribute);
-		assert association.getAttributes().contains(attribute);
+		assert CollectionUtils.containsText(entitySet.getAttributes(),attribute) == false;
+		assert CollectionUtils.containsText(association.getAttributes(),attribute);
 
 		Transformation transformation = new Transformation(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET);
 		transformation.addArgument(entitySet, EnumTransformationRole.ENTITY_SET);

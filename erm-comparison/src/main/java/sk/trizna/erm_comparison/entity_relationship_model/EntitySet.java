@@ -127,15 +127,8 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 				skipSelf = false;	// skip this entitySet only once
 				continue;
 			}
-			
-			// must remove by index, (based on reference equality), in case of multiple duplicate relationships
-			int idxForRemoval = -1;
-			for (int i = 0; i < getNeighbours().get(neighbour).size(); i++) {
-				if (getNeighbours().get(neighbour).get(i) == relationship) {
-					idxForRemoval = i;
-				}
-			}
-			if (idxForRemoval != -1) getNeighbours().get(neighbour).remove(idxForRemoval);
+
+			getNeighbours().get(neighbour).remove(relationship);
 			
 			if (getNeighbours().get(neighbour).isEmpty()) {
 				getNeighbours().remove(neighbour);
@@ -214,19 +207,6 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 	public void resetPriority() {
 		this.priority = null;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof EntitySet)) {
-			return false;
-		}
-		EntitySet other = (EntitySet) obj;
-		
-		if (!StringUtils.areEqual(this.getNameText(), other.getNameText())) {
-			return false;
-		}
-		return attributesAreEqual(other);
-	}	
 	
 	public EntitySet getFirstNeighbour() {
 		Utils.validateBinary(this);

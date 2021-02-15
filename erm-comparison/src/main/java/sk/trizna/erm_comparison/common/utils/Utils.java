@@ -21,6 +21,12 @@ public class Utils {
 			throw new IllegalArgumentException("EntitySet is not contained in the model!");
 		}
 	}
+	
+	public static void validateNotContains(ERModel model, EntitySet entitySet) {
+		if (model.contains(entitySet)) {
+			throw new IllegalArgumentException("EntitySet is contained in the model!");
+		}
+	}
 
 	public static void validateContains(ERModel model, Relationship relationship) {
 		if (!model.contains(relationship)) {
@@ -172,5 +178,21 @@ public class Utils {
 			result.add(stringArray[i].trim());
 		}
 		return result;
+	}
+	
+	/**
+	 * Adds new T instance.
+	 * Moved to separate method, so we initialize preconditions ArrayList only when it's needed.
+	 * 
+	 * @param list
+	 * @param element
+	 */
+	public static <T> List<T> addToList(List<T> list, T element) {
+		if (list == null) {
+			list = new ArrayList<T>();
+		}
+		list.add(element);
+		
+		return list;
 	}
 }

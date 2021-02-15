@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
-import sk.trizna.erm_comparison.common.utils.StringUtils;
 
 /**
  * @author - Adam Trizna
@@ -70,17 +69,5 @@ public class Generalization extends Relationship {
 	@Override
 	public boolean isBinary() {
 		return true;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof Generalization)) {
-			return false;
-		}
-		Generalization other = (Generalization) obj;
-		
-		return StringUtils.areEqual(getNameText(), other.getNameText()) && 
-				getSuperEntitySet().equals(other.getSuperEntitySet()) && 
-				getSubEntitySet().equals(other.getSubEntitySet());
 	}
 }

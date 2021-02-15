@@ -2,17 +2,21 @@ package sk.trizna.erm_comparison.transformations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.enums.EnumRelationshipSideRole;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
 import sk.trizna.erm_comparison.common.utils.CollectionUtils;
+import sk.trizna.erm_comparison.common.utils.ERModelUtils;
 import sk.trizna.erm_comparison.common.utils.PrintUtils;
 import sk.trizna.erm_comparison.common.utils.RelationshipUtils;
 import sk.trizna.erm_comparison.common.utils.StringUtils;
 import sk.trizna.erm_comparison.common.utils.TransformationUtils;
 import sk.trizna.erm_comparison.common.utils.Utils;
+import sk.trizna.erm_comparison.comparing.ERTextComparator;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.AssociationSide;
@@ -399,11 +403,14 @@ public class Transformator {
 		EntitySet sourceEntitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.SOURCE_ENTITY_SET);
 		EntitySet targetEntitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.DEST_ENTITY_SET);
 
+		Utils.validateContains(mapping.getStudentModel(),sourceEntitySet);
+		Utils.validateContains(sourceEntitySet, attribute);
 		sourceEntitySet.removeAttribute(attribute);
-
+		sourceEntitySet.addTransformationFlag(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
+	
 		if (targetEntitySet == null) {
 			targetEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(EnumConstants.NAME_ATTRIBUTE)));
-			targetEntitySet.addTransformationFlag(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
+			targetEntitySet.addTransformationFlag(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET, new TransformableList(Arrays.asList(attribute)));
 			mapping.getStudentModel().addEntitySet(targetEntitySet);
 		} else {
 			if (!targetEntitySet.getAttributes().contains(attribute) && !StringUtils.areEqual(targetEntitySet.getNameText(),attribute.getText())) {
@@ -497,7 +504,10 @@ public class Transformator {
 		Attribute attribute = (Attribute) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE);
 		EntitySet destEntitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.DEST_ENTITY_SET);
 		EntitySet sourceEntitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.SOURCE_ENTITY_SET);
-
+		
+		Utils.validateContains(mapping.getStudentModel(), sourceEntitySet);
+		Utils.validateContains(mapping.getStudentModel(), destEntitySet);
+		
 		transformation.clearArguments();
 		transformation.addArgument(sourceEntitySet, EnumTransformationRole.DEST_ENTITY_SET);
 		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
@@ -506,14 +516,15 @@ public class Transformator {
 		destEntitySet.addAttribute(attribute);
 		
 		assert sourceEntitySet.getNeighbours().keySet().size() > 0;
-		if (sourceEntitySet.getNeighbours().keySet().size() > 1) {
-			assert sourceEntitySet.getNeighbours().get(destEntitySet).size() == 1;
+		assert sourceEntitySet.getNeighbours().get(destEntitySet) != null;
+		if (sourceEntitySet.getIncidentRelationships().size() > 1) {
 			mapping.getStudentModel().removeRelationship(sourceEntitySet.getNeighbours().get(destEntitySet).get(0));
 		} else {
 			mapping.getStudentModel().removeEntitySet(sourceEntitySet);
 			transformation.removeArgument(sourceEntitySet);
 		}
-
+		TransformationUtils.overwriteTransformationFlag(EnumTransformation.MERGE_ATTR_FROM_OWN_ENTITY_SET, destEntitySet);
+		
 		return transformation;
 	}
 
@@ -637,11 +648,15 @@ public class Transformator {
 		EntitySet entitySet1 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET1);
 		EntitySet entitySet2 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET2);
 
-		entitySet1.getAttributes().addAll(entitySet2.getAttributes());
+		Utils.validateContains(mapping.getStudentModel(), entitySet1);
+		Utils.validateContains(mapping.getStudentModel(), entitySet2);
+		
+		List<Attribute> duplicateAttributes = mergeAttributes(entitySet1, entitySet2);
 		entitySet1.setNameText(entitySet1.getNameText() + PrintUtils.DELIMITER_SEMICOLON + entitySet2.getNameText());
 
 		TransformableList transformableList = new TransformableList();
 		transformableList.getElements().addAll(entitySet2.getIncidentRelationships());
+		if (duplicateAttributes != null) transformableList.getElements().addAll(duplicateAttributes);
 
 		for (Relationship relationship : entitySet2.getIncidentRelationships()) {
 			RelationshipUtils.rebindEntitySets(relationship, entitySet2, entitySet1);
@@ -662,13 +677,20 @@ public class Transformator {
 		EntitySet entitySet2 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET2);
 		TransformableList transformableList = (TransformableList) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_LIST);
 
-		CollectionUtils.removeAllMaxOnce(entitySet.getAttributes(),entitySet2.getAttributes());
+		Utils.validateContains(mapping.getStudentModel(), entitySet);
+		Utils.validateNotContains(mapping.getStudentModel(), entitySet2);
+		
+		splitAttributes(entitySet,entitySet2);
 		entitySet.setNameText(StringUtils.decomposeName(entitySet.getNameText(), entitySet2.getNameText()));
 		
 		mapping.getStudentModel().addEntitySet(entitySet2);
 
 		for (Transformable transformable : transformableList.getElements()) {
-			RelationshipUtils.rebindEntitySets((Relationship) transformable, entitySet, entitySet2);
+			if (transformable instanceof Relationship) {
+				RelationshipUtils.rebindEntitySets((Relationship) transformable, entitySet, entitySet2);
+			} else if (transformable instanceof Attribute) {
+				entitySet.addAttribute((Attribute)transformable);
+			}
 		}
 
 		transformation.clearArguments();
@@ -676,5 +698,36 @@ public class Transformator {
 		transformation.addArgument(entitySet2, EnumTransformationRole.ENTITY_SET2);
 		
 		return transformation;
+	}
+	
+	private static List<Attribute> mergeAttributes(EntitySet dest, EntitySet source) {
+		List<Attribute> duplicates = null;
+		for (Attribute attribute : source.getAttributes()) {
+			// avoid duplicate attributes in dest entitySet
+			Attribute destAttribute = dest.getAttribute(attribute.getText());
+			if (destAttribute != null) { 
+				duplicates = Utils.addToList(duplicates, destAttribute);
+				continue;
+			}
+			// don't merge attributes which were previously extracted from the dest entitySet
+			TransformableList trList = dest.getTransformationData(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
+			if (trList != null &&  CollectionUtils.containsByComparator(trList.getElements(), attribute, ERTextComparator.getInstance())) {
+				continue;
+			}
+			dest.addAttribute(attribute);
+		}
+		return duplicates;
+	}
+	
+	private static void splitAttributes(EntitySet merged, EntitySet other) {
+		for (Attribute attribute : other.getAttributes()) {
+			Iterator<Attribute> it = merged.getAttributes().iterator();
+			while(it.hasNext()) {
+				if (ERModelUtils.areEqual(attribute, it.next())) {
+					it.remove();
+					break;
+				}
+			}
+		}
 	}
 }

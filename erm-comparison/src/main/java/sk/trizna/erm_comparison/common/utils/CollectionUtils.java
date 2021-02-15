@@ -1,7 +1,11 @@
 package sk.trizna.erm_comparison.common.utils;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+
+import sk.trizna.erm_comparison.entity_relationship_model.ERText;
+import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 
 /**
  * @author - Adam Trizna
@@ -23,7 +27,7 @@ public class CollectionUtils extends Utils {
 	}
 	
 	/**
-	 * Determines, if obj is contained in given collection, uses refference id comparison, not overriden compareTo/hashCode. 
+	 * Determines, if obj is contained in given collection, uses reference id comparison, not overriden compareTo/hashCode. 
 	 * @param <T>
 	 * @param collection
 	 * @param obj
@@ -55,5 +59,66 @@ public class CollectionUtils extends Utils {
 		for (T target : targets) {
 			list.remove(list.indexOf(target));
 		}
+	}
+	
+	public static <T extends ERText> boolean containsText(Collection<T> collection, T target) {
+		validateNotNull(collection);
+		validateNotNull(target);
+		
+		for (ERText text : collection) {
+			if (ERModelUtils.areEqual(text,target)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static <T extends ERText> boolean containsAllTexts(Collection<T> collection, Collection<T> targets) {
+		validateNotNull(collection);
+		validateNotNull(targets);
+		
+		for (T target : targets) {
+			if (!containsText(collection,target)) {
+				return false;
+			}
+		}
+		
+		return true;		
+	}
+	
+	public static <T extends RelationshipSide> boolean containsSides(Collection<T> collection, T target) {
+		validateNotNull(collection);
+		validateNotNull(target);
+		
+		for (T side : collection) {
+			if (ERModelUtils.areEqual(side, target)) {
+				return true;
+			}
+		}
+		
+		return false;		
+	}
+	
+	public static <T extends RelationshipSide> boolean containsAllSides(Collection<T> collection, Collection<T> targets) {
+		validateNotNull(collection);
+		validateNotNull(targets);
+		
+		for (T target : targets) {
+			if (!containsSides(collection,target)) {
+				return false;
+			}
+		}
+		
+		return true;		
+	}
+	
+	public static boolean containsByComparator(Collection<? extends Object> collection, Object target, Comparator<Object> comparator) { 
+		for (Object obj : collection) {
+			if (comparator.compare(obj, target) == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
