@@ -48,8 +48,7 @@ public class TransformationUtils extends Utils {
 
 		if (EnumRelationshipSideRole.ONE.equals(associationSide.getRole())) {
 			associationSide.setRole(EnumRelationshipSideRole.MANY);
-		}
-		if (EnumRelationshipSideRole.MANY.equals(associationSide.getRole())) {
+		} else if (EnumRelationshipSideRole.MANY.equals(associationSide.getRole())) {
 			associationSide.setRole(EnumRelationshipSideRole.ONE);
 		}
 	}

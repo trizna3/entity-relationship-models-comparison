@@ -156,7 +156,7 @@ public class PrintUtils extends Utils {
 	public static final String getReprName(Attribute attribute) {
 		validateNotNull(attribute);
 
-		return attribute.getAttribute();
+		return attribute.getText();
 	}
 
 	public static final String getReprName(Transformable transformable) {
@@ -177,7 +177,7 @@ public class PrintUtils extends Utils {
 
 	public static final String print(Attribute attribute) {
 		validateNotNull(attribute);
-		return attribute.getAttribute();
+		return attribute.getText();
 	}
 	
 	public static final String print(Mapping mapping) {

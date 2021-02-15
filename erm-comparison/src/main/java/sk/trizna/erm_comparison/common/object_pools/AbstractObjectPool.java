@@ -22,8 +22,6 @@ public abstract class AbstractObjectPool<O> {
 		O newInstance;
 		if (!freeInstances.isEmpty()) {
 			newInstance = freeInstances.remove(0);
-			
-			return newInstance;
 		} else {
 			newInstance = createObjectInternal();
 		}

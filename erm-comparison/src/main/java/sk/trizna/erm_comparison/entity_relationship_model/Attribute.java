@@ -20,14 +20,6 @@ public class Attribute extends Transformable implements ERText {
 		this.attribute = attribute;
 	}
 
-	public String getAttribute() {
-		return attribute;
-	}
-
-	public void setAttribute(String attribute) {
-		this.attribute = attribute;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof ERText)) {
@@ -53,7 +45,7 @@ public class Attribute extends Transformable implements ERText {
 				if (o1 == null && o2 == null) return 0;
 				if (o1 == null) return 1;
 				if (o2 == null) return -1;
-				return o1.getAttribute().compareTo(o2.getAttribute());
+				return o1.getText().compareTo(o2.getText());
 			}
 		}; 
 	}
