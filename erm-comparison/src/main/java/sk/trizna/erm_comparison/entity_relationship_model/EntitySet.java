@@ -140,7 +140,8 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 		Utils.validateNotNull(neighbour);
 		Utils.validateNotNull(relationship);
 		Utils.validateContains(relationship, this);
-
+		Utils.validateNotNull(getNeighbours().get(neighbour));
+		
 		getNeighbours().get(neighbour).remove(relationship);
 		if (getNeighbours().get(neighbour).isEmpty()) {
 			getNeighbours().remove(neighbour);

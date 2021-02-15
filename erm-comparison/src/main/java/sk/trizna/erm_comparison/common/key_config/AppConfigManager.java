@@ -37,13 +37,12 @@ public class AppConfigManager extends KeyConfigManager {
 	@Override
 	protected void loadValues(Properties prop) {
 		valueMap.put(EnumConstants.CONFIG_PRINT_RESULT, prop.getProperty(EnumConstants.CONFIG_PRINT_RESULT));
-		valueMap.put(EnumConstants.CONFIG_PRINT_TRANSFORMATION_PROGRESS, prop.getProperty(EnumConstants.CONFIG_PRINT_TRANSFORMATION_PROGRESS));
-		valueMap.put(EnumConstants.CONFIG_TRACK_PROGRESS, prop.getProperty(EnumConstants.CONFIG_TRACK_PROGRESS));
 		valueMap.put(EnumConstants.CONFIG_EARLY_STOP, prop.getProperty(EnumConstants.CONFIG_EARLY_STOP));
 		valueMap.put(EnumConstants.CONFIG_EARLY_STOP_BOUND, prop.getProperty(EnumConstants.CONFIG_EARLY_STOP_BOUND));
 		valueMap.put(EnumConstants.CONFIG_LANGUAGE_PROCESSOR, prop.getProperty(EnumConstants.CONFIG_LANGUAGE_PROCESSOR));
 		valueMap.put(EnumConstants.CONFIG_VALIDATE_ROLES, prop.getProperty(EnumConstants.CONFIG_VALIDATE_ROLES));
 		valueMap.put(EnumConstants.CONFIG_CONDITIONAL_TRANSFORMATION, prop.getProperty(EnumConstants.CONFIG_CONDITIONAL_TRANSFORMATION));
+		valueMap.put(EnumConstants.CONFIG_BUGFIX_MODE, prop.getProperty(EnumConstants.CONFIG_BUGFIX_MODE));
 	}
 
 	@Override

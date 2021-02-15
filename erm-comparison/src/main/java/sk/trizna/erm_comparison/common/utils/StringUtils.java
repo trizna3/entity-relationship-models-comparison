@@ -299,6 +299,25 @@ public class StringUtils extends Utils {
 		validateNotNull(compositeName);
 		return compositeName.split(PrintUtils.DELIMITER_SEMICOLON_STR);
 	}
+	
+	/**
+	 * Adds character to beginning of the string, up to given length. 
+	 * 
+	 * @param string
+	 * @param length
+	 * @param character
+	 * @return
+	 */
+	public static String fillUpToLength(String string, int length, char character) {
+		validateNotNull(string);
+		
+		StringBuilder result = new StringBuilder(string);
+		while (result.length() < length) {
+			result.insert(0, character);
+		}
+		
+		return result.toString();
+	}
 
 	private static Map<String,Integer> getHashtable() {
 		if (hashtable == null) {

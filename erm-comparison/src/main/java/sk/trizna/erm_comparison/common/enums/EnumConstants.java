@@ -15,10 +15,6 @@ public class EnumConstants {
 	
 	public static final String CONFIG_PRINT_RESULT = "print_result";
 	
-	public static final String CONFIG_PRINT_TRANSFORMATION_PROGRESS = "print_transformation_progress";
-	
-	public static final String CONFIG_TRACK_PROGRESS = "track_progress";
-	
 	public static final String CONFIG_EARLY_STOP = "early_stop";
 	
 	public static final String CONFIG_EARLY_STOP_BOUND = "early_stop_bound";
@@ -26,6 +22,8 @@ public class EnumConstants {
 	public static final String CONFIG_VALIDATE_ROLES = "validate_roles";
 	
 	public static final String CONFIG_CONDITIONAL_TRANSFORMATION = "conditional_transformation";
+	
+	public static final String CONFIG_BUGFIX_MODE = "bugfix_mode";
 	
 	public static final String CONFIG_LANGUAGE_PROCESSOR = "language_processor";
 	

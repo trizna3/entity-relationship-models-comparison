@@ -33,6 +33,12 @@ public class Utils {
 			throw new IllegalArgumentException("Relationship is not contained in the model!");
 		}
 	}
+	
+	public static void validateEqual(ERModel model1, ERModel model2) {
+		if (!ERModelUtils.modelsAreEqual(model1, model2)) {
+			throw new IllegalArgumentException("Models are not equal!");
+		}
+	}
 
 	public static void validateContains(Relationship relationship, EntitySet entitySet) {
 		if (!relationship.contains(entitySet)) {

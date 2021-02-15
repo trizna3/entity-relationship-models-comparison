@@ -119,6 +119,11 @@ public class PrintUtils extends Utils {
 			result.append(PrintUtils.getReprName(argument));
 		}
 		result.append(")");
+		if (transformation.getPreconditions() != null) {
+			result.append(" Preconditions: (");
+			transformation.getPreconditions().forEach(precondition -> result.append(print(precondition)));
+			result.append(")");
+		}
 
 		return result.toString();
 	}
@@ -218,18 +223,45 @@ public class PrintUtils extends Utils {
 		
 		return assocName.toString();
 	}
+	
+	public static void logTransformationBatch(String nestingId, List<Transformation> transformations, int[] indices, String direction) {
+		Utils.validateNotNull(transformations);
+		Utils.validateNotNull(direction);
 
-	public static void logTransformation(Transformation transformation, String direction) {
+		StringBuilder result = new StringBuilder();
+
+		result.append(nestingId);
+		result.append(" ");
+		result.append(direction);
+		result.append(" ");
+		
+		boolean first = true;
+		for (int index : indices) {
+			if (first) {
+				first = false;
+			} else {
+				result.append("|");
+			}
+			result.append(print(transformations.get(index)));
+		}
+
+		log(result.toString());
+	}
+
+	public static void logTransformation(String nestingId, Transformation transformation, String direction) {
 		Utils.validateNotNull(transformation);
 		Utils.validateNotNull(direction);
 
 		StringBuilder result = new StringBuilder();
 
-		result.append(direction + PrintUtils.print(transformation));
+		result.append(nestingId);
+		result.append(" ");
+		result.append(direction);
+		result.append(PrintUtils.print(transformation));
 
 		log(result.toString());
 	}
-
+	
 	private static String join(Iterable<?> objects, String delimiter) {
 		int count = 0;
 		StringBuilder result = new StringBuilder();

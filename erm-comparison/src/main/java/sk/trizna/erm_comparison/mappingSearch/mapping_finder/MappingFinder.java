@@ -5,10 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import sk.trizna.erm_comparison.common.BugfixSnapshot;
 import sk.trizna.erm_comparison.common.Clock;
+import sk.trizna.erm_comparison.common.UniqueIdGenerator;
 import sk.trizna.erm_comparison.common.enums.EnumConstants;
 import sk.trizna.erm_comparison.common.enums.SimilarityConstantsUtils;
 import sk.trizna.erm_comparison.common.key_config.AppConfigManager;
+import sk.trizna.erm_comparison.common.utils.ERModelUtils;
 import sk.trizna.erm_comparison.common.utils.MappingUtils;
 import sk.trizna.erm_comparison.common.utils.PrintUtils;
 import sk.trizna.erm_comparison.common.utils.TransformationUtils;
@@ -41,10 +44,9 @@ public class MappingFinder {
 	private AppConfigManager appConfigManager = AppConfigManager.getInstance();
 	private Clock clock = new Clock();
 	private boolean printResult = Boolean.valueOf(appConfigManager.getResource(EnumConstants.CONFIG_PRINT_RESULT).toString());
-	private boolean printTransformationProgress = Boolean.valueOf(appConfigManager.getResource(EnumConstants.CONFIG_PRINT_TRANSFORMATION_PROGRESS).toString());
-	private boolean trackProgress = Boolean.valueOf(appConfigManager.getResource(EnumConstants.CONFIG_TRACK_PROGRESS).toString());
 	private boolean earlyStop = Boolean.valueOf(appConfigManager.getResource(EnumConstants.CONFIG_EARLY_STOP).toString());
 	private int earlyStopBound = Integer.valueOf(appConfigManager.getResource(EnumConstants.CONFIG_EARLY_STOP_BOUND).toString());
+	private boolean bugfixMode = Boolean.valueOf(appConfigManager.getResource(EnumConstants.CONFIG_BUGFIX_MODE).toString());
 	
 	/**
 	 * Stack level counter
@@ -215,6 +217,11 @@ public class MappingFinder {
 				for (int[] combinationIndices : Utils.generateCombinations(decPart.size(), combSize)) {
 					int[] excludedIndices = Utils.getExcludedIndices(combinationIndices, decPart.size()-1);
 					
+					BugfixSnapshot snapshot = null;
+					if (bugfixMode) {
+						snapshot = bugfixExecution(mapping,decPart,combinationIndices);
+					}
+					
 					executeAll(decPart, combinationIndices, mapping);
 					forbidAll(decPart, excludedIndices, mapping);
 					incrementTransDepthCounter();
@@ -225,11 +232,35 @@ public class MappingFinder {
 					decrementTransDepthCounter();
 					permitAll(decPart, excludedIndices, mapping);
 					revertAll(decPart, combinationIndices, mapping);
+					
+					if (bugfixMode) {
+						bugfixRevert(mapping, snapshot, decPart, combinationIndices);
+					}
 				}
 			}
 		}
 		
 		TransformationAnalyst.freeTransformations(transformations);
+	}
+	
+	private BugfixSnapshot bugfixExecution(Mapping mapping, List<Transformation> transformations, int[] transformationIndices) {
+		String id = UniqueIdGenerator.generateId();
+		PrintUtils.logTransformationBatch(id, transformations, transformationIndices, PrintUtils.DIRECTION_DOWN);
+		return new BugfixSnapshot(id,ERModelUtils.getClone(mapping.getExemplarModel()),ERModelUtils.getClone(mapping.getStudentModel()));
+	}
+	
+	private void bugfixRevert(Mapping mapping, BugfixSnapshot bugfixSnapshot, List<Transformation> transformations, int[] transformationIndices) {
+		PrintUtils.logTransformationBatch(bugfixSnapshot.getNestingId(), transformations, transformationIndices, PrintUtils.DIRECTION_UP);
+		
+		if (!ERModelUtils.modelsAreEqual(mapping.getExemplarModel(), bugfixSnapshot.getExemplarModelClone())) {
+			PrintUtils.log("!!! models are not equal");
+			throw new IllegalStateException();
+		}
+		if (!ERModelUtils.modelsAreEqual(mapping.getStudentModel(), bugfixSnapshot.getStudentModelClone())) {
+			PrintUtils.log("!!! models are not equal");
+//			ERModelUtils.modelsAreEqual(mapping.getStudentModel(), bugfixSnapshot.getStudentModelClone());
+			throw new IllegalStateException();
+		}
 	}
 	
 	private List<Transformation> filterForbiddenTransformations(List<Transformation> possibleTransformations, Mapping mapping) {
@@ -284,9 +315,6 @@ public class MappingFinder {
 	}
 
 	private void executeTransformation(Mapping mapping, Transformation transformation) {
-		if (printTransformationProgress) {
-			PrintUtils.logTransformation(transformation, PrintUtils.DIRECTION_DOWN);
-		}
 		transformation.getPreconditions().forEach(precondition -> {
 			executeTransformation(mapping,precondition);
 		});
@@ -295,9 +323,6 @@ public class MappingFinder {
 	}
 
 	private void revertTransformation(Mapping mapping, Transformation transformation) {
-		if (printTransformationProgress) {
-			PrintUtils.logTransformation(transformation, PrintUtils.DIRECTION_UP);
-		}
 		mapping.removeTransformation(transformation);
 		Transformator.revert(mapping, transformation);
 		transformation.getPreconditions().forEach(precondition -> {
@@ -306,9 +331,6 @@ public class MappingFinder {
 	}
 
 	private void incrementTransDepthCounter() {
-		if (trackProgress && transformationDepthCounter == 0) {
-			PrintUtils.log("Backtrack hit recursive level 0");
-		}
 		transformationDepthCounter++;
 	}
 

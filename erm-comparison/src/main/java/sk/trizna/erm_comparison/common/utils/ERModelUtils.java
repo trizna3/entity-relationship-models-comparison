@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import sk.trizna.erm_comparison.common.enums.EnumConstants;
+import sk.trizna.erm_comparison.common.key_config.AppConfigManager;
 import sk.trizna.erm_comparison.comparing.RelationshipComparator;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
@@ -22,6 +24,8 @@ import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 
 public class ERModelUtils extends Utils {
 
+	private static boolean bugfixMode = Boolean.valueOf(AppConfigManager.getInstance().getResource(EnumConstants.CONFIG_BUGFIX_MODE).toString());
+	
 	/**
 	 * Transforms each entitySet, incident to given relationship, to it's mapping image.
 	 * Returns list of all relationships from given otherModel which are incident to exactly all entitySet images (and no other).
@@ -142,6 +146,10 @@ public class ERModelUtils extends Utils {
 		}
 
 		if (!entitySetsToProcess.isEmpty()) {
+			if (bugfixMode) {
+				PrintUtils.log("Model equality failure: not-mapped entitySets: " + entitySetsToProcess.stream().map(entitySet -> entitySet.getNameText()).collect(Collectors.toList()).toString());
+				
+			}
 			return false;
 		}
 
@@ -162,7 +170,14 @@ public class ERModelUtils extends Utils {
 			}
 		}
 
-		return relationshipsToProcess.isEmpty();
+		if (!relationshipsToProcess.isEmpty()) {
+			if (bugfixMode) {
+				PrintUtils.log("Model equality failure: not-mapped relationships: " + relationshipsToProcess.stream().map(relationship -> relationship.getNameText()).toString());
+				
+			}
+			return false;
+		} 
+		return true;
 	}
 
 	/**
@@ -342,9 +357,6 @@ public class ERModelUtils extends Utils {
 	}
 	
 	public static boolean areEqual(Association association1, Association association2) {
-		if (!StringUtils.areEqual(association1.getNameText(), association2.getNameText())) {
-			return false;
-		}
 		return sidesAreEqual(association1,association2) && attributesAreEqual(association1,association2);
 	}
 	
