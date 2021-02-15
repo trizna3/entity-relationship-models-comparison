@@ -27,6 +27,7 @@ public class TransformationPool extends AbstractObjectPool<Transformation> {
 	@Override
 	protected void freeObjectInternal(Transformation instance) {
 		freeExemplarFlag(instance);
+		freePreconditions(instance);
 		instance.setCode(null);
 		instance.setProcessed(false);
 		instance.getArgumentMap().clear();
@@ -44,4 +45,10 @@ public class TransformationPool extends AbstractObjectPool<Transformation> {
 			TransformableFlagPool.getInstance().freeObject(flag);
 		}
 	}
+	
+	private void freePreconditions(Transformation instance) {
+		instance.getPreconditions().forEach(precondition -> {
+			freeObject(precondition);
+		});
+	} 
 }

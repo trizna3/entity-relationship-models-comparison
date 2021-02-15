@@ -59,7 +59,7 @@ public class TransformatorRevertTest {
 
 		Attribute attribute = entitySet.getAttribute("Cislo");
 
-		EntitySet newEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(EnumConstants.NAME_ATTRIBUTE)));
+		EntitySet newEntitySet = new EntitySet(attribute.getText(), new ArrayList<>(Arrays.asList(EnumConstants.NAME_ATTRIBUTE)));
 		model.addEntitySet(newEntitySet);
 
 		assert entitySet.getAttributes().contains(attribute);

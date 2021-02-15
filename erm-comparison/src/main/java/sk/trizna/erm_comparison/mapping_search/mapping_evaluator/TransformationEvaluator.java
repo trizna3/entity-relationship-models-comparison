@@ -59,6 +59,6 @@ public class TransformationEvaluator {
 		if (PenaltyConstants.HEAVY_TRANSFORMATIONS.contains(code)) {
 			return PenaltyConstants.TRANSFORMATION_PENALTY_HEAVY;
 		}
-		throw new IllegalArgumentException("Unknown Transformation code - cannot compute penalty!");
+		throw new IllegalArgumentException("Unknown Transformation code " + code + " - cannot compute penalty!");
 	} 
 }

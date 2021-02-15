@@ -17,6 +17,7 @@ import sk.trizna.erm_comparison.comparing.AssociationComparator;
 import sk.trizna.erm_comparison.comparing.EntitySetAssociationComparator;
 import sk.trizna.erm_comparison.comparing.EntitySetComparator;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
+import sk.trizna.erm_comparison.entity_relationship_model.AssociationSide;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.entity_relationship_model.ERText;
@@ -101,14 +102,14 @@ public class TransformationAnalystUtils extends Utils {
 		List<Transformation> preconditions = null;
 		
 		if (!EnumRelationshipSideRole.ONE.equals(relationship.getFirstSide().getRole())) {
-			if (conditionalTransformation) {
+			if (conditionalTransformation && !relationship.getFirstSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
 		}
 		if (!EnumRelationshipSideRole.ONE.equals(relationship.getSecondSide().getRole())) {
-			if (conditionalTransformation) {
+			if (conditionalTransformation && !relationship.getSecondSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getSecondSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
@@ -180,15 +181,15 @@ public class TransformationAnalystUtils extends Utils {
 		List<Transformation> preconditions = null;
 		
 		if (!EnumRelationshipSideRole.MANY.equals(relationship.getFirstSide().getRole())) {
-			if (conditionalTransformation) {
+			if (conditionalTransformation && relationship.getFirstSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
 		}
 		if (!EnumRelationshipSideRole.MANY.equals(relationship.getSecondSide().getRole())) {
-			if (conditionalTransformation) {
-				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
+			if (conditionalTransformation && relationship.getSecondSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
+				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getSecondSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
@@ -271,8 +272,9 @@ public class TransformationAnalystUtils extends Utils {
 			if (RelationshipUtils.getOtherSide(relationship, entitySet).getEntitySet().getMappedTo() != null) {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
-			if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
-				if (conditionalTransformation) {
+			AssociationSide side = RelationshipUtils.getSide((Association)relationship, entitySet);
+			if (!EnumRelationshipSideRole.MANY.equals(side.getRole())) {
+				if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
 					preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
 				} else {
 					throw PRECONDITION_NOT_MET_POOL.getObject();
@@ -280,7 +282,7 @@ public class TransformationAnalystUtils extends Utils {
 			}
 			RelationshipSide otherSide = RelationshipUtils.getOtherSide(relationship, entitySet);
 			if (!EnumRelationshipSideRole.ONE.equals(otherSide.getRole())) {
-				if (conditionalTransformation) {
+				if (conditionalTransformation && !otherSide.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
 					preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, otherSide.getEntitySet()));
 				} else {
 					throw PRECONDITION_NOT_MET_POOL.getObject();
@@ -386,8 +388,9 @@ public class TransformationAnalystUtils extends Utils {
 	private static List<Transformation> moveAttributeToIncidentEntitySetPreconditionsSoft(Relationship relationship, EntitySet entitySet) throws PreconditionsNotMetException {
 		List<Transformation> preconditions = null;
 		
-		if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
-			if (conditionalTransformation) {
+		AssociationSide side = RelationshipUtils.getSide((Association)relationship, entitySet);
+		if (!EnumRelationshipSideRole.MANY.equals(side.getRole())) {
+			if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
@@ -439,8 +442,9 @@ public class TransformationAnalystUtils extends Utils {
 	private static List<Transformation> moveAttributeToIncidentAssociationPreconditionsSoft(Relationship relationship, EntitySet entitySet) throws PreconditionsNotMetException {
 		List<Transformation> preconditions = null;
 		
-		if (!EnumRelationshipSideRole.MANY.equals(RelationshipUtils.getRole(relationship, entitySet))) {
-			if (conditionalTransformation) {
+		AssociationSide side = RelationshipUtils.getSide((Association)relationship, entitySet);
+		if (!EnumRelationshipSideRole.MANY.equals(side.getRole())) {
+			if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();

@@ -79,6 +79,13 @@ public class ERModelUtils extends Utils {
 		}
 		return result;
 	}
+	
+	public static List<Relationship> getRelationshipsByEntitySet(ERModel model, EntitySet entitySet) {
+		validateNotNull(model);
+		validateNotNull(entitySet);
+
+		return model.getRelationships().stream().filter(rel -> rel.contains(entitySet)).collect(Collectors.toList());
+	}
 
 	/**
 	 * Determines if exemplar and student model are equal in given mapping.
@@ -193,7 +200,7 @@ public class ERModelUtils extends Utils {
 		validateNotNull(name);
 
 		for (EntitySet entitySet : model.getEntitySets()) {
-			if (name.equals(entitySet.getNameText())) {
+			if (StringUtils.areEqual(name, entitySet.getNameText())) {
 				return entitySet;
 			}
 		}

@@ -57,7 +57,7 @@ public class TransformatorTest {
 
 		assertFalse(entitySet.getAttributes().contains(attribute));
 		assertTrue(model.getEntitySets().size() == 7);
-		EntitySet newEntitySet = ERModelUtils.getEntitySetByName(model, attribute.getAttribute());
+		EntitySet newEntitySet = ERModelUtils.getEntitySetByName(model, attribute.getText());
 		assertNotNull(newEntitySet);
 		assertTrue(CollectionUtils.containsText(newEntitySet.getAttributes(),new Attribute(EnumConstants.NAME_ATTRIBUTE)));
 		Relationship relationship = entitySet.getNeighbours().get(newEntitySet).get(0);
@@ -76,7 +76,7 @@ public class TransformatorTest {
 
 		Attribute attribute = entitySet.getAttribute("Cislo");
 
-		EntitySet newEntitySet = new EntitySet(attribute.getAttribute(), new ArrayList<>(Arrays.asList(EnumConstants.NAME_ATTRIBUTE)));
+		EntitySet newEntitySet = new EntitySet(attribute.getText(), new ArrayList<>(Arrays.asList(EnumConstants.NAME_ATTRIBUTE)));
 		model.addEntitySet(newEntitySet);
 
 		assert entitySet.getAttributes().contains(attribute);

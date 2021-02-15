@@ -91,6 +91,9 @@ public class Evaluator implements IEvaluator {
 	 * @param mapping
 	 */
 	private void unfinalizeMapping(Mapping mapping, List<EntitySet> targetEntitySets) {
+		if (targetEntitySets == null) {
+			return;
+		}
 		ERModelUtils.unfinalizeModel(mapping.getStudentModel(),targetEntitySets);
 		ERModelUtils.unfinalizeModel(mapping.getExemplarModel(),targetEntitySets);
 	}

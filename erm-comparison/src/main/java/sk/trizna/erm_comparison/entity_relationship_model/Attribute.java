@@ -19,14 +19,6 @@ public class Attribute extends Transformable implements ERText {
 		this.attribute = attribute;
 	}
 
-	public String getAttribute() {
-		return attribute;
-	}
-
-	public void setAttribute(String attribute) {
-		this.attribute = attribute;
-	}
-
 	@Override
 	public String toString() {
 		return PrintUtils.print(this);
@@ -39,7 +31,7 @@ public class Attribute extends Transformable implements ERText {
 				if (o1 == null && o2 == null) return 0;
 				if (o1 == null) return 1;
 				if (o2 == null) return -1;
-				return o1.getAttribute().compareTo(o2.getAttribute());
+				return o1.getText().compareTo(o2.getText());
 			}
 		}; 
 	}

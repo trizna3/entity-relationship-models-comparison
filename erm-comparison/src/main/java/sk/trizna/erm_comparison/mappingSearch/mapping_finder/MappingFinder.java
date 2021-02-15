@@ -287,6 +287,9 @@ public class MappingFinder {
 		if (printTransformationProgress) {
 			PrintUtils.logTransformation(transformation, PrintUtils.DIRECTION_DOWN);
 		}
+		transformation.getPreconditions().forEach(precondition -> {
+			executeTransformation(mapping,precondition);
+		});
 		Transformator.execute(mapping, transformation);
 		mapping.addTransformation(transformation);
 	}
@@ -297,6 +300,9 @@ public class MappingFinder {
 		}
 		mapping.removeTransformation(transformation);
 		Transformator.revert(mapping, transformation);
+		transformation.getPreconditions().forEach(precondition -> {
+			revertTransformation(mapping,precondition);
+		});
 	}
 
 	private void incrementTransDepthCounter() {
