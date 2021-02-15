@@ -113,12 +113,43 @@ public class CollectionUtils extends Utils {
 		return true;		
 	}
 	
-	public static boolean containsByComparator(Collection<? extends Object> collection, Object target, Comparator<Object> comparator) { 
+	public static boolean containsByComparator(Collection<? extends Object> collection, Object target, Comparator<Object> comparator) {
+		validateNotNull(collection);
+		validateNotNull(target);
+		validateNotNull(comparator);
+		
 		for (Object obj : collection) {
 			if (comparator.compare(obj, target) == 0) {
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public static boolean containsAllByComparator(Collection<? extends Object> collection, Collection<? extends Object> targets, Comparator<Object> comparator) {
+		validateNotNull(collection);
+		validateNotNull(targets);
+		validateNotNull(comparator);
+		
+		for (Object target : targets) {
+			if (!containsByComparator(collection, target, comparator)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static boolean equalByComparator(Collection<? extends Object> collection1, Collection<? extends Object> collection2, Comparator<Object> comparator) {
+		validateNotNull(collection1);
+		validateNotNull(collection2);
+		validateNotNull(comparator);
+		
+		if (!containsAllByComparator(collection1, collection2, comparator)) {
+			return false;
+		}
+		if (!containsAllByComparator(collection2, collection1, comparator)) {
+			return false;
+		}		
+		return true;
 	}
 }

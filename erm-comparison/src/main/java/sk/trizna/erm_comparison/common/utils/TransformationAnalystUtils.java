@@ -58,7 +58,7 @@ public class TransformationAnalystUtils extends Utils {
 		for (Relationship relationship : model.getRelationships()) {
 			try {
 				contract11AssociationPreconditionsStrong(relationship,otherModel);
-				List<Transformation> preconditions = contract11AssociationPreconditionsSoft(relationship);
+				List<Transformation> preconditions = contract11AssociationPreconditionsSoft(relationship, model);
 				
 				Transformation transformation = TransformationFactory.getContract11Association((Association) relationship, model.isExemplar() ? TRANSFORMABLE_FLAG_POOL.getObject() : null);
 				transformation.setPreconditions(preconditions);
@@ -98,18 +98,18 @@ public class TransformationAnalystUtils extends Utils {
 		}
 	}
 
-	private static List<Transformation> contract11AssociationPreconditionsSoft(Relationship relationship) throws PreconditionsNotMetException {
+	private static List<Transformation> contract11AssociationPreconditionsSoft(Relationship relationship, ERModel model) throws PreconditionsNotMetException {
 		List<Transformation> preconditions = null;
 		
 		if (!EnumRelationshipSideRole.ONE.equals(relationship.getFirstSide().getRole())) {
-			if (conditionalTransformation && !relationship.getFirstSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
+			if (conditionalTransformation && !relationship.getFirstSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY) && !model.isExemplar()) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
 		}
 		if (!EnumRelationshipSideRole.ONE.equals(relationship.getSecondSide().getRole())) {
-			if (conditionalTransformation && !relationship.getSecondSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
+			if (conditionalTransformation && !relationship.getSecondSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY) && !model.isExemplar()) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getSecondSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
@@ -126,7 +126,7 @@ public class TransformationAnalystUtils extends Utils {
 		for (Relationship relationship : model.getRelationships()) {
 			try {
 				rebindMNTo1NN1PreconditionsStrong(relationship,otherModel);
-				List<Transformation> preconditions = rebindMNTo1NN1PreconditionsSoft(relationship);
+				List<Transformation> preconditions = rebindMNTo1NN1PreconditionsSoft(relationship, model);
 				
 				Transformation transformation = TransformationFactory.getRebindMNTo1NN1((Association)relationship,null,null,null);
 				transformation.setPreconditions(preconditions);
@@ -177,18 +177,18 @@ public class TransformationAnalystUtils extends Utils {
 		}
 	}
 	
-	private static List<Transformation> rebindMNTo1NN1PreconditionsSoft(Relationship relationship) throws PreconditionsNotMetException {
+	private static List<Transformation> rebindMNTo1NN1PreconditionsSoft(Relationship relationship, ERModel model) throws PreconditionsNotMetException {
 		List<Transformation> preconditions = null;
 		
 		if (!EnumRelationshipSideRole.MANY.equals(relationship.getFirstSide().getRole())) {
-			if (conditionalTransformation && relationship.getFirstSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
+			if (conditionalTransformation && relationship.getFirstSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY) && !model.isExemplar()) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getFirstSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
 		}
 		if (!EnumRelationshipSideRole.MANY.equals(relationship.getSecondSide().getRole())) {
-			if (conditionalTransformation && relationship.getSecondSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
+			if (conditionalTransformation && relationship.getSecondSide().containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY) && !model.isExemplar()) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, relationship.getSecondSide().getEntitySet()));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
@@ -205,7 +205,7 @@ public class TransformationAnalystUtils extends Utils {
 		for (EntitySet entitySet : model.getEntitySets()) {
 			try {
 				rebind1NN1ToMNPreconditionsStrong(entitySet,otherModel);
-				List<Transformation> preconditions = rebind1NN1ToMNPreconditionsSoft(entitySet);
+				List<Transformation> preconditions = rebind1NN1ToMNPreconditionsSoft(entitySet, model);
 				
 				List<Relationship> incidentRels = entitySet.getIncidentRelationships();
 				Association association1 = (Association) incidentRels.get(0);
@@ -261,7 +261,7 @@ public class TransformationAnalystUtils extends Utils {
 		}
 	}
 	
-	public static List<Transformation> rebind1NN1ToMNPreconditionsSoft(EntitySet entitySet) throws PreconditionsNotMetException {
+	private static List<Transformation> rebind1NN1ToMNPreconditionsSoft(EntitySet entitySet, ERModel model) throws PreconditionsNotMetException  {
 		List<Transformation> preconditions = null;
 		
 		// validations on entity set's incident associations
@@ -274,7 +274,7 @@ public class TransformationAnalystUtils extends Utils {
 			}
 			AssociationSide side = RelationshipUtils.getSide((Association)relationship, entitySet);
 			if (!EnumRelationshipSideRole.MANY.equals(side.getRole())) {
-				if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
+				if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY) && !model.isExemplar()) {
 					preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
 				} else {
 					throw PRECONDITION_NOT_MET_POOL.getObject();
@@ -282,7 +282,7 @@ public class TransformationAnalystUtils extends Utils {
 			}
 			RelationshipSide otherSide = RelationshipUtils.getOtherSide(relationship, entitySet);
 			if (!EnumRelationshipSideRole.ONE.equals(otherSide.getRole())) {
-				if (conditionalTransformation && !otherSide.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
+				if (conditionalTransformation && !otherSide.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY) && !model.isExemplar()) {
 					preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, otherSide.getEntitySet()));
 				} else {
 					throw PRECONDITION_NOT_MET_POOL.getObject();
@@ -359,7 +359,7 @@ public class TransformationAnalystUtils extends Utils {
 					for (Attribute attribute : ((Association) relationship).getAttributes()) {
 						try {
 							moveAttributeToIncidentEntitySetPreconditionsStrong(attribute,otherModelAttributes);
-							List<Transformation> preconditions = moveAttributeToIncidentEntitySetPreconditionsSoft(relationship,entitySet);
+							List<Transformation> preconditions = moveAttributeToIncidentEntitySetPreconditionsSoft(relationship, entitySet, model);
 
 							Transformation transformation = TransformationFactory.getMoveAttrToIncidentEntitySet(attribute, (Association) relationship, entitySet);
 							transformation.setPreconditions(preconditions);
@@ -385,12 +385,12 @@ public class TransformationAnalystUtils extends Utils {
 		}
 	}
 	
-	private static List<Transformation> moveAttributeToIncidentEntitySetPreconditionsSoft(Relationship relationship, EntitySet entitySet) throws PreconditionsNotMetException {
+	private static List<Transformation> moveAttributeToIncidentEntitySetPreconditionsSoft(Relationship relationship, EntitySet entitySet, ERModel model) throws PreconditionsNotMetException {
 		List<Transformation> preconditions = null;
 		
 		AssociationSide side = RelationshipUtils.getSide((Association)relationship, entitySet);
 		if (!EnumRelationshipSideRole.MANY.equals(side.getRole())) {
-			if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
+			if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY) && !model.isExemplar()) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
@@ -412,7 +412,7 @@ public class TransformationAnalystUtils extends Utils {
 					
 					try {
 						moveAttributeToIncidentAssociationPreconditionsStrong(relationship,attribute,otherModelAttributes);
-						List<Transformation> preconditions = moveAttributeToIncidentAssociationPreconditionsSoft(relationship,entitySet);
+						List<Transformation> preconditions = moveAttributeToIncidentAssociationPreconditionsSoft(relationship,entitySet, model);
 
 						Transformation transformation = TransformationFactory.getMoveAttrToIncidentAssociation(attribute, entitySet, (Association) relationship);
 						transformation.setPreconditions(preconditions);
@@ -439,12 +439,12 @@ public class TransformationAnalystUtils extends Utils {
 		}
 	}
 	
-	private static List<Transformation> moveAttributeToIncidentAssociationPreconditionsSoft(Relationship relationship, EntitySet entitySet) throws PreconditionsNotMetException {
+	private static List<Transformation> moveAttributeToIncidentAssociationPreconditionsSoft(Relationship relationship, EntitySet entitySet, ERModel model) throws PreconditionsNotMetException {
 		List<Transformation> preconditions = null;
 		
 		AssociationSide side = RelationshipUtils.getSide((Association)relationship, entitySet);
 		if (!EnumRelationshipSideRole.MANY.equals(side.getRole())) {
-			if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY)) {
+			if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY) && !model.isExemplar()) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
 			} else {
 				throw PRECONDITION_NOT_MET_POOL.getObject();

@@ -71,7 +71,7 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 		this.attributes = new ArrayList<>(other.getAttributes());
 		this.empty = other.isEmpty();
 		this.mappedTo = other.getMappedTo();
-		this.neighbours = new HashMap<>(other.getNeighbours());
+		this.setNeighbours(new HashMap<>(other.getNeighbours()));
 	}
 
 	public List<Attribute> getAttributes() {
@@ -108,7 +108,7 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 
 	public Map<EntitySet, List<Relationship>> getNeighbours() {
 		if (neighbours == null) {
-			neighbours = new HashMap<EntitySet, List<Relationship>>();
+			this.neighbours = new HashMap<EntitySet, List<Relationship>>();
 		}
 		return neighbours;
 	}
@@ -249,5 +249,9 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 			return false;
 		}
 		return getAttributes().stream().anyMatch(attr -> StringUtils.areEqual(attribute, attr.getText()));
+	}
+
+	public void setNeighbours(Map<EntitySet, List<Relationship>> neighbours) {
+		this.neighbours = neighbours;
 	}
 }

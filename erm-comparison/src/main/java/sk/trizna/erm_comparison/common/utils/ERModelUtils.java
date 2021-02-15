@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import sk.trizna.erm_comparison.comparing.RelationshipComparator;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
@@ -132,7 +133,7 @@ public class ERModelUtils extends Utils {
 				if (!entitySetsToProcess.contains(es2)) {
 					continue;
 				}
-				if (ERModelUtils.areEqual(es1, es2)) {
+				if (ERModelUtils.areEqual(es1, es2,true)) {
 					entitySetsToProcess.remove(es1);
 					entitySetsToProcess.remove(es2);
 					continue nextEs1;
@@ -215,17 +216,23 @@ public class ERModelUtils extends Utils {
 	 * @return
 	 */
 	public static ERModel getClone(ERModel model) {
-		Map<EntitySet, EntitySet> entitySetMap = new HashMap<>();
 		ERModel modelClone = new ERModel();
-
+		
+		// clone all entitySets
+		Map<EntitySet, EntitySet> entitySetMap = new HashMap<EntitySet, EntitySet>();
 		for (EntitySet entitySet : model.getEntitySets()) {
-			entitySetMap.put(entitySet, new EntitySet(entitySet));
-		}
+			EntitySet clone = new EntitySet(entitySet);
+			clone.setNeighbours(null);
+			entitySetMap.put(entitySet, clone);
+		} 
 		modelClone.addAllEntitySets(entitySetMap.values());
 
+		// clone all relationships
+		Map<Relationship, Relationship> relationshipMap = new HashMap<Relationship, Relationship>();
 		for (Relationship relationship : model.getRelationships()) {
-			modelClone.addRelationship(RelationshipUtils.getClone(relationship, entitySetMap));
+			relationshipMap.put(relationship,RelationshipUtils.getClone(relationship, entitySetMap));
 		}
+		modelClone.addAllRelationships(relationshipMap.values());
 
 		return modelClone;
 	}
@@ -286,10 +293,42 @@ public class ERModelUtils extends Utils {
 	}
 	
 	public static boolean areEqual(EntitySet entitySet1, EntitySet entitySet2) {
+		return areEqual(entitySet1, entitySet2, false);
+	}
+	
+	public static boolean areEqual(EntitySet entitySet1, EntitySet entitySet2, boolean checkNeighbours) {
 		if (!StringUtils.areEqual(entitySet1.getNameText(), entitySet2.getNameText())) {
 			return false;
 		}
-		return attributesAreEqual(entitySet1,entitySet2);
+		if (!attributesAreEqual(entitySet1,entitySet2)) {
+			return false;
+		}
+		if (checkNeighbours) {
+			return areEqualByNeighbours(entitySet1, entitySet2);
+		} else {
+			return true;
+		}
+	}
+	
+	private static boolean areEqualByNeighbours(EntitySet entitySet1, EntitySet entitySet2) {
+		neigh1 : for (EntitySet neighbour1 : entitySet1.getNeighbours().keySet()) {
+			// search for equal counterpart
+			for (EntitySet neighbour2 : entitySet2.getNeighbours().keySet()) {
+				if (!areEqual(neighbour1, neighbour2, false)) {
+					continue;
+				}
+				if (entitySet1.getNeighbours().get(neighbour1).size() != entitySet2.getNeighbours().get(neighbour2).size()) {
+					continue;
+				}
+				if (!CollectionUtils.equalByComparator(entitySet1.getNeighbours().get(neighbour1), entitySet2.getNeighbours().get(neighbour2), RelationshipComparator.getInstance())) {
+					continue;
+				}
+				continue neigh1;
+			}
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public static boolean areEqual(Relationship relationship1, Relationship relationship2) {
