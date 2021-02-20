@@ -24,5 +24,6 @@ public interface Attributed {
 	default int getAttributesCount() {
 		return getAttributes() == null ? 0 : getAttributes().size();
 	}
-
+	
+	public void addAttribute(Attribute attribute);
 }

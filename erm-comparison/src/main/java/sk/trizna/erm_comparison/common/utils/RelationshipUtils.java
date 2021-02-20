@@ -360,14 +360,6 @@ public class RelationshipUtils extends Utils {
 		return entitySet.equals(generalization.getSuperEntitySet()) || entitySet.equals(generalization.getSubEntitySet());
 	}
 
-	private static boolean sidesAreEqual(RelationshipSide side1, RelationshipSide side2, boolean checkRole) {
-		if (checkRole) {
-			return side1.getEntitySet().equals(side2.getEntitySet()) && side1.getRole().equals(side2.getRole());
-		} else {
-			return side1.getEntitySet().equals(side2.getEntitySet());
-		}
-	}
-
 	private static boolean sidesAreEquallyMapped(RelationshipSide side1, RelationshipSide side2, boolean checkRole) {
 		validateMapped(side1.getEntitySet());
 		validateMapped(side2.getEntitySet());

@@ -21,6 +21,7 @@ import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.AssociationSide;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
+import sk.trizna.erm_comparison.entity_relationship_model.Attributed;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
@@ -435,15 +436,32 @@ public class Transformator {
 			mapping.getExemplarModel().removeRelationship(association);
 		else
 			mapping.getStudentModel().removeRelationship(association);
-		entitySet1.getAttributes().addAll(entitySet2.getAttributes());
-		entitySet1.getAttributes().addAll(association.getAttributes());
+		
+		// compute duplicate attribute without merging
+		List<Attribute> duplicateEntitySetAttributes = mergeAttributes(entitySet1, entitySet2, false);
+		List<Attribute> duplicateAssociationAttributes = mergeAttributes(entitySet1, association, false);
+		// merge attributes
+		mergeAttributes(entitySet1, entitySet2, true);
+		mergeAttributes(entitySet1, association, true);
 		entitySet1.setNameText(entitySet1.getNameText() + PrintUtils.DELIMITER_SEMICOLON + entitySet2.getNameText());
 
+		// send duplicate EntitySet attributes in transformableMap
 		TransformableMap transformableMap = new TransformableMap();
 		entitySet2.getIncidentRelationships().forEach(rel -> {
 			transformableMap.getMap().put(rel, RelationshipUtils.getSide(rel, entitySet2));
 		});
 		transformableMap.getMap().remove(association);
+		if (duplicateEntitySetAttributes != null) {
+			duplicateEntitySetAttributes.forEach(attribute -> {
+				transformableMap.getMap().put(attribute, null);
+			});
+		}
+		
+		// send duplicate Association attributes in separate transformableList
+		TransformableList transformableList = new TransformableList();
+		if (duplicateAssociationAttributes != null) {
+			transformableList.getElements().addAll(duplicateAssociationAttributes);
+		}
 		
 		for (Relationship relationship : entitySet2.getIncidentRelationships()) {
 			RelationshipUtils.rebindEntitySets(relationship, entitySet2, entitySet1);
@@ -457,6 +475,7 @@ public class Transformator {
 		transformation.clearArguments();
 		transformation.addArgument(entitySet1, EnumTransformationRole.ENTITY_SET);
 		transformation.addArgument(transformableMap, EnumTransformationRole.TRANSFORMABLE_MAP);
+		transformation.addArgument(transformableList, EnumTransformationRole.TRANSFORMABLE_LIST);
 		if (flag != null) {
 			transformation.addArgument(flag, EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
 		}
@@ -546,10 +565,14 @@ public class Transformator {
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
 		Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
 		TransformableMap transformableMap = (TransformableMap) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_MAP);
+		TransformableList transformableList = (TransformableList) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_LIST);
 		TransformableFlag flag = (TransformableFlag) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
 
 		EntitySet otherEntitySet = RelationshipUtils.getOtherEntitySet(association, entitySet);
-		CollectionUtils.removeAllMaxOnce(entitySet.getAttributes(),otherEntitySet.getAttributes());
+		
+		splitAttributes(entitySet, otherEntitySet);
+		splitAttributes(entitySet, association);
+		
 		entitySet.setNameText(StringUtils.decomposeName(entitySet.getNameText(), otherEntitySet.getNameText()));
 		
 		if (flag != null)
@@ -558,8 +581,20 @@ public class Transformator {
 			mapping.getStudentModel().addEntitySet(otherEntitySet);
 
 		for (Transformable transformable : transformableMap.getMap().keySet()) {
-			Transformable side = transformableMap.getMap().get(transformable);
-			RelationshipUtils.rebindEntitySetsByOriginalSide((Relationship) transformable, side != null ? (RelationshipSide) side : null, entitySet, otherEntitySet);
+			if (transformable instanceof Relationship) {
+				Transformable side = transformableMap.getMap().get(transformable);
+				RelationshipUtils.rebindEntitySetsByOriginalSide((Relationship) transformable, side != null ? (RelationshipSide) side : null, entitySet, otherEntitySet);
+			}
+			if (transformable instanceof Attribute) {
+				// add duplicate attribute (was removed from merged entitySet in splitAttributes)
+				entitySet.addAttribute((Attribute) transformable);
+			}
+		}
+		for (Transformable transformable : transformableList) {
+			if (transformable instanceof Attribute) {
+				// add duplicate attribute (was removed from merged entitySet in splitAttributes)
+				entitySet.addAttribute((Attribute) transformable);
+			}
 		}
 
 		if (flag != null) {
@@ -652,7 +687,7 @@ public class Transformator {
 		Utils.validateContains(mapping.getStudentModel(), entitySet1);
 		Utils.validateContains(mapping.getStudentModel(), entitySet2);
 		
-		List<Attribute> duplicateAttributes = mergeAttributes(entitySet1, entitySet2);
+		List<Attribute> duplicateAttributes = mergeAttributes(entitySet1, entitySet2, true);
 		entitySet1.setNameText(entitySet1.getNameText() + PrintUtils.DELIMITER_SEMICOLON + entitySet2.getNameText());
 
 		TransformableList transformableList = new TransformableList();
@@ -701,7 +736,11 @@ public class Transformator {
 		return transformation;
 	}
 	
-	private static List<Attribute> mergeAttributes(EntitySet dest, EntitySet source) {
+	/**
+	 * 
+	 * @param write = true means method only returns duplicate attributes, but doesn't merge any
+	 */
+	private static List<Attribute> mergeAttributes(Attributed dest, Attributed source, boolean write) {
 		List<Attribute> duplicates = null;
 		for (Attribute attribute : source.getAttributes()) {
 			// avoid duplicate attributes in dest entitySet
@@ -710,17 +749,20 @@ public class Transformator {
 				duplicates = Utils.addToList(duplicates, destAttribute);
 				continue;
 			}
-			// don't merge attributes which were previously extracted from the dest entitySet
-			TransformableList trList = dest.getTransformationData(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
-			if (trList != null &&  CollectionUtils.containsByComparator(trList.getElements(), attribute, ERTextComparator.getInstance())) {
-				continue;
+			
+			if (dest instanceof Transformable) {
+				// don't merge attributes which were previously extracted from the dest entitySet
+				TransformableList trList = ((Transformable)dest).getTransformationData(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET);
+				if (trList != null &&  CollectionUtils.containsByComparator(trList.getElements(), attribute, ERTextComparator.getInstance())) {
+					continue;
+				}
 			}
 			dest.addAttribute(attribute);
 		}
 		return duplicates;
 	}
 	
-	private static void splitAttributes(EntitySet merged, EntitySet other) {
+	private static void splitAttributes(Attributed merged, Attributed other) {
 		for (Attribute attribute : other.getAttributes()) {
 			Iterator<Attribute> it = merged.getAttributes().iterator();
 			while(it.hasNext()) {
