@@ -254,11 +254,12 @@ public class MappingFinder {
 		
 		if (!ERModelUtils.modelsAreEqual(mapping.getExemplarModel(), bugfixSnapshot.getExemplarModelClone())) {
 			PrintUtils.log("!!! models are not equal");
+			ERModelUtils.modelsAreEqual(mapping.getExemplarModel(), bugfixSnapshot.getExemplarModelClone());
 			throw new IllegalStateException();
 		}
 		if (!ERModelUtils.modelsAreEqual(mapping.getStudentModel(), bugfixSnapshot.getStudentModelClone())) {
 			PrintUtils.log("!!! models are not equal");
-//			ERModelUtils.modelsAreEqual(mapping.getStudentModel(), bugfixSnapshot.getStudentModelClone());
+			ERModelUtils.modelsAreEqual(mapping.getStudentModel(), bugfixSnapshot.getStudentModelClone());
 			throw new IllegalStateException();
 		}
 	}
@@ -357,6 +358,7 @@ public class MappingFinder {
 			}
 			List<Transformation> decPart = new ArrayList<>(possibleTransformations.size());
 			decPart.add(transformation);
+			transformation.setProcessed(true);
 			for (Transformation other : possibleTransformations) {
 				if (other.isProcessed() || transformation == other) {
 					continue;

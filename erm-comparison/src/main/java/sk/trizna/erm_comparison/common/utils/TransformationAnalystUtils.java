@@ -79,6 +79,9 @@ public class TransformationAnalystUtils extends Utils {
 		if (!association.isBinary()) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
+		if (association.getFirstSide().getEntitySet() == association.getSecondSide().getEntitySet()) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
 		if (association.getFirstSide().getEntitySet().getMappedTo() != null) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
@@ -272,7 +275,7 @@ public class TransformationAnalystUtils extends Utils {
 			if (RelationshipUtils.getOtherSide(relationship, entitySet).getEntitySet().getMappedTo() != null) {
 				throw PRECONDITION_NOT_MET_POOL.getObject();
 			}
-			AssociationSide side = RelationshipUtils.getSide((Association)relationship, entitySet);
+			AssociationSide side = RelationshipUtils.getAssociationSide((Association)relationship, entitySet);
 			if (!EnumRelationshipSideRole.MANY.equals(side.getRole())) {
 				if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY) && !model.isExemplar()) {
 					preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
@@ -388,7 +391,7 @@ public class TransformationAnalystUtils extends Utils {
 	private static List<Transformation> moveAttributeToIncidentEntitySetPreconditionsSoft(Relationship relationship, EntitySet entitySet, ERModel model) throws PreconditionsNotMetException {
 		List<Transformation> preconditions = null;
 		
-		AssociationSide side = RelationshipUtils.getSide((Association)relationship, entitySet);
+		AssociationSide side = RelationshipUtils.getAssociationSide((Association)relationship, entitySet);
 		if (!EnumRelationshipSideRole.MANY.equals(side.getRole())) {
 			if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY) && !model.isExemplar()) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));
@@ -442,7 +445,7 @@ public class TransformationAnalystUtils extends Utils {
 	private static List<Transformation> moveAttributeToIncidentAssociationPreconditionsSoft(Relationship relationship, EntitySet entitySet, ERModel model) throws PreconditionsNotMetException {
 		List<Transformation> preconditions = null;
 		
-		AssociationSide side = RelationshipUtils.getSide((Association)relationship, entitySet);
+		AssociationSide side = RelationshipUtils.getAssociationSide((Association)relationship, entitySet);
 		if (!EnumRelationshipSideRole.MANY.equals(side.getRole())) {
 			if (conditionalTransformation && !side.containsTransformationFlag(EnumTransformation.CHANGE_CARDINALITY) && !model.isExemplar()) {
 				preconditions = Utils.addToList(preconditions,TransformationFactory.getChangeCardinality((Association) relationship, entitySet));

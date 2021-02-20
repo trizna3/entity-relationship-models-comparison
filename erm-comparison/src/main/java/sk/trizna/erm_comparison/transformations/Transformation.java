@@ -8,6 +8,7 @@ import java.util.Set;
 
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
+import sk.trizna.erm_comparison.common.utils.PrintUtils;
 import sk.trizna.erm_comparison.common.utils.Utils;
 
 public class Transformation {
@@ -90,5 +91,10 @@ public class Transformation {
 
 	public void addPrecondition(Transformation precondition) {
 		getPreconditions().add(precondition);
+	}
+
+	@Override
+	public String toString() {
+		return PrintUtils.print(this);
 	}
 }

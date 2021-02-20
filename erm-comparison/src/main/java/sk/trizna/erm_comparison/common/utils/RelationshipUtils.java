@@ -174,6 +174,10 @@ public class RelationshipUtils extends Utils {
 
 		return getOtherSide(relationship, entitySet).getEntitySet();
 	}
+	
+	public static void rebindEntitySets(Relationship relationship, EntitySet oldEntitySet, EntitySet newEntitySet) {
+		rebindEntitySetsByOriginalSide(relationship, null, oldEntitySet, newEntitySet);
+	}
 
 	/**
 	 * Rebinds relationship from someES--oldES to someES--newES
@@ -182,11 +186,11 @@ public class RelationshipUtils extends Utils {
 	 * @param oldEntitySet
 	 * @param newEntitySet
 	 */
-	public static void rebindEntitySets(Relationship relationship, EntitySet oldEntitySet, EntitySet newEntitySet) {
+	public static void rebindEntitySetsByOriginalSide(Relationship relationship, RelationshipSide originalSide, EntitySet oldEntitySet, EntitySet newEntitySet) {
 		validateNotNull(relationship);
 		validateNotNull(oldEntitySet);
 		validateNotNull(newEntitySet);
-
+		
 		boolean newEntitySetIsContained = relationship.contains(newEntitySet);
 		
 		// update oldEntitySet.neighbours references
@@ -198,7 +202,8 @@ public class RelationshipUtils extends Utils {
 
 		// update side.entitySet from old to new
 		for (RelationshipSide side : relationship.getSides()) {
-			if (oldEntitySet.equals(side.getEntitySet())) {
+			// if originalSide is sent, use it for identification. Otherwise try to identity relSide by entitySet.
+			if (originalSide == side || (originalSide == null && oldEntitySet.equals(side.getEntitySet()))) {
 				side.setEntitySet(newEntitySet);
 				break;
 			}
@@ -291,17 +296,22 @@ public class RelationshipUtils extends Utils {
 		return entitySets.containsAll(relEntitySets) && relEntitySets.containsAll(entitySets);
 	}
 	
-	public static AssociationSide getSide(Association association, EntitySet entitySet) {
+	public static RelationshipSide getSide(Relationship relationship, EntitySet entitySet) {
 		validateNotNull(entitySet);
-		validateNotNull(association);
-		validateContains(association, entitySet);
+		validateNotNull(relationship);
+		validateContains(relationship, entitySet);
 		
-		for (AssociationSide side : association.getSides()) {
+		for (RelationshipSide side : relationship.getSides()) {
 			if (entitySet.equals(side.getEntitySet())) {
 				return side;
 			}
 		}
 		return null;
+	}
+	
+	public static AssociationSide getAssociationSide(Association association, EntitySet entitySet) {
+		RelationshipSide side = getSide(association,entitySet);
+		return side != null ? (AssociationSide) side : null;
 	}
 	
 	public static List<RelationshipSide> getAllSides(Relationship relationship, EntitySet entitySet) {

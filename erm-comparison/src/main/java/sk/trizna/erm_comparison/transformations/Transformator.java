@@ -25,8 +25,10 @@ import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
 import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
+import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableFlag;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableList;
+import sk.trizna.erm_comparison.entity_relationship_model.TransformableMap;
 
 public class Transformator {
 	
@@ -259,7 +261,7 @@ public class Transformator {
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
 		Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
 
-		AssociationSide side = RelationshipUtils.getSide(association, entitySet);
+		AssociationSide side = RelationshipUtils.getAssociationSide(association, entitySet);
 		TransformationUtils.flipCardinality(side);
 		TransformationUtils.overwriteTransformationFlag(EnumTransformation.CHANGE_CARDINALITY, side);
 
@@ -437,10 +439,12 @@ public class Transformator {
 		entitySet1.getAttributes().addAll(association.getAttributes());
 		entitySet1.setNameText(entitySet1.getNameText() + PrintUtils.DELIMITER_SEMICOLON + entitySet2.getNameText());
 
-		TransformableList transformableList = new TransformableList();
-		transformableList.getElements().addAll(entitySet2.getIncidentRelationships());
-		transformableList.getElements().remove(association);
-
+		TransformableMap transformableMap = new TransformableMap();
+		entitySet2.getIncidentRelationships().forEach(rel -> {
+			transformableMap.getMap().put(rel, RelationshipUtils.getSide(rel, entitySet2));
+		});
+		transformableMap.getMap().remove(association);
+		
 		for (Relationship relationship : entitySet2.getIncidentRelationships()) {
 			RelationshipUtils.rebindEntitySets(relationship, entitySet2, entitySet1);
 		}
@@ -452,7 +456,7 @@ public class Transformator {
 
 		transformation.clearArguments();
 		transformation.addArgument(entitySet1, EnumTransformationRole.ENTITY_SET);
-		transformation.addArgument(transformableList, EnumTransformationRole.TRANSFORMABLE_LIST);
+		transformation.addArgument(transformableMap, EnumTransformationRole.TRANSFORMABLE_MAP);
 		if (flag != null) {
 			transformation.addArgument(flag, EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
 		}
@@ -541,7 +545,7 @@ public class Transformator {
 	private static Transformation executeUncontract11Association(Mapping mapping, Transformation transformation) {
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
 		Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
-		TransformableList transformableList = (TransformableList) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_LIST);
+		TransformableMap transformableMap = (TransformableMap) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_MAP);
 		TransformableFlag flag = (TransformableFlag) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
 
 		EntitySet otherEntitySet = RelationshipUtils.getOtherEntitySet(association, entitySet);
@@ -553,8 +557,9 @@ public class Transformator {
 		else
 			mapping.getStudentModel().addEntitySet(otherEntitySet);
 
-		for (Transformable transformable : transformableList.getElements()) {
-			RelationshipUtils.rebindEntitySets((Relationship) transformable, entitySet, otherEntitySet);
+		for (Transformable transformable : transformableMap.getMap().keySet()) {
+			Transformable side = transformableMap.getMap().get(transformable);
+			RelationshipUtils.rebindEntitySetsByOriginalSide((Relationship) transformable, side != null ? (RelationshipSide) side : null, entitySet, otherEntitySet);
 		}
 
 		if (flag != null) {
