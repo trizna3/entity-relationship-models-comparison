@@ -87,12 +87,12 @@ public class CollectionUtils extends Utils {
 		return true;		
 	}
 	
-	public static <T extends RelationshipSide> boolean containsSides(Collection<T> collection, T target) {
+	public static <T extends RelationshipSide> boolean containsSides(Collection<T> collection, T target, boolean checkCardinalities) {
 		validateNotNull(collection);
 		validateNotNull(target);
 		
 		for (T side : collection) {
-			if (ERModelUtils.areEqual(side, target)) {
+			if (ERModelUtils.areEqual(side, target, checkCardinalities)) {
 				return true;
 			}
 		}
@@ -100,12 +100,12 @@ public class CollectionUtils extends Utils {
 		return false;		
 	}
 	
-	public static <T extends RelationshipSide> boolean containsAllSides(Collection<T> collection, Collection<T> targets) {
+	public static <T extends RelationshipSide> boolean containsAllSides(Collection<T> collection, Collection<T> targets, boolean checkCardinalities) {
 		validateNotNull(collection);
 		validateNotNull(targets);
 		
 		for (T target : targets) {
-			if (!containsSides(collection,target)) {
+			if (!containsSides(collection,target,checkCardinalities)) {
 				return false;
 			}
 		}

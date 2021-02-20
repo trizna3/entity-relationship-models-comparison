@@ -91,7 +91,7 @@ public class TransformationUtils extends Utils {
 		
 		for (Transformable arg1 : t1.getArgumentMap().keySet()) {
 			for (Transformable arg2 : t2.getArgumentMap().keySet()) {
-				if (areEqual(arg1, arg2)) {
+				if (areEqual(arg1, arg2,true)) {
 					return false;
 				}
 			} 
@@ -136,7 +136,7 @@ public class TransformationUtils extends Utils {
 			return false;
 		}
 		for (EnumTransformationRole role : t1.getArgumentMap().values()) {
-			if (!areEqual(getTransformableByRole(t1, role),getTransformableByRole(t2, role))) {
+			if (!areEqual(getTransformableByRole(t1, role),getTransformableByRole(t2, role), true)) {
 				return false;
 			}
 			
@@ -144,7 +144,14 @@ public class TransformationUtils extends Utils {
 		return true;
 	}
 	
-	private static boolean areEqual(Transformable t1, Transformable t2) {
+	/**
+	 * 
+	 * @param t1
+	 * @param t2
+	 * @param forIndependence = omits relationship cardinalities, which means more strict evaluation in usages (more transformations will be evaluated as dependent, etc.)
+	 * @return
+	 */
+	private static boolean areEqual(Transformable t1, Transformable t2, boolean forIndependence) {
 		if (t1 == null && t2 == null) {
 			return true;
 		}
@@ -161,28 +168,28 @@ public class TransformationUtils extends Utils {
 			return ERModelUtils.areEqual((EntitySet)t1, (EntitySet)t2);
 		}
 		if (t1 instanceof Relationship) {
-			return ERModelUtils.areEqual((Relationship)t1, (Relationship)t2);
+			return ERModelUtils.areEqual((Relationship)t1, (Relationship)t2, !forIndependence);
 		}
 		if (t1 instanceof RelationshipSide) {
-			return ERModelUtils.areEqual((RelationshipSide)t1, (RelationshipSide)t2);
+			return ERModelUtils.areEqual((RelationshipSide)t1, (RelationshipSide)t2,!forIndependence);
 		}
 		if (t1 instanceof TransformableFlag) {
 			return true;
 		}
 		if (t1 instanceof TransformableList) {
-			return areEqual((TransformableList)t1, (TransformableList)t2);
+			return areEqual((TransformableList)t1, (TransformableList)t2, forIndependence);
 		}
 		return false;
 	}
 	
-	private static boolean areEqual(TransformableList list1, TransformableList list2) {
+	private static boolean areEqual(TransformableList list1, TransformableList list2, boolean forIndependence) {
 		if (list1.size() != list2.size()) {
 			return false;
 		}
 		
 		transformable : for (Transformable t1 : list1) {
 			for (Transformable t2 : list2) {
-				if (areEqual(t1, t2)) {
+				if (areEqual(t1, t2,forIndependence)) {
 					continue transformable;
 				}
 			}

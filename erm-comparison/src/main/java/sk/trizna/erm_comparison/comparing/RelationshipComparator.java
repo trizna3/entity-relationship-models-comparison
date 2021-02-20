@@ -21,7 +21,7 @@ public class RelationshipComparator implements Comparator<Object> {
 		if (!(o2 instanceof Relationship)) {
 			return 1;
 		}
-		return ERModelUtils.areEqual((Relationship) o1, (Relationship) o2) ? 0 : 1;
+		return ERModelUtils.areEqual((Relationship) o1, (Relationship) o2, true) ? 0 : 1;
 	}	
 
 	

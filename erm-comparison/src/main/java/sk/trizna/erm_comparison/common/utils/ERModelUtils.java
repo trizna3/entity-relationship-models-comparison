@@ -162,7 +162,7 @@ public class ERModelUtils extends Utils {
 				if (!relationshipsToProcess.contains(rel2)) {
 					continue;
 				}
-				if (ERModelUtils.areEqual(rel1,rel2)) {
+				if (ERModelUtils.areEqual(rel1,rel2,true)) {
 					relationshipsToProcess.remove(rel1);
 					relationshipsToProcess.remove(rel2);
 					continue nextRel1;
@@ -346,31 +346,41 @@ public class ERModelUtils extends Utils {
 		return true;
 	}
 	
-	public static boolean areEqual(Relationship relationship1, Relationship relationship2) {
+	public static boolean areEqual(Relationship relationship1, Relationship relationship2, boolean checkRoles) {
 		if (relationship1 instanceof Association && relationship2 instanceof Association) {
-			return areEqual((Association)relationship1, (Association)relationship2);
+			return areEqual((Association)relationship1, (Association)relationship2,checkRoles);
 		}
 		if (relationship1 instanceof Generalization && relationship2 instanceof Generalization) {
-			return areEqual((Generalization)relationship1, (Generalization)relationship2);
+			return areEqual((Generalization)relationship1, (Generalization)relationship2,checkRoles);
 		}
 		return false;
 	}
 	
-	public static boolean areEqual(Association association1, Association association2) {
-		return sidesAreEqual(association1,association2) && attributesAreEqual(association1,association2);
+	public static boolean areEqual(Association association1, Association association2, boolean checkCardinalities) {
+		return sidesAreEqual(association1,association2,checkCardinalities) && attributesAreEqual(association1,association2);
 	}
 	
-	public static boolean areEqual(RelationshipSide side1, RelationshipSide side2) {
-		return side1.getRole() == side2.getRole() && areEqual(side1.getEntitySet(),side2.getEntitySet());
+	public static boolean areEqual(RelationshipSide side1, RelationshipSide side2, boolean checkCardinalities) {
+		if (checkCardinalities) {
+			return side1.getRole() == side2.getRole() && areEqual(side1.getEntitySet(),side2.getEntitySet());
+		} else {
+			return areEqual(side1.getEntitySet(),side2.getEntitySet());
+		}
 	} 
 	
-	public static boolean areEqual(Generalization generalization1, Generalization generalization2) {
-		return StringUtils.areEqual(generalization1.getNameText(), generalization2.getNameText()) &&
-				areEqual(generalization1.getSuperEntitySet(),generalization2.getSuperEntitySet()) &&
-				areEqual(generalization1.getSubEntitySet(),generalization2.getSubEntitySet());
+	public static boolean areEqual(Generalization generalization1, Generalization generalization2, boolean checkRoles) {
+		if (!StringUtils.areEqual(generalization1.getNameText(), generalization2.getNameText())) {
+			return false;
 		}
+		if (checkRoles) {
+			return areEqual(generalization1.getSuperEntitySet(),generalization2.getSuperEntitySet()) && areEqual(generalization1.getSubEntitySet(),generalization2.getSubEntitySet());
+		} else {
+			return 	(areEqual(generalization1.getSuperEntitySet(),generalization2.getSuperEntitySet()) && areEqual(generalization1.getSubEntitySet(),generalization2.getSubEntitySet())) ||
+					(areEqual(generalization1.getSuperEntitySet(),generalization2.getSubEntitySet()) && areEqual(generalization1.getSubEntitySet(),generalization2.getSuperEntitySet()));
+		}
+	}
 	
-	public static boolean sidesAreEqual(Association association1, Association association2) {
+	public static boolean sidesAreEqual(Association association1, Association association2, boolean checkCardinalities) {
 		if (association1.getSides() == null && association2.getSides() == null) {
 			return true;
 		}
@@ -381,7 +391,7 @@ public class ERModelUtils extends Utils {
 			return false;
 		}
 		
-		return CollectionUtils.containsAllSides(association1.getSides(), association2.getSides());
+		return CollectionUtils.containsAllSides(association1.getSides(), association2.getSides(),checkCardinalities);
 	}
 	
 	public static boolean attributesAreEqual(Attributed attributed1, Attributed attribute2) {
