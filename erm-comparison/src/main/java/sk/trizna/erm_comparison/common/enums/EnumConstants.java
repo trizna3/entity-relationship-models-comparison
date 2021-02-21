@@ -33,6 +33,9 @@ public class EnumConstants {
 	public static final String LP_WORD2VEC_DICT_IMPL = "word2vec_dict";
 	
 	/*** ATTRIBUTES ***/
-
-	public static final String NAME_ATTRIBUTE = "Name";	
+	public static final String NAME_ATTRIBUTE = "Name";
+	
+	/*** TRANSFORMATIONS ***/
+	public static final String TRANSFORMATION_EXEMPLAR_EXTENSION = "_E";
+	public static final String TRANSFORMATION_STUDENT_EXTENSION = "_S";
 }

@@ -31,5 +31,13 @@ public enum EnumTransformation {
 	DECOMPOSE_ATTRIBUTE,
 	COMPOSE_ATTRIBUTE,
 	MERGE_ENTITY_SETS,
-	SPLIT_ENTITY_SETS
+	SPLIT_ENTITY_SETS;
+	
+	public String getExemplarVersion() {
+        return this.toString() + EnumConstants.TRANSFORMATION_EXEMPLAR_EXTENSION;
+    }
+	
+	public String getStudentVersion() {
+        return this.toString() + EnumConstants.TRANSFORMATION_STUDENT_EXTENSION;
+    }
 }

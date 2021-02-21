@@ -118,8 +118,14 @@ public class TranslationUtils extends Utils {
 		return translation.toString();
 	}
 	
-	public static String translateRebindNaryAssociation(String associationName) {
-		Translation translation = new Translation(EnumTransformation.REBIND_NARY_ASSOCIATION);
+	public static String translateRebindNaryAssociationExemplar(String entitySet) {
+		Translation translation = new Translation(EnumTransformation.REBIND_NARY_ASSOCIATION.getExemplarVersion());
+		translation.setArgument(TranslationConstants.ARG_ENTITY_SET, entitySet);
+		return translation.toString();
+	}
+	
+	public static String translateRebindNaryAssociationStudent(String associationName) {
+		Translation translation = new Translation(EnumTransformation.REBIND_NARY_ASSOCIATION.getStudentVersion());
 		translation.setArgument(TranslationConstants.ARG_ASSOCIATION, associationName);
 		return translation.toString();
 	}

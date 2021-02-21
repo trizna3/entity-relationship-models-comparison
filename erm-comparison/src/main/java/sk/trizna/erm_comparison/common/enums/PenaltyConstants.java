@@ -45,26 +45,4 @@ public class PenaltyConstants {
 					EnumTransformation.REMOVE_ENTITY_SET,
 					EnumTransformation.RENAME_ENTITY_SET
 					));
-	public static final Set<EnumTransformation> TRANSLATABLE_TRANSFORMATIONS = new HashSet<>(
-			Arrays.asList(
-					EnumTransformation.CREATE_ENTITY_SET,
-					EnumTransformation.CREATE_ASSOCIATION,
-					EnumTransformation.CREATE_GENERALIZATION,
-					EnumTransformation.CREATE_ATTRIBUTE,
-					EnumTransformation.REMOVE_ENTITY_SET,
-					EnumTransformation.REMOVE_ASSOCIATION,
-					EnumTransformation.REMOVE_GENERALIZATION,
-					EnumTransformation.REMOVE_ATTRIBUTE,
-					EnumTransformation.CHANGE_CARDINALITY,
-					EnumTransformation.RENAME_ENTITY_SET,
-					EnumTransformation.RENAME_ATTRIBUTE,
-					EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET,
-					EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION,
-					EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION,
-					EnumTransformation.CONTRACT_11_ASSOCIATION,
-					EnumTransformation.UNCONTRACT_11_ASSOCIATION,
-					EnumTransformation.REBIND_NARY_ASSOCIATION,
-					EnumTransformation.BIND_TO_NARY_ASSOCIATION
-					));
-	
 }

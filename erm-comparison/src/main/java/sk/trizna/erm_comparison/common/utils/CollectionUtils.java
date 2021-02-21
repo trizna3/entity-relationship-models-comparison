@@ -3,6 +3,7 @@ package sk.trizna.erm_comparison.common.utils;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import sk.trizna.erm_comparison.entity_relationship_model.ERText;
 import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
@@ -24,25 +25,6 @@ public class CollectionUtils extends Utils {
 			return false;
 		}
 		return list1.equals(list2);
-	}
-	
-	/**
-	 * Determines, if obj is contained in given collection, uses reference id comparison, not overriden compareTo/hashCode. 
-	 * @param <T>
-	 * @param collection
-	 * @param obj
-	 * @return
-	 */
-	public static <T> boolean trueContains(Collection<T> collection, T obj) {
-		validateNotNull(collection);
-		validateNotNull(obj);
-		
-		for (T element : collection) {
-			if(element == obj) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	/**
@@ -151,5 +133,17 @@ public class CollectionUtils extends Utils {
 			return false;
 		}		
 		return true;
+	}
+	
+	public static <A,B> A getKeyByValue(Map<A,B> map, B value) {
+		validateNotNull(map);
+		validateNotNull(value);
+		
+		for (A key : map.keySet()) {
+			if (value.equals(map.get(key))) {
+				return key;
+			}
+		}
+		return null;
 	}
 }

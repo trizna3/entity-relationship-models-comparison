@@ -2,6 +2,7 @@ package sk.trizna.erm_comparison.comparing.translator;
 
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
+import sk.trizna.erm_comparison.common.enums.TranslationConstants;
 import sk.trizna.erm_comparison.common.utils.PrintUtils;
 import sk.trizna.erm_comparison.common.utils.TransformationUtils;
 import sk.trizna.erm_comparison.common.utils.TranslationUtils;
@@ -12,6 +13,7 @@ import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
+import sk.trizna.erm_comparison.entity_relationship_model.TransformableFlag;
 import sk.trizna.erm_comparison.transformations.Transformation;
 
 public class TransformationTranslator {
@@ -27,7 +29,7 @@ public class TransformationTranslator {
 		Utils.validateNotNull(diff);
 		
 		for (Transformation transformation : diff.getTransformationsMade()) {
-			String translation = translateTransformation(transformation);
+			String translation = translateTransformation(transformation, diff);
 			if (translation != null) {
 				report.getTransformationNotes().add(translation);
 			}
@@ -41,7 +43,10 @@ public class TransformationTranslator {
 	 * @param transformation
 	 * @return
 	 */
-	private static String translateTransformation(Transformation transformation) {
+	private static String translateTransformation(Transformation transformation, ERModelDiff diff) {
+		if (!TranslationConstants.TRANSLATABLE_TRANSFORMATIONS.contains(transformation.getCode())) {
+			return null;
+		}
 		if (EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET.equals(transformation.getCode())) {
 			Attribute attribute = (Attribute) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE);
 			EntitySet sourceEntitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.DEST_ENTITY_SET); // should be source by now
@@ -57,25 +62,23 @@ public class TransformationTranslator {
 			Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
 			return TranslationUtils.translateMoveAttrToIncidentAssociation(attribute.getText(), PrintUtils.getNameByIncidentEntitySets(association));
 		} 
-		else if (EnumTransformation.REBIND_MN_TO_1NN1.equals(transformation.getCode())) {
-			Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
-			return TranslationUtils.translateRebindMNTo1NN1(PrintUtils.getNameByIncidentEntitySets(association));
-		} 
-		else if (EnumTransformation.REBIND_1NN1_TO_MN.equals(transformation.getCode())) {
-			Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
-			return TranslationUtils.translateRebind1NN1ToMN(PrintUtils.getNameByIncidentEntitySets(association));
-		} 
 		else if (EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION.equals(transformation.getCode())) {
 			Generalization generalization = (Generalization) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.GENERALIZATION);
 			return TranslationUtils.translateGeneralizationTo11Association(generalization.getSuperEntitySet().getNameText(), generalization.getSubEntitySet().getNameText());
 		} 
-		else if (EnumTransformation.CONTRACT_11_ASSOCIATION.equals(transformation.getCode())) {
-			Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
-			return TranslationUtils.translateContract11Association(PrintUtils.getNameByIncidentEntitySets(association));
-		} 
 		else if (EnumTransformation.REBIND_NARY_ASSOCIATION.equals(transformation.getCode())) {
 			Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
-			return TranslationUtils.translateRebindNaryAssociation(PrintUtils.getNameByIncidentEntitySets(association));
+			EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
+			TransformableFlag flag = (TransformableFlag) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.EXEMPLAR_MODEL_FLAG);
+			if (flag != null) {
+				EntitySet image = (EntitySet) Utils.firstNonNull(diff.getEntitySetMap().get(entitySet),entitySet.getMappedTo());
+				if (image == null) {
+					return null;
+				}
+				return TranslationUtils.translateRebindNaryAssociationExemplar(image.getNameText());
+			} else {
+				return TranslationUtils.translateRebindNaryAssociationStudent(PrintUtils.getNameByIncidentEntitySets(association));				
+			}
 		} 
 		else if (EnumTransformation.MERGE_ENTITY_SETS.equals(transformation.getCode())) {
 			EntitySet entitySet1 = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
@@ -86,9 +89,8 @@ public class TransformationTranslator {
 			EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
 			Association association = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
 			return TranslationUtils.translateChangeCardinality(entitySet.getNameText(),PrintUtils.getNameByIncidentEntitySets(association));
-		}
-		else {
-			return null;
+		} else {
+			throw new IllegalArgumentException("Untranslatable transformation sent to translation!");
 		}
 	}
 }

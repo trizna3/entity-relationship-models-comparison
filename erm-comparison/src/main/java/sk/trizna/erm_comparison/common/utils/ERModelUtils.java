@@ -294,7 +294,7 @@ public class ERModelUtils extends Utils {
 		validateNotNull(model);
 
 		for (EntitySet entitySet : model.getEntitySets()) {
-			if (CollectionUtils.trueContains(targetEntitySets,entitySet)) {
+			if (targetEntitySets.contains(entitySet)) {
 				entitySet.setMappedTo(null);
 			}
 		}
