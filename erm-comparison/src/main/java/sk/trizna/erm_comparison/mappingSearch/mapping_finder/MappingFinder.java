@@ -52,7 +52,7 @@ public class MappingFinder {
 	 * Stack level counter
 	 */
 	private int transformationDepthCounter = 0;
-	private int maxDepth = 3;
+	private int maxDepth = 5;
 	
 	private int mappingNodesCount = 0;
 	private int transformationNodesCount = 0;

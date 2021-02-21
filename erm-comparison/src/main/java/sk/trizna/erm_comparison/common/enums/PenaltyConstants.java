@@ -17,12 +17,12 @@ public class PenaltyConstants {
 					EnumTransformation.REBIND_1NN1_TO_MN,
 					EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET,
 					EnumTransformation.CONTRACT_11_ASSOCIATION,
-					EnumTransformation.DECOMPOSE_ATTRIBUTE
+					EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET,
+					EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION
 					));
 	public static final Set<EnumTransformation> LIGHT_TRANSFORMATIONS = new HashSet<>(
 			Arrays.asList(
-					EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET,
-					EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION,
+					EnumTransformation.DECOMPOSE_ATTRIBUTE,
 					EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION,
 					EnumTransformation._11_ASSOCIATION_TO_GENERALIZATION,
 					EnumTransformation.REBIND_NARY_ASSOCIATION,
