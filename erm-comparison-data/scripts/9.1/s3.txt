@@ -1,0 +1,54 @@
+entity set airplanes {
+	"serial number"
+	"name"
+	"rocket count"
+};
+
+entity set "fighter planes" {
+	"rocket count"
+	"rocket type"
+	"rocket type to shoot"
+};
+
+entity set "transport planes" {
+	"person capacity"
+	"load volume"
+	"load weight"
+};
+
+entity set soldiers {
+	"name"
+	"actual health"
+	"maximal health"
+	"speed"
+	"strength"
+	"agility"
+	"inteligence"
+};
+
+entity set roles {
+	"role"
+	"speed increase"
+	"strength increase"
+	"agility increase"
+	"inteligence increase"
+	"maximal health increase"
+};
+
+association  "actual soldier airplane" between
+{
+	airplanes MANY
+	soldiers ONE
+}{
+	"airplane start"
+};
+
+association  between
+{
+	soldiers MANY
+	roles ONE
+}{};
+
+generalization from "fighter planes" to "airplanes";
+
+generalization from "transport planes" to "airplanes";

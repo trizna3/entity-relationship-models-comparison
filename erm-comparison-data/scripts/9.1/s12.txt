@@ -1,0 +1,80 @@
+entity set airplanes {
+	"serial number"
+	"name"
+};
+
+entity set "fighter planes" {
+	"model"
+};
+
+entity set "transport planes" {
+	"capacity"
+	"volume"
+	"weight"
+	"model"
+};
+
+entity set rockets {
+	"type"
+};
+
+entity set soldiers {
+	"name"
+};
+
+entity set roles {
+	"role name"
+};
+
+entity set modifiers {
+	"percentage"
+};
+
+entity set attributes {
+	"name"
+};
+
+association "has" between 
+{
+	"fighter planes" MANY
+	rockets MANY
+}{
+	"count"
+};
+
+association between 
+{
+	airplanes MANY
+	soldiers MANY
+	roles MANY
+}{};
+
+association between 
+{
+	roles ONE
+	modifiers MANY
+}{};
+
+association between 
+{
+	soldiers ONE
+	modifiers MANY
+}{};
+
+association "value" between 
+{
+	soldiers MANY
+	attributes MANY
+}{
+	"number"
+};
+
+association between 
+{
+	attributes ONE
+	modifiers MANY
+}{};
+
+generalization from "fighter planes" to "airplanes";
+
+generalization from "transport planes" to "airplanes";

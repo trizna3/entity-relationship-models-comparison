@@ -32,16 +32,18 @@ public class Validation {
 	public static final String INSTANCE71 = "7.1";
 	public static final String INSTANCE72 = "7.2";
 	public static final String INSTANCE73 = "7.3";
+	public static final String INSTANCE91 = "9.1";
 	
 	static {
-		INSTANCES.put(INSTANCE61, 4);
-		INSTANCES.put(INSTANCE62, 4);
-		INSTANCES.put(INSTANCE63, 5);
-		INSTANCES.put(INSTANCE64, 4);
-		INSTANCES.put(INSTANCE65, 4);
+		INSTANCES.put(INSTANCE61, 5);
+		INSTANCES.put(INSTANCE62, 5);
+		INSTANCES.put(INSTANCE63, 6);
+		INSTANCES.put(INSTANCE64, 5);
+		INSTANCES.put(INSTANCE65, 5);
 		INSTANCES.put(INSTANCE71, 2);
 		INSTANCES.put(INSTANCE72, 3);
 		INSTANCES.put(INSTANCE73, 2);
+		INSTANCES.put(INSTANCE91, 14);
 	} 
 	
 	

@@ -1,0 +1,60 @@
+entity set users {
+	"ln"
+	"fn"
+};
+
+entity set tests {
+};
+
+entity set answers {
+};
+
+entity set questions {
+	"description"
+};
+
+entity set options {
+	"description"
+};
+
+association between 
+{
+	users MANY
+	tests MANY
+}{};
+
+association between 
+{
+	users ONE 
+	answers MANY
+}{};
+
+association between 
+{
+	answers MANY
+	tests MANY
+}{};
+
+association between 
+{
+	tests MANY
+	questions MANY
+}{};
+
+association between 
+{
+	answers MANY 
+	questions ONE
+}{};
+
+association between 
+{
+	questions MANY
+	options MANY
+}{};
+
+association "is good" between 
+{
+	questions MANY
+	options ONE
+}{};

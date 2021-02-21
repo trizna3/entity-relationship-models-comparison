@@ -1,0 +1,61 @@
+entity set airplanes {
+	"serial number"
+	"name"
+};
+
+entity set "model type" {
+};
+
+entity set "fighter planes" {
+	"rocket type"
+	"rocket count"
+};
+
+entity set "transport planes" {
+	"person capacity"
+	"material volume"
+	"material weight"
+};
+
+entity set soldier {
+	"name"
+	"health"
+	"maximal health"
+	"speed"
+	"strength"
+	"agility"
+	"inteligence"
+};
+
+entity set "soldier role" {
+	"type"
+	"health modifier"
+	"maximal health modifier"
+	"speed modifier"
+	"strength modifier"
+	"agility modifier"
+	"inteligence modifier"
+};
+
+association "airplane model" between 
+{
+	airplanes MANY
+	"model type" ONE
+}{};
+
+association "assigned to" between
+{
+	airplanes MANY
+	soldier MANY
+}{};
+
+association "soldier role" between 
+{
+	"soldier role" ONE
+	soldier MANY
+}{};
+
+
+generalization from "fighter planes" to "model type";
+
+generalization from "transport planes" to "model type";

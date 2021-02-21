@@ -1,0 +1,72 @@
+entity set airplanes {
+	"serial number"
+	"name"
+};
+
+entity set "fighter planes" {
+	"model"
+	"rocket type"
+	"rocket count"
+};
+
+entity set "transport planes" {
+	"model"
+	"person capacity"
+	"material volume"
+	"material weight"
+};
+
+entity set soldiers {
+	"name"
+	"actual health"
+	"maximal health"
+	"speed"
+	"strength"
+	"agility"
+	"inteligence"
+};
+
+entity set "carries rockets" {
+	"type"
+	"count"
+};
+
+association between 
+{
+	"fighter planes" ONE
+	"carries rockets" MANY
+}{};
+
+association "is footman" between 
+{
+	"airplanes" MANY
+	"soldiers" MANY
+}{};
+
+association "is medic" between 
+{
+	"airplanes" MANY
+	"soldiers" MANY
+}{};
+
+association "is scout" between 
+{
+	"airplanes" MANY
+	"soldiers" MANY
+}{};
+
+association "is pilot" between 
+{
+	"airplanes" MANY
+	"soldiers" MANY
+}{};
+
+association "is commander" between 
+{
+	"airplanes" MANY
+	"soldiers" ONE
+}{};
+
+generalization from "fighter planes" to "airplanes";
+
+generalization from "transport planes" to "airplanes";

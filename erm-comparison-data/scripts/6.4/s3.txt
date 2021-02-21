@@ -60,13 +60,6 @@ association between
 
 association "start point" between 
 {
-	edges ONE 
-	coordinates MANY
-}{};
-
-
-association "start point" between 
-{
 	edges MANY 
 	coordinates ONE
 }{};
@@ -75,12 +68,6 @@ association "end point" between
 {
 	edges MANY 
 	coordinates ONE
-}{};
-
-association between 
-{
-	trips ONE 
-	images MANY
 }{};
 
 association between 

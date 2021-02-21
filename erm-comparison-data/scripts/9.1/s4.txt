@@ -1,0 +1,91 @@
+entity set airplanes {
+	"id"
+	"name"
+};
+
+entity set "fighter planes" {
+	"plane id"
+	"model"
+};
+
+entity set "transport planes" {
+	"plane id"
+	"model"
+};
+
+entity set "rocket models" {
+	"rocket type"
+	"plane model"
+	"count"
+};
+
+entity set rockets {
+	"type"
+};
+
+entity set "transport plane models" {
+	"person capacity"
+	"load volume"
+	"load weight"
+};
+
+entity set "soldier airplane assignment" {
+	"role"
+	"soldier id"
+	"plane id"
+};
+
+entity set soldiers {
+	"name"
+	"actual health"
+	"maximal health"
+	"speed"
+	"strength"
+	"agility"
+	"inteligence"
+};
+
+entity set modificator {
+	"count"
+};
+
+association  between
+{
+	airplanes MANY
+	"soldier airplane assignment" MANY
+}{};
+
+association  between
+{
+	"fighter planes" ONE
+	"rocket models" MANY
+}{};
+
+
+association  between
+{
+	"rocket models" MANY
+	"rockets" ONE
+}{};
+
+association  between
+{
+	"transport planes" MANY
+	"transport plane models" ONE
+}{};
+
+association  between
+{
+	soldiers ONE
+	"soldier airplane assignment" MANY
+}{};
+
+association  between
+{
+	modificator MANY
+	"soldier airplane assignment" ONE
+}{};
+
+generalization from "fighter planes" to "airplanes";
+
+generalization from "transport planes" to "airplanes";

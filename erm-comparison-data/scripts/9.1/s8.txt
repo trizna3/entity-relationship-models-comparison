@@ -1,0 +1,71 @@
+entity set airplanes {
+	"id"
+	"model"
+};
+
+entity set "fighters" {
+	"id"
+	"weapon type"
+	"capacity"
+	"name"
+};
+
+entity set "transport planes" {
+	"id"
+	"capacity"
+	"volume"
+	"weight"
+	"name"
+};
+
+entity set soldiers {
+	"id"
+	"name"
+	"health"
+	"max"
+	"speed"
+	"strength"
+	"agility"
+	"inteligence"
+	"rank"
+};
+
+entity set commander {
+	"bonus percentage"
+};
+
+entity set pilot {
+	"bonus percentage"
+};
+
+entity set scout {
+	"bonus percentage"
+};
+
+entity set medic {
+	"bonus percentage"
+};
+
+entity set footman {
+	"bonus percentage"
+};
+
+association between 
+{
+	"transport planes" MANY
+	soldiers MANY
+}{};
+
+generalization from "fighters" to "airplanes";
+
+generalization from "transport planes" to "airplanes";
+
+generalization from "commander" to "soldiers";
+
+generalization from "pilot" to "soldiers";
+
+generalization from "scout" to "soldiers";
+
+generalization from "medic" to "soldiers";
+
+generalization from "footman" to "soldiers";

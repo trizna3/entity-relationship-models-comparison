@@ -1,0 +1,76 @@
+entity set airplanes {
+	"name"
+};
+
+entity set "fighters" {
+};
+
+entity set "transport planes" {
+	"person capacity"
+};
+
+entity set rockets {
+	"name"
+};
+
+entity set material {
+	"name"
+};
+
+entity set soldiers {
+	"name"
+	"actual health"
+	"maximal health"
+	"strength"
+	"agility"
+	"inteligence"
+};
+
+entity set "soldier types" {
+	"name"
+	"maximal health modifier"
+	"strength modifier"
+	"agility modifier"
+	"inteligence modifier"
+};
+
+association between 
+{
+	airplanes ONE
+	fighters MANY
+}{};
+
+association between 
+{
+	airplanes ONE
+	"transport planes" MANY
+}{};
+
+association "load" between 
+{
+	"transport planes" MANY
+	material MANY
+}{
+	"volume"
+	"weight"
+};
+
+association "fighter rockets" between 
+{
+	fighters MANY
+	rockets MANY
+}{
+	"count"
+};
+
+association between 
+{
+	airplanes MANY
+	soldiers MANY
+}{};
+
+association between 
+{
+	soldiers MANY
+	"soldier types" ONE
+}{};

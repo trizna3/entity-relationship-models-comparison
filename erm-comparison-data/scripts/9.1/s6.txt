@@ -1,0 +1,95 @@
+entity set airplanes {
+	"serial number"
+	"name"
+	"model"
+};
+
+entity set "fighter planes" {
+	"maximal rocket capacity"
+};
+
+entity set "transport planes" {
+	"person capacity"
+	"maximal load volume"
+	"maximal load weight"
+};
+
+entity set rocket {
+	"type"
+};
+
+entity set soldier {
+	"name"
+	"actual health"
+	"maximal health"
+	"speed"
+	"strength"
+	"agility"
+	"inteligence"
+};
+
+entity set commander {
+	"maximal health modifier"
+	"health modifier"
+	"strength modifier"
+	"agility modifier"
+	"inteligence modifier"
+};
+
+entity set pilot {
+	"maximal health modifier"
+	"health modifier"
+	"strength modifier"
+	"agility modifier"
+	"inteligence modifier"
+};
+
+entity set scout {
+	"maximal health modifier"
+	"health modifier"
+	"strength modifier"
+	"agility modifier"
+	"inteligence modifier"
+};
+
+entity set medic {
+	"maximal health modifier"
+	"health modifier"
+	"strength modifier"
+	"agility modifier"
+	"inteligence modifier"
+};
+
+entity set footman {
+	"maximal health modifier"
+	"health modifier"
+	"strength modifier"
+	"agility modifier"
+	"inteligence modifier"
+};
+
+association "equipment" between 
+{
+	"fighter planes" MANY
+	rocket MANY
+}{};
+
+association "flight list" between 
+{
+	airplanes MANY
+	soldier MANY
+}{};
+
+generalization from "fighter planes" to "airplanes";
+
+generalization from "transport planes" to "airplanes";
+
+generalization from "commander" to "soldier";
+
+generalization from "pilot" to "soldier";
+
+generalization from "scout" to "soldier";
+
+generalization from "medic" to "soldier";
+
+generalization from "footman" to "soldier";

@@ -1,0 +1,52 @@
+entity set airplanes {
+	"serial number"
+	"name"
+};
+
+entity set fighter {
+	"rocket count"
+	"rocket type"
+};
+
+entity set transport {
+	"capacity"
+	"volume"
+	"weight"
+};
+
+entity set soldier {
+	"name"
+	"actual health"
+	"maximal health"
+	"speed"
+	"strength"
+	"agility"
+	"inteligence"
+};
+
+entity set role {
+	"commander"
+	"pilot"
+	"medic"
+	"scout"
+	"footman"
+};
+
+association between {
+	role MANY
+	soldier ONE
+}{};
+
+association between {
+	soldier MANY
+	airplanes MANY
+}{};
+
+association between {
+	role ONE
+	airplanes ONE
+}{};
+
+generalization from "fighter" to "airplanes";
+
+generalization from "transport" to "airplanes";
