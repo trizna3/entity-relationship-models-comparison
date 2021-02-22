@@ -361,7 +361,7 @@ public class TransformationAnalystUtils extends Utils {
 				if (relationship instanceof Association) {
 					for (Attribute attribute : ((Association) relationship).getAttributes()) {
 						try {
-							moveAttributeToIncidentEntitySetPreconditionsStrong(attribute,otherModelAttributes);
+							moveAttributeToIncidentEntitySetPreconditionsStrong(relationship,attribute,otherModelAttributes);
 							List<Transformation> preconditions = moveAttributeToIncidentEntitySetPreconditionsSoft(relationship, entitySet, model);
 
 							Transformation transformation = TransformationFactory.getMoveAttrToIncidentEntitySet(attribute, (Association) relationship, entitySet);
@@ -379,7 +379,10 @@ public class TransformationAnalystUtils extends Utils {
 		}
 	}
 	
-	private static void moveAttributeToIncidentEntitySetPreconditionsStrong(Attribute attribute, Set<Attribute> otherModelAttributes) throws PreconditionsNotMetException {
+	private static void moveAttributeToIncidentEntitySetPreconditionsStrong(Relationship relationship, Attribute attribute, Set<Attribute> otherModelAttributes) throws PreconditionsNotMetException {
+		if (!relationship.isBinary()) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
 		if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION)) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
@@ -432,6 +435,9 @@ public class TransformationAnalystUtils extends Utils {
 	
 	private static void moveAttributeToIncidentAssociationPreconditionsStrong(Relationship relationship, Attribute attribute, Set<Attribute> otherModelAttributes) throws PreconditionsNotMetException {
 		if (!(relationship instanceof Association)) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (!relationship.isBinary()) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
 		if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET)) {

@@ -105,20 +105,20 @@ public class MappingFinderLargeTest {
 		assertTrue(true);
 	}
 	
-//	@Test
-//	public void testFindBestMapping_BattleOfTitans_1() {
-//		System.out.println("Test - mapping finder: BattleOfTitans 1");
-//		ERModel exemplarModel = TestUtils.makeERModel_BattleOfTitans_Vzor();
-//		ERModel studentModel = TestUtils.makeERModel_BattleOfTitans_S1();
-//
-//		Collections.shuffle(exemplarModel.getEntitySets());
-//		Collections.shuffle(studentModel.getEntitySets());
-//
-//		MappingFinder finder = new MappingFinder();
-//		logResult(finder.getBestMapping(exemplarModel, studentModel),"battle_of_titans_1");
-//
-//		assertTrue(true);
-//	}
+	@Test
+	public void testFindBestMapping_BattleOfTitans_1() {
+		System.out.println("Test - mapping finder: BattleOfTitans 1");
+		ERModel exemplarModel = TestUtils.makeERModel_BattleOfTitans_Vzor();
+		ERModel studentModel = TestUtils.makeERModel_BattleOfTitans_S1();
+
+		Collections.shuffle(exemplarModel.getEntitySets());
+		Collections.shuffle(studentModel.getEntitySets());
+
+		MappingFinder finder = new MappingFinder();
+		logResult(finder.findBestMapping(exemplarModel, studentModel),"battle_of_titans_1");
+
+		assertTrue(true);
+	}
 	
 	@Test
 	public void testFindBestMapping_BattleOfTitans_2() {

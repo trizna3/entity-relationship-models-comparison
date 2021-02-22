@@ -3,7 +3,7 @@ package sk.trizna.erm_comparison.common;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 
 /**
- * Class encapsulates several objects, representing program state snapshot. Servers for validation purposes only.
+ * Class encapsulates several objects, representing program state snapshot. Serves for validation purposes only.
  * 
  * @author Adam Trizna
  *
