@@ -1,0 +1,64 @@
+entity set "battle of titans" {
+	"game id"
+};
+
+entity set game {
+	"id"
+	"board"
+};
+
+entity set board {
+	"rows"
+	"lines"
+	"cells"
+};
+
+entity set cell {
+	"row"
+	"line"
+	"type"
+	"figure"
+};
+
+entity set figure {
+	"id"
+	"name"
+	"life"
+	"attack"
+	"defense"
+	"action points"
+	"movement type"
+};
+
+entity set "action points" {
+};
+
+association between 
+{
+	"battle of titans" ONE
+	game MANY
+}{};
+
+association between 
+{
+	board ONE
+	game ONE
+}{};
+
+association between 
+{
+	board ONE
+	cell MANY
+}{};
+
+association between 
+{
+	cell ONE
+	figure ONE
+}{};
+
+association between 
+{
+	board ONE
+	"action points" ONE
+}{};

@@ -9,17 +9,17 @@ entity set contract {
 	"fee"
 };
 
-entity set "life_insurance" {
-	"death_payment"
-	"injury_payment"
-	"daily_payment"
+entity set "life insurance" {
+	"death payment"
+	"injury payment"
+	"daily payment"
 };
 
-entity set "real_estate_insurance" {
-	"crash_payment"
-	"disaster_payment"
-	"living_area"
-	"cellar_area"
+entity set "real estate insurance" {
+	"crash payment"
+	"disaster payment"
+	"living area"
+	"cellar area"
 };
 
 entity set persons {
@@ -36,7 +36,7 @@ entity set addresses {
 	"country"
 };
 
-entity set "real_estate_types" {
+entity set "real estate types" {
 	"name"
 };
 
@@ -49,16 +49,16 @@ association between
 association between 
 {
 	persons ONE
-	life_insurance ONE
+	"life insurance" ONE
 }{};
 
-association between 
+association between
 {
 	persons ONE
-	real_estate_insurance ONE
+	"real estate insurance" ONE
 }{};
 
-association between 
+association between
 {
 	persons ONE 
 	addresses ONE
@@ -67,15 +67,15 @@ association between
 association between 
 {
 	addresses ONE
-	real_estate_insurance ONE
+	"real estate insurance" ONE
 }{};
 
 association between 
 {
-	real_estate_types ONE
-	real_estate_insurance MANY
+	"real estate types" ONE
+	"real estate insurance" MANY
 }{};
 
-generalization from life_insurance to contract;
+generalization from "life insurance" to contract;
 
-generalization from real_estate_insurance to contract;
+generalization from "real estate insurance" to contract;

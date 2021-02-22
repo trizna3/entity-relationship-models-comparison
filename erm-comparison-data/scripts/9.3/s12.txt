@@ -1,0 +1,65 @@
+entity set buildings {
+	"address"
+};
+
+entity set floors {
+	"floor"
+};
+
+entity set rooms {
+	"price"
+	"number"
+	"capacity"
+};
+
+entity set contracts {
+	"start"
+	"end"
+};
+
+entity set accommodated {
+	"name"
+};
+
+entity set account {
+	"new credit"
+	"transaction"
+	"date"
+	"time"
+};
+
+association "is in" between 
+{
+	buildings ONE
+	floors MANY
+}{};
+
+association "is on" between 
+{
+	floors ONE
+	rooms MANY
+}{};
+
+association between 
+{
+	rooms ONE 
+	contracts MANY
+}{};
+
+association between 
+{
+	contracts ONE
+	accommodated ONE
+}{};
+
+association between 
+{
+	accommodated ONE
+	account	ONE
+}{};
+
+association between 
+{
+	contracts ONE
+	account	ONE
+}{};

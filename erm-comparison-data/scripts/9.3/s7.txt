@@ -1,0 +1,67 @@
+entity set hostel {
+	"name"
+};
+
+entity set buildings {
+	"floor count"
+	"address"
+};
+
+entity set rooms {
+	"capacity"
+	"fee"
+};
+
+entity set contracts {
+	"start"
+	"end"
+};
+
+entity set students {
+	"name"
+	"account"
+};
+
+entity set payments {
+	"fee"
+	"when"
+};
+
+association between 
+{
+	hostel ONE 
+	buildings MANY
+}{};
+
+association between 
+{
+	buildings ONE 
+	rooms MANY
+}{};
+
+association between 
+{
+	rooms ONE 
+	contracts ONE
+}{};
+
+association between 
+{
+	contracts ONE 
+	payments MANY
+}{};
+
+association between 
+{
+	payments ONE 
+	students MANY
+}{};
+
+association "contract state" between 
+{
+	contracts ONE 
+	students MANY
+}{
+	"new"
+	"old"
+};

@@ -2,7 +2,7 @@ entity set vehicle {
 	"code"
 };
 
-entity set "vehicle_type" {
+entity set "vehicle type" {
 	"name"
 };
 
@@ -15,16 +15,15 @@ entity set stop {
 };
 
 association between {
-	"vehicle_type" ONE
+	"vehicle type" ONE
 	vehicle MANY
-}{
-};
+}{};
 
-association "rides_on_line" between {
+association "rides on line" between {
 	line MANY
 	vehicle MANY
 }{
-"time"
+	"time"
 };
 
 association "contains" between {

@@ -12,7 +12,7 @@ entity set tile {
 	"column"
 };
 
-entity set "tile_type" {
+entity set "tile type" {
 	"name"
 };
 
@@ -20,7 +20,7 @@ entity set weather {
 	"name"
 };
 
-entity set "fuel_type" {
+entity set "fuel type" {
 	"name"
 };
 
@@ -29,7 +29,7 @@ entity set units {
 	"health"
 	"attack"
 	"defense"
-	"actual_points"
+	"actual points"
 	"points"
 };
 
@@ -48,7 +48,7 @@ association between
 association between 
 {
 	tile MANY
-	"tile_type"	ONE
+	"tile type"	ONE
 }{};
 
 association between 
@@ -60,14 +60,14 @@ association between
 association "move" between 
 {
 	weather MANY
-	"fuel_type" MANY
-	"tile_type" MANY
+	"fuel type" MANY
+	"tile type" MANY
 }{
 	"points"
 };
 
 association between 
 {
-	"fuel_type" ONE
+	"fuel type" ONE
 	units MANY
 }{};

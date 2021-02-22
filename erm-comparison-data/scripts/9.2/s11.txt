@@ -1,0 +1,68 @@
+entity set game {
+};
+
+entity set board {
+	"rows"
+	"columns"
+};
+
+entity set tile {
+	"swamp"
+	"field"
+	"forest"
+	"mountain"
+};
+
+entity set weather {
+	"rainy"
+	"sunny"
+	"cold"
+};
+
+entity set units {
+	"name"
+	"health"
+	"attack"
+	"defense"
+	"points"
+};
+
+entity set movement {
+	"points"
+};
+
+entity set fuel {
+	"feet"
+	"horse"
+	"belts"
+};
+
+association between 
+{
+	game ONE
+	board ONE
+}{};
+
+association "coordinates" between 
+{
+	board MANY
+	tile MANY
+}{};
+
+association between 
+{
+	tile ONE
+	units ONE
+}{};
+
+association between 
+{
+	units MANY
+	fuel ONE
+}{};
+
+association between 
+{
+	weather MANY
+	board MANY
+}{};

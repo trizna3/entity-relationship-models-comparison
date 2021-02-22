@@ -18,15 +18,15 @@ entity set documents {
 	"text"
 };
 
-entity set "agenda_type" {
+entity set "agenda type" {
 	"name"
 };
 
-entity set "vote_options" {
+entity set "vote options" {
 	"name"
 };
 
-association "assembled_deputies" between 
+association "assembled deputies" between 
 {
 	persons MANY 
 	assembly MANY
@@ -38,7 +38,7 @@ association between
 	agenda MANY
 }{};
 
-association "agenda_documents" between 
+association "agenda documents" between 
 {
 	agenda MANY 
 	documents MANY
@@ -47,12 +47,12 @@ association "agenda_documents" between
 association between 
 {
 	agenda MANY 
-	"agenda_type" ONE
+	"agenda type" ONE
 }{};
 
 association "voting" between 
 {
 	persons	MANY 
 	agenda MANY 
-	"vote_options" ONE
+	"vote options" ONE
 }{};

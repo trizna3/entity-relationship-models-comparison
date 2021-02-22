@@ -1,0 +1,79 @@
+entity set game {
+	"actual count"
+};
+
+entity set board {
+	"rows"
+	"columns"
+};
+
+entity set tile {
+	"type"
+	"coordinate x"
+	"coordinate y"
+};
+
+entity set weather {
+	"weather"
+};
+
+entity set unit {
+	"name"
+	"health"
+	"attack strength"
+	"defense strength"
+	"points count"
+	"fuel type"
+};
+
+entity set "fuel type" {
+	"type"
+};
+
+entity set points {
+	"fuel type"
+	"tile type"
+	"cost"
+};
+
+association between 
+{
+	board ONE
+	game ONE
+}{};
+
+association between 
+{
+	board ONE
+	tile MANY
+}{};
+
+association between 
+{
+	tile ONE
+	unit ONE
+}{};
+
+association between 
+{
+	unit MANY
+	"fuel type" ONE
+}{};
+
+association between 
+{
+	game MANY
+	weather ONE
+}{};
+
+association between 
+{
+	tile MANY
+	points MANY
+}{};
+
+association between 
+{
+	points MANY
+	"fuel type" MANY
+}{};

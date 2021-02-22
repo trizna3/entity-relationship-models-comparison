@@ -1,0 +1,65 @@
+entity set system {
+};
+
+entity set game {
+};
+
+entity set board {
+	"rows"
+	"columns"
+};
+
+entity set tile {
+	"type"
+};
+
+entity set units {
+	"name"
+	"health"
+	"attack"
+	"defense"
+	"points count"
+	"fuel"
+};
+
+entity set movement {
+	"tile type"
+	"fuel type"
+	"weather type"
+	"points needed"
+};
+
+entity set weather {
+	"move count"
+	"type"
+};
+
+association between 
+{
+	system ONE
+	game MANY
+}{};
+
+association between 
+{
+	game ONE
+	board MANY
+}{};
+
+association between 
+{
+	game ONE
+	tile MANY
+}{};
+
+association between 
+{
+	tile ONE
+	units MANY
+}{};
+
+association between 
+{
+	weather ONE
+	movement MANY
+}{};

@@ -1,0 +1,57 @@
+entity set buildings {
+	"address"
+};
+
+entity set rooms {
+	"floor"
+	"capacity"
+	"fee"
+};
+
+entity set contracts {
+	"start"
+	"end"
+};
+
+entity set students {
+	"name"
+};
+
+entity set account {
+	"credit"
+};
+
+entity set registry {
+	"amount"
+	"time"
+};
+
+association between 
+{
+	buildings ONE 
+	rooms MANY
+}{};
+
+association between 
+{
+	rooms ONE 
+	contracts ONE
+}{};
+
+association between 
+{
+	contracts MANY
+	students ONE
+}{};
+
+association "owns" between 
+{
+	students ONE 
+	account ONE
+}{};
+
+association "payment" between 
+{
+	registry ONE 
+	account ONE
+}{};

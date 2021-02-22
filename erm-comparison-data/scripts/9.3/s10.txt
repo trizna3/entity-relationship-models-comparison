@@ -1,0 +1,44 @@
+entity set hostel {
+	"address"
+	"floor count"
+};
+
+entity set room {
+	"capacity"
+	"monthly fee"
+};
+
+entity set contracts {
+	"start"
+	"end"
+};
+
+entity set accommodated {
+	"account"
+	"credit"
+	"time"
+};
+
+association between 
+{
+	hostel ONE
+	room MANY
+}{};
+
+association between 
+{
+	room ONE
+	accommodated MANY
+}{};
+
+association between 
+{
+	accommodated ONE 
+	contracts ONE
+}{};
+
+association between 
+{
+	room ONE
+	contracts MANY
+}{};

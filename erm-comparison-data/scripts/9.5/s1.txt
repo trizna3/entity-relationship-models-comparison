@@ -1,0 +1,81 @@
+entity set nrsr {
+};
+
+entity set deputies {
+	"name"
+	"lastname"
+};
+
+entity set assemblies {
+	"name"
+	"duration"
+};
+
+entity set items {
+	"name"
+};
+
+entity set "vote history" {
+	"when"
+	"how"
+};
+
+entity set "item types" {
+	"minimal count to pass"
+};
+
+entity set documents {
+	"name"
+};
+
+entity set "vote types" {
+	"for"
+	"against"
+	"pass"
+	"absent"
+};
+
+association between 
+{
+	nrsr ONE
+	deputies MANY
+}{};
+
+association "participate in" between 
+{
+	assemblies MANY
+	deputies MANY
+}{};
+
+association between 
+{
+	items MANY
+	documents MANY
+}{};
+
+association between 
+{
+	"vote history" ONE
+	deputies MANY
+}{};
+
+association between 
+{
+	assemblies ONE
+	items MANY
+}{};
+
+association between 
+{
+	deputies ONE
+	items MANY
+	assemblies MANY
+}{};
+
+association between 
+{
+	"vote types" ONE
+	deputies MANY
+}{};
+
+generalization from "item types" to items;

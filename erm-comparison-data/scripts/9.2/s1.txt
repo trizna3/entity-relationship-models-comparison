@@ -1,0 +1,74 @@
+entity set games {
+	"move"
+};
+
+entity set "boards" {
+	"rows"
+	"columns"
+};
+
+entity set "tile types" {
+};
+
+entity set "weather types" {
+};
+
+entity set units {
+	"name"
+	"attack strength"
+	"defense strength"
+};
+
+entity set "fuel type" {
+};
+
+association "actual state" between 
+{
+	games MANY
+	boards ONE
+}{
+	"turn"
+};
+
+association "weather" between 
+{
+	boards MANY
+	"weather types" MANY
+}{
+	row
+	column
+};
+
+association "state" between 
+{
+	boards MANY
+	units MANY
+}{
+	row
+	column
+	health
+	points
+};
+
+association "positioning" between 
+{
+	boards MANY
+	"tile types" MANY
+}{
+	row
+	column
+};
+
+
+association between 
+{
+	units MANY
+	"fuel type" ONE
+}{};
+
+association between 
+{
+	"weather types" MANY
+	"tile types" MANY
+	"fuel type" MANY
+}{};

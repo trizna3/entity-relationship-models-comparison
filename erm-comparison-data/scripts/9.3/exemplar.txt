@@ -17,7 +17,7 @@ entity set contracts {
 	"end"
 };
 
-entity set paymentss {
+entity set payments {
 	"amount"
 	"date"
 };
@@ -47,7 +47,7 @@ association between
 association between 
 {
 	contracts ONE 
-	paymentss MANY
+	payments MANY
 }{};
 
 association between 
@@ -58,7 +58,7 @@ association between
 
 association between 
 {
-	paymentss MANY
+	payments MANY
 	account ONE
 }{};
 

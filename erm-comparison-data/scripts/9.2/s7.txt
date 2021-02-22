@@ -1,0 +1,71 @@
+entity set game {
+};
+
+entity set board {
+	"rows"
+	"columns"
+};
+
+entity set tiles {
+	"type"
+	"coordinate x"
+	"coordinate y"
+};
+
+entity set weather {
+	"type"
+};
+
+entity set "points for movement" {
+};
+
+entity set units {
+	"name"
+	"health"
+	"attack strength"
+	"defense strength"
+	"points count"
+	"position"
+};
+
+entity set fuel {
+	"type"
+};
+
+association "runs on" between 
+{
+	board ONE
+	game ONE
+}{};
+
+association "contains" between 
+{
+	board ONE
+	tiles MANY
+}{};
+
+association between 
+{
+	board ONE
+	units MANY
+}{};
+
+association between 
+{
+	weather ONE
+	"points for movement" MANY
+}{};
+
+association between 
+{
+	units ONE
+	"points for movement" MANY
+}{};
+
+association between 
+{
+	tiles ONE
+	"points for movement" MANY
+}{};
+
+generalization from fuel to units;

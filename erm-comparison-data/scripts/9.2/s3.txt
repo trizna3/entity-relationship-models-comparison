@@ -1,0 +1,65 @@
+entity set games {
+	"id"
+	"board id"
+	"point count"
+};
+
+entity set boards {
+	"id"
+	"row"
+	"column"
+	"tile count"
+	"type id"
+	"action points"
+};
+
+entity set weather {
+	"name"
+};
+
+entity set "tile types" {
+	"id"
+	"name"
+	"weather"
+	"units"
+	"unit type"
+};
+
+entity set "fuel types" {
+	"id"
+	"name"
+	"action points"
+};
+
+entity set "unit types" {
+	"id"
+	"name"
+	"fuel id"
+	"action point count"
+	"attack"
+	"defense"
+};
+
+association between 
+{
+	boards ONE
+	"tile types" MANY
+}{};
+
+association between 
+{
+	weather ONE
+	"tile types" ONE
+}{};
+
+association between 
+{
+	"unit types" ONE
+	"tile types" MANY
+}{};
+
+association between 
+{
+	"unit types" MANY
+	"fuel types" ONE
+}{};

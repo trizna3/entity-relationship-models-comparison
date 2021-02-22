@@ -1,0 +1,58 @@
+entity set buildings {
+	"address"
+};
+
+entity set floors {
+	"number"
+};
+
+entity set rooms {
+	"number"
+	"capacity"
+	"monthly fee"
+};
+
+entity set contracts {
+	"start"
+	"end"
+	"accommodation price"
+};
+
+entity set accommodated {
+	"name"
+};
+
+entity set payments {
+	"time"
+	"credit"
+};
+
+association "contains" between 
+{
+	buildings ONE
+	floors MANY
+}{};
+
+association "contains" between 
+{
+	floors ONE 
+	rooms MANY
+}{};
+
+association "created" between 
+{
+	rooms ONE 
+	contracts MANY
+}{};
+
+association "assigned" between 
+{
+	contracts ONE 
+	payments ONE
+}{};
+
+association between 
+{
+	contracts MANY
+	accommodated ONE
+}{};

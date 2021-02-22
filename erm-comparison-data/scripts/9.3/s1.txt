@@ -1,0 +1,43 @@
+entity set addresses {
+	"name"
+};
+
+entity set buildings {
+	"address"
+	"floor"
+};
+
+entity set rooms {
+	"capacity"
+	"monthly fee"
+};
+
+entity set contracts {
+	"start"
+	"end"
+};
+
+entity set students {
+	"contract"
+	"credit"
+};
+
+association between 
+{
+	addresses ONE 
+	buildings ONE
+}{};
+
+association between 
+{
+	buildings ONE
+	rooms MANY
+}{};
+
+association between 
+{
+	contracts ONE 
+	students MANY
+}{};
+
+generalization from contracts to rooms;

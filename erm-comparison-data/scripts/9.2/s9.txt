@@ -1,0 +1,73 @@
+entity set game {
+};
+
+entity set board {
+	"rows"
+	"columns"
+	"move count"
+};
+
+entity set tiles {
+};
+
+entity set "tile type" {
+	"type"
+};
+
+entity set unit {
+	"name"
+	"health"
+	"attack"
+	"defense"
+	"action points"
+};
+
+entity set "fuel type" {
+	"type"
+};
+
+entity set difficulty {
+	"action points needed"
+};
+
+association between 
+{
+	game ONE
+	board MANY
+}{};
+
+association between 
+{
+	board ONE
+	tiles MANY
+}{};
+
+association between 
+{
+	tiles MANY
+	"tile type" MANY
+}{};
+
+association between 
+{
+	"tile type" MANY
+	board ONE
+}{};
+
+association between 
+{
+	"tile type" MANY
+	unit ONE
+}{};
+
+association between 
+{
+	unit MANY
+	"fuel type" ONE
+}{};
+
+association between 
+{
+	"tile type" ONE
+	difficulty MANY
+}{};

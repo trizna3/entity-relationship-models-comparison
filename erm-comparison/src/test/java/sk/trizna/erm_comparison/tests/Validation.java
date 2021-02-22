@@ -33,6 +33,10 @@ public class Validation {
 	public static final String INSTANCE72 = "7.2";
 	public static final String INSTANCE73 = "7.3";
 	public static final String INSTANCE91 = "9.1";
+	public static final String INSTANCE92 = "9.2";
+	public static final String INSTANCE93 = "9.3";
+	
+	public static final String INSTANCE95 = "9.5";
 	
 	static {
 		INSTANCES.put(INSTANCE61, 5);
@@ -44,6 +48,9 @@ public class Validation {
 		INSTANCES.put(INSTANCE72, 3);
 		INSTANCES.put(INSTANCE73, 2);
 		INSTANCES.put(INSTANCE91, 14);
+		INSTANCES.put(INSTANCE92, 12);
+		INSTANCES.put(INSTANCE93, 14);
+		INSTANCES.put(INSTANCE95, 3);
 	} 
 	
 	
@@ -156,6 +163,7 @@ public class Validation {
 	}
 	
 	private ERModel getExemplarModel(String instanceName) throws SyntaxException, IOException {
+		System.out.println("Parsing exemplar model " + instanceName);
 		return Parser.fromString(Parser.fileToString(getScriptsPath() + instanceName + "\\exemplar.txt"));
 	}
 	

@@ -1,0 +1,88 @@
+entity set game {
+};
+
+entity set boards {
+	"row"
+	"column"
+};
+
+entity set tiles {
+};
+
+entity set "tile types" {
+	"name"
+};
+
+entity set units {
+	"name"
+	"actual health"
+	"attack strength"
+	"defense strength"
+	"action points count"
+};
+
+entity set "fuel types" {
+	"name"
+};
+
+entity set weather {
+	"name"
+};
+
+entity set "action points for movement" {
+	"count"
+};
+
+association between 
+{
+	boards ONE
+	game ONE
+}{};
+
+association "has" between 
+{
+	boards ONE
+	tiles MANY
+}{};
+
+association between 
+{
+	game MANY
+	weather ONE
+}{};
+
+association between 
+{
+	tiles ONE
+	units ONE
+}{};
+
+association between 
+{
+	tiles MANY
+	"tile types" ONE
+}{};
+
+association between 
+{
+	units MANY
+	"fuel types" ONE
+}{};
+
+association between 
+{
+	"action points for movement" MANY
+	"fuel types" ONE
+}{};
+
+association between 
+{
+	"action points for movement" MANY
+	weather ONE
+}{};
+
+association between 
+{
+	"action points for movement" MANY
+	"tile types" ONE
+}{};
