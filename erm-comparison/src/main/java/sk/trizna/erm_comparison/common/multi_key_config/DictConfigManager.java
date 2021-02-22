@@ -23,4 +23,9 @@ public class DictConfigManager extends MultiKeyConfigManager {
 	protected String getDelimiter() {
 		return PrintUtils.DELIMITER_COMMA;
 	}
+
+	@Override
+	protected boolean isSplitSections() {
+		return true;
+	}
 }
