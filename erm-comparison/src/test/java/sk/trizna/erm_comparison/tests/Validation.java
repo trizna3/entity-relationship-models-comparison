@@ -35,7 +35,7 @@ public class Validation {
 	public static final String INSTANCE91 = "9.1";
 	public static final String INSTANCE92 = "9.2";
 	public static final String INSTANCE93 = "9.3";
-	
+	public static final String INSTANCE94 = "9.4";
 	public static final String INSTANCE95 = "9.5";
 	
 	static {
@@ -50,6 +50,7 @@ public class Validation {
 		INSTANCES.put(INSTANCE91, 14);
 		INSTANCES.put(INSTANCE92, 12);
 		INSTANCES.put(INSTANCE93, 14);
+		INSTANCES.put(INSTANCE94, 20);
 		INSTANCES.put(INSTANCE95, 3);
 	} 
 	

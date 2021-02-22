@@ -1,0 +1,63 @@
+entity set stops {
+	"name"
+	"address"
+};
+
+entity set line {
+	"number"
+};
+
+entity set schedule {
+	"time"
+	"date"
+};
+
+entity set "vehicle depot" {
+	"code"
+};
+
+entity set "vehicle type" {
+};
+
+entity set busses {
+};
+
+entity set trolleybusses {
+};
+
+entity set trams {
+};
+
+association "route" between {
+	stops MANY
+	line MANY
+}{
+	"time"
+	"order"
+};
+
+association between {
+	line ONE
+	schedule MANY
+}{};
+
+association between {
+	line MANY
+	"vehicle type" ONE
+}{};
+
+association between {
+	"vehicle type" ONE
+	"vehicle depot" MANY
+}{};
+
+association between {
+	schedule MANY
+	"vehicle depot" ONE
+}{};
+
+generalization from busses to "vehicle type";
+
+generalization from trolleybusses to "vehicle type";
+
+generalization from trams to "vehicle type";

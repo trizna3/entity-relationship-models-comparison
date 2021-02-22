@@ -1,0 +1,27 @@
+entity set stops {
+	"name"
+};
+
+entity set lines {
+	"vehicle type"
+};
+
+entity set vehicles {
+	"type"
+	"id"
+};
+
+association "duration till stop" between {
+	stops MANY
+	lines MANY
+}{
+	"time"
+};
+
+
+association "rides on" between {
+	vehicles MANY
+	lines MANY
+}{
+	"takeoff time"
+};

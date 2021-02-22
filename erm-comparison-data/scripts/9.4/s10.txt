@@ -1,0 +1,26 @@
+entity set stops {
+	"name"
+};
+
+entity set lines {
+	"number"
+};
+
+entity set vehicles {
+	"type"
+	"code"
+};
+
+association "duration" between {
+	stops MANY
+	lines MANY
+}{
+	"time"
+};
+
+association "schedule" between {
+	vehicles ONE
+	lines MANY
+}{
+	"time"
+};

@@ -1,0 +1,26 @@
+entity set stops {
+	"name"
+};
+
+entity set lines {
+	"number"
+	"type"
+};
+
+entity set vehicles {
+	"code"
+};
+
+association "contains" between {
+	stops ONE
+	lines MANY
+}{
+	"duration since first stop"
+};
+
+association "drives on" between {
+	vehicles MANY
+	lines MANY
+}{
+	"time"
+};

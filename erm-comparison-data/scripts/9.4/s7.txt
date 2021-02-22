@@ -1,0 +1,59 @@
+entity set stop {
+	"name"
+	"position"
+};
+
+entity set line {
+	"number"
+};
+
+entity set vehicle {
+	"code"
+	"schedule"
+	"timestamps"
+};
+
+entity set "vehicle types" {
+	"bus"
+	"trolleybus"
+	"tram"
+};
+
+entity set route {
+	"sequence"
+	"x coordinate"
+	"y coordinate"
+};
+
+association between {
+	"vehicle types" ONE
+	vehicle MANY
+}{};
+
+association between {
+	"vehicle types" MANY
+	line MANY
+}{};
+
+
+association between {
+	line MANY
+	vehicle ONE
+}{};
+
+association "duration" between {
+	line MANY
+	stop MANY
+}{
+	"time"
+};
+
+association between {
+	line MANY
+	route ONE
+}{};
+
+association between {
+	stop ONE
+	route MANY
+}{};

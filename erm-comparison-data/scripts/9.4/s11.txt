@@ -1,0 +1,44 @@
+entity set stops {
+	"name"
+};
+
+entity set lines {
+	"number"
+	"vehicle type"
+};
+
+entity set vehicle {
+	"type"
+	"vehicle code"
+	"leave time"
+};
+
+entity set busses {
+	"bus code"
+};
+
+entity set trams {
+	"tram code"
+};
+
+entity set trolleybusses {
+	"trolleybus code"
+};
+
+association "duration" between {
+	stops MANY
+	lines MANY
+}{
+	"time"
+};
+
+association between {
+	vehicle ONE
+	lines MANY
+}{};
+
+generalization from busses to vehicle;
+
+generalization from trolleybusses to vehicle;
+
+generalization from trams to vehicle;
