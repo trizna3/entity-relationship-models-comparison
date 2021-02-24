@@ -1,0 +1,74 @@
+entity set account {
+	"name"
+	"password"
+};
+
+entity set contracts {
+	"payment"
+	"date from"
+	"date to"
+};
+
+entity set insured {
+	"name"
+};
+
+entity set customers {
+	"name"
+};
+
+entity set "life insurance amounts" {
+	"amount"
+};
+
+entity set "real estate insurance amounts" {
+	"amount"
+};
+
+entity set "insurance type" {
+	"name"
+};
+
+entity set "real estates" {
+	"address"
+	"type"
+	"living area size"
+	"basement size"
+};
+
+association between 
+{
+	account ONE 
+	contracts MANY
+}{};
+
+association between 
+{
+	contracts MANY
+	"insurance types" ONE
+}{};
+
+association between
+{
+	contracts MANY 
+	insured ONE
+}{};
+
+association between
+{
+	contracts MANY 
+	customers ONE
+}{};
+
+association between 
+{
+	insured ONE 
+	"life insurance amounts" MANY
+}{};
+
+
+association between 
+{
+	"real estates" ONE
+	"real estate insurance amounts" MANY
+}{};

@@ -1,0 +1,51 @@
+entity set accounts {
+	"username"
+	"password"
+};
+
+entity set insurance {
+	"date from"
+	"date to"
+	"monthly fee"
+};
+
+
+entity set "life insurance" {
+	"amount bereaved"
+	"amount injury"
+	"amount work incapacity"
+	"insured name"
+};
+
+entity set "real estate insurance" {
+	"crash amount"
+	"disaster amount"
+	"type"
+	"living area size"
+	"basement size"
+	"real estate name"
+};
+
+entity set address {
+	"country"
+	"town"
+	"street"
+	"number"
+};
+
+association between 
+{
+	accounts ONE 
+	insurance MANY
+}{};
+
+
+association between 
+{
+	"real estate insurance" ONE 
+	"address" ONE
+}{};
+
+generalization from "real estate insurance" to insurance;
+
+generalization from "life insurance" to insurance;

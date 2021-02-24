@@ -1,0 +1,47 @@
+entity set accounts {
+	"login name"
+	"password"
+	"name"
+	"surname"
+};
+
+entity set contracts {
+	"date from"
+	"date to"
+	"fee"
+	"current name"
+	"current surname"
+};
+
+entity set "life insurance" {
+	"death amount"
+	"injury amount"
+	"work incapacity amount"
+	"current insured name"
+	"current insured surname"
+};
+
+entity set "real estate insurance" {
+	"crash amount"
+	"nature amount"
+	"address"
+	"type"
+	"living area size"
+	"basement size"
+};
+
+association "signed contract" between 
+{
+	account ONE 
+	contract MANY
+}{};
+
+association "for whom" between 
+{
+	account ONE 
+	"life insurance" MANY
+}{};
+
+generalization from "real estate insurance" to contract;
+
+generalization from "life insurance" to contract;

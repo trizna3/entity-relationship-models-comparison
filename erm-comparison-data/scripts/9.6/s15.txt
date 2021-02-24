@@ -1,0 +1,78 @@
+entity set accounts {
+	"name"
+	"password"
+};
+
+entity set contracts {
+	"insurance type"
+	"date from"
+	"date to"
+	"fee"
+};
+
+entity set "life insurance" {
+	"person"
+	"injury amount"
+	"work incapacity"
+	"permanent consequences"
+	"death insurance"
+};
+
+entity set "person" {
+	"data"
+};
+
+entity set "real estate insurance" {
+	"real estate"
+	"crashes"
+	"elemental disaster"
+};
+
+entity set "real estate" {
+	"address"
+	"type"
+	"living area size"
+	"basement size"
+};
+
+entity set "real estates types" {
+	"flat"
+	"house"
+	"office"
+};
+
+association between 
+{
+	accounts ONE 
+	contracts MANY
+}{};
+
+association between 
+{
+	contracts ONE 
+	"life insurance" ONE
+}{};
+
+association between 
+{
+	contracts ONE 
+	"real estate insurance" ONE
+}{};
+
+association between 
+{
+	"life insurance" MANY 
+	"person" ONE
+}{};
+
+association between 
+{
+	"real estate insurance" MANY 
+	"real estate" ONE
+}{};
+
+association between 
+{
+	"real estate" ONE 
+	"real estate types" ONE
+}{};

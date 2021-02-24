@@ -1,0 +1,46 @@
+entity set user {
+	"name"
+	"password"
+};
+
+entity set insurance {
+	"from"
+	"to"
+	"fee"
+	"type"
+	"buyer"
+};
+
+entity set life {
+	"person"
+	"death fee"
+	"permanent fee"
+	"work inability fee"
+};
+
+entity set building {
+	"address"
+	"crash fee"
+	"nature fee"
+	"type"
+	"livable area"
+	"cellar area"
+};
+
+association between 
+{
+	user ONE 
+	insurance MANY
+}{};
+
+association between 
+{
+	insurance ONE 
+	life ONE
+}{};
+
+association between 
+{
+	insurance ONE 
+	building ONE
+}{};

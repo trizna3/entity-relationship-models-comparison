@@ -1,0 +1,58 @@
+entity set customers {
+};
+
+entity set accounts {
+	"name"
+	"password"
+};
+
+entity set contracts {
+	"from"
+	"to"
+	"monthly fee"
+};
+
+entity set "life insurance" {
+	"death amount"
+	"injury amount"
+	"daily dose"
+	"customer name"
+	"customer surname"
+	"other customer data"
+	"insured name"
+	"insured surname"
+	"other insured data"
+};
+
+entity set "real estate insurance" {
+	"crash insurance"
+	"disaster insurance"
+	"building address"
+	"buiding type"
+	"living area size"
+	"cellar size"
+};
+
+association between 
+{
+	customer ONE 
+	accounts MANY
+}{};
+
+association between 
+{
+	accounts ONE 
+	contracts MANY
+}{};
+
+association between 
+{
+	contracts ONE 
+	"life insurance" ONE
+}{};
+
+association between 
+{
+	contracts ONE 
+	"real estate insurance" ONE
+}{};

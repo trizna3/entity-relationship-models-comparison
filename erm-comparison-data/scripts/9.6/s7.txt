@@ -1,0 +1,40 @@
+entity set account {
+	"name"
+	"password"
+};
+
+entity set "life insurance" {
+	"insured name"
+	"amount in case of death"
+	"amount in case of injury"
+	"daily dose"	
+};
+
+entity set "real estate insurance" {
+	"address"
+	"type"
+	"living area size"
+	"cellar size"
+	"amout in case of crash"
+	"amount in case of disaster"
+};
+
+association "life insurance contract" between 
+{
+	account ONE 
+	"life insurance" MANY
+}{
+	"from"
+	"to"
+	"monthly fee"
+};
+
+association "real estate insurance contract" between 
+{
+	account ONE 
+	"real estate insurance" MANY
+}{
+	"from"
+	"to"
+	"monthly fee"
+};

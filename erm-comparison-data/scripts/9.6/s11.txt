@@ -1,0 +1,53 @@
+entity set person {
+};
+
+entity set accounts {
+	"username"
+	"password"
+};
+
+entity set contract {
+	"data"
+};
+
+entity set insurance {
+	"date from"
+	"date to"
+};
+
+
+entity set "life insurance" {
+	"amount"
+	"for whom"
+};
+
+entity set "real estate insurance" {
+	"real estate type"
+	"amount"
+	"address"
+	"living area size"
+	"basement size"
+};
+
+association between 
+{
+	person ONE 
+	accounts MANY
+}{};
+
+association between 
+{
+	accounts ONE 
+	contract MANY
+}{};
+
+
+association between 
+{
+	contract MANY
+	insurance ONE
+}{};
+
+generalization from "real estate insurance" to insurance;
+
+generalization from "life insurance" to insurance;
