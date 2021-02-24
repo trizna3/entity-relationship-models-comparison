@@ -35,7 +35,7 @@ entity set "real estate insurance" {
 
 association between 
 {
-	customer ONE 
+	customers ONE 
 	accounts MANY
 }{};
 

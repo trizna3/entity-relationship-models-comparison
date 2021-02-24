@@ -72,6 +72,6 @@ generalization from "life insurance" to contracts;
 
 generalization from "real estate insurance" to contracts;
 
-generalization from customer to "personal data";
+generalization from customers to "personal data";
 
 generalization from insured to "personal data";

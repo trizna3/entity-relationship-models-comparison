@@ -45,7 +45,7 @@ association between
 association between 
 {
 	contracts MANY
-	"insurance types" ONE
+	"insurance type" ONE
 }{};
 
 association between

@@ -32,16 +32,16 @@ entity set "real estate insurance" {
 
 association "signed contract" between 
 {
-	account ONE 
-	contract MANY
+	accounts ONE 
+	contracts MANY
 }{};
 
 association "for whom" between 
 {
-	account ONE 
+	accounts ONE 
 	"life insurance" MANY
 }{};
 
-generalization from "real estate insurance" to contract;
+generalization from "real estate insurance" to contracts;
 
-generalization from "life insurance" to contract;
+generalization from "life insurance" to contracts;
