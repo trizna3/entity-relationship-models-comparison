@@ -1,0 +1,9 @@
+games-games
+boards-boards
+tile-positioning
+tile type-tile types
+weather-weather types
+fuel type-fuel type
+units-units
+REBIND_MN_TO_1NN1:S-boards-tile types
+MOVE_ATTR_TO_INCIDENT_ENTITY_SET:S-turn-games

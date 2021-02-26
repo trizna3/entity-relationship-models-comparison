@@ -104,3 +104,20 @@ airplane model,model name
 count,amount
 rocket type,rocket types
 name,type
+
+# priklad 9.2
+move,turn
+fuel type,fuel
+attack,attack strength
+defense,defense strength
+points,points count
+units,unit types
+points,action points count
+tile type,type
+type,name
+columns,coordinate x
+rows,coordinate y
+points,action points
+move,movement
+tile type,tile
+tile,coordinates

@@ -1,0 +1,9 @@
+games-games
+boards-boards
+tile-boards;tile types
+tile type-tile types
+weather-weather
+fuel type-fuel types
+units-unit types
+CHANGE_CARDINALITY:S-boards-tile types
+REBIND_MN_TO_1NN1:S-boards-tile types

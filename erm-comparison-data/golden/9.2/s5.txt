@@ -1,0 +1,7 @@
+games-game
+boards-boards
+tile-tiles
+tile type-tile types
+weather-weather
+fuel type-fuel types
+units-units
