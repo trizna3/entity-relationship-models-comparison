@@ -1,0 +1,6 @@
+persons-deputies
+assembly-assemblies
+agenda-items
+documents-documents
+agenda type-item types
+vote options-EMPTY

@@ -1,0 +1,77 @@
+entity set deputies {
+	"name"
+	"surname"
+};
+
+entity set assemblies {
+	"duration"
+};
+
+entity set agendas {
+	"id"
+};
+
+entity set documents {
+};
+
+entity set types {
+	"type"
+	"id"
+};
+
+entity set "voting" {
+	"for"
+	"against"
+	"pass"
+	"absent"
+};
+
+entity set "vote history" {
+	"id"
+};
+
+association "take part in" between 
+{
+	deputies MANY
+	assemblies MANY
+}{
+	"deputy id"
+	"assembly id"
+	"deputy count"
+};
+
+association between 
+{
+	agendas MANY
+	assemblies ONE
+}{};
+
+association between 
+{
+	agendas ONE
+	types MANY
+}{};
+
+association between 
+{
+	agendas ONE
+	documents MANY
+}{};
+
+association between 
+{
+	deputies ONE
+	voting MANY
+}{};
+
+association between 
+{
+	voting ONE
+	"vote history" ONE
+}{};
+
+association between 
+{
+	types MANY
+	voting ONE
+}{};

@@ -131,3 +131,9 @@ account,credit
 date,when
 date,time
 building,hostel
+
+# priklad 9.5
+person,deputy
+agenda,items
+surname,lastname
+agenda type,types
