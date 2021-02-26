@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
 import sk.trizna.erm_comparison.common.enums.EnumTransformationRole;
 import sk.trizna.erm_comparison.common.utils.PrintUtils;
+import sk.trizna.erm_comparison.common.utils.RelationshipUtils;
 import sk.trizna.erm_comparison.common.utils.TransformationUtils;
 import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
@@ -239,7 +240,12 @@ public class Logger {
 		StringBuilder message = getTransformationLogHeader(transformation);
 		message.append(entitySet.getNameText());
 		message.append(PrintUtils.DELIMITER_DASH);
-		message.append(association.getNameText());
+		if (association.isBinary()) {
+			message.append(RelationshipUtils.getOtherEntitySet(association, entitySet).getNameText());
+		} else {
+			message.append(association.getNameText());
+		}
+		
 		
 		return message.toString();
 	}

@@ -72,7 +72,9 @@ association "equipment" between
 {
 	"fighter planes" MANY
 	rocket MANY
-}{};
+}{
+	"amount"
+};
 
 association "flight list" between 
 {

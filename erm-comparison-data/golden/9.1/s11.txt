@@ -1,0 +1,10 @@
+airplane model-
+fight model-fighters
+rocket type-rockets
+transport model-transport planes
+airplane-airplanes
+marine-soldiers
+marine role-soldier types
+CHANGE_CARDINALITY:S-transport planes-material
+CHANGE_CARDINALITY:S-material-transport planes
+CONTRACT_11_ASSOCIATION:S-transport planes-material

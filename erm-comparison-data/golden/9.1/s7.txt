@@ -1,0 +1,7 @@
+airplane model-EMPTY
+fight model-fighter planes
+rocket type-rockets
+transport model-transport planes
+airplane-airplanes
+marine-soldiers
+marine role-roles

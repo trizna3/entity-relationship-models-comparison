@@ -14,7 +14,8 @@ entity set rockets {
 };
 
 entity set material {
-	"name"
+	"volume"
+	"weight"
 };
 
 entity set soldiers {

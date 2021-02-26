@@ -1,0 +1,8 @@
+airplane model-model
+fight model-fighter planes
+rocket type-rocket types
+transport model-transport planes
+airplane-airplanes
+marine-soldiers
+marine role-roles
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-model-airplanes

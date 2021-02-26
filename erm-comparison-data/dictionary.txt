@@ -72,3 +72,35 @@ varieties,sort
 
 # priklad 7.3
 date,time
+
+# priklad 9.1
+airplane model,models
+code,model name
+weight capacity,load weight
+volume capacity,load volume
+maximum health,maximal health
+maximum health modificator,maximal health modifier
+strength modificator,strength modifier
+dexterity modificator,agility modifier
+inteligence modificator,inteligence modifier
+person capacity,capacity
+weight capacity,weight
+volume capacity,volume
+health,actual health
+speed modificator,speed increase
+strength modificator,speed increase
+dexterity modificator,agility increase
+inteligence modificator,inteligence increase
+name,role
+airplane model,model
+marine role,role
+weight capacity,material volume
+volume capacity,material weight
+rocket type,rocket
+name,role name
+fight model,fighters
+weapon type,rocket type
+airplane model,model name
+count,amount
+rocket type,rocket types
+name,type
