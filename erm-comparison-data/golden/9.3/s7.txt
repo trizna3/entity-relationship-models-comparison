@@ -1,0 +1,7 @@
+buildings-buildings
+rooms-rooms
+contracts-contracts
+payments-payments
+students;account-students
+CONTRACT_11_ASSOCIATION:E-students-account
+DECOMPOSE_ATTRIBUTE:S-address-buildings

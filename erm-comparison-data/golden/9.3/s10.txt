@@ -1,0 +1,7 @@
+buildings-hostel
+rooms-room
+contracts-contracts
+payments-EMPTY
+students;account-accommodated
+DECOMPOSE_ATTRIBUTE:S-address-hostel
+CONTRACT_11_ASSOCIATION:E-students-account

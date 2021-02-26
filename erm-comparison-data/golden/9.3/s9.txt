@@ -1,0 +1,6 @@
+buildings-buildings
+rooms-rooms
+contracts-contracts
+payments-payments
+students;account-accommodated
+CONTRACT_11_ASSOCIATION:E-students-account

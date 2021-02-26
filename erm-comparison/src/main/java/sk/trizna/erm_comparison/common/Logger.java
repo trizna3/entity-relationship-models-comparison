@@ -199,19 +199,11 @@ public class Logger {
 //		DECOMPOSE_ATTRIBUTE - ENTITY_SET, ATTRIBUTE, TRANSFORMABLE_LIST - ENTITY_SET, ATTRIBUTE, TRANSFORMABLE_LIST
 		EntitySet entitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ENTITY_SET);
 		Attribute attribute = (Attribute) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE);
-		TransformableList attributeList = (TransformableList) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.TRANSFORMABLE_LIST);
 		
 		StringBuilder message = getTransformationLogHeader(transformation);
 		message.append(attribute.getText());
 		message.append(PrintUtils.DELIMITER_DASH);
 		message.append(entitySet.getNameText());
-		
-		for (Transformable attr : attributeList) {
-			if (attr instanceof Attribute) {
-				message.append(PrintUtils.DELIMITER_DASH);
-				message.append(((Attribute)attr).getText());
-			}
-		}
 		
 		return message.toString();
 	}

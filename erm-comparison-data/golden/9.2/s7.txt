@@ -5,5 +5,5 @@ tile type-
 weather-weather
 fuel type-fuel
 units-units
-weather;fuel type;tile type-points for movement
+move-points for movement
 REBIND_NARY_ASSOCIATION:E-weather;fuel type;tile type

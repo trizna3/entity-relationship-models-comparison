@@ -1,0 +1,6 @@
+buildings-buildings
+rooms-rooms
+contracts-contracts
+payments-payments
+account-EMPTY
+students-accommodated

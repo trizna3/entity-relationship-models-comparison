@@ -5,6 +5,6 @@ tile type-tile
 weather-weather
 fuel type-fuel
 units-units
-weather;fuel type;tile type-movement
+move-movement
 REBIND_NARY_ASSOCIATION:E-weather;fuel type;tile type
 REBIND_MN_TO_1NN1:S-board-tile

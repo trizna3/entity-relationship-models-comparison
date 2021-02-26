@@ -107,22 +107,7 @@ public class TransformationUtils extends Utils {
 	public static String getNameForNaryRebindEntitySet(Association association) {
 		validateNotNull(association);
 		
-		if (!StringUtils.isBlank(association.getNameText())) {
-			// use association's name
-			return association.getNameText();
-		} else {
-			// compose name
-			StringBuilder compositeName = new StringBuilder();
-			
-			for (RelationshipSide side : association.getSides()) {
-				if (compositeName.length() > 0) {
-					compositeName.append(PrintUtils.DELIMITER_SEMICOLON);
-				}
-				compositeName.append(side.getEntitySet().getNameText());
-			}
-			
-			return compositeName.toString();
-		}
+		return association.getNameText();
 	}
 	
 	public static boolean areEqual(Transformation t1, Transformation t2) {

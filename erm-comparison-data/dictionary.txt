@@ -121,3 +121,13 @@ points,action points
 move,movement
 tile type,tile
 tile,coordinates
+
+# priklad 9.3
+fee,monthly fee
+amount,sum
+city,town
+students,accommodated
+account,credit
+date,when
+date,time
+building,hostel
