@@ -1,0 +1,6 @@
+vehicle-vehicles
+vehicle type-vehicle type
+line-lines
+stop-stops
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-vehicle type-lines
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-type-vehicles

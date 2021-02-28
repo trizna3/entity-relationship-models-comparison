@@ -1,0 +1,6 @@
+vehicle-vehicle
+vehicle type-vehicle type
+line-line
+stop-stop
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-line-vehicle type
+REBIND_1NN1_TO_MN:S-line-stop

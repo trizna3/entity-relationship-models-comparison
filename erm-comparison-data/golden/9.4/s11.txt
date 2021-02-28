@@ -1,0 +1,11 @@
+vehicle-vehicle
+vehicle type-type
+line-lines
+stop-stops
+GENERALIZATION_TO_11_ASSOCIATION:S-busses-vehicle
+GENERALIZATION_TO_11_ASSOCIATION:S-trolleybusses-vehicle
+GENERALIZATION_TO_11_ASSOCIATION:S-tram-vehicle
+CONTRACT_11_ASSOCIATION:S-busses-vehicle
+CONTRACT_11_ASSOCIATION:S-trolleybusses-vehicle
+CONTRACT_11_ASSOCIATION:S-tram-vehicle
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-type-vehicle

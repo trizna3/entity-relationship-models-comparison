@@ -132,6 +132,11 @@ date,when
 date,time
 building,hostel
 
+# priklad 9.4
+stop,station
+vehicle type,type
+code,numerical code
+
 # priklad 9.5
 person,deputy
 agenda,items

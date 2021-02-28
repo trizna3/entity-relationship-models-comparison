@@ -1,0 +1,5 @@
+vehicle-vehicle
+vehicle type-type
+line-line
+stop-station
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-type-vehicle

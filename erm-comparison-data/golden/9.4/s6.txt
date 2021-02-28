@@ -1,0 +1,10 @@
+vehicle-vehicle
+vehicle type-EMPTY
+line-line
+stop-stop
+GENERALIZATION_TO_11_ASSOCIATION:S-bus-vehicle
+GENERALIZATION_TO_11_ASSOCIATION:S-trolleybus-vehicle
+GENERALIZATION_TO_11_ASSOCIATION:S-tram-vehicle
+CONTRACT_11_ASSOCIATION:S-bus-vehicle
+CONTRACT_11_ASSOCIATION:S-trolleybus-vehicle
+CONTRACT_11_ASSOCIATION:S-tram-vehicle
