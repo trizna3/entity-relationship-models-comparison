@@ -142,3 +142,44 @@ person,deputy
 agenda,items
 surname,lastname
 agenda type,types
+
+# priklad 9.6
+real estate types,type
+contracts,insurances
+persons,customers
+death payment,amount in case of death
+injury payment,amount in case of long term injury
+injury payment,amount injury
+daily payment,amount in case of work incapacity
+crash payment,amount in case of crash
+crash payment,crash damage
+disaster payment,amount in case of natural disaster
+disaster payment,natural disaster
+living area,living area size
+cellar area,basement size
+death payment,death amount
+injury payment,injury amount
+daily payment,incapacity of work daily dose
+crash payment,crash amount
+disaster payment,disaster amount
+account,user
+life insurance,life
+real estate insurance,building
+building address,address
+building type,type
+crash payment,crash insurances
+crash payment,crashes
+disaster payment,disaster insurance
+contracts,insurance contracts
+life insurance,life insurance contracts
+real estate insurance,real estate insurance contracts
+account,customers
+death payment,fatal amount
+injury payment,consequence amount
+injury payment,permanent consequences
+daily payment,work incapacity dose
+disaster payment,elemental disaster insurances
+disaster payment,elemental disaster
+account,customer account
+persons,insured data
+death payment,death insurance

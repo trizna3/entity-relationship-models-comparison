@@ -1,0 +1,10 @@
+account-EMPTY
+contract-contracts
+life insurance-life insurance
+real estate insurance-real estate insurance
+persons-customer;insured
+addresses-address
+real estate types-type
+MERGE_ENTOTY_SETS:S-customer-insured
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-address-real estates
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-type-real estates

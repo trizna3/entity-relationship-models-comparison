@@ -41,7 +41,7 @@ entity set "personal data" {
 entity set insured {
 };
 
-entity set cusomer {
+entity set customer {
 };
 
 association between 
@@ -72,6 +72,6 @@ generalization from "life insurance" to contracts;
 
 generalization from "real estate insurance" to contracts;
 
-generalization from customers to "personal data";
+generalization from customer to "personal data";
 
 generalization from insured to "personal data";

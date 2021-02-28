@@ -1,0 +1,14 @@
+account-account
+contract-life insurance contract;real estate insurance contract
+life insurance-life insurance
+real estate insurance-real estate insurance
+persons-EMPTY
+addresses-address
+real estate types-type
+CHANGE_CARDINALITY:S-account-life insurance
+CHANGE_CARDINALITY:S-account-real estate insurance
+REBIND_MN_TO_1NN1:S-account-life insurance
+REBIND_MN_TO_1NN1:S-account-real estate insurance
+MERGE_ENTITY_SETS:S-life insurance contract real estate insurance contract
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-type-real estate insurance
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-address-real estate insurance

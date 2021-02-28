@@ -1,0 +1,9 @@
+account-accounts
+contract-contracts
+life insurance-life insurance
+real estate insurance-real estate insurance
+persons-customers
+addresses-building address
+real estate types-building type
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-building address-real estate-insurance
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-building type-real estate-insurance
