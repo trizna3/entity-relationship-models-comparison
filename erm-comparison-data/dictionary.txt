@@ -154,12 +154,14 @@ daily payment,amount in case of work incapacity
 crash payment,amount in case of crash
 crash payment,crash damage
 disaster payment,amount in case of natural disaster
+disaster payment,amount in case of disaster
 disaster payment,natural disaster
 living area,living area size
 cellar area,basement size
 death payment,death amount
 injury payment,injury amount
 daily payment,incapacity of work daily dose
+daily payment,daily dose
 crash payment,crash amount
 disaster payment,disaster amount
 account,user
@@ -178,8 +180,18 @@ death payment,fatal amount
 injury payment,consequence amount
 injury payment,permanent consequences
 daily payment,work incapacity dose
+daily payment,work incapacity
 disaster payment,elemental disaster insurances
 disaster payment,elemental disaster
 account,customer account
 persons,insured data
 death payment,death insurance
+death payment,death fee
+injury payment,permanent fee
+daily payment,work inability fee
+crash payment,crash fee
+disaster payment,nature fee
+death payment,death
+injury payment,injury
+crash payment,crash
+death payment,amount bereaved
