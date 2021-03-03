@@ -7,6 +7,7 @@ import java.util.Map;
 
 import sk.trizna.erm_comparison.entity_relationship_model.ERText;
 import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
+import sk.trizna.erm_comparison.language_processing.LanguageProcessor;
 
 /**
  * @author - Adam Trizna
@@ -49,6 +50,19 @@ public class CollectionUtils extends Utils {
 		
 		for (ERText text : collection) {
 			if (ERModelUtils.areEqual(text,target)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static <T extends ERText> boolean containsText(Collection<T> collection, T target, LanguageProcessor lp) {
+		validateNotNull(collection);
+		validateNotNull(target);
+		
+		for (ERText text : collection) {
+			if (lp.areEqual(text.getText(), target.getText())) {
 				return true;
 			}
 		}

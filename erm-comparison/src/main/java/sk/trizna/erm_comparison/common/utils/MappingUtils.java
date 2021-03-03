@@ -17,7 +17,7 @@ import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 
 public class MappingUtils extends Utils {
 
-	private final static String EMPTY_CODE = "EMPTY";
+	public final static String EMPTY_CODE = "EMPTY";
 	/**
 	 * Empty entity set. Used in mapping search.
 	 */

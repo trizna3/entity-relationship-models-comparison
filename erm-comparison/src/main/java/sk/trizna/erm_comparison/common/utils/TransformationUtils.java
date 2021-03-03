@@ -94,9 +94,34 @@ public class TransformationUtils extends Utils {
 				if (areEqual(arg1, arg2,true)) {
 					return false;
 				}
+				if (arg1 instanceof Relationship && arg2 instanceof Relationship && areRelationshipsDependent((Relationship)arg1, (Relationship)arg2)) {
+					return false;
+				}
 			} 
 		}
 		return true;
+	}
+	
+	/**
+	 * Checks intersect (by value, not id) in incident entitysets, ignoring cardinality/role.
+	 * 
+	 * @param rel1
+	 * @param rel2
+	 * @return
+	 */
+	public static boolean areRelationshipsDependent(Relationship rel1, Relationship rel2) {
+		validateNotNull(rel1);
+		validateNotNull(rel2);
+		
+		for (RelationshipSide side1 : rel1.getSides()) {
+			for (RelationshipSide side2 : rel1.getSides()) {
+				if (ERModelUtils.areEqual(side1.getEntitySet(), side2.getEntitySet())) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	/**

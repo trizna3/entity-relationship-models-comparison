@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import sk.trizna.erm_comparison.common.multi_key_config.DictConfigManager;
+import sk.trizna.erm_comparison.common.utils.Utils;
 
 /**
  * @author - Adam Trizna
@@ -74,7 +75,12 @@ class Dictionary extends AbstractLanguageProcessor {
 	}
 	
 	private void loadFromConfig() {
-		List<String[]> configData = getDictConfigManager().getResourceData();
+		List<String[]> configData;
+		if (Utils.getWorkingDictSection() != null) {
+			configData = getDictConfigManager().getResourceData(Utils.getWorkingDictSection());
+		} else {
+			configData = getDictConfigManager().getResourceData();
+		}
 		
 		for (String[] line : configData) {
 			if (line.length == 2) {

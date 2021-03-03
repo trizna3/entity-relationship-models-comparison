@@ -26,6 +26,7 @@ import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
 import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableList;
+import sk.trizna.erm_comparison.language_processing.LanguageProcessor;
 import sk.trizna.erm_comparison.transformations.Transformation;
 
 /**
@@ -328,7 +329,7 @@ public class TransformationAnalystUtils extends Utils {
 				continue;
 			}
 			for (Attribute attribute : entitySet.getAttributes()) {
-				if (!CollectionUtils.containsText(notMappedEntitySetNames, attribute)) {
+				if (!CollectionUtils.containsText(notMappedEntitySetNames, attribute, LanguageProcessor.getImplementation())) {
 					continue;
 				}
 				
@@ -361,7 +362,7 @@ public class TransformationAnalystUtils extends Utils {
 				if (relationship instanceof Association) {
 					for (Attribute attribute : ((Association) relationship).getAttributes()) {
 						try {
-							moveAttributeToIncidentEntitySetPreconditionsStrong(relationship,attribute,otherModelAttributes);
+							moveAttributeToIncidentEntitySetPreconditionsStrong(relationship,attribute,otherModelAttributes,entitySet);
 							List<Transformation> preconditions = moveAttributeToIncidentEntitySetPreconditionsSoft(relationship, entitySet, model);
 
 							Transformation transformation = TransformationFactory.getMoveAttrToIncidentEntitySet(attribute, (Association) relationship, entitySet);
@@ -379,14 +380,17 @@ public class TransformationAnalystUtils extends Utils {
 		}
 	}
 	
-	private static void moveAttributeToIncidentEntitySetPreconditionsStrong(Relationship relationship, Attribute attribute, Set<Attribute> otherModelAttributes) throws PreconditionsNotMetException {
+	private static void moveAttributeToIncidentEntitySetPreconditionsStrong(Relationship relationship, Attribute attribute, Set<Attribute> otherModelAttributes, EntitySet target) throws PreconditionsNotMetException {
 		if (!relationship.isBinary()) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
 		if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ASSOCIATION)) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
-		if (!CollectionUtils.containsText(otherModelAttributes, attribute)) {
+		if (!CollectionUtils.containsText(otherModelAttributes, attribute, LanguageProcessor.getImplementation())) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (CollectionUtils.containsText(target.getAttributes(), attribute, LanguageProcessor.getImplementation())) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
 	}
@@ -443,7 +447,10 @@ public class TransformationAnalystUtils extends Utils {
 		if (attribute.containsTransformationFlag(EnumTransformation.MOVE_ATTR_TO_INCIDENT_ENTITY_SET)) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
-		if (!CollectionUtils.containsText(otherModelAttributes, attribute)) {
+		if (!CollectionUtils.containsText(otherModelAttributes, attribute, LanguageProcessor.getImplementation())) {
+			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		if (CollectionUtils.containsText(((Association)relationship).getAttributes(), attribute, LanguageProcessor.getImplementation())) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
 	}

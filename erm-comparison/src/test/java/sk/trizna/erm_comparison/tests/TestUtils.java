@@ -249,13 +249,13 @@ public class TestUtils {
 		List<Relationship> relationships = new ArrayList<>();
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.MANY)), null));
 		((Association) relationships.get(0)).setNameText("Katalyzator");
-		((Association) relationships.get(0)).addAttribute(new Attribute("Hmotnost katalyzatora"));
+		((Association) relationships.get(0)).addAttribute(new Attribute("Hmotnost"));
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.MANY)), null));
 		((Association) relationships.get(1)).setNameText("Reaktant 1");
-		((Association) relationships.get(1)).addAttribute(new Attribute("Hmotnost reaktantu A"));
+		((Association) relationships.get(1)).addAttribute(new Attribute("Hmotnost"));
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.MANY)), null));
 		((Association) relationships.get(2)).setNameText("Reaktant 2");
-		((Association) relationships.get(2)).addAttribute(new Attribute("Hmotnost reaktantu B"));
+		((Association) relationships.get(2)).addAttribute(new Attribute("Hmotnost"));
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.ONE), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.MANY)), null));
 		((Association) relationships.get(3)).setNameText("Produkt");
 
@@ -297,8 +297,8 @@ public class TestUtils {
 
 		List<EntitySet> entitySets = new ArrayList<>();
 		entitySets.add(new EntitySet("Chemicke latky", new ArrayList<>(Arrays.asList("Nazov", "Vzorec")))); // 0
-		entitySets.add(new EntitySet("Chemicke reakcie", new ArrayList<>(Arrays.asList("Hmotnost reaktantu A", "Hmotnost reaktantu B", "Hmotnost katalyzatora")))); // 1
-		entitySets.add(new EntitySet("Produkt", new ArrayList<>(Arrays.asList("Rovnica", "Hmotnost chemickych latok")))); // 2
+		entitySets.add(new EntitySet("Chemicke reakcie", new ArrayList<>(Arrays.asList("1. reaktant", "2. reaktant", "katalyzator")))); // 1
+		entitySets.add(new EntitySet("Produkt", new ArrayList<>(Arrays.asList("Chemicka rovnica", "Hmotnost chemickych latok")))); // 2
 
 		List<Relationship> relationships = new ArrayList<>();
 		relationships.add(new Association(Arrays.asList(new AssociationSide(entitySets.get(0), EnumRelationshipSideRole.MANY), new AssociationSide(entitySets.get(1), EnumRelationshipSideRole.ONE)), null));

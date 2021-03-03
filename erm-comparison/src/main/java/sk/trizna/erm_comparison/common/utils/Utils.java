@@ -9,6 +9,17 @@ import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 
 public class Utils {
+	
+	public static final String TRAIN_DICT_SECTION = "trenovacie_priklady";
+	private static String workingDictSection = null;
+	
+	public static String getWorkingDictSection() {
+		return workingDictSection;
+	}
+
+	public static void setWorkingDictSection(String workingDictSection) {
+		Utils.workingDictSection = workingDictSection;
+	}
 
 	public static void validateNotNull(Object input) {
 		if (input == null) {

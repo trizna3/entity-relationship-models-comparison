@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
+import sk.trizna.erm_comparison.common.utils.MappingUtils;
 import sk.trizna.erm_comparison.common.utils.PrintUtils;
 import sk.trizna.erm_comparison.common.utils.StringUtils;
 import sk.trizna.erm_comparison.common.utils.Utils;
@@ -84,57 +85,114 @@ public class ValidationEvaluator {
 	
 	@Test
 	public void _validateInstance61() {
+		Utils.setWorkingDictSection(Validation.INSTANCE61);
 		validateInstance(Validation.INSTANCE61);
 		assertTrue(true);
 	}
 	
 	@Test
 	public void _validateInstance62() {
+		Utils.setWorkingDictSection(Validation.INSTANCE62);
 		validateInstance(Validation.INSTANCE62);
 		assertTrue(true);
 	}
 	
 	@Test
 	public void _validateInstance63() {
+		Utils.setWorkingDictSection(Validation.INSTANCE63);
 		validateInstance(Validation.INSTANCE63);
 		assertTrue(true);
 	}
 	
 	@Test
 	public void _validateInstance64() {
+		Utils.setWorkingDictSection(Validation.INSTANCE64);
 		validateInstance(Validation.INSTANCE64);
 		assertTrue(true);
 	}
 	
 	@Test
 	public void _validateInstance65() {
+		Utils.setWorkingDictSection(Validation.INSTANCE65);
 		validateInstance(Validation.INSTANCE65);
 		assertTrue(true);
 	}
 	
-	@Test
+//	@Test
 	public void _validateInstance71() {
+		Utils.setWorkingDictSection(Validation.INSTANCE71);
 		validateInstance(Validation.INSTANCE71);
 		assertTrue(true);
 	}
 	
-	@Test
+//	@Test
 	public void _validateInstance72() {
+		Utils.setWorkingDictSection(Validation.INSTANCE72);
 		validateInstance(Validation.INSTANCE72);
 		assertTrue(true);
 	}
 	
-	@Test
+//	@Test
 	public void _validateInstance73() {
+		Utils.setWorkingDictSection(Validation.INSTANCE73);
 		validateInstance(Validation.INSTANCE73);
 		assertTrue(true);
 	}
+	
+//	@Test
+	public void _validateInstance91() {
+		Utils.setWorkingDictSection(Validation.INSTANCE91);
+		validateInstance(Validation.INSTANCE91);
+		assertTrue(true);
+	}
+	
+//	@Test
+	public void _validateInstance92() {
+		Utils.setWorkingDictSection(Validation.INSTANCE92);
+		validateInstance(Validation.INSTANCE92);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance93() {
+		Utils.setWorkingDictSection(Validation.INSTANCE93);
+		validateInstance(Validation.INSTANCE93);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance94() {
+		Utils.setWorkingDictSection(Validation.INSTANCE94);
+		validateInstance(Validation.INSTANCE94);
+		assertTrue(true);
+	}
+	
+//	@Test
+	public void _validateInstance95() {
+		Utils.setWorkingDictSection(Validation.INSTANCE95);
+		validateInstance(Validation.INSTANCE95);
+		assertTrue(true);
+	}
+	
+//	@Test
+	public void _validateInstance96() {
+		Utils.setWorkingDictSection(Validation.INSTANCE96);
+		validateInstance(Validation.INSTANCE96);
+		assertTrue(true);
+	}	
 	
 	public void validateInstance(String instanceName) {
 		System.out.println("Evaluating instance " + instanceName + " validation.");
 		
 		for (int i=0; i < Validation.INSTANCES.get(instanceName); i++) {
 			int studentId = i+1;
+			
+			if (instanceName.equals(Validation.INSTANCE62) && studentId == 5) continue;
+			if (instanceName.equals(Validation.INSTANCE65) && studentId == 5) continue;
+			if (instanceName.equals(Validation.INSTANCE92) && studentId == 3) continue;
+			if (instanceName.equals(Validation.INSTANCE92) && studentId == 8) continue;
+			if (instanceName.equals(Validation.INSTANCE93) && studentId == 9) continue;
+			if (instanceName.equals(Validation.INSTANCE95) && studentId == 1) continue;
 			
 			MappingParsed golden = getGolden(instanceName, studentId);
 			MappingParsed output = getOutput(instanceName, studentId);
@@ -255,7 +313,11 @@ public class ValidationEvaluator {
 			} else {	// it's mapping pair
 				String[] lineSplit = line.split(PrintUtils.DELIMITER_DASH);
 				
-				map.put(lineSplit[0],lineSplit[1]);
+				if (lineSplit.length == 1) {
+					map.put(lineSplit[0],MappingUtils.EMPTY_CODE);
+				} else {
+					map.put(lineSplit[0],lineSplit[1]);
+				}
 			}
 		}
 		
