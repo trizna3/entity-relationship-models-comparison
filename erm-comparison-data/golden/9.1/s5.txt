@@ -5,6 +5,6 @@ transport model-transport planes
 airplane-airplanes
 marine-soldiers
 marine role-EMPTY
-EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-model-fighter model
-EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-model-transport model
-EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-rocket type-fighter model
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-model-fighter planes
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-model-transport planes
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-rocket type-fighter planes

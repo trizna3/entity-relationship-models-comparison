@@ -2,5 +2,5 @@ buildings-buildings
 rooms-rooms
 contracts-contracts
 payments-EMPTY
-students;account-students
+account;students-students
 CONTRACT_11_ASSOCIATION:E-students-account

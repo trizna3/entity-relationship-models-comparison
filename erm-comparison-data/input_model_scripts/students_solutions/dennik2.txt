@@ -5,35 +5,18 @@ entity set "chemicke latky" {
 
 entity set "chemicke reakcie" {
 	"rovnica"	
-	"hmotnost reaktantu a"
-	"hmotnost reaktantu b"
-	"hmotnost katalyzatora"
+};
+
+entity set "produkt" {
+	"chemicke rovnica"	
+	"hmotnost chemickych latok"	
 };
 
 association between 
 {
-	"chemicke latky" ONE 
-	"chemicke reakcie" MANY
+	"chemicke latky" MANY
+	"chemicke reakcie" ONE
 }{
 };
 
-association between 
-{
-	"chemicke latky" ONE 
-	"chemicke reakcie" MANY
-}{
-};
-
-association between 
-{
-	"chemicke latky" ONE 
-	"chemicke reakcie" MANY
-}{
-};
-
-association between 
-{
-	"chemicke reakcie" MANY
-	"chemicke latky" ONE 
-}{
-};
+generalization from "produkt" to "chemicke reakcie";
