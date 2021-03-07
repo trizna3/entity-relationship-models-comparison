@@ -1,0 +1,4 @@
+zastavky-zastavka
+linky-linky
+vozidla-vozidlo
+typy vozidiel-EMPTY

@@ -1,0 +1,34 @@
+entity set "typy produktov" {
+	"nazov"
+};
+
+entity set "nazvy specialnych atributov" {
+	"atribut"
+};
+
+entity set "produkty" {
+	"vaha"
+	"cena"
+};
+
+association "hodnoty specialnych atributov" between
+{
+	"produkty" MANY
+	"nazvy specialnych atributov" MANY
+}{
+	"hodnota"
+};
+
+association between
+{
+	"typy produktov" MANY
+	"nazvy specialnych atributov" MANY
+}{
+};
+
+association between
+{
+	"typy produktov" ONE
+	"produkty" MANY
+}{
+};

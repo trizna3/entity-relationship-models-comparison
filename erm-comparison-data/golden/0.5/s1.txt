@@ -1,0 +1,8 @@
+zastavky-zastavky
+linky-linky
+vozidla-vozidla
+typy vozidiel-typ vozidla
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-typ vozidla-vozidla
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-typ vozidla-linky
+CHANGE_CARDINALITY:S-casy-linky
+REBIND_1NN1_TO_MN:S-casy

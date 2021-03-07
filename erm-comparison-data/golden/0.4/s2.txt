@@ -1,0 +1,7 @@
+budovy-budova
+izby-izba
+zmluvy-zmluva
+platby-poplatok
+studenti-ubytovani
+konta-empty
+CONTRACT_11_ASSOCIATION:E-konta-studenti

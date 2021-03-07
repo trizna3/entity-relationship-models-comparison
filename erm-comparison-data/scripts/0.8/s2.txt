@@ -1,0 +1,36 @@
+entity set konta {
+	"meno"
+	"heslo"
+};
+
+entity set zmluva {};
+
+entity set "typy poistenia" {
+	"nazov"
+};
+
+entity set "objekt poistenia" {
+	"nazov"
+	"vyska"
+};
+
+association uzatvara between 
+{
+	konta ONE 
+	zmluva MANY
+}{
+	"odkedy"
+	"dokedy"	
+};
+
+association between 
+{
+	zmluva	MANY
+	"typy poistenia" ONE
+}{};
+
+association between 
+{
+	zmluva MANY
+	"objekt poistenia" ONE
+}{};

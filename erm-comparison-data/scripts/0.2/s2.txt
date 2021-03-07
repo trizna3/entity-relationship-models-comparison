@@ -1,0 +1,22 @@
+entity set "chemicke latky" {
+	"nazov"
+	"vzorec"
+};
+
+entity set "chemicke reakcie" {
+	"rovnica"	
+};
+
+entity set "produkt" {
+	"chemicke rovnica"	
+	"hmotnost chemickych latok"	
+};
+
+association between 
+{
+	"chemicke latky" MANY
+	"chemicke reakcie" ONE
+}{
+};
+
+generalization from "produkt" to "chemicke reakcie";

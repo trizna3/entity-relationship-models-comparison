@@ -1,0 +1,8 @@
+hry-hry
+hracie plochy-hracie plochy
+policko-umiestnenie
+typy policok-typy policok
+pocasia-pocasie
+typy pohonov-typy pohonov
+jednotky-jednotky
+REBIND_MN_TO_1NN1:S-hracie plochy-typy policok

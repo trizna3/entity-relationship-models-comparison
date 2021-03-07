@@ -1,0 +1,5 @@
+osoby-osoba1;osoba2
+dvojice vo vztahu-
+typy vztahu-vztah
+MERGE_ENTITY_SETS:S-osoba1-osoba2
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-vztah-vztah

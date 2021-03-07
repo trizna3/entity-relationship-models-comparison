@@ -1,0 +1,31 @@
+entity set "sluzby" {
+	"id"
+	"nazov"
+	"cena"
+};
+
+entity set "datovy" {
+	"rychlost"
+	"objem"
+	"id"
+};
+
+entity set "hlasovy" {
+	"id"
+	"sekundy"
+	"cena"
+};
+
+entity set "sms" {
+	"id"
+	"max"
+};
+
+association "je balik" between 
+{
+	"datovy" MANY
+	"hlasovy" MANY
+	"sms" MANY
+	"sluzby" ONE
+}{
+};

@@ -1,0 +1,71 @@
+entity set hry {};
+
+entity set "hracie plochy" {
+	"r"
+	"c"
+};
+
+entity set jednotky {
+	"meno"
+	"sila utoku"
+	"sila obrany"
+};
+
+entity set "typy pocasia" {};
+
+entity set "typy policok" {};
+
+entity set "typy pohonov" {};
+
+association "aktualny stav" between 
+{
+	hry MANY 
+	"hracie plochy" ONE
+}{
+	"tah"
+};
+
+association "stav" between 
+{
+	"hracie plochy" MANY
+	jednotky MANY
+}{
+	"riadok"
+	"stlpec"
+	"zivot"
+	"body"
+};
+
+association "pocasie" between 
+{
+	"hracie plochy" MANY
+	"typy pocasia" MANY
+}{
+	"stlpec"
+	"riadok"
+};
+
+association "umiestnenie" between 
+{
+	"hracie plochy" MANY 
+	"typy policok" MANY
+}{
+	"riadok"
+	"stlpec"
+};
+
+association between 
+{
+	jednotky MANY 
+	"typy pohonov" ONE
+}{};
+
+
+association "posun" between 
+{
+	"typy pocasia" MANY
+	"typy pohonov" MANY
+	"typy policok" MANY
+}{
+	"body"
+};

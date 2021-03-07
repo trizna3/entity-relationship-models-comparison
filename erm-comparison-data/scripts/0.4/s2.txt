@@ -19,7 +19,7 @@ entity set poplatok {
 	"cas"
 };
 
-entity set ubytovani {
+entity set ubytovany {
 	"konto"
 };
 

@@ -1,0 +1,24 @@
+entity set "typy balikov" {
+	"nazov"
+	"mesacny poplatok"
+};
+
+entity set "datove baliky" {
+	"maximalna rychlost"
+	"maximalny objem"
+};
+
+entity set "hlasove baliky" {
+	"pocet bezplatnych sekund"
+	"cena za sekundu nad ramec"
+};
+
+entity set "sms baliky" {
+	"maximalny pocet znakov"
+};
+
+generalization from "datove baliky" to "typy balikov";
+
+generalization from "hlasove baliky" to "typy balikov";
+
+generalization from "sms baliky" to "typy balikov";

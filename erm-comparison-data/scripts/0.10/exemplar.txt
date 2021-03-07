@@ -1,0 +1,34 @@
+entity set "osoby" {
+	"meno"
+	"priezvisko"
+	"rok narodenia"
+};
+
+entity set "dvojice vo vztahu" {
+	"odkedy"
+};
+
+entity set "typy vztahu" {
+	"nazov"
+};
+
+association "osoba1" between 
+{
+	"osoby" ONE
+	"dvojice vo vztahu" MANY
+}{
+};
+
+association "osoba2" between 
+{
+	"osoby" ONE
+	"dvojice vo vztahu" MANY
+}{
+};
+
+association between 
+{
+	"typy vztahu" ONE
+	"dvojice vo vztahu" MANY
+}{
+};

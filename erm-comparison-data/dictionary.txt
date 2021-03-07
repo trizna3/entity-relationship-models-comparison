@@ -1,4 +1,8 @@
-# trenovacie priklady
+#
+# Configuration file, containing manual dictionary pairs, eg. pairs of words/phrases, which should be considered equal in it's meaning 
+#
+
+# section trenovacie_priklady
 Studenti,Ubytovani
 Druh lietadla,Modely lietadiel
 studenti,student
@@ -10,19 +14,97 @@ do,koniec
 vyska,suma
 datum a cas,cas
 kredit,kredit na konte
+kredit,konto
 konta,konto
+typ,typy policok
+typy pohonov,pohon
+hmotnost,hmotnost reaktantu a
+hmotnost,hmotnost reaktantu b
+hmotnost,hmotnost katalyzatora
+hmotnost,1. reaktant
+hmotnost,2. reaktant
+hmotnost,katalyzator
+nazvy specialnych atributo,atributy
+typy produktov,typ produktu
+nazvy specialnych atributov,atributy produktu
+budovy,budova
+izby,izba
+zmluvy,zmluva
+platby,poplatok
+zastavky,zastavka
+vozidla,vozidlo
+cas odchodu z prvej zastavky,cas odchodu
+cas po zastavku,trvanie
+moznosti hlasovania,typy hlasovania
+meno,name
+priezvisko,lastname
+typy balikov,balik
+datove baliky,datovy balik
+hlasove baliky,hlasovy balik
+sms baliky,sms balik
+mesacny poplatok,poplatok
+typy balikov,sluzby
+datove baliky,datovy
+hlasove baliky,hlasovy
+sms baliky,sms
+mesacny poplatok,cena
+maximalna rychlost,rychlost
+maximalny objem,objem
+pocet bezplatnych sekund,sekund
+cena za sekundu nad ramec,cena
+maximalny pocet znakov,max
+zmluvy,poistenie
+zmluvy na zivotne poistenie,zivotne poistenie
+zmluvy na poistenie nehnutelnosti,poistenie nehnutelnosti
+zakaznik,osoby
+adresy,adresa
+typy nehnutelnosti,typ
+od,odkedy
+do,dokedy
+suma pn,denna davka
+suma zodpovednost,vyska havarie
+suma pohromy,vyska pohromy
+modely lietadiel,druh lietadla
+stihacie modely,stihacie lietadla
+typy rakiet,raketa
+dopravne modely,dopravne
+lietadla,lietadla
+vojaci,vojak
+role vojakov,rola
+kapacita hmotnost,hmotnost materialu
+kapacita objem,objem
+modely lietadiel,modely
+stihacie modely,stihacky
+typy rakiet,typ rakiet
+dopravne modely,dopravne lietadla
+role vojakov,role
+kapacita hmotnost,material hmotnost
+kapacita objem,maximalny objem
+aktualny zivot,zivot
+dvojice vo vztahu,vztahy
+odkedy,datum
+typ,nazov
+typy vztahu,vztah
+# section end
 
-# priklad 6.1, 6.2
+# section 6.1
 auditorium,cinema hall
 auditorium,hall
 film,movie
 customer,user
 username,name
+# section end
 
-# priklad 6.2
+# section 6.2
+auditorium,cinema hall
+auditorium,hall
+film,movie
+customer,user
+username,name
 number,seat number
+# section end
 
-# priklad 6.3
+# section 6.3
 teams,hockey_teams
 name,first name
 surname,last name
@@ -31,8 +113,9 @@ points,statistics
 matches,games
 period,third
 type (g/a),type
+# section end
 
-# priklad 6.4
+# section 6.4
 points,ways
 text,descriptions
 pictures,images
@@ -40,8 +123,9 @@ points,coordinates
 rates,ratings
 pictures,photos
 number,rank
+# section end
 
-# priklad 6.5
+# section 6.5
 options,choices
 has,has choices
 options,answers
@@ -49,16 +133,18 @@ has,has options
 is correct,has the right answer
 selects,user answers
 text,description
+# section end
 
-# priklad 7.1
+# section 7.1
 students,authors
 semestral projects,semestral
 theses,final
 name,first name
 surname,last name
 is similar to, similarity
+# section end
 
-# priklad 7.2
+# section 7.2
 suppliers,seller
 crates,box
 weight,total weight
@@ -69,11 +155,13 @@ sugar content,sweetness
 operations,trades
 buyers,customers
 varieties,sort
+# section end
 
-# priklad 7.3
+# section 7.3
 date,time
+# section end
 
-# priklad 9.1
+# section 9.1
 airplane model,models
 code,model name
 weight capacity,load weight
@@ -92,20 +180,21 @@ strength modificator,speed increase
 dexterity modificator,agility increase
 inteligence modificator,inteligence increase
 name,role
-airplane model,model
+airplane model,model name
 marine role,role
 weight capacity,material volume
 volume capacity,material weight
 rocket type,rocket
 name,role name
 fight model,fighters
+fight model,fighter planes
 weapon type,rocket type
-airplane model,model name
 count,amount
 rocket type,rocket types
 name,type
+# section end
 
-# priklad 9.2
+# section 9.2
 move,turn
 fuel type,fuel
 attack,attack strength
@@ -121,8 +210,9 @@ points,action points
 move,movement
 tile type,tile
 tile,coordinates
+# section end
 
-# priklad 9.3
+# section 9.3
 fee,monthly fee
 amount,sum
 city,town
@@ -131,19 +221,22 @@ account,credit
 date,when
 date,time
 building,hostel
+# section end
 
-# priklad 9.4
+# section 9.4
 stop,station
 vehicle type,type
 code,numerical code
+# section end
 
-# priklad 9.5
+# section 9.5
 person,deputy
 agenda,items
 surname,lastname
 agenda type,types
+# section end
 
-# priklad 9.6
+# section 9.6
 real estate types,type
 contracts,insurances
 persons,customers
@@ -195,3 +288,4 @@ death payment,death
 injury payment,injury
 crash payment,crash
 death payment,amount bereaved
+# section end

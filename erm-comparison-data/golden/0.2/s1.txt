@@ -1,0 +1,5 @@
+chemicke latky-chemicke latky
+chemicke reakcie-chemicke reakcie
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-hmotnost reaktantu a-(chemicke latky(ONE),chemicke reakcie(MANY))
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-hmotnost reaktantu b-(chemicke latky(ONE),chemicke reakcie(MANY))
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-hmotnost katalyzatora-(chemicke latky(ONE),chemicke reakcie(MANY))

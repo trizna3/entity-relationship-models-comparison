@@ -1,0 +1,81 @@
+entity set konta {
+	"meno"
+	"heslo"
+};
+
+entity set zmluvy {
+	"od"
+	"do"
+	"mesacny poplatok"
+};
+
+entity set "zmluvy na zivotne poistenie" {
+	"suma smrt"
+	"suma uraz"
+	"suma pn"
+};
+
+entity set "zmluvy na poistenie nehnutelnosti" {
+	"suma zodpovednost"
+	"suma pohromy"
+	"rozloha obytnej casti"
+	"rozloha pivnice"
+};
+
+entity set osoby {
+	"meno"
+	"priezvisko"
+	"rodne cislo"
+};
+
+entity set adresy {
+	"ulica"
+	"cislo"
+	"mesto"
+	"psc"
+	"krajina"
+};
+
+entity set "typy nehnutelnosti" {
+	"meno"
+};
+
+association between 
+{
+	konta ONE 
+	zmluvy MANY
+}{};
+
+association between 
+{
+	osoby ONE
+	"zmluvy na zivotne poistenie" ONE
+}{};
+
+association between 
+{
+	osoby ONE
+	"zmluvy na zivotne poistenie" ONE
+}{};
+
+association between 
+{
+	osoby ONE 
+	adresy ONE
+}{};
+
+association between 
+{
+	adresy ONE
+	"zmluvy na poistenie nehnutelnosti" ONE
+}{};
+
+association between 
+{
+	"typy nehnutelnosti" ONE
+	"zmluvy na poistenie nehnutelnosti" MANY
+}{};
+
+generalization from "zmluvy na zivotne poistenie" to "zmluvy";
+
+generalization from "zmluvy na poistenie nehnutelnosti" to "zmluvy";

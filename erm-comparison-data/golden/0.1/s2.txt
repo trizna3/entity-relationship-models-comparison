@@ -1,0 +1,8 @@
+hry-hry
+hracie plochy-hracie plochy
+policko-policka
+typy policok-typ
+pocasia-pocasia
+typy pohonov-pohon
+jednotky-jednotky
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-typ-typy policok

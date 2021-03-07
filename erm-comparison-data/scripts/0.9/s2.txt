@@ -1,0 +1,71 @@
+entity set "lietadla" {
+	"seriove cislo"
+	"meno"
+};
+
+entity set "vojaci" {
+	"meno"
+	"zivot"
+	"maximalny zivot"
+	"obratnost"
+	"inteligencia"
+};
+
+entity set "modely" {
+	"nazov modelu"
+};
+
+entity set "role" {
+	"meno"
+	"modifikator maximalneho zivota"
+	"modifikator zivota"
+	"modifikator sily"
+	"modifikator obratnosti"
+	"modifikator inteligencie"
+};
+
+entity set "stihacky" {
+};
+
+entity set "dopravne lietadla" {
+	"kapacita osob"
+	"maximalny objem"
+	"material hmotnost"
+};
+
+entity set "naklad" {
+	"typ rakiet"
+	"pocet"
+};
+
+association between 
+{
+	"lietadla" MANY
+	"modely" ONE
+}{
+};
+
+association "prideleny k" between 
+{
+	"lietadla" ONE
+	"vojaci" ONE
+	"role" ONE
+}{
+};
+
+association "nesie" between 
+{
+	"lietadla" ONE
+	"naklad" MANY
+}{
+};
+
+association between 
+{
+	"stihacky" ONE
+	"naklad" MANY
+}{
+};
+
+generalization from "stihacky" to "modely";
+generalization from "dopravne lietadla" to "modely";

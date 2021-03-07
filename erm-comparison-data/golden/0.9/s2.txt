@@ -1,0 +1,8 @@
+modely lietadiel-modely
+stihacie modely-stihacky
+typy rakiet-typ rakiet
+dopravne modely-dopravne lietadla
+lietadla-lietadla
+vojaci-vojaci
+role vojakov-role
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-typ rakiet-naklad

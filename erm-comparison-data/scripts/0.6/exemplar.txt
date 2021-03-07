@@ -1,0 +1,58 @@
+entity set osoby {
+	"meno"
+	"priezvisko"
+};
+
+entity set schodze {
+	"od"
+	"do"
+};
+
+entity set body {
+	"kedy"
+	"poradove cislo"
+};
+
+entity set dokumenty {
+	"nazov"
+	"text"
+};
+
+entity set "typy bodov" {
+	"nazov"
+};
+
+entity set "moznosti hlasovania" {
+	"nazov"
+};
+
+association "osoby na schodzi" between 
+{
+	osoby MANY 
+	schodze MANY
+}{};
+
+association between 
+{
+	schodze ONE 
+	body MANY
+}{};
+
+association "dokumenty v bode" between 
+{
+	body MANY 
+	dokumenty MANY
+}{};
+
+association between 
+{
+	body MANY 
+	"typy bodov" ONE
+}{};
+
+association between 
+{
+	osoby MANY 
+	body MANY 
+	"moznosti hlasovania" ONE
+}{};

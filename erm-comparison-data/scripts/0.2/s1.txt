@@ -1,0 +1,39 @@
+entity set "chemicke latky" {
+	"nazov"
+	"vzorec"
+};
+
+entity set "chemicke reakcie" {
+	"rovnica"	
+	"hmotnost reaktantu a"
+	"hmotnost reaktantu b"
+	"hmotnost katalyzatora"
+};
+
+association between 
+{
+	"chemicke latky" ONE 
+	"chemicke reakcie" MANY
+}{
+};
+
+association between 
+{
+	"chemicke latky" ONE 
+	"chemicke reakcie" MANY
+}{
+};
+
+association between 
+{
+	"chemicke latky" ONE 
+	"chemicke reakcie" MANY
+}{
+};
+
+association between 
+{
+	"chemicke reakcie" MANY
+	"chemicke latky" ONE 
+}{
+};

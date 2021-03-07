@@ -1,0 +1,3 @@
+produkty-produkty
+typy produktov-typy produktov
+nazvy specialnych atributov-atributy

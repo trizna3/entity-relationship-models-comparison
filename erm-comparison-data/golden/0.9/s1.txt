@@ -1,0 +1,12 @@
+modely lietadiel-druh lietadla
+stihacie modely-stihacie lietadla
+typy rakiet-raketa
+dopravne modely-dopravne
+lietadla-lietadla
+vojaci-vojak
+role vojakov-rola
+CHANGE_CARDINALITY:S-druh lietadla-dopravne
+CHANGE_CARDINALITY:S-druh lietadla-stihacie
+GENERALIZATION_TO_11_ASSOCIATION:E-stihacie modely-modely lietadiel
+GENERALIZATION_TO_11_ASSOCIATION:E-dopravne modely-modely lietadiel
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-rola-vojak
