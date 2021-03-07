@@ -34,7 +34,6 @@ public class Validation {
 	public static final String INSTANCE07 = "0.7";
 	public static final String INSTANCE08 = "0.8";
 	public static final String INSTANCE09 = "0.9";
-	public static final String INSTANCE010 = "0.10";	
 	public static final String INSTANCE61 = "6.1";
 	public static final String INSTANCE62 = "6.2";
 	public static final String INSTANCE63 = "6.3";
@@ -60,7 +59,6 @@ public class Validation {
 		INSTANCES.put(INSTANCE07, 2);
 		INSTANCES.put(INSTANCE08, 2);
 		INSTANCES.put(INSTANCE09, 2);
-		INSTANCES.put(INSTANCE010, 2);
 		INSTANCES.put(INSTANCE61, 4);
 		INSTANCES.put(INSTANCE62, 4);
 		INSTANCES.put(INSTANCE63, 5);
@@ -143,6 +141,7 @@ public class Validation {
 		assertTrue(runComparison(INSTANCE02, 2));
 	}
 
+	@Test
 	public void runInstance03_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
 		assertTrue(runComparison(INSTANCE03, 1));
@@ -154,6 +153,7 @@ public class Validation {
 		assertTrue(runComparison(INSTANCE03, 2));
 	}
 	
+	@Test
 	public void runInstance04_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
 		assertTrue(runComparison(INSTANCE04, 1));
@@ -165,6 +165,7 @@ public class Validation {
 		assertTrue(runComparison(INSTANCE04, 2));
 	}
 	
+	@Test
 	public void runInstance05_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
 		assertTrue(runComparison(INSTANCE05, 1));
@@ -176,6 +177,7 @@ public class Validation {
 		assertTrue(runComparison(INSTANCE05, 2));
 	}
 	
+	@Test
 	public void runInstance06_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
 		assertTrue(runComparison(INSTANCE06, 1));
@@ -187,6 +189,7 @@ public class Validation {
 		assertTrue(runComparison(INSTANCE06, 2));
 	}
 	
+	@Test
 	public void runInstance07_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
 		assertTrue(runComparison(INSTANCE07, 1));
@@ -198,6 +201,7 @@ public class Validation {
 		assertTrue(runComparison(INSTANCE07, 2));
 	}
 	
+	@Test
 	public void runInstance08_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
 		assertTrue(runComparison(INSTANCE08, 1));
@@ -209,6 +213,7 @@ public class Validation {
 		assertTrue(runComparison(INSTANCE08, 2));
 	}
 	
+	@Test
 	public void runInstance09_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
 		assertTrue(runComparison(INSTANCE09, 1));
@@ -220,16 +225,6 @@ public class Validation {
 		assertTrue(runComparison(INSTANCE09, 2));
 	}
 	
-	public void runInstance010_1() {
-		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE010, 1));
-	}
-	
-	@Test
-	public void runInstance010_2() {
-		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE010, 2));
-	}
 	/*
 	// 6.1
 	

@@ -2,6 +2,5 @@ budovy-budovy
 izby-izby
 zmluvy-zmluvy
 platby-platby
-studenti-student
-konta-empty
+konta;studenti-student
 CONTRACT_11_ASSOCIATION:E-konta-studenti

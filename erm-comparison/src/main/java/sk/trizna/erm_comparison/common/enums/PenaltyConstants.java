@@ -25,11 +25,11 @@ public class PenaltyConstants {
 					EnumTransformation.DECOMPOSE_ATTRIBUTE,
 					EnumTransformation.GENERALIZATION_TO_11_ASSOCIATION,
 					EnumTransformation._11_ASSOCIATION_TO_GENERALIZATION,
-					EnumTransformation.REBIND_NARY_ASSOCIATION,
 					EnumTransformation.CREATE_ATTRIBUTE,
 					EnumTransformation.REMOVE_ATTRIBUTE,
 					EnumTransformation.CHANGE_CARDINALITY,
-					EnumTransformation.RENAME_ATTRIBUTE
+					EnumTransformation.RENAME_ATTRIBUTE,
+					EnumTransformation.MERGE_ENTITY_SETS
 					));
 	public static final Set<EnumTransformation> MEDIUM_TRANSFORMATIONS = new HashSet<>(
 			Arrays.asList(
@@ -37,7 +37,7 @@ public class PenaltyConstants {
 					EnumTransformation.CREATE_GENERALIZATION,
 					EnumTransformation.REMOVE_ASSOCIATION,
 					EnumTransformation.REMOVE_GENERALIZATION,
-					EnumTransformation.MERGE_ENTITY_SETS
+					EnumTransformation.REBIND_NARY_ASSOCIATION
 					));
 	public static final Set<EnumTransformation> HEAVY_TRANSFORMATIONS = new HashSet<>(
 			Arrays.asList(

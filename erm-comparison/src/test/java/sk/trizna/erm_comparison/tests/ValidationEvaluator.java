@@ -16,6 +16,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import sk.trizna.erm_comparison.common.enums.EnumTransformation;
+import sk.trizna.erm_comparison.common.enums.TranslationConstants;
+import sk.trizna.erm_comparison.common.utils.CollectionUtils;
 import sk.trizna.erm_comparison.common.utils.MappingUtils;
 import sk.trizna.erm_comparison.common.utils.PrintUtils;
 import sk.trizna.erm_comparison.common.utils.StringUtils;
@@ -84,6 +86,69 @@ public class ValidationEvaluator {
 	}
 	
 	@Test
+	public void _validateInstance01() {
+		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
+		validateInstance(Validation.INSTANCE01);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance02() {
+		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
+		validateInstance(Validation.INSTANCE02);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance03() {
+		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
+		validateInstance(Validation.INSTANCE03);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance04() {
+		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
+		validateInstance(Validation.INSTANCE04);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance05() {
+		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
+		validateInstance(Validation.INSTANCE05);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance06() {
+		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
+		validateInstance(Validation.INSTANCE06);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance07() {
+		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
+		validateInstance(Validation.INSTANCE07);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance08() {
+		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
+		validateInstance(Validation.INSTANCE08);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void _validateInstance09() {
+		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
+		validateInstance(Validation.INSTANCE09);
+		assertTrue(true);
+	}
+	
+	@Test
 	public void _validateInstance61() {
 		Utils.setWorkingDictSection(Validation.INSTANCE61);
 		validateInstance(Validation.INSTANCE61);
@@ -118,35 +183,35 @@ public class ValidationEvaluator {
 		assertTrue(true);
 	}
 	
-//	@Test
+	@Test
 	public void _validateInstance71() {
 		Utils.setWorkingDictSection(Validation.INSTANCE71);
 		validateInstance(Validation.INSTANCE71);
 		assertTrue(true);
 	}
 	
-//	@Test
+	@Test
 	public void _validateInstance72() {
 		Utils.setWorkingDictSection(Validation.INSTANCE72);
 		validateInstance(Validation.INSTANCE72);
 		assertTrue(true);
 	}
 	
-//	@Test
+	@Test
 	public void _validateInstance73() {
 		Utils.setWorkingDictSection(Validation.INSTANCE73);
 		validateInstance(Validation.INSTANCE73);
 		assertTrue(true);
 	}
 	
-//	@Test
+	@Test
 	public void _validateInstance91() {
 		Utils.setWorkingDictSection(Validation.INSTANCE91);
 		validateInstance(Validation.INSTANCE91);
 		assertTrue(true);
 	}
 	
-//	@Test
+	@Test
 	public void _validateInstance92() {
 		Utils.setWorkingDictSection(Validation.INSTANCE92);
 		validateInstance(Validation.INSTANCE92);
@@ -167,33 +232,27 @@ public class ValidationEvaluator {
 		assertTrue(true);
 	}
 	
-//	@Test
+	@Test
 	public void _validateInstance95() {
 		Utils.setWorkingDictSection(Validation.INSTANCE95);
 		validateInstance(Validation.INSTANCE95);
 		assertTrue(true);
 	}
 	
-//	@Test
+	@Test
 	public void _validateInstance96() {
 		Utils.setWorkingDictSection(Validation.INSTANCE96);
 		validateInstance(Validation.INSTANCE96);
 		assertTrue(true);
 	}	
 	
+	
 	public void validateInstance(String instanceName) {
 		System.out.println("Evaluating instance " + instanceName + " validation.");
 		
 		for (int i=0; i < Validation.INSTANCES.get(instanceName); i++) {
 			int studentId = i+1;
-			
-			if (instanceName.equals(Validation.INSTANCE62) && studentId == 5) continue;
-			if (instanceName.equals(Validation.INSTANCE65) && studentId == 5) continue;
-			if (instanceName.equals(Validation.INSTANCE92) && studentId == 3) continue;
-			if (instanceName.equals(Validation.INSTANCE92) && studentId == 8) continue;
-			if (instanceName.equals(Validation.INSTANCE93) && studentId == 9) continue;
-			if (instanceName.equals(Validation.INSTANCE95) && studentId == 1) continue;
-			
+						
 			MappingParsed golden = getGolden(instanceName, studentId);
 			MappingParsed output = getOutput(instanceName, studentId);
 			
@@ -231,6 +290,10 @@ public class ValidationEvaluator {
 			}
 		}
 		for (String entitySet : output.getMap().keySet()) {
+			if (StringUtils.areEqual(entitySet,MappingUtils.EMPTY_CODE) || StringUtils.areEqual(golden.getMap().get(entitySet),MappingUtils.EMPTY_CODE)) {
+				// skip empty pairs
+				continue;
+			}
 			if (!golden.getMap().containsKey(entitySet) || 
 				!StringUtils.areEqualByNameParts(output.getMap().get(entitySet), golden.getMap().get(entitySet))) {
 				overflowMap.put(entitySet, output.getMap().get(entitySet));
@@ -239,6 +302,10 @@ public class ValidationEvaluator {
 		
 		/* MAPPING TRANSFORMATIONS */
 		for (String transformation : golden.getTransformations().keySet()) {
+			if (!CollectionUtils.containsIgnoreCase(TranslationConstants.TRANSLATABLE_TRANSFORMATIONS, transformation)) {
+				// ignore not-translatable transformations
+				continue;
+			}
 			if (!output.getTransformations().containsKey(transformation)) {
 				missingTransformations.put(transformation, golden.getTransformations().get(transformation));
 			} else {
@@ -254,6 +321,10 @@ public class ValidationEvaluator {
 			}
 		}
 		for (String transformation : output.getTransformations().keySet()) {
+			if (!CollectionUtils.containsIgnoreCase(TranslationConstants.TRANSLATABLE_TRANSFORMATIONS, transformation)) {
+				// ignore not-translatable transformations
+				continue;
+			}
 			if (!golden.getTransformations().containsKey(transformation)) {
 				overflowTransformations.put(transformation, output.getTransformations().get(transformation));
 			} else {

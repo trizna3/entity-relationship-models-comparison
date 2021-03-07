@@ -119,6 +119,10 @@ public class MappingFinder {
 			}
 		});
 		
+		// transform merged entitySet names
+		ERModelUtils.transformMergeEntitySetNames(exemplarModel);
+		ERModelUtils.transformMergeEntitySetNames(studentModel);
+		
 		mapping.setTransformations(getMappingEvaluator().getBestMapping().getTransformations());
 		
 		return mapping;

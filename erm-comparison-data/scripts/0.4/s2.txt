@@ -19,7 +19,7 @@ entity set poplatok {
 	"cas"
 };
 
-entity set ubytovany {
+entity set ubytovani {
 	"konto"
 };
 
@@ -44,11 +44,11 @@ association between
 association between 
 {
 	izba ONE 
-	ubytovany ONE
+	ubytovani ONE
 }{};
 
 association between 
 {
-	ubytovany ONE
+	ubytovani ONE
 	zmluva ONE
 }{};

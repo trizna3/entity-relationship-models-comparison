@@ -25,6 +25,7 @@ import sk.trizna.erm_comparison.entity_relationship_model.Attributed;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
+import sk.trizna.erm_comparison.entity_relationship_model.Named;
 import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableFlag;
@@ -443,7 +444,8 @@ public class Transformator {
 		// merge attributes
 		mergeAttributes(entitySet1, entitySet2, true);
 		mergeAttributes(entitySet1, association, true);
-		entitySet1.setNameText(entitySet1.getNameText() + PrintUtils.DELIMITER_SEMICOLON + entitySet2.getNameText());
+		entitySet1.setNameText(TransformationUtils.createMergedName(new Named[] {entitySet1,entitySet2}));
+		
 
 		// send duplicate EntitySet attributes in transformableMap
 		TransformableMap transformableMap = new TransformableMap();

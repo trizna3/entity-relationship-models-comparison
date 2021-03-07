@@ -44,11 +44,11 @@ association between
 association between 
 {
 	izba ONE 
-	ubytovany ONE
+	ubytovani ONE
 }{};
 
 association between 
 {
-	ubytovany ONE
+	ubytovani ONE
 	zmluva ONE
 }{};

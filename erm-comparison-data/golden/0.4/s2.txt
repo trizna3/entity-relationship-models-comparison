@@ -3,5 +3,6 @@ izby-izba
 zmluvy-zmluva
 platby-poplatok
 studenti-ubytovani
-konta-empty
+konta-konto
 CONTRACT_11_ASSOCIATION:E-konta-studenti
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-konto-ubytovani

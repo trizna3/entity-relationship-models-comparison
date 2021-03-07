@@ -5,4 +5,4 @@ dokumenty-dokumenty
 typy bodov-EMPTY
 moznosti hlasovania-moznosti hlasovania
 osoby;body;moznosti hlasovania-ako hlasovali
-REBIND_NARY_ASSOCIATION:S-osoby;body;moznosti hlasovania
+REBIND_NARY_ASSOCIATION:E-osoby-body-moznosti hlasovania

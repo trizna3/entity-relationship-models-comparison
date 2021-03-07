@@ -160,4 +160,16 @@ public class CollectionUtils extends Utils {
 		}
 		return null;
 	}
+	
+	public static boolean containsIgnoreCase(Collection<? extends Enum<?>> collection, String target) {
+		validateNotNull(collection);
+		if (target == null) return false;
+		
+		for (Enum<?> item : collection) {
+			if (StringUtils.areEqual(String.valueOf(item), target)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -16,6 +16,7 @@ import sk.trizna.erm_comparison.entity_relationship_model.Association;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
 import sk.trizna.erm_comparison.entity_relationship_model.Attributed;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
+import sk.trizna.erm_comparison.entity_relationship_model.ERModelElementName;
 import sk.trizna.erm_comparison.entity_relationship_model.ERText;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
@@ -408,6 +409,40 @@ public class ERModelUtils extends Utils {
 			return false;
 		}
 		return CollectionUtils.containsAllTexts(attributed1.getAttributes(), attribute2.getAttributes());
+	}
+	
+	public static void transformMergeEntitySetNames(ERModel model) {
+		validateNotNull(model);
+		
+		for (EntitySet entitySet : model.getEntitySets()) {
+			entitySet.setName(transformMergedName(entitySet.getName()));
+		}
+	}
+	
+	/**
+	 * If name is merged from a relationship, eg. in form of "(es1(role),es2(role),...)" transforms it to form "es1;es2;..."
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static ERModelElementName transformMergedName(ERModelElementName name) {
+		if (name == null || name.getText() == null) {
+			return name;
+		}
+		String nameText = name.getText();
+		if (nameText.length() >= 2 && nameText.charAt(0) == '(' && nameText.charAt(nameText.length()-1) == ')') {
+			nameText = nameText.substring(1,nameText.length()-1);
+			StringBuilder result = new StringBuilder(); 
+			for (String splitItem : nameText.split(",")) {
+				if (result.length() > 0) {
+					result.append(PrintUtils.DELIMITER_SEMICOLON);
+				}
+				result.append(splitItem.substring(0, splitItem.indexOf("(")));
+			}
+			return new ERModelElementName(result.toString());
+		}
+		
+		return name;
 	}
 
 	private static boolean modelsAreEqualByRelationships(ERModel model1, ERModel model2) {

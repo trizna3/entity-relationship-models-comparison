@@ -58,7 +58,7 @@ public class TransformationAnalystUtils extends Utils {
 
 		for (Relationship relationship : model.getRelationships()) {
 			try {
-				contract11AssociationPreconditionsStrong(relationship,otherModel);
+				contract11AssociationPreconditionsStrong(model,relationship,otherModel);
 				List<Transformation> preconditions = contract11AssociationPreconditionsSoft(relationship, model);
 				
 				Transformation transformation = TransformationFactory.getContract11Association((Association) relationship, model.isExemplar() ? TRANSFORMABLE_FLAG_POOL.getObject() : null);
@@ -72,7 +72,7 @@ public class TransformationAnalystUtils extends Utils {
 		}
 	}
 	
-	private static void contract11AssociationPreconditionsStrong(Relationship relationship, ERModel otherModel) throws PreconditionsNotMetException {
+	private static void contract11AssociationPreconditionsStrong(ERModel model, Relationship relationship, ERModel otherModel) throws PreconditionsNotMetException {
 		if (relationship instanceof Association == false) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
 		}
@@ -88,6 +88,12 @@ public class TransformationAnalystUtils extends Utils {
 		}
 		if (association.getSecondSide().getEntitySet().getMappedTo() != null) {
 			throw PRECONDITION_NOT_MET_POOL.getObject();
+		}
+		for (AssociationSide side : association.getSides()) {
+			if (!model.isOriginalEntitySet(side.getEntitySet())) {
+				// don't contract associations, which were created during search
+				throw PRECONDITION_NOT_MET_POOL.getObject();
+			}
 		}
 		boolean opposingEntitySetFound = false;
 		for (EntitySet entitySet : otherModel.getNotMappedEntitySets()) {

@@ -12,6 +12,7 @@ import sk.trizna.erm_comparison.entity_relationship_model.AssociationSide;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
 import sk.trizna.erm_comparison.entity_relationship_model.ERText;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
+import sk.trizna.erm_comparison.entity_relationship_model.Named;
 import sk.trizna.erm_comparison.entity_relationship_model.Relationship;
 import sk.trizna.erm_comparison.entity_relationship_model.RelationshipSide;
 import sk.trizna.erm_comparison.entity_relationship_model.TransformableFlag;
@@ -152,6 +153,24 @@ public class TransformationUtils extends Utils {
 			
 		}
 		return true;
+	}
+	
+	public static String createMergedName(Named[] namedArray) {
+		validateNotNull(namedArray);
+		
+		StringBuilder result = new StringBuilder();
+		
+		for(Named named : namedArray) {
+			if (named == null) {
+				continue;
+			}
+			if (result.length() > 0) {
+				result.append(PrintUtils.DELIMITER_SEMICOLON);
+			}
+			result.append(named.getName() != null ? named.getName().getText() : null);
+		}
+		
+		return result.toString();
 	}
 	
 	/**
