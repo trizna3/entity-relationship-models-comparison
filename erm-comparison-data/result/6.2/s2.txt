@@ -1,9 +1,0 @@
-Mapping 5/6 pairs, 1 additional pairs.
-Missing pairs: 
- seats-seats layout
-Additional pairs: 
- seats-empty
-
-Mapping  0/0 transformations, 0 additional transformations.
-Missing transformations: -
-Additional transformations: -

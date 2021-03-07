@@ -1,5 +1,0 @@
-screenings-screenings
-tickets-tickets
-customers-users
-auditoriums-halls
-films-films

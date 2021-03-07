@@ -1,5 +1,0 @@
-trips-trips
-users-users
-points-coordinates
-pictures-EMPTY
-REBIND_1NN1_TO_MN:S-rating

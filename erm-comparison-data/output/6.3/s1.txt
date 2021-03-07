@@ -1,6 +1,0 @@
-matches-matches
-teams-hockey_teams
-rounds-rounds
-points-players;matches;points
-players-players
-REBIND_NARY_ASSOCIATION:S-players-matches-points

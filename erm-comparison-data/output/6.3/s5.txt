@@ -1,5 +1,0 @@
-rounds-rounds
-teams-teams
-points-points
-matches-matches
-players-players

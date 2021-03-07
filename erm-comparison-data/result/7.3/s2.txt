@@ -1,7 +1,0 @@
-Mapping 5/5 pairs, 0 additional pairs.
-Missing pairs: -
-Additional pairs: -
-
-Mapping  1/1 transformations, 0 additional transformations.
-Missing transformations: -
-Additional transformations: -

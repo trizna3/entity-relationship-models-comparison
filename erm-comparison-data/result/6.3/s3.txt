@@ -1,9 +1,0 @@
-Mapping 5/5 pairs, 0 additional pairs.
-Missing pairs: -
-Additional pairs: -
-
-Mapping  0/2 transformations, 0 additional transformations.
-Missing transformations: 
- flip_cardinality:e-matches-rounds
- contract_11_association:e-matches-rounds
-Additional transformations: -

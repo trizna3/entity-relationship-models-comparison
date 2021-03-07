@@ -1,5 +1,0 @@
-players-players
-points-statistics
-rounds-EMPTY
-teams-teams
-matches-match
