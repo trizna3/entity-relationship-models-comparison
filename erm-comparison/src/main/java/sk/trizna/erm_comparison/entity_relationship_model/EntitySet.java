@@ -255,4 +255,8 @@ public class EntitySet extends ERModelElement implements Attributed, Named {
 	public void setNeighbours(Map<EntitySet, List<Relationship>> neighbours) {
 		this.neighbours = neighbours;
 	}
+	
+	public boolean isNeighbour(EntitySet entitySet) {
+		return getNeighbours().containsKey(entitySet);
+	}
 }

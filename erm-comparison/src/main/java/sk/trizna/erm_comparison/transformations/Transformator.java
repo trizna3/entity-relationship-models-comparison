@@ -405,7 +405,7 @@ public class Transformator {
 			// if no targetEntitySet was sent, try to find it - multiple extract transformations may be analyzed in the same backtrack node, 
 			// which could mean that targeEntitySet already exists, but didn't exist at the time of analysis.
 			targetEntitySet = ERModelUtils.getEntitySetByName(mapping.getStudentModel(), attribute.getText());			
-			if (targetEntitySet == null) {
+			if (targetEntitySet == null || targetEntitySet == sourceEntitySet) {
 				// if none was found, create new
 				targetEntitySet = new EntitySet(attribute.getText(), new ArrayList<>(Arrays.asList(EnumConstants.NAME_ATTRIBUTE)));
 				targetEntitySet.addTransformationFlag(EnumTransformation.EXTRACT_ATTR_TO_OWN_ENTITY_SET, new TransformableList(Arrays.asList(attribute)));
@@ -416,12 +416,17 @@ public class Transformator {
 				targetEntitySet.addAttribute(attribute);
 			}
 		}
-		mapping.getStudentModel().addRelationship(new Association(Arrays.asList(new AssociationSide(sourceEntitySet, EnumRelationshipSideRole.MANY), new AssociationSide(targetEntitySet, EnumRelationshipSideRole.ONE)), null));
+		Relationship edge = null;
+		if (!sourceEntitySet.isNeighbour(targetEntitySet)) {
+			edge = new Association(Arrays.asList(new AssociationSide(sourceEntitySet, EnumRelationshipSideRole.MANY), new AssociationSide(targetEntitySet, EnumRelationshipSideRole.ONE)), null);
+			mapping.getStudentModel().addRelationship(edge);
+		}
 
 		transformation.clearArguments();
 		transformation.addArgument(sourceEntitySet, EnumTransformationRole.DEST_ENTITY_SET);
 		transformation.addArgument(targetEntitySet, EnumTransformationRole.SOURCE_ENTITY_SET);
 		transformation.addArgument(attribute, EnumTransformationRole.ATTRIBUTE);
+		if (edge != null) transformation.addArgument(edge, EnumTransformationRole.ASSOCIATION);
 
 		return transformation;
 	}
@@ -524,6 +529,7 @@ public class Transformator {
 		Attribute attribute = (Attribute) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ATTRIBUTE);
 		EntitySet destEntitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.DEST_ENTITY_SET);
 		EntitySet sourceEntitySet = (EntitySet) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.SOURCE_ENTITY_SET);
+		Association edge = (Association) TransformationUtils.getTransformableByRole(transformation, EnumTransformationRole.ASSOCIATION);
 		
 		Utils.validateContains(mapping.getStudentModel(), sourceEntitySet);
 		Utils.validateContains(mapping.getStudentModel(), destEntitySet);
@@ -537,10 +543,12 @@ public class Transformator {
 		
 		assert sourceEntitySet.getNeighbours().keySet().size() > 0;
 		assert sourceEntitySet.getNeighbours().get(destEntitySet) != null;
-		if (sourceEntitySet.getIncidentRelationships().size() > 1) {
+		if (edge != null) {
 			assert sourceEntitySet.getNeighbours().get(destEntitySet).size() > 0;
-			mapping.getStudentModel().removeRelationship(sourceEntitySet.getNeighbours().get(destEntitySet).get(0));
-		} else {
+			assert sourceEntitySet.getNeighbours().get(destEntitySet).contains(edge);
+			mapping.getStudentModel().removeRelationship(edge);
+		}
+		if (sourceEntitySet.getNeighbours().isEmpty()) {
 			mapping.getStudentModel().removeEntitySet(sourceEntitySet);
 			transformation.removeArgument(sourceEntitySet);
 		}
