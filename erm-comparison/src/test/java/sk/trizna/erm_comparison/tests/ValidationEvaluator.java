@@ -4,9 +4,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -85,6 +89,41 @@ public class ValidationEvaluator {
 		}		
 	}
 	
+//	@Test
+	public void getGoldenTransformationCounts() {
+		
+		int index = 1;
+		Map<String, Integer> instanceMap = Validation.INSTANCES;
+		List<String> keySet = new ArrayList<String>(instanceMap.keySet());
+		keySet.sort(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				return Float.valueOf(o1).compareTo(Float.valueOf(o2));
+			}
+		});
+		for (String instance : keySet) {
+			StringBuilder output = new StringBuilder();
+			for (int i=0; i < Validation.INSTANCES.get(instance); i++) {
+				int studentId = i+1;
+							
+				MappingParsed golden = getGolden(instance, studentId);
+				
+				if (output.length() > 0) {
+					output.append(", ");
+				}
+				output.append(golden.getTransformations().size());
+				
+				assertTrue(true);
+			}
+			System.out.println("i"+index+" = [" + output.toString() + "] # " + instance);
+			index ++;
+		}
+	}
+	
+	// ======================== NEW ALGORITHM (DP) ===============================
+		
+	/*
+
 	@Test
 	public void _validateInstance01() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
@@ -147,6 +186,8 @@ public class ValidationEvaluator {
 		validateInstance(Validation.INSTANCE09);
 		assertTrue(true);
 	}
+	
+	*/
 	
 	@Test
 	public void _validateInstance61() {
@@ -244,23 +285,58 @@ public class ValidationEvaluator {
 		Utils.setWorkingDictSection(Validation.INSTANCE96);
 		validateInstance(Validation.INSTANCE96);
 		assertTrue(true);
-	}	
+	}
 	
 	
 	public void validateInstance(String instanceName) {
+		validateInstanceInternal(instanceName,false);
+	}
+	
+	public void validateInstanceBp(String instanceName) {
+		validateInstanceInternal(instanceName,true);
+	}
+	
+	private void validateInstanceInternal(String instanceName, boolean bp) {
+		bp = false;
 		System.out.println("Evaluating instance " + instanceName + " validation.");
 		
 		for (int i=0; i < Validation.INSTANCES.get(instanceName); i++) {
 			int studentId = i+1;
 						
 			MappingParsed golden = getGolden(instanceName, studentId);
-			MappingParsed output = getOutput(instanceName, studentId);
+			MappingParsed output = null;
+			if (bp) {
+				output = getBpOutput(instanceName, studentId);
+			} else {
+				output = getOutput(instanceName, studentId);
+			}
+			
+			prepareMappingParsed(golden);
+			prepareMappingParsed(output);
+			
+			if (Validation.INSTANCE92.equals(instanceName) && 3 == studentId) {continue;}
+			if (Validation.INSTANCE92.equals(instanceName) && 8 == studentId) {continue;}
+			if (Validation.INSTANCE93.equals(instanceName) && 9 == studentId) {continue;}
+			if (Validation.INSTANCE95.equals(instanceName) && 1 == studentId) {continue;}
 			
 			EvaluationResult result = evaluate(golden, output);
 			logResult(golden, result, instanceName, studentId);
 			saveStats(golden, result, instanceName, studentId);
 			
 			assertTrue(true);
+		}
+	}
+	
+	private void prepareMappingParsed(MappingParsed mapping) {
+		if (mapping == null) {
+			return;
+		}
+		
+		Iterator<String> transf = mapping.getTransformations().keySet().iterator();
+		while (transf.hasNext()) {
+			if (!CollectionUtils.containsIgnoreCase(TranslationConstants.TRANSLATABLE_TRANSFORMATIONS,transf.next())) {
+				transf.remove();
+			}
 		}
 	}
 	
@@ -355,6 +431,15 @@ public class ValidationEvaluator {
 		}
 	}
 	
+	private MappingParsed getBpOutput(String instanceName, int studentId) {
+		try {
+			return parseFile(Validation.getOutputBpPath() + instanceName + "\\s" + studentId + ".txt");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	private MappingParsed getGolden(String instanceName, int studentId) {
 		try {
 			return parseFile(Validation.getGoldenPath() + instanceName + "\\s" + studentId + ".txt");
@@ -430,6 +515,9 @@ public class ValidationEvaluator {
 		
 		// increment total stats
 		int[] totalStats = ValidationEvaluatorStatistics.getTotalStats();
+		if (stats[0] > 0) {
+			System.out.println();
+		}
 		totalStats[0] += stats[0];
 		totalStats[1] += stats[1];
 		totalStats[2] += stats[2];

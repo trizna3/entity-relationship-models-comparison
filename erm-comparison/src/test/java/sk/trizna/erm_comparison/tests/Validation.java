@@ -84,6 +84,10 @@ public class Validation {
 		return BASE_PATH + "output\\";
 	}
 	
+	public final static String getOutputBpPath() {
+		return BASE_PATH + "output_bp\\";
+	}
+	
 	public final static String getGoldenPath() {
 		return BASE_PATH + "golden\\";
 	}
@@ -95,7 +99,7 @@ public class Validation {
 	/**
 	 * Parse all scripts, detect typos.  
 	 */
-	@Test
+//	@Test
 	public void validateScripts() {
 		try {
 			for (String instanceName : INSTANCES.keySet()) {
@@ -124,773 +128,143 @@ public class Validation {
 	}
 	
 	@Test
-	public void runInstance01_2() {
-		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE01, 2));
-	}
-
-	@Test
 	public void runInstance02_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE02, 1));
+		assertTrue(runInstance(INSTANCE02));
 	}
 	
-	@Test
-	public void runInstance02_2() {
-		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE02, 2));
-	}
-
 	@Test
 	public void runInstance03_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE03, 1));
-	}
-	
-	@Test
-	public void runInstance03_2() {
-		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE03, 2));
+		assertTrue(runInstance(INSTANCE03));
 	}
 	
 	@Test
 	public void runInstance04_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE04, 1));
-	}
-	
-	@Test
-	public void runInstance04_2() {
-		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE04, 2));
+		assertTrue(runInstance(INSTANCE04));
 	}
 	
 	@Test
 	public void runInstance05_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE05, 1));
-	}
-	
-	@Test
-	public void runInstance05_2() {
-		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE05, 2));
+		assertTrue(runInstance(INSTANCE05));
 	}
 	
 	@Test
 	public void runInstance06_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE06, 1));
-	}
-	
-	@Test
-	public void runInstance06_2() {
-		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE06, 2));
+		assertTrue(runInstance(INSTANCE06));
 	}
 	
 	@Test
 	public void runInstance07_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE07, 1));
-	}
-	
-	@Test
-	public void runInstance07_2() {
-		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE07, 2));
+		assertTrue(runInstance(INSTANCE07));
 	}
 	
 	@Test
 	public void runInstance08_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE08, 1));
-	}
-	
-	@Test
-	public void runInstance08_2() {
-		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE08, 2));
+		assertTrue(runInstance(INSTANCE08));
 	}
 	
 	@Test
 	public void runInstance09_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE09, 1));
+		assertTrue(runInstance(INSTANCE09));
 	}
-	
-	@Test
-	public void runInstance09_2() {
-		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE09, 2));
-	}
-	
-	/*
-	// 6.1
 	
 	@Test
 	public void runInstance61_1() {
 		Utils.setWorkingDictSection(INSTANCE61);
-		assertTrue(runComparison(INSTANCE61, 1));
+		assertTrue(runInstance(INSTANCE61));
 	}
-	
-	@Test
-	public void runInstance61_2() {
-		Utils.setWorkingDictSection(INSTANCE61);
-		assertTrue(runComparison(INSTANCE61, 2));
-	}
-	
-	@Test
-	public void runInstance61_3() {
-		Utils.setWorkingDictSection(INSTANCE61);
-		assertTrue(runComparison(INSTANCE61, 3));
-	}
-	
-	@Test
-	public void runInstance61_4() {
-		Utils.setWorkingDictSection(INSTANCE61);
-		assertTrue(runComparison(INSTANCE61, 4));
-	}
-	
-	// 6.2
 	
 	@Test
 	public void runInstance62_1() {
 		Utils.setWorkingDictSection(INSTANCE62);
-		assertTrue(runComparison(INSTANCE62, 1));
+		assertTrue(runInstance(INSTANCE62));
 	}
-	
-	@Test
-	public void runInstance62_2() {
-		Utils.setWorkingDictSection(INSTANCE62);
-		assertTrue(runComparison(INSTANCE62, 2));
-	}
-	
-	@Test
-	public void runInstance62_3() {
-		Utils.setWorkingDictSection(INSTANCE62);
-		assertTrue(runComparison(INSTANCE62, 3));
-	}
-	
-	@Test
-	public void runInstance62_4() {
-		Utils.setWorkingDictSection(INSTANCE62);
-		assertTrue(runComparison(INSTANCE62, 4));
-	}
-	
-	// 6.3
 	
 	@Test
 	public void runInstance63_1() {
 		Utils.setWorkingDictSection(INSTANCE63);
-		assertTrue(runComparison(INSTANCE63, 1));
+		assertTrue(runInstance(INSTANCE63));
 	}
-	
-	@Test
-	public void runInstance63_2() {
-		Utils.setWorkingDictSection(INSTANCE63);
-		assertTrue(runComparison(INSTANCE63, 2));
-	}
-	
-	@Test
-	public void runInstance63_3() {
-		Utils.setWorkingDictSection(INSTANCE63);
-		assertTrue(runComparison(INSTANCE63, 3));
-	}
-	
-	@Test
-	public void runInstance63_4() {
-		Utils.setWorkingDictSection(INSTANCE63);
-		assertTrue(runComparison(INSTANCE63, 4));
-	}
-	
-	@Test
-	public void runInstance63_5() {
-		Utils.setWorkingDictSection(INSTANCE63);
-		assertTrue(runComparison(INSTANCE63, 5));
-	}
-	
-	// 6.4
 	
 	@Test
 	public void runInstance64_1() {
 		Utils.setWorkingDictSection(INSTANCE64);
-		assertTrue(runComparison(INSTANCE64, 1));
+		assertTrue(runInstance(INSTANCE64));
 	}
 	
-	@Test
-	public void runInstance64_2() {
-		Utils.setWorkingDictSection(INSTANCE64);
-		assertTrue(runComparison(INSTANCE64, 2));
-	}
-	
-	@Test
-	public void runInstance64_3() {
-		Utils.setWorkingDictSection(INSTANCE64);
-		assertTrue(runComparison(INSTANCE64, 3));
-	}
-	
-	@Test
-	public void runInstance64_4() {
-		Utils.setWorkingDictSection(INSTANCE64);
-		assertTrue(runComparison(INSTANCE64, 4));
-	}
-	
-	// 6.5
-
 	@Test
 	public void runInstance65_1() {
 		Utils.setWorkingDictSection(INSTANCE65);
-		assertTrue(runComparison(INSTANCE65, 1));
+		assertTrue(runInstance(INSTANCE65));
 	}
-	
-	@Test
-	public void runInstance65_2() {
-		Utils.setWorkingDictSection(INSTANCE65);
-		assertTrue(runComparison(INSTANCE65, 2));
-	}
-	
-	@Test
-	public void runInstance65_3() {
-		Utils.setWorkingDictSection(INSTANCE65);
-		assertTrue(runComparison(INSTANCE65, 3));
-	}
-	
-	@Test
-	public void runInstance65_4() {
-		Utils.setWorkingDictSection(INSTANCE65);
-		assertTrue(runComparison(INSTANCE65, 4));
-	}
-	
-	// 7.1 - 2
 	
 	@Test
 	public void runInstance71_1() {
 		Utils.setWorkingDictSection(INSTANCE71);
-		assertTrue(runComparison(INSTANCE71, 1));
+		assertTrue(runInstance(INSTANCE71));
 	}
-	
-	@Test
-	public void runInstance71_2() {
-		Utils.setWorkingDictSection(INSTANCE71);
-		assertTrue(runComparison(INSTANCE71, 2));
-	}
-	
-	// 7.2 - 3
 	
 	@Test
 	public void runInstance72_1() {
 		Utils.setWorkingDictSection(INSTANCE72);
-		assertTrue(runComparison(INSTANCE72, 1));
+		assertTrue(runInstance(INSTANCE72));
 	}
-	
-	@Test
-	public void runInstance72_2() {
-		Utils.setWorkingDictSection(INSTANCE72);
-		assertTrue(runComparison(INSTANCE72, 2));
-	}
-	
-	@Test
-	public void runInstance72_3() {
-		Utils.setWorkingDictSection(INSTANCE72);
-		assertTrue(runComparison(INSTANCE72, 3));
-	}
-	
-	// 7.3 - 2
 	
 	@Test
 	public void runInstance73_1() {
 		Utils.setWorkingDictSection(INSTANCE73);
-		assertTrue(runComparison(INSTANCE73, 1));
+		assertTrue(runInstance(INSTANCE73));
 	}
-	
-	@Test
-	public void runInstance73_2() {
-		Utils.setWorkingDictSection(INSTANCE73);
-		assertTrue(runComparison(INSTANCE73, 2));
-	}
-	
-	// 9.1
 	
 	@Test
 	public void runInstance91_1() {
 		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 1));
+		assertTrue(runInstance(INSTANCE91));
 	}	
-	
-	@Test
-	public void runInstance91_2() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 2));
-	}
-	
-	@Test
-	public void runInstance91_3() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 3));
-	}
-	
-	@Test
-	public void runInstance91_4() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 4));
-	}
-	
-	@Test
-	public void runInstance91_5() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 5));
-	}
-	
-	@Test
-	public void runInstance91_6() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 6));
-	}
-	
-	@Test
-	public void runInstance91_7() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 7));
-	}
-	
-	@Test
-	public void runInstance91_8() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 8));
-	}
-	
-	@Test
-	public void runInstance91_9() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 9));
-	}
-	
-	@Test
-	public void runInstance91_10() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 10));
-	}
-	
-	@Test
-	public void runInstance91_11() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 11));
-	}
-	
-	@Test
-	public void runInstance91_12() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 12));
-	}
-	
-	@Test
-	public void runInstance91_13() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 13));
-	}
-	
-	@Test
-	public void runInstance91_14() {
-		Utils.setWorkingDictSection(INSTANCE91);
-		assertTrue(runComparison(INSTANCE91, 14));
-	}
-	
-	// 9.2
 	
 	@Test
 	public void runInstance92_1() {
 		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 1));
+		assertTrue(runInstance(INSTANCE92));
 	}	
-	
-	@Test
-	public void runInstance92_2() {
-		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 2));
-	}
-	
-	@Test
-	public void runInstance92_3() {
-		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 3));
-	}
-	
-	@Test
-	public void runInstance92_4() {
-		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 4));
-	}
-	
-	@Test
-	public void runInstance92_5() {
-		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 5));
-	}
-	
-	@Test
-	public void runInstance92_6() {
-		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 6));
-	}
-	
-	@Test
-	public void runInstance92_7() {
-		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 7));
-	}
-	
-	@Test
-	public void runInstance92_8() {
-		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 8));
-	}
-	
-	@Test
-	public void runInstance92_9() {
-		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 9));
-	}
-	
-	@Test
-	public void runInstance92_10() {
-		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 10));
-	}
-	
-	@Test
-	public void runInstance92_11() {
-		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 11));
-	}
-	
-	@Test
-	public void runInstance92_12() {
-		Utils.setWorkingDictSection(INSTANCE92);
-		assertTrue(runComparison(INSTANCE92, 12));
-	}
-	
-	// 9.3
 	
 	@Test
 	public void runInstance93_1() {
 		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 1));
+		assertTrue(runInstance(INSTANCE93));
 	}	
-	
-	@Test
-	public void runInstance93_2() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 2));
-	}
-	
-	@Test
-	public void runInstance93_3() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 3));
-	}
-	
-	@Test
-	public void runInstance93_4() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 4));
-	}
-	
-	@Test
-	public void runInstance93_5() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 5));
-	}
-	
-	@Test
-	public void runInstance93_6() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 6));
-	}
-	
-	@Test
-	public void runInstance93_7() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 7));
-	}
-	
-	@Test
-	public void runInstance93_8() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 8));
-	}
-	
-	@Test
-	public void runInstance93_9() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 9));
-	}
-	
-	@Test
-	public void runInstance93_10() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 10));
-	}
-	
-	@Test
-	public void runInstance93_11() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 11));
-	}
-	
-	@Test
-	public void runInstance93_12() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 12));
-	}
-	
-	@Test
-	public void runInstance93_13() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 13));
-	}
-	
-	@Test
-	public void runInstance93_14() {
-		Utils.setWorkingDictSection(INSTANCE93);
-		assertTrue(runComparison(INSTANCE93, 14));
-	}
-	
-	// 9.4
 	
 	@Test
 	public void runInstance94_1() {
 		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 1));
+		assertTrue(runInstance(INSTANCE94));
 	}	
-	
-	@Test
-	public void runInstance94_2() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 2));
-	}
-	
-	@Test
-	public void runInstance94_3() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 3));
-	}
-	
-	@Test
-	public void runInstance94_4() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 4));
-	}
-	
-	@Test
-	public void runInstance94_5() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 5));
-	}
-	
-	@Test
-	public void runInstance94_6() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 6));
-	}
-	
-	@Test
-	public void runInstance94_7() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 7));
-	}
-	
-	@Test
-	public void runInstance94_8() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 8));
-	}
-	
-	@Test
-	public void runInstance94_9() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 9));
-	}
-	
-	@Test
-	public void runInstance94_10() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 10));
-	}
-	
-	@Test
-	public void runInstance94_11() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 11));
-	}
-	
-	@Test
-	public void runInstance94_12() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 12));
-	}
-	
-	@Test
-	public void runInstance94_13() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 13));
-	}
-	
-	@Test
-	public void runInstance94_14() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 14));
-	}
-	
-	@Test
-	public void runInstance94_15() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 15));
-	}
-	
-	@Test
-	public void runInstance94_16() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 16));
-	}
-	
-	@Test
-	public void runInstance94_17() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 17));
-	}
-	
-	@Test
-	public void runInstance94_18() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 18));
-	}
-	
-	@Test
-	public void runInstance94_19() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 19));
-	}
-	
-	@Test
-	public void runInstance94_20() {
-		Utils.setWorkingDictSection(INSTANCE94);
-		assertTrue(runComparison(INSTANCE94, 20));
-	}
-	
-	// 9.5
 	
 	@Test
 	public void runInstance95_1() {
 		Utils.setWorkingDictSection(INSTANCE95);
-		assertTrue(runComparison(INSTANCE95, 1));
+		assertTrue(runInstance(INSTANCE95));
 	}
-	
-	@Test
-	public void runInstance95_2() {
-		Utils.setWorkingDictSection(INSTANCE95);
-		assertTrue(runComparison(INSTANCE95, 2));
-	}
-	
-	// 9.6 - 15
 	
 	@Test
 	public void runInstance96_1() {
 		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 1));
-	}	
-	
-	@Test
-	public void runInstance96_2() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 2));
+		assertTrue(runInstance(INSTANCE96));
 	}
 	
-	@Test
-	public void runInstance96_3() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 3));
-	}
-	
-	@Test
-	public void runInstance96_4() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 4));
-	}
-	
-	@Test
-	public void runInstance96_5() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 5));
-	}
-	
-	@Test
-	public void runInstance96_6() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 6));
-	}
-	
-	@Test
-	public void runInstance96_7() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 7));
-	}
-	
-	@Test
-	public void runInstance96_8() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 8));
-	}
-	
-	@Test
-	public void runInstance96_9() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 9));
-	}
-	
-	@Test
-	public void runInstance96_10() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 10));
-	}
-	
-	@Test
-	public void runInstance96_11() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 11));
-	}
-	
-	@Test
-	public void runInstance96_12() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 12));
-	}
-	
-	@Test
-	public void runInstance96_13() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 13));
-	}
-	
-	@Test
-	public void runInstance96_14() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 14));
-	}
-	
-	@Test
-	public void runInstance96_15() {
-		Utils.setWorkingDictSection(INSTANCE96);
-		assertTrue(runComparison(INSTANCE96, 15));
-	}
-	*/
-	// --
-	
-	public void runInstance(String instanceName) {
+	public boolean runInstance(String instanceName) {
 		System.out.println("Running instance " + instanceName);
 		
 		try {
 			ERModel exemplarModel = getExemplarModel(instanceName);
+			long startNanoSeconds = System.nanoTime();
 			for (int i=0; i < INSTANCES.get(instanceName); i++) {
 				int studentId = i+1;
 				ERModel studentModel = getStudentModel(instanceName, studentId);
@@ -898,12 +272,16 @@ public class Validation {
 				MappingFinder finder = new MappingFinder();
 				Mapping mapping = finder.findBestMapping(exemplarModel, studentModel);
 				logResult(mapping, instanceName, studentId);
-				assertTrue(true);
 			}
+			long totalNanoSeconds = System.nanoTime() - startNanoSeconds;
+			
+			System.out.println("Instance " + instanceName + " avg time = " + ((totalNanoSeconds/INSTANCES.get(instanceName))/1000000) + " milliseconds");
+			
+			return true;
 		} catch (SyntaxException | IOException e) {
 			e.printStackTrace();
-			assertTrue(false);
 		}
+		return false;
 	}
 	
 	private boolean runComparison(String instanceName, int studentId) {
