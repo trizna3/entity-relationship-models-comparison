@@ -1,7 +1,12 @@
 package sk.trizna.erm_comparison.tests;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+
 import sk.trizna.erm_comparison.common.utils.PrintUtils;
 import sk.trizna.erm_comparison.common.utils.Utils;
+import sk.trizna.erm_comparison.tests.ValidationEvaluator.TransformationParsed;
 import sk.trizna.erm_comparison.tests.common.ValidationEvaluatorUtils;
 
 public class Logger extends sk.trizna.erm_comparison.common.Logger{
@@ -10,6 +15,28 @@ public class Logger extends sk.trizna.erm_comparison.common.Logger{
 		super(filepath);
 	}
 
+	public void preLogMapping(String instanceName, int studentId) {
+		String goldenPath = Validation.getGoldenPath() + instanceName + "\\s" + studentId + ".txt";
+		String outputPath = Validation.getOutputPath() + instanceName + "\\s" + studentId + ".txt";
+		
+		getWriter().write("-- GOLDEN --\n");
+		preLogMappingInternal(goldenPath);
+		getWriter().write("-- OUTPUT --\n");
+		preLogMappingInternal(outputPath);
+	}
+	
+	private void preLogMappingInternal(String path) {
+		try {
+			Scanner scanner = new Scanner(new FileReader(path));
+			while (scanner.hasNextLine()) {
+				getWriter().write(scanner.nextLine()+"\n");
+			}
+			getWriter().write("\n"+MAPPING_DELIMITER+"\n");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Writes validation evaluation result
 	 * 
@@ -30,7 +57,7 @@ public class Logger extends sk.trizna.erm_comparison.common.Logger{
 		int goldenPairs = resultStats[1];
 		int overPairs = resultStats[2];
 		
-		getWriter().println(ValidationEvaluatorUtils.getPairsResultMessage(matchedPairs, goldenPairs, overPairs));
+		getWriter().println(ValidationEvaluatorUtils.getPairsResultMessageWhole(matchedPairs, goldenPairs, overPairs));
 		getWriter().println("Missing pairs: " + (missing.getMap().keySet().isEmpty() ? PrintUtils.DELIMITER_DASH : ""));
 		for (String entitySet : missing.getMap().keySet()) {
 			getWriter().println(" " + entitySet + PrintUtils.DELIMITER_DASH + missing.getMap().get(entitySet));
@@ -46,14 +73,14 @@ public class Logger extends sk.trizna.erm_comparison.common.Logger{
 		int overTrans = resultStats[5];
 		
 		
-		getWriter().println("\n"+ValidationEvaluatorUtils.getTransformationResultMessage(matchedTrans, goldenTrans, overTrans));
-		getWriter().println("Missing transformations: " + (missing.getTransformations().keySet().isEmpty() ? PrintUtils.DELIMITER_DASH : ""));
-		for (String entitySet : missing.getTransformations().keySet()) {
-			getWriter().println(" " + entitySet + PrintUtils.DELIMITER_COLON + String.join(PrintUtils.DELIMITER_DASH,missing.getTransformations().get(entitySet)));
+		getWriter().println("\n"+ValidationEvaluatorUtils.getTransformationResultMessageWhole(matchedTrans, goldenTrans, overTrans));
+		getWriter().println("Missing transformations: " + (missing.getTransformations().isEmpty() ? PrintUtils.DELIMITER_DASH : ""));
+		for (TransformationParsed transformation : missing.getTransformations()) {
+			getWriter().println(" " + transformation.getCode() + PrintUtils.DELIMITER_COLON + String.join(PrintUtils.DELIMITER_DASH,transformation.getArgs()));
 		}
-		getWriter().println("Additional transformations: " + (overflow.getTransformations().keySet().isEmpty() ? PrintUtils.DELIMITER_DASH : ""));
-		for (String entitySet : overflow.getTransformations().keySet()) {
-			getWriter().println(" " + entitySet + PrintUtils.DELIMITER_COLON + String.join(PrintUtils.DELIMITER_DASH,overflow.getTransformations().get(entitySet)));
+		getWriter().println("Additional transformations: " + (overflow.getTransformations().isEmpty() ? PrintUtils.DELIMITER_DASH : ""));
+		for (TransformationParsed transformation : overflow.getTransformations()){
+			getWriter().println(" " + transformation.getCode() + PrintUtils.DELIMITER_COLON + String.join(PrintUtils.DELIMITER_DASH,transformation.getArgs()));
 		}
 	}
 }

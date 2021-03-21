@@ -1,7 +1,7 @@
 airplane model-model
-fight model-figher planes
+fight model-fighter planes
 rocket type-rocket type
-transport model-transport planes
+transport model-transport plane models
 airplane-airplanes
 marine-soldiers
 marine role-role

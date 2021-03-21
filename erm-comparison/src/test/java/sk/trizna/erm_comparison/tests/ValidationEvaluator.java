@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -32,6 +34,8 @@ import sk.trizna.erm_comparison.tests.common.ValidationEvaluatorUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ValidationEvaluator {
 	
+	private static int globalCounter = 0;
+	
 	private static final Set<String> ARGUMENT_ORDER_INSENSITIVE_TRANSFORMATIONS = new HashSet<String>(Arrays.asList(
 			EnumTransformation.REBIND_MN_TO_1NN1.toString(), 
 			EnumTransformation.REBIND_1NN1_TO_MN.toString(), 
@@ -49,9 +53,9 @@ public class ValidationEvaluator {
 
 	public class MappingParsed {
 		private Map<String,String> map;
-		private Map<String,String[]> transformations;
+		private List<TransformationParsed> transformations;
 		
-		public MappingParsed(Map<String,String> map,Map<String,String[]> transformations) {
+		public MappingParsed(Map<String, String> map, List<TransformationParsed> transformations) {
 			this.map = map;
 			this.transformations = transformations;
 		}
@@ -63,11 +67,43 @@ public class ValidationEvaluator {
 			return map;
 		}
 
-		public Map<String,String[]> getTransformations() {
+		public List<TransformationParsed> getTransformations() {
 			if (transformations == null) {
-				transformations = new HashMap<String, String[]>();
+				transformations = new ArrayList<ValidationEvaluator.TransformationParsed>();
 			}
 			return transformations;
+		}
+		
+		public boolean containsTransformation(String transformationCode) {
+			if (transformationCode == null) {
+				return false;
+			}
+			return getTransformations().stream().anyMatch(tr -> transformationCode.equals(tr.getCode()));
+		}
+		
+		public List<TransformationParsed> getTransformations(String transformationCode) {
+			if (transformationCode == null) {
+				return Collections.emptyList();
+			}
+			return getTransformations().stream().filter(tr -> transformationCode.equals(tr.getCode())).collect(Collectors.toList());			
+		}
+	}
+	
+	public class TransformationParsed {
+		private String code;
+		private String[] args;
+		
+		public TransformationParsed(String code, String[] args) {
+			this.code = code;
+			this.args = args;
+		}
+
+		public String getCode() {
+			return code;
+		}
+
+		public String[] getArgs() {
+			return args;
 		}
 	}
 	
@@ -120,10 +156,6 @@ public class ValidationEvaluator {
 		}
 	}
 	
-	// ======================== NEW ALGORITHM (DP) ===============================
-		
-	/*
-
 	@Test
 	public void _validateInstance01() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
@@ -186,9 +218,7 @@ public class ValidationEvaluator {
 		validateInstance(Validation.INSTANCE09);
 		assertTrue(true);
 	}
-	
-	*/
-	
+	/*
 	@Test
 	public void _validateInstance61() {
 		Utils.setWorkingDictSection(Validation.INSTANCE61);
@@ -286,19 +316,51 @@ public class ValidationEvaluator {
 		validateInstance(Validation.INSTANCE96);
 		assertTrue(true);
 	}
-	
-	
+	*/
 	public void validateInstance(String instanceName) {
-		validateInstanceInternal(instanceName,false);
+		validateInstanceInternal(instanceName);
+//		validateInstanceAverage(instanceName);
 	}
 	
-	public void validateInstanceBp(String instanceName) {
-		validateInstanceInternal(instanceName,true);
-	}
-	
-	private void validateInstanceInternal(String instanceName, boolean bp) {
-		bp = false;
+	private void validateInstanceInternal(String instanceName) {
+		boolean bp = true;
 		System.out.println("Evaluating instance " + instanceName + " validation.");
+		
+		for (int i=0; i < Validation.INSTANCES.get(instanceName); i++) {
+			int studentId = i+1;
+						
+			MappingParsed golden = getGolden(instanceName, studentId);
+			MappingParsed output = null;
+			if (bp) {
+				output = getBpOutput(instanceName, studentId);
+			} else {
+				output = getOutput(instanceName, studentId);
+			}
+			
+			globalCounter ++;
+			
+			prepareMappingParsed(golden);
+			prepareMappingParsed(output);
+			
+			if (Validation.INSTANCE92.equals(instanceName) && 3 == studentId) {continue;}
+			if (Validation.INSTANCE92.equals(instanceName) && 8 == studentId) {continue;}
+			if (Validation.INSTANCE93.equals(instanceName) && 9 == studentId) {continue;}
+			if (Validation.INSTANCE95.equals(instanceName) && 1 == studentId) {continue;}
+			
+			EvaluationResult result = evaluate(golden, output);
+			logResult(golden, result, instanceName, studentId);
+			saveStats(golden, result, instanceName, studentId);
+		}
+	}
+	
+	private void validateInstanceAverage(String instanceName) {
+		boolean bp = false;
+		
+		double matchedPairs = 0;
+		double maxPairs = 0;
+		double matchedTransf = 0;
+		double maxTransf = 0;
+		
 		
 		for (int i=0; i < Validation.INSTANCES.get(instanceName); i++) {
 			int studentId = i+1;
@@ -320,11 +382,19 @@ public class ValidationEvaluator {
 			if (Validation.INSTANCE95.equals(instanceName) && 1 == studentId) {continue;}
 			
 			EvaluationResult result = evaluate(golden, output);
-			logResult(golden, result, instanceName, studentId);
-			saveStats(golden, result, instanceName, studentId);
-			
-			assertTrue(true);
+
+			int[] stats = ValidationEvaluatorUtils.parseEvaluationResult(golden, result);
+			matchedPairs += stats[0];
+			maxPairs += stats[1];
+			matchedTransf += stats[3];
+			maxTransf += stats[4];
 		}
+		
+		double stCount = Validation.INSTANCES.get(instanceName);
+		
+		System.out.println("\n"+instanceName);
+		System.out.println(ValidationEvaluatorUtils.getPairsResultMessage(matchedPairs/stCount, maxPairs/stCount, -1));
+		System.out.println(ValidationEvaluatorUtils.getTransformationResultMessage(matchedTransf/stCount, maxTransf/stCount, -1));
 	}
 	
 	private void prepareMappingParsed(MappingParsed mapping) {
@@ -332,9 +402,9 @@ public class ValidationEvaluator {
 			return;
 		}
 		
-		Iterator<String> transf = mapping.getTransformations().keySet().iterator();
+		Iterator<TransformationParsed> transf = mapping.getTransformations().iterator();
 		while (transf.hasNext()) {
-			if (!CollectionUtils.containsIgnoreCase(TranslationConstants.TRANSLATABLE_TRANSFORMATIONS,transf.next())) {
+			if (!CollectionUtils.containsIgnoreCase(TranslationConstants.TRANSLATABLE_TRANSFORMATIONS,transf.next().getCode())) {
 				transf.remove();
 			}
 		}
@@ -353,10 +423,10 @@ public class ValidationEvaluator {
 		Utils.validateNotNull(output);
 		
 		Map<String,String> missingMap = new HashMap<String, String>();
-		Map<String,String[]> missingTransformations = new HashMap<String, String[]>();
+		List<TransformationParsed> missingTransformations = new ArrayList<ValidationEvaluator.TransformationParsed>();
 		
 		Map<String,String> overflowMap = new HashMap<String, String>();
-		Map<String,String[]> overflowTransformations = new HashMap<String, String[]>();
+		List<TransformationParsed> overflowTransformations = new ArrayList<ValidationEvaluator.TransformationParsed>();
 
 		/* MAPPING PAIRS */
 		for (String entitySet : golden.getMap().keySet()) {
@@ -377,42 +447,42 @@ public class ValidationEvaluator {
 		}
 		
 		/* MAPPING TRANSFORMATIONS */
-		for (String transformation : golden.getTransformations().keySet()) {
-			if (!CollectionUtils.containsIgnoreCase(TranslationConstants.TRANSLATABLE_TRANSFORMATIONS, transformation)) {
-				// ignore not-translatable transformations
-				continue;
-			}
-			if (!output.getTransformations().containsKey(transformation)) {
-				missingTransformations.put(transformation, golden.getTransformations().get(transformation));
+		goldenTransf : for (TransformationParsed transformation : golden.getTransformations()) {
+			if (!output.containsTransformation(transformation.getCode())) {
+				missingTransformations.add(transformation);
 			} else {
-				if (isArgumentOrderInsensitiveTransformation(transformation)) {
-					if (!StringUtils.equalsIgnoreOrder(golden.getTransformations().get(transformation), output.getTransformations().get(transformation), LanguageProcessor.getImplementation())) {
-						missingTransformations.put(transformation, golden.getTransformations().get(transformation));
-					}
-				} else {
-					if (!StringUtils.equals(golden.getTransformations().get(transformation), output.getTransformations().get(transformation), LanguageProcessor.getImplementation())) {
-						missingTransformations.put(transformation, golden.getTransformations().get(transformation));
+				List<TransformationParsed> outputTransformations = output.getTransformations(transformation.getCode());
+				for (TransformationParsed outputTransf : outputTransformations) {
+					if (isArgumentOrderInsensitiveTransformation(transformation.getCode())) {
+						if (StringUtils.equalsIgnoreOrder(transformation.getArgs(), outputTransf.getArgs(), LanguageProcessor.getImplementation())) {
+							continue goldenTransf;
+						}
+					} else {
+						if (StringUtils.equals(transformation.getArgs(), outputTransf.getArgs(), LanguageProcessor.getImplementation())) {
+							continue goldenTransf;
+						}
 					}
 				}
+				missingTransformations.add(transformation);
 			}
 		}
-		for (String transformation : output.getTransformations().keySet()) {
-			if (!CollectionUtils.containsIgnoreCase(TranslationConstants.TRANSLATABLE_TRANSFORMATIONS, transformation)) {
-				// ignore not-translatable transformations
-				continue;
-			}
-			if (!golden.getTransformations().containsKey(transformation)) {
-				overflowTransformations.put(transformation, output.getTransformations().get(transformation));
+		outputTransf : for (TransformationParsed transformation : output.getTransformations()) {
+			if (!golden.containsTransformation(transformation.getCode())) {
+				overflowTransformations.add(transformation);
 			} else {
-				if (isArgumentOrderInsensitiveTransformation(transformation)) {
-					if (!StringUtils.equalsIgnoreOrder(output.getTransformations().get(transformation),golden.getTransformations().get(transformation), LanguageProcessor.getImplementation())) {
-						overflowTransformations.put(transformation, output.getTransformations().get(transformation));
-					}
-				} else {
-					if (!StringUtils.equals(output.getTransformations().get(transformation),golden.getTransformations().get(transformation), LanguageProcessor.getImplementation())) {
-						overflowTransformations.put(transformation, output.getTransformations().get(transformation));
+				List<TransformationParsed> goldenTransformations = golden.getTransformations(transformation.getCode());
+				for (TransformationParsed goldenTransf : goldenTransformations) {
+					if (isArgumentOrderInsensitiveTransformation(transformation.getCode())) {
+						if (StringUtils.equalsIgnoreOrder(transformation.getArgs(), goldenTransf.getArgs(), LanguageProcessor.getImplementation())) {
+							continue outputTransf;
+						}
+					} else {
+						if (StringUtils.equals(transformation.getArgs(), goldenTransf.getArgs(), LanguageProcessor.getImplementation())) {
+							continue outputTransf;
+						}
 					}
 				}
+				overflowTransformations.add(transformation);
 			}
 		}
 		
@@ -452,7 +522,7 @@ public class ValidationEvaluator {
 	private MappingParsed parseFile(String filepath) throws FileNotFoundException {
 		
 		Map<String,String> map = new HashMap<String, String>();
-		Map<String,String[]> transformations = new HashMap<String, String[]>();
+		List<TransformationParsed> transformations = new ArrayList<ValidationEvaluator.TransformationParsed>();
 		
 		Scanner scanner = new Scanner(new FileReader(filepath));
 		while (scanner.hasNextLine()) {
@@ -464,8 +534,7 @@ public class ValidationEvaluator {
 			if (line.contains(PrintUtils.DELIMITER_COLON)) {	// it's transformation
 				
 				String[] lineSplit = line.split(PrintUtils.DELIMITER_COLON);
-				transformations.put(lineSplit[0], lineSplit[1].split(PrintUtils.DELIMITER_DASH));
-				
+				transformations.add(new TransformationParsed(lineSplit[0], lineSplit[1].split(PrintUtils.DELIMITER_DASH)));
 			} else {	// it's mapping pair
 				String[] lineSplit = line.split(PrintUtils.DELIMITER_DASH);
 				
@@ -483,6 +552,7 @@ public class ValidationEvaluator {
 	private void logResult(MappingParsed golden, EvaluationResult result, String instanceName, int studentId) {
 		String filepath = Validation.getResultPath() + instanceName + "\\s" + studentId + ".txt";
 		Logger logger = new Logger(filepath);
+		logger.preLogMapping(instanceName, studentId);
 		logger.logValidationEvaluationResult(golden, result);
 		logger.close();
 		
@@ -496,14 +566,16 @@ public class ValidationEvaluator {
 		for (String instanceName : stats.keySet()) {
 			int[] stat = stats.get(instanceName);
 			System.out.println("\n"+instanceName);
-			System.out.println(ValidationEvaluatorUtils.getPairsResultMessage(stat[0], stat[1], stat[2]));
-			System.out.println(ValidationEvaluatorUtils.getTransformationResultMessage(stat[3], stat[4], stat[5]));
+			System.out.println(ValidationEvaluatorUtils.getPairsResultMessageWhole(stat[0], stat[1], stat[2]));
+			System.out.println(ValidationEvaluatorUtils.getTransformationResultMessageWhole(stat[3], stat[4], stat[5]));
 		}
 		
 		int[] stat = ValidationEvaluatorStatistics.getTotalStats();
 		System.out.println("\nTotal instances ran: " + ValidationEvaluatorStatistics.getInstanceCounter());
-		System.out.println(ValidationEvaluatorUtils.getPairsResultMessage(stat[0], stat[1], stat[2]));
-		System.out.println(ValidationEvaluatorUtils.getTransformationResultMessage(stat[3], stat[4], stat[5]));
+		System.out.println(ValidationEvaluatorUtils.getPairsResultMessageWhole(stat[0], stat[1], stat[2]));
+		System.out.println(ValidationEvaluatorUtils.getTransformationResultMessageWhole(stat[3], stat[4], stat[5]));
+		
+		System.out.println("\nInstance solutions count = " + globalCounter);
 	}
 
 	
@@ -515,9 +587,7 @@ public class ValidationEvaluator {
 		
 		// increment total stats
 		int[] totalStats = ValidationEvaluatorStatistics.getTotalStats();
-		if (stats[0] > 0) {
-			System.out.println();
-		}
+		
 		totalStats[0] += stats[0];
 		totalStats[1] += stats[1];
 		totalStats[2] += stats[2];

@@ -4,4 +4,4 @@ contracts-contracts
 payments-payments
 account-account
 students-students
-REBIND_MN_TO_1NN1:S-contracts,account
+REBIND_MN_TO_1NN1:S-contracts-account

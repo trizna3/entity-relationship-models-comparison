@@ -28,9 +28,9 @@ public class ValidationEvaluatorUtils {
 		int overPairs = overflow.getMap().keySet().size();
 		
 		/* MAPPING TRANSFORMATIONS */
-		int goldenTrans = golden.getTransformations().keySet().size();
-		int missingTrans = missing.getTransformations().keySet().size();
-		int overTrans = overflow.getTransformations().keySet().size();
+		int goldenTrans = golden.getTransformations().size();
+		int missingTrans = missing.getTransformations().size();
+		int overTrans = overflow.getTransformations().size();
 		
 		return new int[] {
 				(goldenPairs-missingPairs),
@@ -42,11 +42,19 @@ public class ValidationEvaluatorUtils {
 		};
 	}
 	
-	public static String getPairsResultMessage(int matchedPairs, int goldenPairs, int overPairs) {
+	public static String getPairsResultMessageWhole(int matchedPairs, int goldenPairs, int overPairs) {
 		return "Mapping " + matchedPairs + "/" + goldenPairs + " pairs, " + overPairs + " additional pairs.";
 	}
 	
-	public static String getTransformationResultMessage(int matchedTrans, int goldenTrans, int overTrans) {
+	public static String getTransformationResultMessageWhole(int matchedTrans, int goldenTrans, int overTrans) {
+		return "Mapping  " + matchedTrans + "/" + goldenTrans + " transformations, " + overTrans + " additional transformations.";
+	}
+	
+	public static String getPairsResultMessage(double matchedPairs, double goldenPairs, double overPairs) {
+		return "Mapping " + matchedPairs + "/" + goldenPairs + " pairs, " + overPairs + " additional pairs.";
+	}
+	
+	public static String getTransformationResultMessage(double matchedTrans, double goldenTrans, double overTrans) {
 		return "Mapping  " + matchedTrans + "/" + goldenTrans + " transformations, " + overTrans + " additional transformations.";
 	}
 }

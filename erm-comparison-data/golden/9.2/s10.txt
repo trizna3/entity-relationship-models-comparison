@@ -5,4 +5,5 @@ tile type-
 weather-weather
 fuel type-fuel type
 units-units
+move-movement
 EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-fuel-units
