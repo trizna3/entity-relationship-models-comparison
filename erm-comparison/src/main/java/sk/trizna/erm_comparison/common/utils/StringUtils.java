@@ -277,7 +277,7 @@ public class StringUtils extends Utils {
 		
 		int otherIdx = compositeName.indexOf(otherName);
 		
-		if (otherIdx == -1) {
+		if (otherIdx < 0) {
 			return compositeName;
 		}
 		else if (otherIdx == 0) {

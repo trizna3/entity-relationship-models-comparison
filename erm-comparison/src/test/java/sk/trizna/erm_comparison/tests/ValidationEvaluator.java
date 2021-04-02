@@ -436,7 +436,7 @@ public class ValidationEvaluator {
 			}
 		}
 		for (String entitySet : output.getMap().keySet()) {
-			if (StringUtils.areEqual(entitySet,MappingUtils.EMPTY_CODE) || StringUtils.areEqual(golden.getMap().get(entitySet),MappingUtils.EMPTY_CODE)) {
+			if (StringUtils.areEqual(entitySet,MappingUtils.EMPTY_CODE) || StringUtils.areEqual(output.getMap().get(entitySet),MappingUtils.EMPTY_CODE)) {
 				// skip empty pairs
 				continue;
 			}

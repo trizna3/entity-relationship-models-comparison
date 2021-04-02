@@ -14,7 +14,6 @@ import sk.trizna.erm_comparison.entity_relationship_model.AssociationSide;
 import sk.trizna.erm_comparison.entity_relationship_model.Attribute;
 import sk.trizna.erm_comparison.entity_relationship_model.EntitySet;
 import sk.trizna.erm_comparison.entity_relationship_model.Generalization;
-import sk.trizna.erm_comparison.entity_relationship_model.TransformableList;
 import sk.trizna.erm_comparison.transformations.Transformable;
 import sk.trizna.erm_comparison.transformations.Transformation;
 
@@ -23,6 +22,7 @@ public class Logger {
 	
 	private static final String EXEMPLAR_FLAG = "E";
 	private static final String STUDENT_FLAG = "S";
+	protected static final String MAPPING_DELIMITER = "===========================================================";
 
 	private String filepath;
 	private PrintWriter writer;
