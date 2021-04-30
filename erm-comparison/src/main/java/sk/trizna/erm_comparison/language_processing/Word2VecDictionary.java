@@ -14,13 +14,16 @@ import sk.trizna.erm_comparison.common.utils.Utils;
 
 class Word2VecDictionary extends AbstractLanguageProcessor {
 	
-	private static final Word2VecDictionary INSTANCE = new Word2VecDictionary();
+	private static Word2VecDictionary INSTANCE;
 	private static Map<String,double[]> word2vec;
-	private static final String vectorFileName = "glove.6B.300d.txt";
+	private static final String vectorFileName = "..//glove.6B.300d.txt";
 	private StanfordLemmatizer stanfordLemmatizer;
 	private static boolean initialized = false;
 	
 	static Word2VecDictionary getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new Word2VecDictionary();
+		}
 		return INSTANCE;
 	}
 	
@@ -90,6 +93,10 @@ class Word2VecDictionary extends AbstractLanguageProcessor {
 	public Double getSimilarityInternal(String word1, String word2) {
 		initialize();
 		
+		if (word1 == null || word2 == null) {
+			return Double.valueOf(0);
+		}
+		
 		double[] vec1 = getVector(word1);
 		double[] vec2 = getVector(word2);
 		
@@ -111,5 +118,14 @@ class Word2VecDictionary extends AbstractLanguageProcessor {
 			stanfordLemmatizer = StanfordLemmatizer.getInstance();
 		}
 		return stanfordLemmatizer;
+	}
+
+	@Override
+	public void clearCache() {
+	}
+	
+	@Override
+	public void clearInstance() {
+		INSTANCE = null;
 	}
 }

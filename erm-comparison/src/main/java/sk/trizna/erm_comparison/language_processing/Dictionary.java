@@ -17,13 +17,16 @@ import sk.trizna.erm_comparison.common.utils.Utils;
  */
 class Dictionary extends AbstractLanguageProcessor {
 
-	private static final Dictionary INSTANCE = new Dictionary();
+	private static Dictionary INSTANCE;
 	private Map<String,Map<String,Double>> cache;
 	private StanfordLemmatizer stanfordLemmatizer;
 	private DictConfigManager dictConfigManager;
 	
 	
 	static Dictionary getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new Dictionary();
+		}
 		return INSTANCE;
 	}
 	
@@ -109,5 +112,15 @@ class Dictionary extends AbstractLanguageProcessor {
 			dictConfigManager = DictConfigManager.getInstance();
 		}
 		return dictConfigManager;
+	}
+
+	@Override
+	public void clearCache() {
+		getCache().clear();
+	}
+
+	@Override
+	public void clearInstance() {
+		INSTANCE = null;
 	}
 }

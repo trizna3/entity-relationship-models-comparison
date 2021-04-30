@@ -36,6 +36,9 @@ public class ValidationEvaluator {
 	
 	private static int globalCounter = 0;
 	
+	private static final boolean AVERAGE = false;
+	private static final boolean BP = false;
+	
 	private static final Set<String> ARGUMENT_ORDER_INSENSITIVE_TRANSFORMATIONS = new HashSet<String>(Arrays.asList(
 			EnumTransformation.REBIND_MN_TO_1NN1.toString(), 
 			EnumTransformation.REBIND_1NN1_TO_MN.toString(), 
@@ -155,7 +158,7 @@ public class ValidationEvaluator {
 			index ++;
 		}
 	}
-	
+	/*
 	@Test
 	public void _validateInstance01() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
@@ -218,7 +221,8 @@ public class ValidationEvaluator {
 		validateInstance(Validation.INSTANCE09);
 		assertTrue(true);
 	}
-	/*
+	
+	*/
 	@Test
 	public void _validateInstance61() {
 		Utils.setWorkingDictSection(Validation.INSTANCE61);
@@ -316,14 +320,16 @@ public class ValidationEvaluator {
 		validateInstance(Validation.INSTANCE96);
 		assertTrue(true);
 	}
-	*/
+	
 	public void validateInstance(String instanceName) {
-		validateInstanceInternal(instanceName);
-//		validateInstanceAverage(instanceName);
+		if (AVERAGE) {
+			validateInstanceAverage(instanceName);
+		} else {
+			validateInstanceInternal(instanceName);
+		}		
 	}
 	
 	private void validateInstanceInternal(String instanceName) {
-		boolean bp = true;
 		System.out.println("Evaluating instance " + instanceName + " validation.");
 		
 		for (int i=0; i < Validation.INSTANCES.get(instanceName); i++) {
@@ -331,7 +337,7 @@ public class ValidationEvaluator {
 						
 			MappingParsed golden = getGolden(instanceName, studentId);
 			MappingParsed output = null;
-			if (bp) {
+			if (BP) {
 				output = getBpOutput(instanceName, studentId);
 			} else {
 				output = getOutput(instanceName, studentId);
@@ -342,11 +348,6 @@ public class ValidationEvaluator {
 			prepareMappingParsed(golden);
 			prepareMappingParsed(output);
 			
-			if (Validation.INSTANCE92.equals(instanceName) && 3 == studentId) {continue;}
-			if (Validation.INSTANCE92.equals(instanceName) && 8 == studentId) {continue;}
-			if (Validation.INSTANCE93.equals(instanceName) && 9 == studentId) {continue;}
-			if (Validation.INSTANCE95.equals(instanceName) && 1 == studentId) {continue;}
-			
 			EvaluationResult result = evaluate(golden, output);
 			logResult(golden, result, instanceName, studentId);
 			saveStats(golden, result, instanceName, studentId);
@@ -354,12 +355,13 @@ public class ValidationEvaluator {
 	}
 	
 	private void validateInstanceAverage(String instanceName) {
-		boolean bp = false;
 		
 		double matchedPairs = 0;
 		double maxPairs = 0;
 		double matchedTransf = 0;
 		double maxTransf = 0;
+		double overPairs = 0;
+		double overTransf = 0;
 		
 		
 		for (int i=0; i < Validation.INSTANCES.get(instanceName); i++) {
@@ -367,7 +369,7 @@ public class ValidationEvaluator {
 						
 			MappingParsed golden = getGolden(instanceName, studentId);
 			MappingParsed output = null;
-			if (bp) {
+			if (BP) {
 				output = getBpOutput(instanceName, studentId);
 			} else {
 				output = getOutput(instanceName, studentId);
@@ -376,25 +378,22 @@ public class ValidationEvaluator {
 			prepareMappingParsed(golden);
 			prepareMappingParsed(output);
 			
-			if (Validation.INSTANCE92.equals(instanceName) && 3 == studentId) {continue;}
-			if (Validation.INSTANCE92.equals(instanceName) && 8 == studentId) {continue;}
-			if (Validation.INSTANCE93.equals(instanceName) && 9 == studentId) {continue;}
-			if (Validation.INSTANCE95.equals(instanceName) && 1 == studentId) {continue;}
-			
 			EvaluationResult result = evaluate(golden, output);
 
 			int[] stats = ValidationEvaluatorUtils.parseEvaluationResult(golden, result);
 			matchedPairs += stats[0];
 			maxPairs += stats[1];
+			overPairs += stats[2];
 			matchedTransf += stats[3];
 			maxTransf += stats[4];
+			overTransf += stats[5];
 		}
 		
 		double stCount = Validation.INSTANCES.get(instanceName);
 		
 		System.out.println("\n"+instanceName);
-		System.out.println(ValidationEvaluatorUtils.getPairsResultMessage(matchedPairs/stCount, maxPairs/stCount, -1));
-		System.out.println(ValidationEvaluatorUtils.getTransformationResultMessage(matchedTransf/stCount, maxTransf/stCount, -1));
+		System.out.println(ValidationEvaluatorUtils.getPairsResultMessage(matchedPairs/stCount, maxPairs/stCount, overPairs/stCount));
+		System.out.println(ValidationEvaluatorUtils.getTransformationResultMessage(matchedTransf/stCount, maxTransf/stCount, overTransf/stCount));
 	}
 	
 	private void prepareMappingParsed(MappingParsed mapping) {

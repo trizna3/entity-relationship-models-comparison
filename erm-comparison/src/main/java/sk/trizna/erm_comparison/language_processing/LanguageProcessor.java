@@ -51,4 +51,8 @@ public interface LanguageProcessor {
 		} 
 		throw new IllegalStateException("No language processor implementation configured!");
 	}
+	
+	public void clearCache();
+	
+	public void clearInstance();
 }

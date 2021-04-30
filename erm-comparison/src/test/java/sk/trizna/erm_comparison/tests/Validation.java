@@ -12,6 +12,7 @@ import sk.trizna.erm_comparison.common.Logger;
 import sk.trizna.erm_comparison.common.utils.Utils;
 import sk.trizna.erm_comparison.comparing.mapping.Mapping;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
+import sk.trizna.erm_comparison.language_processing.LanguageProcessor;
 import sk.trizna.erm_comparison.mappingSearch.mapping_finder.MappingFinder;
 import sk.trizna.erm_comparison.parser.Parser;
 import sk.trizna.erm_comparison.parser.SyntaxException;
@@ -19,6 +20,7 @@ import sk.trizna.erm_comparison.parser.SyntaxException;
 public class Validation {
 	
 	public static final String BASE_PATH = "..\\erm-comparison-data\\";
+	private static final Boolean PRINT_PARSE_MESSAGES = Boolean.FALSE;
 	
 	/**
 	 * Map: instance name -> max student id
@@ -120,11 +122,12 @@ public class Validation {
 		}
 	}
 	
+	
 	// 0.x
 	@Test
 	public void runInstance01_1() {
 		Utils.setWorkingDictSection(Utils.TRAIN_DICT_SECTION);
-		assertTrue(runComparison(INSTANCE01, 1));
+		assertTrue(runInstance(INSTANCE01));
 	}
 	
 	@Test
@@ -175,6 +178,7 @@ public class Validation {
 		assertTrue(runInstance(INSTANCE09));
 	}
 	
+	/*
 	@Test
 	public void runInstance61_1() {
 		Utils.setWorkingDictSection(INSTANCE61);
@@ -258,24 +262,35 @@ public class Validation {
 		Utils.setWorkingDictSection(INSTANCE96);
 		assertTrue(runInstance(INSTANCE96));
 	}
+	*/
 	
 	public boolean runInstance(String instanceName) {
 		System.out.println("Running instance " + instanceName);
+		LanguageProcessor.getImplementation().getSimilarity("", ""); // load libs
+//		LanguageProcessor.getImplementation().clearInstance();
 		
 		try {
 			ERModel exemplarModel = getExemplarModel(instanceName);
 			long startNanoSeconds = System.nanoTime();
 			for (int i=0; i < INSTANCES.get(instanceName); i++) {
 				int studentId = i+1;
-				ERModel studentModel = getStudentModel(instanceName, studentId);
-				
-				MappingFinder finder = new MappingFinder();
-				Mapping mapping = finder.findBestMapping(exemplarModel, studentModel);
-				logResult(mapping, instanceName, studentId);
+				long studentStartNanoSeconds = System.nanoTime();
+				try {
+					ERModel studentModel = getStudentModel(instanceName, studentId);
+					
+					MappingFinder finder = new MappingFinder();
+					Mapping mapping = finder.findBestMapping(exemplarModel, studentModel);
+					logResult(mapping, instanceName, studentId);
+				} catch (Exception e) {
+					System.out.println("Exception was thrown while executing instance="+instanceName + ", studentId="+studentId);
+					e.printStackTrace();
+				}
+				long timeElapsedMillis = (System.nanoTime() - startNanoSeconds) / 1000000;
+				System.out.println("Instance = " + instanceName + ", studentId = " + studentId + ", millis = " + timeElapsedMillis);
 			}
 			long totalNanoSeconds = System.nanoTime() - startNanoSeconds;
 			
-			System.out.println("Instance " + instanceName + " avg time = " + ((totalNanoSeconds/INSTANCES.get(instanceName))/1000000) + " milliseconds");
+//			System.out.println("Instance " + instanceName + " avg time = " + ((totalNanoSeconds/INSTANCES.get(instanceName))/1000000) + " milliseconds");
 			
 			return true;
 		} catch (SyntaxException | IOException e) {
@@ -302,12 +317,16 @@ public class Validation {
 	}
 	
 	private ERModel getExemplarModel(String instanceName) throws SyntaxException, IOException {
-		System.out.println("Parsing exemplar model " + instanceName);
+		if (Boolean.TRUE.equals(PRINT_PARSE_MESSAGES)) {
+			System.out.println("Parsing exemplar model " + instanceName);
+		}
 		return Parser.fromString(Parser.fileToString(getScriptsPath() + instanceName + "\\exemplar.txt"));
 	}
 	
 	private ERModel getStudentModel( String instanceName, int studentId) throws SyntaxException, IOException {
-		System.out.println("Parsing model " + instanceName + " s" + (studentId) + ".txt");
+		if (Boolean.TRUE.equals(PRINT_PARSE_MESSAGES)) {
+			System.out.println("Parsing model " + instanceName + " s" + (studentId) + ".txt");
+		}
 		return Parser.fromString(Parser.fileToString(getScriptsPath() + instanceName + "\\s" + (studentId) + ".txt"));
 	}
 	
