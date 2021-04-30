@@ -1,0 +1,9 @@
+persons-person
+addresses-real estate
+account-accounts
+life insurance-life insurance
+real estate insurance-real estate insurance
+contract-contracts
+real estate types-real estate types
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-person-life insurance
+DECOMPOSE_ATTRIBUTE:S-address-real estate

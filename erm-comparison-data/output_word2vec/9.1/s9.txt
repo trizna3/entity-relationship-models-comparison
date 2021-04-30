@@ -1,0 +1,8 @@
+transport model-EMPTY
+airplane-airplanes
+airplane model-EMPTY
+marine-soldier
+marine role-EMPTY
+fight model-EMPTY
+rocket type-rocket type
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-rocket type-fighter planes

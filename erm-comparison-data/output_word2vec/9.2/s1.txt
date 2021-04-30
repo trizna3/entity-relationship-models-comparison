@@ -1,0 +1,13 @@
+tile-positioning
+weather-weather
+fuel type-fuel type
+units-units
+boards-boards
+games-games
+tile type-tile types
+CHANGE_CARDINALITY:S-boards-units
+MOVE_ATTR_TO_INCIDENT_ENTITY_SET:S-health-boards
+CHANGE_CARDINALITY:S-boards-units
+MOVE_ATTR_TO_INCIDENT_ENTITY_SET:S-points-boards
+REBIND_MN_TO_1NN1:S-boards-weather types
+REBIND_MN_TO_1NN1:S-boards-tile types

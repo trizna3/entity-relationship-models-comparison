@@ -1,0 +1,12 @@
+students-student
+payments-payments
+rooms-room
+account-accounts
+contracts-EMPTY
+buildings-hostel;building;floor
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-payments-accounts
+MOVE_ATTR_TO_INCIDENT_ENTITY_SET:S-end-room
+CHANGE_CARDINALITY:S-building-hostel
+CONTRACT_11_ASSOCIATION:S-hostel-building
+CHANGE_CARDINALITY:S-floor-building
+CONTRACT_11_ASSOCIATION:S-building-floor

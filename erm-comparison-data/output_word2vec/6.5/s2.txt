@@ -1,0 +1,6 @@
+questions-questions
+tests-tests
+selects-answers
+users-users
+options-choices
+REBIND_NARY_ASSOCIATION:E-users-tests-options-questions

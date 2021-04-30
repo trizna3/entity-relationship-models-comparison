@@ -1,0 +1,5 @@
+vehicle-vehicle
+stop-stop
+vehicle type-EMPTY
+line-line
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-order-time

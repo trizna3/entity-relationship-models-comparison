@@ -1,0 +1,9 @@
+osoby-EMPTY
+adresy-EMPTY
+zmluvy-zmluva
+zmluvy na poistenie nehnutelnosti-EMPTY
+zmluvy na zivotne poistenie-EMPTY
+konta-konta
+typy nehnutelnosti-EMPTY
+MOVE_ATTR_TO_INCIDENT_ENTITY_SET:S-odkedy-zmluva
+MOVE_ATTR_TO_INCIDENT_ENTITY_SET:S-dokedy-zmluva

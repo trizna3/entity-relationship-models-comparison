@@ -1,0 +1,6 @@
+konta;studenti-student
+izby-izby
+zmluvy-zmluvy
+budovy-budovy
+platby-platby
+CONTRACT_11_ASSOCIATION:E-konta-studenti

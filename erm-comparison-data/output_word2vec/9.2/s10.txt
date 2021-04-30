@@ -1,0 +1,14 @@
+tile type-EMPTY
+tile-tile
+move-movement
+games;boards-system;game;board
+units-units
+weather-weather
+fuel type-fuel type
+CHANGE_CARDINALITY:S-game-system
+CONTRACT_11_ASSOCIATION:S-system-game
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-fuel type-movement
+CHANGE_CARDINALITY:S-board-game
+CONTRACT_11_ASSOCIATION:S-game-board
+CONTRACT_11_ASSOCIATION:E-games-boards
+REBIND_NARY_ASSOCIATION:E-weather-fuel type-tile type

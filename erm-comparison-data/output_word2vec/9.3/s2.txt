@@ -1,0 +1,9 @@
+contracts-contracts
+payments-payments
+students-students
+buildings-addresses;buildings;floors
+rooms-rooms
+account-accounts
+CONTRACT_11_ASSOCIATION:S-addresses-buildings
+CHANGE_CARDINALITY:S-floors-buildings
+CONTRACT_11_ASSOCIATION:S-buildings-floors

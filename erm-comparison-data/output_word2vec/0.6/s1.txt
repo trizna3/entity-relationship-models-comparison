@@ -1,0 +1,7 @@
+dokumenty-dokumenty
+osoby-poslanci
+schodze-schodze
+body-body
+typy bodov-typy bodov
+moznosti hlasovania-typy hlasovania
+GENERALIZATION_TO_11_ASSOCIATION:S-typy bodov-body

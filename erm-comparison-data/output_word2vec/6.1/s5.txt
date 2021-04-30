@@ -1,0 +1,8 @@
+auditoriums-hall
+films-films
+tickets-tickets
+screenings-presenting
+customers-customers;accounts
+CHANGE_CARDINALITY:S-accounts-customers
+CONTRACT_11_ASSOCIATION:S-customers-accounts
+REBIND_MN_TO_1NN1:S-presenting-customers

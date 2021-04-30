@@ -1,0 +1,7 @@
+stop-stops
+vehicle-vehicles;busses
+vehicle type-path
+line-lines
+REBIND_MN_TO_1NN1:S-stops-lines
+GENERALIZATION_TO_11_ASSOCIATION:S-busses-vehicles
+CONTRACT_11_ASSOCIATION:S-vehicles-busses

@@ -1,0 +1,9 @@
+life insurance-life insurance
+persons-EMPTY
+real estate types-EMPTY
+account-customers;accounts
+real estate insurance-real estate insurance
+addresses-EMPTY
+contract-contracts
+CHANGE_CARDINALITY:S-accounts-customers
+CONTRACT_11_ASSOCIATION:S-customers-accounts

@@ -1,0 +1,12 @@
+courses-final
+semestral projects-semestral
+theses-EMPTY
+persons-EMPTY
+projects-project
+students-teachers;role;supervisor
+teachers-consultant
+GENERALIZATION_TO_11_ASSOCIATION:S-semestral-project type
+GENERALIZATION_TO_11_ASSOCIATION:S-supervisor-role
+CHANGE_CARDINALITY:S-role-teachers
+CONTRACT_11_ASSOCIATION:S-teachers-role
+CONTRACT_11_ASSOCIATION:S-role-supervisor

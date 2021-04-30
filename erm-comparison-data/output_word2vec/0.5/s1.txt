@@ -1,0 +1,9 @@
+linky-linky
+zastavky-zastavky
+vozidla-vozidla
+typy vozidiel-typ vozidla
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-typ vozidla-vozidla
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-cas odchodu-(vozidla(ONE),casy(MANY))
+CHANGE_CARDINALITY:S-casy-linky
+CHANGE_CARDINALITY:S-linky-casy
+REBIND_1NN1_TO_MN:S-casy

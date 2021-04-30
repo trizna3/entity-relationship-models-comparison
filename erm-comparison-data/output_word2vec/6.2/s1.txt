@@ -1,0 +1,8 @@
+auditoriums-cinema;auditoriums
+films-films
+customers-customers
+seats-EMPTY
+screenings-screenings
+tickets-tickets
+CHANGE_CARDINALITY:S-auditoriums-cinema
+CONTRACT_11_ASSOCIATION:S-cinema-auditoriums

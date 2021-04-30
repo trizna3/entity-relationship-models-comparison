@@ -1,0 +1,6 @@
+vehicle-EMPTY
+vehicle type-vehicle types;busses
+stop-stops
+line-lines
+GENERALIZATION_TO_11_ASSOCIATION:S-busses-vehicle types
+CONTRACT_11_ASSOCIATION:S-vehicle types-busses

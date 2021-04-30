@@ -1,0 +1,7 @@
+units-units
+fuel type-EMPTY
+weather-weather
+tile-tiles
+games-game
+boards-board
+tile type-EMPTY

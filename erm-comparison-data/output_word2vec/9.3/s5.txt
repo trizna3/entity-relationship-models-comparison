@@ -1,0 +1,6 @@
+buildings-buildings
+payments-payments
+contracts-contracts
+students-students
+account-accounts
+rooms-rooms

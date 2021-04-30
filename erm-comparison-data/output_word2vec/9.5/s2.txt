@@ -1,0 +1,8 @@
+assembly-assemblies
+agenda type-EMPTY
+persons-deputies
+agenda-agendas
+vote options-EMPTY
+documents-documents
+voting-voting
+REBIND_NARY_ASSOCIATION:E-persons-agenda-vote options

@@ -1,0 +1,4 @@
+users-users
+points-coordinates
+pictures-photos
+trips-trips

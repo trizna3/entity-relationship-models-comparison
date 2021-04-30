@@ -1,0 +1,13 @@
+vehicle-vehicle
+line-line
+vehicle type-vehicle types
+stop-duration
+REBIND_MN_TO_1NN1:S-line-stop
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-time-(duration(MANY),line(ONE))
+CHANGE_CARDINALITY:S-route-line
+CHANGE_CARDINALITY:S-line-route
+REBIND_1NN1_TO_MN:S-route
+CHANGE_CARDINALITY:S-stop-duration
+CHANGE_CARDINALITY:S-duration-stop
+CHANGE_CARDINALITY:S-line-stop
+REBIND_1NN1_TO_MN:S-stop

@@ -1,0 +1,10 @@
+hracie plochy-hracie plochy
+jednotky-jednotky
+typy pohonov-typy pohonov
+hry-hry
+policko-umiestnenie
+typy policok-typy policok
+pocasia-pocasie
+MOVE_ATTR_TO_INCIDENT_ENTITY_SET:S-tah-hry
+REBIND_MN_TO_1NN1:S-hracie plochy-typy pocasia
+REBIND_MN_TO_1NN1:S-hracie plochy-typy policok

@@ -1,0 +1,8 @@
+payments-contract
+account;students-students
+buildings-buildings
+contracts-contracts
+rooms-rooms
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-contract-students
+GENERALIZATION_TO_11_ASSOCIATION:S-contracts-rooms
+CONTRACT_11_ASSOCIATION:E-account-students

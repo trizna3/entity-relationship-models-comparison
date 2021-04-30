@@ -1,0 +1,8 @@
+osoby;body;moznosti hlasovania-ako hlasovali
+typy bodov-EMPTY
+body-body
+dokumenty-dokumenty
+moznosti hlasovania-moznosti hlasovania
+schodze-schodza
+osoby-poslanci
+REBIND_NARY_ASSOCIATION:E-osoby-body-moznosti hlasovania

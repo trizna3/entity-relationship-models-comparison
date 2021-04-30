@@ -1,0 +1,12 @@
+stop-leave
+line-stops;lines
+vehicle-EMPTY
+vehicle type-EMPTY
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-time-(leave(MANY),lines(ONE))
+CHANGE_CARDINALITY:S-vehicles-lines
+CHANGE_CARDINALITY:S-lines-vehicles
+CHANGE_CARDINALITY:S-vehicles-leave
+CHANGE_CARDINALITY:S-leave-vehicles
+REBIND_1NN1_TO_MN:S-vehicles
+CHANGE_CARDINALITY:S-lines-stops
+CONTRACT_11_ASSOCIATION:S-stops-lines

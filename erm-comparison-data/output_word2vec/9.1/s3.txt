@@ -1,0 +1,11 @@
+airplane model-EMPTY
+transport model-EMPTY
+marine-soldiers
+marine role-EMPTY
+fight model-EMPTY
+rocket type-rocket type
+airplane-airplanes
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-rocket type-fighter planes
+GENERALIZATION_TO_11_ASSOCIATION:S-fighter planes-airplanes
+CHANGE_CARDINALITY:S-fighter planes-airplanes
+REBIND_1NN1_TO_MN:S-fighter planes

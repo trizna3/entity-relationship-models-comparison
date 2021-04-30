@@ -1,0 +1,10 @@
+courses-course
+semestral projects-semesters;semestral
+teachers-teachers
+projects-projects
+students-authors
+persons-EMPTY
+theses-final
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-course-semestral
+CHANGE_CARDINALITY:S-semestral-semesters
+CONTRACT_11_ASSOCIATION:S-semesters-semestral

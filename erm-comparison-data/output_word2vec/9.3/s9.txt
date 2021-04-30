@@ -1,0 +1,11 @@
+account;students-accommodated
+contracts-contracts
+payments-payments
+buildings-addresses;buildings
+rooms-floors;rooms
+CONTRACT_11_ASSOCIATION:E-account-students
+DECOMPOSE_ATTRIBUTE:S-address-addresses
+CHANGE_CARDINALITY:S-addresses-buildings
+CONTRACT_11_ASSOCIATION:S-addresses-buildings
+CHANGE_CARDINALITY:S-floors-rooms
+CONTRACT_11_ASSOCIATION:S-floors-rooms

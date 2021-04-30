@@ -1,0 +1,6 @@
+rooms-room
+account;students-EMPTY
+buildings-hostel
+payments-EMPTY
+contracts-contracts
+DECOMPOSE_ATTRIBUTE:S-address-hostel

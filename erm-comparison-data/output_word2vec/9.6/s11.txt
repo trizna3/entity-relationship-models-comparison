@@ -1,0 +1,11 @@
+persons-person;accounts
+life insurance-life insurance
+account-insurance
+real estate types-real estate type
+contract-contract
+addresses;real estate insurance-real estate insurance
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-real estate type-real estate insurance
+DECOMPOSE_ATTRIBUTE:S-address-real estate insurance
+CONTRACT_11_ASSOCIATION:E-addresses-real estate insurance
+CHANGE_CARDINALITY:S-accounts-person
+CONTRACT_11_ASSOCIATION:S-person-accounts

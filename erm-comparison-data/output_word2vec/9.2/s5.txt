@@ -1,0 +1,9 @@
+tile type-tile types
+fuel type-fuel types
+units-units
+weather-weather
+boards-boards
+move-action points for movement
+tile-tiles
+games-game
+REBIND_NARY_ASSOCIATION:E-weather-fuel type-tile type

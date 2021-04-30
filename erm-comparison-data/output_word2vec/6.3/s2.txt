@@ -1,0 +1,6 @@
+rounds-round
+players-players
+points-statistics
+matches-match
+teams-teams
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-round-match

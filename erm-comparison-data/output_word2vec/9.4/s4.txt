@@ -1,0 +1,6 @@
+vehicle-vehicles
+line-lines
+stop-stops
+vehicle type-vehicle types
+CHANGE_CARDINALITY:S-vehicle types-lines
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-time-rides on

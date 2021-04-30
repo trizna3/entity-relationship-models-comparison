@@ -1,0 +1,8 @@
+vehicle-vehicle
+vehicle type-EMPTY
+stop-stops
+line-lines
+CHANGE_CARDINALITY:S-route-lines
+CHANGE_CARDINALITY:S-route-stops
+CHANGE_CARDINALITY:S-stops-route
+REBIND_1NN1_TO_MN:S-route

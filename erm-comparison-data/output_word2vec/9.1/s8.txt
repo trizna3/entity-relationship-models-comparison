@@ -1,0 +1,10 @@
+transport model-EMPTY
+airplane model-EMPTY
+rocket type-EMPTY
+airplane-airplanes;fighters
+fight model-EMPTY
+GENERALIZATION_TO_11_ASSOCIATION:S-fighters-airplanes
+GENERALIZATION_TO_11_ASSOCIATION:S-transport planes-airplanes
+GENERALIZATION_TO_11_ASSOCIATION:S-commander-soldiers
+CONTRACT_11_ASSOCIATION:S-airplanes-fighters
+CONTRACT_11_ASSOCIATION:S-soldiers-commander

@@ -1,0 +1,7 @@
+budovy-budova
+platby-poplatok
+izby-izba
+studenti-EMPTY
+konta-konto
+zmluvy-zmluva
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-konto-ubytovani

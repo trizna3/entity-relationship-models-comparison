@@ -1,0 +1,10 @@
+tile type-weather;tile types
+units-unit types
+boards-boards
+tile-units
+fuel type-fuel types
+games-games
+weather-weather
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-units-tile types
+CONTRACT_11_ASSOCIATION:S-weather-tile types
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-weather-weather

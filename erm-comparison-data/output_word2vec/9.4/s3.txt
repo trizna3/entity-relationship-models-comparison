@@ -1,0 +1,8 @@
+vehicle type-type
+vehicle-stops;line
+line-line
+stop-stops
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-ordering-(route(MANY),line(ONE))
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-time-(line(ONE),exits(MANY))
+REBIND_MN_TO_1NN1:S-stops-line
+REBIND_1NN1_TO_MN:S-route

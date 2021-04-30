@@ -1,0 +1,10 @@
+marine role-EMPTY
+airplane-airplanes
+fight model-EMPTY
+marine-soldier
+rocket type-EMPTY
+airplane model-EMPTY
+transport model-EMPTY
+GENERALIZATION_TO_11_ASSOCIATION:S-fighter planes-airplanes
+MERGE_ENTITY_SETS:S-commander-scout
+MERGE_ENTITY_SETS:S-commander-medic

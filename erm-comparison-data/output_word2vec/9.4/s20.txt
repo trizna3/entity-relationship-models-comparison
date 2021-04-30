@@ -1,0 +1,11 @@
+vehicle type-EMPTY
+line-line;vehicles;trams
+vehicle-EMPTY
+stop-stop
+CHANGE_CARDINALITY:S-stop-route
+CHANGE_CARDINALITY:S-route-line
+REBIND_1NN1_TO_MN:S-route
+GENERALIZATION_TO_11_ASSOCIATION:S-trams-vehicles
+CHANGE_CARDINALITY:S-line-vehicles
+CONTRACT_11_ASSOCIATION:S-line-vehicles
+CONTRACT_11_ASSOCIATION:S-vehicles-trams

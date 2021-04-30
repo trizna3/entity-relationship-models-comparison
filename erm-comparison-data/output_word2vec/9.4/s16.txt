@@ -1,0 +1,6 @@
+vehicle-EMPTY
+vehicle type-drives on
+stop-stops
+line-lines
+REBIND_MN_TO_1NN1:S-vehicles-lines
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-time-(drives on(MANY),lines(ONE))

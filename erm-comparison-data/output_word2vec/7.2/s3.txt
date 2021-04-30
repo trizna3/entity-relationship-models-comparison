@@ -1,0 +1,14 @@
+buyers-customers
+purchases-supplied
+operations-EMPTY
+suppliers-supplier
+varieties-EMPTY
+firms-EMPTY
+sales-bought
+crates-EMPTY
+CHANGE_CARDINALITY:S-customers-pallet
+MOVE_ATTR_TO_INCIDENT_ENTITY_SET:S-date-customers
+CHANGE_CARDINALITY:S-supplier-pallet
+MOVE_ATTR_TO_INCIDENT_ENTITY_SET:S-date-supplier
+REBIND_MN_TO_1NN1:S-pallet-supplier
+REBIND_MN_TO_1NN1:S-pallet-customers

@@ -1,0 +1,9 @@
+role vojakov-rola
+typy rakiet-raketa
+modely lietadiel-druh lietadla
+lietadla-lietadla
+vojaci-vojak
+stihacie modely-stihacie lietadla
+dopravne modely-dopravne
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-dopravne-druh lietadla
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-rola-vojak

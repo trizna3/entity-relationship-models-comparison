@@ -1,0 +1,9 @@
+games-game
+weather-weather
+boards-board
+tile type-tile type
+tile-tile
+fuel type-fuel type
+units-unit
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-fuel type-unit
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-tile type-points

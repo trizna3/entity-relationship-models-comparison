@@ -1,0 +1,3 @@
+typy produktov-EMPTY
+produkty-produkty
+nazvy specialnych atributov-EMPTY

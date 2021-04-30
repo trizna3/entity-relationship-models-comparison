@@ -1,0 +1,10 @@
+zmluvy na poistenie nehnutelnosti-poistenie nehnutelnosti
+osoby;adresy-zakaznik;osoby
+zmluvy-poistenie
+zmluvy na zivotne poistenie-zivotne poistenie
+konta-konto
+typy nehnutelnosti-typ
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-typ-poistenie nehnutelnosti
+MERGE_ENTITY_SETS:S-zakaznik-osoby
+DECOMPOSE_ATTRIBUTE:S-adresa-zakaznik
+CONTRACT_11_ASSOCIATION:E-osoby-adresy

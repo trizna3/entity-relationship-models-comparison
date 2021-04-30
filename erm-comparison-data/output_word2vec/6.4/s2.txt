@@ -1,0 +1,8 @@
+users-users
+trips-trips
+pictures-pictures
+points-points
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-number-(users(ONE),rating(MANY))
+CHANGE_CARDINALITY:S-sequence-points
+CHANGE_CARDINALITY:S-points-sequence
+REBIND_1NN1_TO_MN:S-sequence

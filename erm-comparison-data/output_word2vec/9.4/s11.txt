@@ -1,0 +1,7 @@
+vehicle-vehicle;busses
+stop-stops
+line-lines
+vehicle type-vehicle type
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-vehicle type-lines
+GENERALIZATION_TO_11_ASSOCIATION:S-busses-vehicle
+CONTRACT_11_ASSOCIATION:S-vehicle-busses

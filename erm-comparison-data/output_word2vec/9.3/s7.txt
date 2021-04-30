@@ -1,0 +1,7 @@
+students-students
+contracts-contracts
+buildings-buildings
+payments-payments
+rooms-rooms
+account-account
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-account-students

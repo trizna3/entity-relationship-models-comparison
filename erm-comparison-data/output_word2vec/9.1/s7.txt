@@ -1,0 +1,7 @@
+fight model-EMPTY
+rocket type-EMPTY
+airplane-airplanes
+transport model-EMPTY
+marine role-EMPTY
+marine-soldiers
+airplane model-EMPTY

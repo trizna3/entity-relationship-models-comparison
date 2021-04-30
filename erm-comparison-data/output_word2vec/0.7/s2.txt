@@ -1,0 +1,4 @@
+sms baliky-sms
+datove baliky-datovy
+hlasove baliky-hlasovy
+typy balikov-sluzby

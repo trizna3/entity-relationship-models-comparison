@@ -1,0 +1,10 @@
+rooms-rooms
+payments-payments
+contracts-contracts
+buildings-buildings;floors
+account;students-students;account
+REBIND_MN_TO_1NN1:S-contracts-account
+CHANGE_CARDINALITY:S-buildings-floors
+CHANGE_CARDINALITY:S-floors-buildings
+CONTRACT_11_ASSOCIATION:S-buildings-floors
+CONTRACT_11_ASSOCIATION:S-students-account

@@ -1,0 +1,6 @@
+rounds-rounds
+teams-players;matches;points
+players-players
+points-points
+matches-matches
+REBIND_NARY_ASSOCIATION:S-players-matches-points

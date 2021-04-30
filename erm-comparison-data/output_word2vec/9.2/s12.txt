@@ -1,0 +1,8 @@
+units-figure
+boards-board
+fuel type-EMPTY
+tile type-EMPTY
+tile-EMPTY
+games-game
+weather-EMPTY
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-board-game

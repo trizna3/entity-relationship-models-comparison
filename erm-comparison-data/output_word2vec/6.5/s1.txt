@@ -1,0 +1,6 @@
+users-users
+questions;options-questions;options
+tests-tests
+CONTRACT_11_ASSOCIATION:E-questions-options
+CHANGE_CARDINALITY:S-options-questions
+CONTRACT_11_ASSOCIATION:S-questions-options

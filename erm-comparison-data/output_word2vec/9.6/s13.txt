@@ -1,0 +1,8 @@
+contract-EMPTY
+account-customer account
+real estate types-EMPTY
+life insurance-life insurance
+real estate insurance-real estate insurance
+persons;addresses-address
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-address-real estate data
+CONTRACT_11_ASSOCIATION:E-persons-addresses

@@ -1,0 +1,7 @@
+rooms-rooms
+buildings-buildings
+payments-EMPTY
+contracts-contracts
+students-students
+account-registry;account
+CONTRACT_11_ASSOCIATION:S-registry-account

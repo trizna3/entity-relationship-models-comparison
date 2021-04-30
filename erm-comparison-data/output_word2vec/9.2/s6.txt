@@ -1,0 +1,8 @@
+games-weather;tile;fuel types
+tile type-EMPTY
+units-units
+tile-tile
+fuel type-fuel types
+boards-board
+weather-weather
+REBIND_NARY_ASSOCIATION:S-weather-tile-fuel types

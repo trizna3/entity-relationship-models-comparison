@@ -1,0 +1,7 @@
+life insurance-life insurance
+real estate types-EMPTY
+addresses-address
+contract-EMPTY
+account-accounts
+persons-EMPTY
+real estate insurance-real estate insurance

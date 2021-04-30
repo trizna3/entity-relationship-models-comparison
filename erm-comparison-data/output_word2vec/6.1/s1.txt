@@ -1,0 +1,7 @@
+films-films
+customers-customers
+auditoriums-cinema;auditoriums
+screenings-screenings
+tickets-tickets
+CHANGE_CARDINALITY:S-auditoriums-cinema
+CONTRACT_11_ASSOCIATION:S-cinema-auditoriums

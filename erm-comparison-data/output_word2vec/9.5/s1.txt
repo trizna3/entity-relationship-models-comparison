@@ -1,0 +1,10 @@
+assembly-assemblies;deputies
+documents-documents
+vote options-EMPTY
+persons-EMPTY
+agenda-items
+agenda type-EMPTY
+GENERALIZATION_TO_11_ASSOCIATION:S-item types-items
+CHANGE_CARDINALITY:S-assemblies-deputies
+CHANGE_CARDINALITY:S-deputies-assemblies
+CONTRACT_11_ASSOCIATION:S-assemblies-deputies

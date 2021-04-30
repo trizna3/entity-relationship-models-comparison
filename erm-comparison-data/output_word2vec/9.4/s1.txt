@@ -1,0 +1,7 @@
+line-line
+vehicle type-vehicle type
+vehicle-vehicle
+stop-stop
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-vehicle type-line
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-time-(stop(ONE),route(MANY))
+REBIND_1NN1_TO_MN:S-route

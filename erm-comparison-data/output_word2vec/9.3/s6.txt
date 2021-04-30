@@ -1,0 +1,7 @@
+students-EMPTY
+contracts-contracts
+buildings-buildings
+payments-EMPTY
+rooms-rooms
+account-EMPTY
+MOVE_ATTR_TO_INCIDENT_ENTITY_SET:S-floor-rooms

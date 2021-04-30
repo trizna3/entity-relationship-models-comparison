@@ -1,0 +1,10 @@
+vehicle-vehicles
+vehicle type-EMPTY
+line-line;routes
+stop-stops
+CHANGE_CARDINALITY:S-types-line
+CHANGE_CARDINALITY:S-line-types
+CHANGE_CARDINALITY:S-types-vehicles
+CHANGE_CARDINALITY:S-vehicles-types
+REBIND_1NN1_TO_MN:S-types
+CONTRACT_11_ASSOCIATION:S-line-routes

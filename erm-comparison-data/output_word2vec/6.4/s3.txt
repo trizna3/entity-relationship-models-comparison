@@ -1,0 +1,6 @@
+trips-trips
+points-edges;coordinates
+users-users
+pictures-images
+CHANGE_CARDINALITY:S-edges-coordinates
+CONTRACT_11_ASSOCIATION:S-edges-coordinates

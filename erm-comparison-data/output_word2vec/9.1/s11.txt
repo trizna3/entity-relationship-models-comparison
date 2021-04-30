@@ -1,0 +1,12 @@
+airplane-rockets;airplanes
+fight model-EMPTY
+marine role-EMPTY
+rocket type-EMPTY
+transport model-EMPTY
+marine-soldiers
+airplane model-EMPTY
+CHANGE_CARDINALITY:S-rockets-fighters
+REBIND_1NN1_TO_MN:S-fighters
+CHANGE_CARDINALITY:S-rockets-airplanes
+CHANGE_CARDINALITY:S-airplanes-rockets
+CONTRACT_11_ASSOCIATION:S-rockets-airplanes

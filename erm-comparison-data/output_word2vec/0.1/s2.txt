@@ -1,0 +1,9 @@
+hracie plochy-hracie plochy
+hry-hry
+pocasia-pocasia
+typy pohonov-pohon
+jednotky-jednotky
+policko-pocasie na ploche
+typy policok-typ
+REBIND_MN_TO_1NN1:S-hracie plochy-pocasia
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-typ-pohon

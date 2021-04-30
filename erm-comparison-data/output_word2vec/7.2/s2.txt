@@ -1,0 +1,10 @@
+operations-operation
+sales-trades
+varieties-amounts
+crates-crates
+firms-EMPTY
+suppliers-seller
+buyers-buyer
+purchases-EMPTY
+EXTRACT_ATTR_TO_OWN_ENTITY_SET:S-operation-trades
+REBIND_MN_TO_1NN1:S-trades-crates

@@ -1,0 +1,10 @@
+boards-board
+weather-weather
+fuel type-weather;board
+tile-tile
+games-game
+tile type-coordinates
+units-units
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-points-(units(MANY),fuel(ONE))
+REBIND_MN_TO_1NN1:S-board-tile
+REBIND_MN_TO_1NN1:S-weather-board

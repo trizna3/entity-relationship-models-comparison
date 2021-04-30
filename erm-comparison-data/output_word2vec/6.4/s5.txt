@@ -1,0 +1,8 @@
+users-users
+trips-EMPTY
+pictures-tours;pictures
+points-EMPTY
+CHANGE_CARDINALITY:S-pictures-tours
+CONTRACT_11_ASSOCIATION:S-tours-pictures
+CHANGE_CARDINALITY:S-users-rating
+REBIND_1NN1_TO_MN:S-rating

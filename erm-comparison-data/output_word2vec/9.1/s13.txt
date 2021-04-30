@@ -1,0 +1,11 @@
+marine-soldiers
+transport model-EMPTY
+airplane-airplanes
+fight model-EMPTY
+airplane model-EMPTY
+rocket type-rocket types
+marine role-EMPTY
+GENERALIZATION_TO_11_ASSOCIATION:S-fighter planes-airplanes
+CHANGE_CARDINALITY:S-rocket types-fighter planes
+CHANGE_CARDINALITY:S-fighter planes-airplanes
+REBIND_1NN1_TO_MN:S-fighter planes

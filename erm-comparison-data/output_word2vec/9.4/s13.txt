@@ -1,0 +1,8 @@
+vehicle type-vehicle type
+vehicle-busses
+line-line
+stop-stops
+MOVE_ATTR_TO_INCIDENT_ASSOCIATION:S-time-(schedule(MANY),vehicle depot(ONE))
+REBIND_MN_TO_1NN1:S-stops-line
+REBIND_1NN1_TO_MN:S-schedule
+GENERALIZATION_TO_11_ASSOCIATION:S-busses-vehicle type
