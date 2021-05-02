@@ -8,6 +8,8 @@ import sk.trizna.erm_comparison.comparing.mapping.MappingExtended;
 import sk.trizna.erm_comparison.comparing.translator.ERModelDiffTranslator;
 import sk.trizna.erm_comparison.entity_relationship_model.ERModel;
 import sk.trizna.erm_comparison.mappingSearch.mapping_finder.MappingFinder;
+import sk.trizna.erm_comparison.parser.Parser;
+import sk.trizna.erm_comparison.parser.SyntaxException;
 
 /**
  * @author - Adam Trizna
@@ -122,5 +124,41 @@ public class ERMComparatorImpl implements ERMComparator {
 	
 	private ERModelDiff getDiffFromCache(ERModel exemplarModel, ERModel studentModel) {
 		return getDiffCache().get(new ERMComparisonInput(exemplarModel, studentModel));
+	}
+
+	@Override
+	public ERModelDiffReport getModelsDiffReport(String exemplarModelScript, String studentModelScript) {
+		Utils.validateNotNull(exemplarModelScript);
+		Utils.validateNotNull(studentModelScript);
+		
+		ERModel exemplarModel;
+		ERModel studentModel;
+		try {
+			exemplarModel = Parser.fromString("..//erm-comparison-data//input_model_scripts//exemplar_solutions//internaty_vzor.txt");
+			studentModel = Parser.fromString("..//erm-comparison-data//input_model_scripts//students_solutions//internaty_s1.txt");
+		} catch (SyntaxException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return getModelsDiffReport(exemplarModel, studentModel);
+	}
+
+	@Override
+	public ERModelDiff getModelsDiff(String exemplarModelScript, String studentModelScript) {
+		Utils.validateNotNull(exemplarModelScript);
+		Utils.validateNotNull(studentModelScript);
+		
+		ERModel exemplarModel;
+		ERModel studentModel;
+		try {
+			exemplarModel = Parser.fromString("..//erm-comparison-data//input_model_scripts//exemplar_solutions//internaty_vzor.txt");
+			studentModel = Parser.fromString("..//erm-comparison-data//input_model_scripts//students_solutions//internaty_s1.txt");
+		} catch (SyntaxException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return getModelsDiff(exemplarModel, studentModel);
 	}
 }

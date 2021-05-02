@@ -19,6 +19,9 @@ public interface ERMComparator {
      */
     public abstract ERModelDiff getModelsDiff(ERModel exemplarModel, ERModel studentModel);
     
+    public abstract ERModelDiff getModelsDiff(String exemplarModelScript, String studentModelScript);
     
     public abstract ERModelDiffReport getModelsDiffReport(ERModel exemplarModel, ERModel studentModel);
+    
+    public abstract ERModelDiffReport getModelsDiffReport(String exemplarModelScript, String studentModelScript);
 }
